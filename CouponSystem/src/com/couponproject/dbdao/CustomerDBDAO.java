@@ -27,6 +27,9 @@ public class CustomerDBDAO implements CustomerDAO {
 		
 		// Execute
 		createStmt.executeUpdate();
+		
+		// Close connection
+				myCon.close();
 	}
 
 	@Override
@@ -46,11 +49,32 @@ public class CustomerDBDAO implements CustomerDAO {
 		
 		// Execute
 		deleteStmt.executeUpdate();
+		
+		// Close connection
+		myCon.close();
 	}
 
 	@Override
-	public void updateCustomer(Customer custumer) {
-		// TODO Auto-generated method stub
+	public void updateCustomer(Customer custumer) throws SQLException {
+		// Creating a Connection object to the DB
+		Connection myCon = MysqlConnection.getConnection();
+		
+		// Delete prepared statement
+		PreparedStatement deleteStmt = myCon.prepareStatement(
+				"update customer "
+				+ "set CAST_NAME = ? and PASSWORD = ? "
+				+ "where ID = ?");
+
+		// Values
+		deleteStmt.setString(1, custumer.getCustName());
+		deleteStmt.setString(2, custumer.getPassword());
+		deleteStmt.setLong(3, custumer.getId());
+		
+		// Execute
+		deleteStmt.executeUpdate();
+		
+		// Close connection
+		myCon.close();
 
 	}
 
@@ -77,5 +101,4 @@ public class CustomerDBDAO implements CustomerDAO {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
 }

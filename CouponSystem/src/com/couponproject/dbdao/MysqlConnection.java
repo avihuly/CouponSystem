@@ -8,15 +8,9 @@ public class MysqlConnection {
 	private static String dbUserName = "root";
 	private static String dbparword = "zaq1zaq1zaq1";
 	
-	
-	
 	public static Connection getConnection() throws SQLException {
 		return DriverManager.getConnection(dbUrl, dbUserName, dbparword);
 	}
-	
-	
-	
-	
 	
 	public static String getDbUrl() {
 		return dbUrl;

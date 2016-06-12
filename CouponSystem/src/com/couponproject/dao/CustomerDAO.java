@@ -22,7 +22,7 @@ public interface CustomerDAO {
 	
 	// This method should take a Customer instance as argument 
 	// and update its details to DB
-	public void updateCustomer(Customer custumer);
+	public void updateCustomer(Customer custumer) throws SQLException;
 	
 	// This method should take id (long) as argument 
 	// and return a corresponding Customer instance
