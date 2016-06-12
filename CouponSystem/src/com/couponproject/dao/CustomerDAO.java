@@ -26,7 +26,7 @@ public interface CustomerDAO {
 	
 	// This method should take id (long) as argument 
 	// and return a corresponding Customer instance
-	public Customer getCustomer(long id);
+	public Customer getCustomer(long id) throws SQLException;
 	
 	// This method should return a Collection of all Customer instances
 	public Collection<Customer> getAllCustomer();

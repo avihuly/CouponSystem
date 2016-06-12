@@ -59,19 +59,19 @@ public class CustomerDBDAO implements CustomerDAO {
 		// Creating a Connection object to the DB
 		Connection myCon = MysqlConnection.getConnection();
 		
-		// Delete prepared statement
-		PreparedStatement deleteStmt = myCon.prepareStatement(
+		// Update prepared statement
+		PreparedStatement updateStmt = myCon.prepareStatement(
 				"update customer "
-				+ "set CAST_NAME = ? and PASSWORD = ? "
+				+ "set CUST_NAME = ? and PASSWORD = ? "
 				+ "where ID = ?");
 
 		// Values
-		deleteStmt.setString(1, custumer.getCustName());
-		deleteStmt.setString(2, custumer.getPassword());
-		deleteStmt.setLong(3, custumer.getId());
+		updateStmt.setString(1, custumer.getCustName());
+		updateStmt.setString(2, custumer.getPassword());
+		updateStmt.setLong(3, custumer.getId());
 		
 		// Execute
-		deleteStmt.executeUpdate();
+		updateStmt.executeUpdate();
 		
 		// Close connection
 		myCon.close();
@@ -79,9 +79,29 @@ public class CustomerDBDAO implements CustomerDAO {
 	}
 
 	@Override
-	public Customer getCustomer(long id) {
-		// TODO Auto-generated method stub
-		return null;
+	public Customer getCustomer(long id) throws SQLException {
+		// Creating a Connection object to the DB
+		Connection myCon = MysqlConnection.getConnection();
+		
+		// Select prepared statement
+		PreparedStatement selectStmt = myCon.prepareStatement(
+				"select * from customer "
+				+ "where ID = ?");
+		
+		// Values
+		selectStmt.setLong(1, id);
+		
+		// Execute and get a resultSet
+		ResultSet myRs = selectStmt.executeQuery();
+		
+		// Processing resultSet into a Customer(bean) instance
+		Customer customer = new Customer(
+				myRs.getLong("ID"),
+				myRs.getString("CUST_NAME"),
+				myRs.getString("PASSWORD"));
+		
+		// Return customer
+		return customer;
 	}
 
 	@Override
