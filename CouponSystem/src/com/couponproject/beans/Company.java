@@ -8,7 +8,6 @@ public class Company {
 
 	
 	public Company(long id, String compName, String password, String email) {
-		super();
 		this.id = id;
 		this.compName = compName;
 		this.password = password;
