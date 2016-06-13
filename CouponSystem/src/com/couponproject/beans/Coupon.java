@@ -7,9 +7,6 @@ public class Coupon {
 	// Attributes
 	//
 
-	// static variables
-	private static long idGen = 1000; // TODO: dynamic setting
-	
 	// Instants variables
 	private /*final*/ long id; // TODO: final
 	private String title;
@@ -21,10 +18,10 @@ public class Coupon {
 	private double price;
 	private String image;
 
-	
-	public Coupon(String title, Date startDate, Date endDate, 
+	// Constructor 
+	public Coupon(long id, String title, Date startDate, Date endDate, 
 			int amount, CouponType type, String message, double price, String image) {
-		setId();
+		this.id = id;
 		this.title = title;
 		this.startDate = startDate;
 		this.endDate = endDate;
@@ -43,7 +40,7 @@ public class Coupon {
 	public long getId() {
 		return id;
 	}
-
+	
 	// Get title
 	public String getTitle() {
 		return title;
@@ -122,13 +119,5 @@ public class Coupon {
 	// Set image location (string)
 	public void setImage(String image) {
 		this.image = image;
-	}
-
-	//
-	// Private method
-	//
-	private void setId() {
-		id = idGen;
-		idGen++;
 	}
 }

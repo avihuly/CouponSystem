@@ -2,8 +2,10 @@ package com.couponproject.dbdao;
 
 import java.sql.*;
 import java.util.Collection;
+import java.util.HashSet;
 
 import com.couponproject.beans.Coupon;
+import com.couponproject.beans.CouponType;
 import com.couponproject.beans.Customer;
 import com.couponproject.dao.CustomerDAO;
 
@@ -39,7 +41,7 @@ public class CustomerDBDAO implements CustomerDAO {
 		
 		// Delete prepared statement
 		PreparedStatement deleteStmt = myCon.prepareStatement(
-				"delet from customer "
+				"delete from customer "
 				+ "where ID = ? and CAST_NAME = ? and PASSWORD = ?");
 
 		// Values
@@ -100,25 +102,112 @@ public class CustomerDBDAO implements CustomerDAO {
 				myRs.getString("CUST_NAME"),
 				myRs.getString("PASSWORD"));
 		
+		// Close connection
+		myCon.close();
+		
 		// Return customer
 		return customer;
 	}
 
 	@Override
-	public Collection<Customer> getAllCustomer() {
-		// TODO Auto-generated method stub
-		return null;
+	public Collection<Customer> getAllCustomer() throws SQLException {
+		// Creating a Connection object to the DB
+		Connection myCon = MysqlConnection.getConnection();
+		
+		// Select prepared statement
+		PreparedStatement selectStmt = myCon.prepareStatement(
+				"select * from customer");
+						
+		// Execute and get a resultSet
+		ResultSet myRs = selectStmt.executeQuery();
+				
+		// Processing resultSet into a Collection of Customer
+		//---------------------------------------------------
+		//Declaring a set of 'Customer's
+		Collection <Customer> custSet = new HashSet<>(); 
+				
+		// Iterating the resultSet - 
+		// each iteration is converted into a Customer instance and added to the set
+			while(myRs.next()){
+				Customer customer = new Customer(
+					myRs.getLong("ID"),
+					myRs.getString("CUST_NAME"),
+					myRs.getString("PASSWORD"));
+				custSet.add(customer);
+			}
+		// Close connection
+		myCon.close();
+			
+		// Return customer
+		return custSet;
 	}
 
 	@Override
-	public Collection<Coupon> getCoupons() {
-		// TODO Auto-generated method stub
-		return null;
+	public Collection<Coupon> getCoupons() throws SQLException {
+		// Creating a Connection object to the DB
+		Connection myCon = MysqlConnection.getConnection();
+		
+		// Select prepared statement
+		PreparedStatement selectStmt = myCon.prepareStatement(
+				// TODO: what is the correct sql query???
+				"select * from coupon" 		//////////////////////////////////////////////////////
+				+ "where ");		   		/////////////////////////////////////////////////////
+									   		///// what is the correct sql query???///////////////
+		// Execute and get a resultSet		////////////////////////////////////////////////////
+		ResultSet myRs = selectStmt.executeQuery();
+
+		// Processing resultSet into a Collection of Coupon
+		// ---------------------------------------------------
+		// Declaring a set of 'Coupon's
+		Collection<Coupon> couptSet = new HashSet<>();
+
+		// Iterating the resultSet -
+		// each iteration is converted into a Coupon instance and added to the
+		// set
+		while (myRs.next()) {
+			// Generating Coupon
+			Coupon coupon = new Coupon(
+					myRs.getLong("ID"),
+					myRs.getString("TITLE"), 
+					myRs.getDate("START_DATE"),
+					myRs.getDate("END_DATE"), 
+					myRs.getInt("AMOUNT"), 
+					CouponType.fromString(myRs.getString("TYEP")),
+					myRs.getString("MESSAGE"), 
+					myRs.getDouble("PRICE"), 
+					myRs.getString("IMAGE"));
+			// Adding to set
+			couptSet.add(coupon);
+		}
+
+		// Close connection
+		myCon.close();
+
+		// Return customer
+		return couptSet;
 	}
 
 	@Override
-	public boolean login(String custNmae, String password) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean login(String custNmae, String password) throws SQLException {
+		// Creating a Connection object to the DB
+		Connection myCon = MysqlConnection.getConnection();
+
+		// Select prepared statement
+		PreparedStatement selectStmt = myCon.prepareStatement(
+				"select * from customer "
+				+ "where CUST_NAME = ? and PASSWORD = ?");
+
+		// Values
+		selectStmt.setString(1, custNmae);
+		selectStmt.setString(2, password);
+		
+		// Execute and get a resultSet
+		ResultSet myRs = selectStmt.executeQuery();
+		
+		// Close connection
+		myCon.close();		 
+
+		// Return true if the is a match 
+		return myRs.next();
 	}
 }

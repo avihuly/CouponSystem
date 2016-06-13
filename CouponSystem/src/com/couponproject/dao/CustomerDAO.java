@@ -29,13 +29,13 @@ public interface CustomerDAO {
 	public Customer getCustomer(long id) throws SQLException;
 	
 	// This method should return a Collection of all Customer instances
-	public Collection<Customer> getAllCustomer();
+	public Collection<Customer> getAllCustomer() throws SQLException;
 	
 	// This method should return a Collection of all Coupon instances of a specific Customer instance
-	public Collection<Coupon> getCoupons();
+	public Collection<Coupon> getCoupons() throws SQLException;
 	
 	// This method should take customer name and password as argument 
 	// and return a boolean indicating a successful login or not
-	public boolean login(String custNmae, String password);
+	public boolean login(String custNmae, String password) throws SQLException;
 	
 }
