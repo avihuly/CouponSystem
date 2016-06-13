@@ -11,6 +11,11 @@ public class Customer {
 		this.custName = custName;
 		this.password = password;
 	}
+	
+	public Customer(String custName, String password) {
+		this.custName = custName;
+		this.password = password;
+	}
 
 	public long getId() {
 		return id;
