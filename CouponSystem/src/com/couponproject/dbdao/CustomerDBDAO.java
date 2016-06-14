@@ -20,7 +20,7 @@ public class CustomerDBDAO implements CustomerDAO {
 		// Insert prepared statement
 		PreparedStatement createStmt = myCon.prepareStatement(
 				"insert into "
-				+ "customer (CAST_NAME, PASSWORD) "
+				+ "customer (CUST_NAME, PASSWORD) "
 				+ "values (?,?);"); //id will be assign in the DB
 		
 		// Values 
@@ -42,7 +42,7 @@ public class CustomerDBDAO implements CustomerDAO {
 		// Delete prepared statement
 		PreparedStatement deleteStmt = myCon.prepareStatement(
 				"delete from customer "
-				+ "where ID = ? and CAST_NAME = ? and PASSWORD = ?");
+				+ "where ID = ? and CUST_NAME = ? and PASSWORD = ?");
 
 		// Values
 		deleteStmt.setLong(1, custumer.getId());
@@ -204,10 +204,12 @@ public class CustomerDBDAO implements CustomerDAO {
 		// Execute and get a resultSet
 		ResultSet myRs = selectStmt.executeQuery();
 		
-		// Close connection
-		myCon.close();		 
+		boolean login = myRs.next();
 
-		// Return true if the is a match 
-		return myRs.next();
+		// Close connection
+		myCon.close();
+		 
+		// Return true if the is a match
+		return login;
 	}
 }
