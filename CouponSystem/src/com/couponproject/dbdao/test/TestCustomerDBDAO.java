@@ -1,8 +1,10 @@
-package com.couponproject.dbdao;
+package com.couponproject.dbdao.test;
 
 import java.sql.SQLException;
 
+import com.couponproject.beans.Coupon;
 import com.couponproject.beans.Customer;
+import com.couponproject.dbdao.CustomerDBDAO;
 
 // the main method of this calls 
 // contains a test program for all the methods in CustomerDBDAO calls
@@ -17,14 +19,28 @@ public class TestCustomerDBDAO {
 		// each method in CustomerDBDAO is being teased in a separate private
 		// method
 
-		 createCustomerTest();
-		 removeCustomerTest();
+		 //createCustomerTest();
+		 //removeCustomerTest();
 		 //updateCustomerTest();
 		 //getCustomerTest();
-		 getAllCustomerTest();
-		 //getCouponsTest();
-		 loginTest();
+		 //getAllCustomerTest();
+		 getCouponsTest();
+		 //loginTest();
 
+	}
+
+	// Testing getCoupons()
+	private static void getCouponsTest() {
+		try {
+			// This is the hart of the test
+			for(Coupon coupon:custDbDao.getCoupons(108)){
+				System.out.println(coupon);
+			}
+		} catch (SQLException e) {
+			System.out.println("getCouponsTest Error");
+			e.printStackTrace();
+		}
+		
 	}
 
 	///////////////////////////////

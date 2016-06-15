@@ -120,4 +120,13 @@ public class Coupon {
 	public void setImage(String image) {
 		this.image = image;
 	}
+
+	@Override
+	public String toString() {
+		return "Coupon [id=" + id + ", title=" + title + ", startDate=" + startDate + ", endDate=" + endDate
+				+ ", amount=" + amount + ", type=" + type + ", message=" + message + ", price=" + price + ", image="
+				+ image + "]";
+	}
+	
+	
 }

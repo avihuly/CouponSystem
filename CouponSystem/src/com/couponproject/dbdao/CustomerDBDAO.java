@@ -143,17 +143,19 @@ public class CustomerDBDAO implements CustomerDAO {
 	}
 
 	@Override
-	public Collection<Coupon> getCoupons() throws SQLException {
+	public Collection<Coupon> getCoupons(long id) throws SQLException {
 		// Creating a Connection object to the DB
 		Connection myCon = MysqlConnection.getConnection();
 		
 		// Select prepared statement
 		PreparedStatement selectStmt = myCon.prepareStatement(
-				// TODO: what is the correct sql query???
-				"select * from coupon" 		//////////////////////////////////////////////////////
-				+ "where ");		   		/////////////////////////////////////////////////////
-									   		///// what is the correct sql query???///////////////
-		// Execute and get a resultSet		////////////////////////////////////////////////////
+				// TODO: read about Relational Division ???
+				"SELECT * FROM coupon "
+				+ "JOIN customer_coupon "
+				+ "ON coupon.ID = customer_coupon.COUPON_ID "
+				+ "WHERE customer_coupon.CUST_ID = " + id);		   		
+
+		// Execute and get a resultSet		
 		ResultSet myRs = selectStmt.executeQuery();
 
 		// Processing resultSet into a Collection of Coupon
