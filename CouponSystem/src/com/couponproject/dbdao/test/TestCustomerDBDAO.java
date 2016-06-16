@@ -15,6 +15,7 @@ public class TestCustomerDBDAO {
 	private static final CustomerDBDAO custDbDao = new CustomerDBDAO();
 
 	public static void main(String[] args) {
+		System.out.println("i am adding this line to check github, it should be deleted");
 
 		// each method in CustomerDBDAO is being teased in a separate private
 		// method
