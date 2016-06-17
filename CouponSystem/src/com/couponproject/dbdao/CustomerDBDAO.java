@@ -1,5 +1,5 @@
 package com.couponproject.dbdao;
-// upstream test
+// upstream test from github editor
 import java.sql.*;
 import java.util.Collection;
 import java.util.HashSet;
