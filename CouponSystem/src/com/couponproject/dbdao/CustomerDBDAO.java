@@ -8,30 +8,41 @@ import com.couponproject.beans.Coupon;
 import com.couponproject.beans.CouponType;
 import com.couponproject.beans.Customer;
 import com.couponproject.dao.CustomerDAO;
+import com.couponproject.exception.CouponSystemException;
 
 // implements CustomerDAO with mysql
 public class CustomerDBDAO implements CustomerDAO {
 	
 	@Override
-	public void createCustomer(Customer custumer) throws SQLException {
+	public void createCustomer(Customer custumer) throws CouponSystemException {
+
 		// Creating a Connection object to the DB
-		Connection myCon = MysqlConnection.getConnection();
-		
-		// Insert prepared statement
-		PreparedStatement createStmt = myCon.prepareStatement(
-				"insert into "
-				+ "customer (CUST_NAME, PASSWORD) "
-				+ "values (?,?);"); //id will be assign in the DB
-		
-		// Values 
-		createStmt.setString(1, custumer.getCustName());
-		createStmt.setString(2, custumer.getPassword());
-		
-		// Execute
-		createStmt.executeUpdate();
+		Connection myCon;
+		try {
+			myCon = MysqlConnection.getConnection();
+
+			// Insert prepared statement
+			PreparedStatement createStmt = myCon.prepareStatement(					
+					"insert into "
+					+ "customer (CUST_NAME, PASSWORD) "
+					+ "values (?,?);"); //id will be assign in the DB
+
+			// Values
+			createStmt.setString(1, custumer.getCustName());
+			createStmt.setString(2, custumer.getPassword());
+
+			// Execute
+			createStmt.executeUpdate();
+
+		} catch (SQLException e) {
+			throw new CouponSystemException("CouponSystemException", e);
+		} 
 		
 		// Close connection
-				myCon.close();
+		try {
+			myCon.close();
+		} catch (SQLException e) {
+		}
 	}
 
 	@Override

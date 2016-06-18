@@ -42,7 +42,7 @@ public class CouponDBDAO implements CouponDAO{
 				createStmt.executeUpdate();
 				
 				// Close connection
-						myCon.close();
+				myCon.close();
 			}
 
 
