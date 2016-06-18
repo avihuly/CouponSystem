@@ -13,18 +13,18 @@ public interface CouponDAO {
 	public void createCoupon(Coupon coupon) throws SQLException;
 
 	//this method gets instance of Coupon and removes it from the Coupons table in the DB
-	public void removeCoupon(Coupon coupon);
+	public void removeCoupon(Coupon coupon) throws SQLException;
 
 	//this method gets instance of Coupon and updates it in the Coupons table in the DB
-	public void updateCoupon(Coupon coupon);
+	public void updateCoupon(Coupon coupon) throws SQLException;
 	
 	//this method gets Coupon's ID and returns instance of Coupon that this ID belongs to
-	public Coupon getCoupon(long id);
+	public Coupon getCoupon(long id) throws SQLException;
 	
 	//this method returns a Collection of all the Coupons in the couopon table in the DB
-	public Collection<Coupon> getAllCoupons();
+	public Collection<Coupon> getAllCoupons() throws SQLException;
 	
 	//this method gets a couponType and returns a Collection of Coupons that have that couponType
-	public Collection<Coupon> getCouponsByType(CouponType couponType);
+	public Collection<Coupon> getCouponsByType(CouponType couponType) throws SQLException;
 	
 }

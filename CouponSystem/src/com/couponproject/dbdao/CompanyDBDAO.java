@@ -12,7 +12,8 @@ import com.couponproject.dao.CompanyDAO;
 
 //This class implements the CompanyDAO interface with mySQL
 public class CompanyDBDAO implements CompanyDAO{
-	//TODO: closing connections
+
+
 	@Override
 	//a method that gets Company instance that should be of a new company ant adds it to the company table in the db
 	//TODO: check if the company is new, at this stage or at earlier stage?
@@ -33,6 +34,9 @@ public class CompanyDBDAO implements CompanyDAO{
 		
 		// Execute
 		createStmt.executeUpdate();
+		
+		//close connection
+		myCon.close();
 	}
 
 	@Override
@@ -54,6 +58,8 @@ public class CompanyDBDAO implements CompanyDAO{
 		// Execute
 		deleteStmt.executeUpdate();
 		
+		//close connection
+		myCon.close();
 	}
 
 	@Override
@@ -78,6 +84,8 @@ public class CompanyDBDAO implements CompanyDAO{
 		// Execute
 		updateStmt.executeUpdate();
 
+		//close connection
+		myCon.close();
 	}
 
 	// a method that gets a company's ID, looks for the line in company table in the db with that ID
@@ -100,7 +108,9 @@ public class CompanyDBDAO implements CompanyDAO{
 		String email = rs.getString("EMAIL");
 		
 		Company comp = new Company(id, compName, password, email);
-		
+
+		//close connection
+		myCon.close();		
 		
 		return comp;
 	}
@@ -128,7 +138,10 @@ public class CompanyDBDAO implements CompanyDAO{
 			String email = rs.getString("EMAIL");
 			companies.add(new Company(id, compName, password, email));
 		}
-				
+		
+		//close connection
+		myCon.close();
+		
 		return companies;
 	}
 
@@ -178,10 +191,13 @@ public class CompanyDBDAO implements CompanyDAO{
 					//creating a coupon instance in the coupons list
 					//TODO: after changing the id assignment in the coupon constructor the below should be changed
 					coupons.add(new Coupon(/*id,*/ title, startDate, endDate, amount, theType, message, price, image));
+
 					
 				}
 		}
 		
+		//close connection
+		myCon.close();
 		
 		return coupons;
 	}
@@ -204,11 +220,14 @@ public class CompanyDBDAO implements CompanyDAO{
 		
 		String compareToPassword = rs.getString("PASSWORD");
 
+		//close connection
+		myCon.close();
+		
 		if(password == compareToPassword){
 			return true;
 		}
 		else return false;
+
 	}
 	
-
 }

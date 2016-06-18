@@ -3,6 +3,7 @@ package com.couponproject.dao;
 import java.sql.SQLException;
 import java.util.Collection;
 import com.couponproject.beans.*;
+import com.couponproject.exception.CouponSystemException;
 
 
 // this interface specify's all the functions 
@@ -14,7 +15,7 @@ public interface CustomerDAO {
 	
 	// This method should take a Customer instance as argument 
 	// and add its details to DB
-	public void createCustomer(Customer custumer) throws SQLException;
+	public void createCustomer(Customer custumer) throws CouponSystemException;
 	
 	// This method should take a Customer instance as argument 
 	// and remove its details from DB
