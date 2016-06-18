@@ -12,7 +12,7 @@ import com.couponproject.dbdao.CouponDBDAO;
 //contains a test program for all the methods in CouponDBDAO class
 public class TestCouponDBDAO {
 
-	// CustomerDBDAO instance for testing
+	// CouponDBDAO instance for testing
 	private static final CouponDBDAO coupDbDao = new CouponDBDAO();
 
 	// Main
