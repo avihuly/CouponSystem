@@ -1,12 +1,13 @@
 package com.couponproject.dbdao;
 
+import java.beans.PropertyVetoException;
+import java.io.IOException;
 import java.sql.*;
 import java.util.Collection;
 import java.util.HashSet;
 
 import com.couponproject.beans.Coupon;
-import com.couponproject.beans.CouponType;
-import com.couponproject.beans.Customer;
+import com.couponproject.beans.*;
 import com.couponproject.dao.CustomerDAO;
 import com.couponproject.exception.CouponSystemException;
 
@@ -19,7 +20,7 @@ public class CustomerDBDAO implements CustomerDAO {
 		// Creating a Connection object to the DB
 		Connection myCon;
 		try {
-			myCon = MysqlConnection.getConnection();
+			myCon = DataSource.getInstance().getConnection();
 
 			// Insert prepared statement
 			PreparedStatement createStmt = myCon.prepareStatement(					
@@ -34,130 +35,151 @@ public class CustomerDBDAO implements CustomerDAO {
 			// Execute
 			createStmt.executeUpdate();
 
-		} catch (SQLException e) {
+		} catch (PropertyVetoException | SQLException | IOException e) {
 			throw new CouponSystemException("CouponSystemException", e);
 		} 
 		
 		// Close connection
-		myCon.close();
 		try {
 			myCon.close();
 		} catch (SQLException e) {
+			throw new CouponSystemException("CouponSystemException", e);
 		}
 	}
 
 	@Override
-	public void removeCustomer(Customer custumer) throws SQLException {
+	public void removeCustomer(Customer custumer) throws CouponSystemException {
 		// Creating a Connection object to the DB
-		Connection myCon = MysqlConnection.getConnection();
+		Connection myCon;
+		try {
+			myCon = DataSource.getInstance().getConnection();
 		
-		// Delete prepared statement
-		PreparedStatement deleteStmt = myCon.prepareStatement(
-				"delete from customer "
-				+ "where ID = ? and CUST_NAME = ? and PASSWORD = ?");
+			// Delete prepared statement
+			PreparedStatement deleteStmt = myCon.prepareStatement(
+					"delete from customer "
+					+ "where ID = ? and CUST_NAME = ? and PASSWORD = ?");
 
-		// Values
-		deleteStmt.setLong(1, custumer.getId());
-		deleteStmt.setString(2, custumer.getCustName());
-		deleteStmt.setString(3, custumer.getPassword());
-		
-		// Execute
-		deleteStmt.executeUpdate();
-		
+			// Values
+			deleteStmt.setLong(1, custumer.getId());
+			deleteStmt.setString(2, custumer.getCustName());
+			deleteStmt.setString(3, custumer.getPassword());
+			
+			// Execute
+			deleteStmt.executeUpdate();
+			
+		} catch (PropertyVetoException | SQLException | IOException e) {
+			throw new CouponSystemException("CouponSystemException", e);
+		}
+
 		// Close connection
-		myCon.close();
+		try {
+			myCon.close();
+		} catch (SQLException e) {
+			throw new CouponSystemException("CouponSystemException", e);
+		}
 	}
 
 	@Override
-	public void updateCustomer(Customer custumer) throws SQLException {
+	public void updateCustomer(Customer custumer) throws CouponSystemException {
 		// Creating a Connection object to the DB
-		Connection myCon = MysqlConnection.getConnection();
-		
-		// Update prepared statement
-		PreparedStatement updateStmt = myCon.prepareStatement(
-				"update customer "
-				+ "set CUST_NAME = ? and PASSWORD = ? "
-				+ "where ID = ?");
+		Connection myCon;
+		try {
+			myCon = DataSource.getInstance().getConnection();
+			// Update prepared statement
+			PreparedStatement updateStmt = myCon.prepareStatement(
+					"update customer "
+					+ "set CUST_NAME = ? and PASSWORD = ? "
+					+ "where ID = ?");
 
-		// Values
-		updateStmt.setString(1, custumer.getCustName());
-		updateStmt.setString(2, custumer.getPassword());
-		updateStmt.setLong(3, custumer.getId());
-		
-		// Execute
-		updateStmt.executeUpdate();
-		
+			// Values
+			updateStmt.setString(1, custumer.getCustName());
+			updateStmt.setString(2, custumer.getPassword());
+			updateStmt.setLong(3, custumer.getId());
+			
+			// Execute
+			updateStmt.executeUpdate();
+			
+		} catch (PropertyVetoException | SQLException | IOException e) {
+			throw new CouponSystemException("CouponSystemException", e);
+		}
+
 		// Close connection
-		myCon.close();
-
+		try {
+			myCon.close();
+		} catch (SQLException e) {
+			throw new CouponSystemException("CouponSystemException", e);
+		}
 	}
 
 	@Override
-	public Customer getCustomer(long id) throws SQLException {
+	public Customer getCustomer(long id) throws CouponSystemException {
 		// Creating a Connection object to the DB
-		Connection myCon = MysqlConnection.getConnection();
-		
-		// Select prepared statement
-		PreparedStatement selectStmt = myCon.prepareStatement(
-				"select * from customer "
-				+ "where ID = ?");
-		
-		// Values
-		selectStmt.setLong(1, id);
-		
-		// Execute and get a resultSet
-		ResultSet myRs = selectStmt.executeQuery();
-		
-		// Processing resultSet into a Customer(bean) instance
-		Customer customer = new Customer(
-				myRs.getLong("ID"),
-				myRs.getString("CUST_NAME"),
-				myRs.getString("PASSWORD"));
-		
-		// Close connection
-		myCon.close();
-		
-		// Return customer
-		return customer;
-	}
-
-	@Override
-	public Collection<Customer> getAllCustomer() throws SQLException {
-		// Creating a Connection object to the DB
-		Connection myCon = MysqlConnection.getConnection();
-		
-		// Select prepared statement
-		PreparedStatement selectStmt = myCon.prepareStatement(
-				"select * from customer");
-						
-		// Execute and get a resultSet
-		ResultSet myRs = selectStmt.executeQuery();
-				
-		// Processing resultSet into a Collection of Customer
-		//---------------------------------------------------
-		//Declaring a set of 'Customer's
-		Collection <Customer> custSet = new HashSet<>(); 
-				
-		// Iterating the resultSet - 
-		// each iteration is converted into a Customer instance and added to the set
-			while(myRs.next()){
-				Customer customer = new Customer(
+		try (Connection myCon = DataSource.getInstance().getConnection()) {
+			// Select prepared statement
+			PreparedStatement selectStmt = myCon.prepareStatement(
+					"select * from customer "
+					+ "where ID = ?");
+			
+			// Values
+			selectStmt.setLong(1, id);
+			
+			// Execute and get a resultSet
+			ResultSet myRs = selectStmt.executeQuery();
+			
+			System.out.println("HERE");
+			
+			// Processing resultSet into a Customer(bean) instance
+			myRs.next();
+			Customer customer = new Customer(
 					myRs.getLong("ID"),
 					myRs.getString("CUST_NAME"),
 					myRs.getString("PASSWORD"));
-				custSet.add(customer);
-			}
-		// Close connection
-		myCon.close();
-			
-		// Return customer
-		return custSet;
+
+			// Return customer
+			return customer;
+		} catch (PropertyVetoException | SQLException | IOException e) {
+			throw new CouponSystemException("CouponSystemException", e);
+		}
 	}
 
 	@Override
-	public Collection<Coupon> getCoupons(long id) throws SQLException {
+	public Collection<Customer> getAllCustomer() throws CouponSystemException {
+		// Creating a Connection object to the DB 
+		try (Connection myCon = DataSource.getInstance().getConnection()){
+			// Select prepared statement
+			PreparedStatement selectStmt = myCon.prepareStatement(
+					"select * from customer");
+							
+			// Execute and get a resultSet
+			ResultSet myRs = selectStmt.executeQuery();
+					
+			// Processing resultSet into a Collection of Customer
+			//---------------------------------------------------
+			//Declaring a set of 'Customer's
+			Collection <Customer> custSet = new HashSet<>(); 
+					
+			// Iterating the resultSet - 
+			// each iteration is converted into a Customer instance and added to the set
+				while(myRs.next()){
+					Customer customer = new Customer(
+						myRs.getLong("ID"),
+						myRs.getString("CUST_NAME"),
+						myRs.getString("PASSWORD"));
+					custSet.add(customer);
+				}
+
+			// Return customer
+			return custSet;	
+		
+		} catch (PropertyVetoException | SQLException | IOException e) {
+			throw new CouponSystemException("CouponSystemException", e);
+		}
+	}
+
+	@Override
+	public Collection<Coupon> getCoupons(long id) throws CouponSystemException {
 		// Creating a Connection object to the DB
-		Connection myCon = MysqlConnection.getConnection();
+		try (Connection myCon = DataSource.getInstance().getConnection()){
 		
 		// Select prepared statement
 		PreparedStatement selectStmt = myCon.prepareStatement(
@@ -194,17 +216,18 @@ public class CustomerDBDAO implements CustomerDAO {
 			couptSet.add(coupon);
 		}
 
-		// Close connection
-		myCon.close();
-
 		// Return customer
 		return couptSet;
+		
+		} catch (PropertyVetoException | SQLException | IOException e) {
+			throw new CouponSystemException("CouponSystemException", e);
+		}
 	}
 
 	@Override
-	public boolean login(String custNmae, String password) throws SQLException {
+	public boolean login(String custNmae, String password) throws CouponSystemException {
 		// Creating a Connection object to the DB
-		Connection myCon = MysqlConnection.getConnection();
+		try (Connection myCon = DataSource.getInstance().getConnection()) {
 
 		// Select prepared statement
 		PreparedStatement selectStmt = myCon.prepareStatement(
@@ -218,12 +241,11 @@ public class CustomerDBDAO implements CustomerDAO {
 		// Execute and get a resultSet
 		ResultSet myRs = selectStmt.executeQuery();
 		
-		boolean login = myRs.next();
-
-		// Close connection
-		myCon.close();
-		 
 		// Return true if the is a match
-		return login;
+		return myRs.next(); 
+		
+	} catch (PropertyVetoException | SQLException | IOException e) {
+		throw new CouponSystemException("CouponSystemException", e);
 	}
+}
 }
