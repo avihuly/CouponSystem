@@ -5,10 +5,10 @@ import java.sql.SQLException;
 import com.couponproject.beans.Coupon;
 import com.couponproject.beans.Customer;
 import com.couponproject.dbdao.CustomerDBDAO;
+import com.couponproject.exception.CouponSystemException;
 
-// the main method of this class 
+// The main method of this class 
 // contains a test program for all the methods in CustomerDBDAO calls
-// in addition: Customer, Coupon & CouponType class are being used
 public class TestCustomerDBDAO {
 
 	// CustomerDBDAO instance for testing
@@ -25,26 +25,35 @@ public class TestCustomerDBDAO {
 		 //updateCustomerTest();
 		 //getCustomerTest();
 		 //getAllCustomerTest();
-		 getCouponsTest();
-		 //loginTest();
-
+		 //getCouponsTest();
+		 loginTest();
 	}
 
-
-
-	///////////////////////////////
-	///////// METHODS/////////////
-	//////////////////////////////
+	//*******
+	//Methods
+	//*******
+	
+	// Testing getCustomerTest()
+	private static void getCustomerTest() {
+		
+		try {
+			System.out.println(custDbDao.getCustomer(23));
+		} catch (CouponSystemException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 
 	// Testing login()
 	private static void loginTest() {
 		try {
-			if (custDbDao.login("customer 18", "password 18")) {
+			if (custDbDao.login("customer 115", "password 116")) {
 				System.out.println("Successful LOGIN");
 			} else {
 				System.out.println("unSuccessful Login");
 			}
-		} catch (SQLException e) {
+		} catch (CouponSystemException e) {
 			System.out.println("loginTest Error");
 			e.printStackTrace();
 		}
@@ -58,7 +67,7 @@ public class TestCustomerDBDAO {
 			for (Customer customer : custDbDao.getAllCustomer()) {
 				System.out.println(customer);
 			}
-		} catch (SQLException e) {
+		} catch (CouponSystemException e) {
 			System.out.println("getAllCustomerTest Error");
 			e.printStackTrace();
 		}
@@ -69,12 +78,12 @@ public class TestCustomerDBDAO {
 		// Add new 'Customer's to DB
 		for (int i = 0; i < 25; i++) {
 			// Customer instance
-			Customer customer = new Customer("customer " + (i + 1), "password " + (i + 1));
+			Customer customer = new Customer("customer " + (i + 99), "password " + (i + 99));
 			try {
 				// This is the hart of the test
 				// converting costumer object into a sql query and running it
 				custDbDao.createCustomer(customer);
-			} catch (SQLException e) {
+			} catch (CouponSystemException e) {
 				System.out.println("createCustomerTest Error");
 				e.printStackTrace();
 			}
@@ -91,7 +100,7 @@ public class TestCustomerDBDAO {
 				// This is the hart of the test
 				// converting costumer object into a sql query and urning it
 				custDbDao.removeCustomer(customer);
-			} catch (SQLException e) {
+			} catch (CouponSystemException e) {
 				System.out.println("removeCustomerTest Error");
 				e.printStackTrace();
 			}
@@ -105,7 +114,7 @@ public class TestCustomerDBDAO {
 			for(Coupon coupon:custDbDao.getCoupons(108)){
 				System.out.println(coupon);
 			}
-		} catch (SQLException e) {
+		} catch (CouponSystemException e) {
 			System.out.println("getCouponsTest Error");
 			e.printStackTrace();
 		}

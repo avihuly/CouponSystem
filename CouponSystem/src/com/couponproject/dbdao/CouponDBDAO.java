@@ -9,7 +9,6 @@ import java.util.HashSet;
 
 import com.couponproject.beans.Coupon;
 import com.couponproject.beans.CouponType;
-import com.couponproject.beans.Customer;
 import com.couponproject.dao.CouponDAO;
 import com.couponproject.exception.CouponSystemException;
 
