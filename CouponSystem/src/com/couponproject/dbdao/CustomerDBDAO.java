@@ -1,5 +1,5 @@
 package com.couponproject.dbdao;
-// upstream test from github editor
+
 import java.sql.*;
 import java.util.Collection;
 import java.util.HashSet;
@@ -31,7 +31,7 @@ public class CustomerDBDAO implements CustomerDAO {
 		createStmt.executeUpdate();
 		
 		// Close connection
-				myCon.close();
+		myCon.close();
 	}
 
 	@Override

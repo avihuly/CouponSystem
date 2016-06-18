@@ -1,6 +1,7 @@
 package com.couponproject.beans;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 
 public class Coupon {
 	//
@@ -10,16 +11,16 @@ public class Coupon {
 	// Instants variables
 	private /*final*/ long id; // TODO: final
 	private String title;
-	private Date startDate;
-	private Date endDate;
+	private LocalDateTime startDate;
+	private LocalDateTime endDate;
 	private int amount;
 	private CouponType type;
 	private String message;
 	private double price;
 	private String image;
 
-	// Constructor 
-	public Coupon(long id, String title, Date startDate, Date endDate, 
+	// Constructor's
+	public Coupon(long id, String title, LocalDateTime startDate, LocalDateTime endDate, 
 			int amount, CouponType type, String message, double price, String image) {
 		this.id = id;
 		this.title = title;
@@ -32,6 +33,20 @@ public class Coupon {
 		this.image = image;
 	}
 
+	public Coupon(String title, LocalDateTime startDate, LocalDateTime endDate, 
+		int amount, CouponType type, String message, double price, String image) {
+		this.title = title;
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.amount = amount;
+		this.type = type;
+		this.message = message;
+		this.price = price;
+		this.image = image;
+	}
+
+	
+	
 	//
 	// Methods - getters & setters
 	//
@@ -52,22 +67,22 @@ public class Coupon {
 	}
 
 	// Get start date
-	public Date getStartDate() {
+	public LocalDateTime getStartDate() {
 		return startDate;
 	}
 
 	// Set start date
-	public void setStartDate(Date startDate) {
+	public void setStartDate(LocalDateTime startDate) {
 		this.startDate = startDate;
 	}
 
 	// Get end date
-	public Date getEndDate() {
+	public LocalDateTime getEndDate() {
 		return endDate;
 	}
 
 	// Set end date
-	public void setEndDate(Date endDate) {
+	public void setEndDate(LocalDateTime endDate) {
 		this.endDate = endDate;
 	}
 

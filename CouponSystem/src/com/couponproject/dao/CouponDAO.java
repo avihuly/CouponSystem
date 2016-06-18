@@ -1,5 +1,6 @@
 package com.couponproject.dao;
 
+import java.sql.SQLException;
 import java.util.Collection;
 
 import com.couponproject.beans.*;
@@ -9,7 +10,7 @@ public interface CouponDAO {
 	//TODO: Exception??
 	
 	//this method gets instance of Coupon and adds it in to the Coupons table in the DB
-	public void createCoupon(Coupon coupon);
+	public void createCoupon(Coupon coupon) throws SQLException;
 
 	//this method gets instance of Coupon and removes it from the Coupons table in the DB
 	public void removeCoupon(Coupon coupon);
