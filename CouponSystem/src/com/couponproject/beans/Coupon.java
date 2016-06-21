@@ -9,7 +9,7 @@ public class Coupon {
 	//
 
 	// Instants variables
-	private /*final*/ long id; // TODO: final
+	private final long id; // TODO: final
 	private String title;
 	private Date startDate;
 	private Date endDate;
@@ -19,7 +19,7 @@ public class Coupon {
 	private double price;
 	private String image;
 
-	// Constructor's
+	// Constructors
 	public Coupon(long id, String title, Date startDate, Date endDate, 
 			int amount, CouponType type, String message, double price, String image) {
 		this.id = id;
@@ -43,6 +43,8 @@ public class Coupon {
 		this.message = message;
 		this.price = price;
 		this.image = image;
+		//TODO: check how to get id from DB?
+		this.id=0;
 	}
 
 	
@@ -136,6 +138,7 @@ public class Coupon {
 		this.image = image;
 	}
 
+	//toString
 	@Override
 	public String toString() {
 		return "Coupon [id=" + id + ", title=" + title + ", startDate=" + startDate + ", endDate=" + endDate
