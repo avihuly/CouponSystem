@@ -66,6 +66,8 @@ public class Company {
 		this.email = email;
 	}
 
+	//toString
+	//TODO: remove password?
 	@Override
 	public String toString() {
 		return "Company [id=" + id + ", compName=" + compName + ", password=" + password + ", email=" + email + "]";
