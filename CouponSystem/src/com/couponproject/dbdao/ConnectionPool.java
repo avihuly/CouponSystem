@@ -7,12 +7,13 @@ import java.sql.SQLException;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
-public class DataSource {
+//External connection pool
+public class ConnectionPool {
 
-    private static DataSource     datasource;
+    private static ConnectionPool     connectionPool;
     private ComboPooledDataSource cpds;
 
-    private DataSource() throws IOException, SQLException, PropertyVetoException {
+    private ConnectionPool() throws IOException, SQLException, PropertyVetoException {
         cpds = new ComboPooledDataSource();
         cpds.setDriverClass("com.mysql.jdbc.Driver"); //loads the jdbc driver
         cpds.setJdbcUrl("jdbc:mysql://localhost:3306/coupondb");
@@ -27,12 +28,12 @@ public class DataSource {
 
     }
 
-    public static DataSource getInstance() throws IOException, SQLException, PropertyVetoException {
-        if (datasource == null) {
-            datasource = new DataSource();
-            return datasource;
+    public static ConnectionPool getInstance() throws IOException, SQLException, PropertyVetoException {
+        if (connectionPool == null) {
+        	connectionPool = new ConnectionPool();
+            return connectionPool;
         } else {
-            return datasource;
+            return connectionPool;
         }
     }
 
