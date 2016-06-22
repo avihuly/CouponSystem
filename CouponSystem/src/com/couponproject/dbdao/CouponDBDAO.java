@@ -1,9 +1,12 @@
 package com.couponproject.dbdao;
 
+import java.beans.PropertyVetoException;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 
@@ -18,11 +21,9 @@ public class CouponDBDAO implements CouponDAO{
 	// TODO: when creating a coupon it should be joind also to a company.
 	@Override
 	public void createCoupon(Coupon coupon) throws CouponSystemException {
-		
-		Connection myCon;
-		try {
-			// Creating a Connection object to the DB
-			myCon = MysqlConnection.getConnection();
+		// Creating a Connection object to the DB
+		try (Connection myCon = ConnectionPool.getInstance().getConnection()){
+						
 			// Insert prepared statement 
 			PreparedStatement createStmt = myCon.prepareStatement(
 					"insert into "
@@ -43,10 +44,8 @@ public class CouponDBDAO implements CouponDAO{
 					// Execute
 					createStmt.executeUpdate();
 					
-					// Close connection
-					myCon.close();
 		
-		} catch (SQLException e) {
+		} catch (PropertyVetoException | SQLException | IOException e) {
 			throw new CouponSystemException("CouponSystemException", e);
 		}
 	}
@@ -56,11 +55,9 @@ public class CouponDBDAO implements CouponDAO{
 	//TODO: remove the coupon from the joined tables!!
 	@Override
 	public void removeCoupon(Coupon coupon) throws CouponSystemException {
-		
-		Connection myCon;
-		try {
-			// Creating a Connection object to the DB
-			myCon = MysqlConnection.getConnection();
+		// Creating a Connection object to the DB
+		try (Connection myCon = ConnectionPool.getInstance().getConnection()){
+					
 			// Delete prepared statement
 			PreparedStatement deleteStmt = myCon.prepareStatement(
 					"delete from coupon "
@@ -74,11 +71,8 @@ public class CouponDBDAO implements CouponDAO{
 			
 			// Execute
 			deleteStmt.executeUpdate();
-			
-			// Close connection
-			myCon.close();
 
-		} catch (SQLException e) {
+		} catch (PropertyVetoException | SQLException | IOException e) {
 			throw new CouponSystemException("CouponSystemException", e);
 		}
 	}
@@ -87,10 +81,9 @@ public class CouponDBDAO implements CouponDAO{
 	@Override
 	public void updateCoupon(Coupon coupon) throws CouponSystemException {
 		
-		Connection myCon;
-		try {
-			// Creating a Connection object to the DB
-			myCon = MysqlConnection.getConnection();
+		// Creating a Connection object to the DB
+		try (Connection myCon = ConnectionPool.getInstance().getConnection()){
+			
 			// Update prepared statement
 			PreparedStatement updateStmt = myCon.prepareStatement(
 					"update coupon "
@@ -112,24 +105,20 @@ public class CouponDBDAO implements CouponDAO{
 			
 			// Execute
 			updateStmt.executeUpdate();
-			
-			// Close connection
-			myCon.close();
 		
-		} catch (SQLException e) {
+		} catch (PropertyVetoException | SQLException | IOException e) {
 			throw new CouponSystemException("CouponSystemException", e);
 		}
 	}
 
-	// a method that gets ID of a coupon, looks for the coupon in the coupon table in the db, creates a coupon onstance 
+	// a method that gets ID of a coupon, looks for the coupon in the coupon table in the db, creates a coupon instance 
 	// from the data in the table and returns it
 	@Override
 	public Coupon getCoupon(long id) throws CouponSystemException {
 		
-		Connection myCon;
-		try {
-			// Creating a Connection object to the DB
-			myCon = MysqlConnection.getConnection();
+		// Creating a Connection object to the DB
+		try (Connection myCon = ConnectionPool.getInstance().getConnection()){
+				
 			// Select prepared statement
 			PreparedStatement selectStmt = myCon.prepareStatement(
 					"select * from coupon "
@@ -153,26 +142,22 @@ public class CouponDBDAO implements CouponDAO{
 					myRs.getDouble("PRICE"),
 					myRs.getString("IMAGE"));
 					
-					
-			// Close connection
-			myCon.close();
-					
+			
 			// Return coupon
 			return coupon;
 		
-		} catch (SQLException e) {
+		} catch (PropertyVetoException | SQLException | IOException e) {
 			throw new CouponSystemException("CouponSystemException", e);
 		}
 	}
 
-	// a method that returns a Collection of all the coupons from the coupon table in the DB
+	// a method that returns a List of all the coupons from the coupon table in the DB
 	@Override
 	public Collection<Coupon> getAllCoupons() throws CouponSystemException {
 		
-		Connection myCon;
-		try {
-			// Creating a Connection object to the DB
-			myCon = MysqlConnection.getConnection();
+		// Creating a Connection object to the DB
+		try (Connection myCon = ConnectionPool.getInstance().getConnection()){
+						
 			// Select prepared statement
 			PreparedStatement selectStmt = myCon.prepareStatement(
 					"select * from coupon");
@@ -180,13 +165,13 @@ public class CouponDBDAO implements CouponDAO{
 			// Execute and get a resultSet
 			ResultSet myRs = selectStmt.executeQuery();
 							
-			// Processing resultSet into a Collection of Coupon
+			// Processing resultSet into a List of Coupon
 			//---------------------------------------------------
-			//Declaring a set of 'Coupon's
-			Collection <Coupon> coupSet = new HashSet<>(); 
+			//Declaring a List of 'Coupon's
+			Collection <Coupon> coupons = new ArrayList<>(); 
 							
 			// Iterating the resultSet - 
-			// each iteration is converted into a Coupon instance and added to the set
+			// each iteration is converted into a Coupon instance and added to the List
 				while(myRs.next()){
 					Coupon coupon = new Coupon(
 							myRs.getLong("ID"),
@@ -198,27 +183,24 @@ public class CouponDBDAO implements CouponDAO{
 							myRs.getString("MESSEGE"),
 							myRs.getDouble("PRICE"),
 							myRs.getString("IMAGE"));
-					coupSet.add(coupon);
+					coupons.add(coupon);
 				}
-			// Close connection
-			myCon.close();
-						
-			// Return Set<Coupon>
-			return coupSet;
+									
+			// Return List<Coupon>
+			return coupons;
 		
-		} catch (SQLException e) {
+		} catch (PropertyVetoException | SQLException | IOException e) {
 			throw new CouponSystemException("CouponSystemException", e);
 		}
 	}
 
-	// a method that gets a couponType and returns a Collection of all the coupons with that type
+	// a method that gets a couponType and returns a List of all the coupons with that type
 	@Override
 	public Collection<Coupon> getCouponsByType(CouponType couponType) throws CouponSystemException {
 		
-		Connection myCon;
-		try {
-			// Creating a Connection object to the DB
-			myCon = MysqlConnection.getConnection();
+		// Creating a Connection object to the DB
+		try (Connection myCon = ConnectionPool.getInstance().getConnection()){
+						
 			// Select prepared statement
 			PreparedStatement selectStmt = myCon.prepareStatement(
 					"select * from coupon where TYPE = ?");
@@ -229,13 +211,13 @@ public class CouponDBDAO implements CouponDAO{
 			// Execute and get a resultSet
 			ResultSet myRs = selectStmt.executeQuery();
 
-			// Processing resultSet into a Collection of Coupon
+			// Processing resultSet into a List of Coupon
 			//---------------------------------------------------
-			//Declaring a set of 'Coupon's
-			Collection <Coupon> coupSet = new HashSet<>(); 
+			//Declaring a List of 'Coupon's
+			Collection <Coupon> coupons = new ArrayList<>(); 
 									
 			// Iterating the resultSet - 
-			// each iteration is converted into a Coupon instance and added to the set
+			// each iteration is converted into a Coupon instance and added to the List
 				while(myRs.next()){
 					Coupon coupon = new Coupon(
 							myRs.getLong("ID"),
@@ -247,15 +229,13 @@ public class CouponDBDAO implements CouponDAO{
 							myRs.getString("MESSEGE"),
 							myRs.getDouble("PRICE"),
 							myRs.getString("IMAGE"));
-					coupSet.add(coupon);
+					coupons.add(coupon);
 				}
-			// Close connection
-			myCon.close();
-								
-			// Return Set<Coupon>
-			return coupSet;
+				
+			// Return List<Coupon>
+			return coupons;
 	
-		} catch (SQLException e) {
+		} catch (PropertyVetoException | SQLException | IOException e) {
 			throw new CouponSystemException("CouponSystemException", e);
 		}
 	}

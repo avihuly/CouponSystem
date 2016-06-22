@@ -3,10 +3,10 @@ package com.couponproject.dbdao;
 import java.beans.PropertyVetoException;
 import java.io.IOException;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 
-import com.couponproject.beans.Coupon;
 import com.couponproject.beans.*;
 import com.couponproject.dao.CustomerDAO;
 import com.couponproject.exception.CouponSystemException;
@@ -18,10 +18,8 @@ public class CustomerDBDAO implements CustomerDAO {
 	public void createCustomer(Customer custumer) throws CouponSystemException {
 
 		// Creating a Connection object to the DB
-		Connection myCon;
-		try {
-			myCon = DataSource.getInstance().getConnection();
-
+		try (Connection myCon = ConnectionPool.getInstance().getConnection()){
+			
 			// Insert prepared statement
 			PreparedStatement createStmt = myCon.prepareStatement(					
 					"insert into "
@@ -39,20 +37,13 @@ public class CustomerDBDAO implements CustomerDAO {
 			throw new CouponSystemException("CouponSystemException", e);
 		} 
 		
-		// Close connection
-		try {
-			myCon.close();
-		} catch (SQLException e) {
-			throw new CouponSystemException("CouponSystemException", e);
-		}
 	}
 
 	@Override
 	public void removeCustomer(Customer custumer) throws CouponSystemException {
 		// Creating a Connection object to the DB
-		Connection myCon;
-		try {
-			myCon = DataSource.getInstance().getConnection();
+		
+		try (Connection myCon = ConnectionPool.getInstance().getConnection()){
 		
 			// Delete prepared statement
 			PreparedStatement deleteStmt = myCon.prepareStatement(
@@ -71,20 +62,12 @@ public class CustomerDBDAO implements CustomerDAO {
 			throw new CouponSystemException("CouponSystemException", e);
 		}
 
-		// Close connection
-		try {
-			myCon.close();
-		} catch (SQLException e) {
-			throw new CouponSystemException("CouponSystemException", e);
-		}
 	}
 
 	@Override
 	public void updateCustomer(Customer custumer) throws CouponSystemException {
 		// Creating a Connection object to the DB
-		Connection myCon;
-		try {
-			myCon = DataSource.getInstance().getConnection();
+		try (Connection myCon = ConnectionPool.getInstance().getConnection()){
 			// Update prepared statement
 			PreparedStatement updateStmt = myCon.prepareStatement(
 					"update customer "
@@ -103,18 +86,12 @@ public class CustomerDBDAO implements CustomerDAO {
 			throw new CouponSystemException("CouponSystemException", e);
 		}
 
-		// Close connection
-		try {
-			myCon.close();
-		} catch (SQLException e) {
-			throw new CouponSystemException("CouponSystemException", e);
-		}
 	}
 
 	@Override
 	public Customer getCustomer(long id) throws CouponSystemException {
 		// Creating a Connection object to the DB
-		try (Connection myCon = DataSource.getInstance().getConnection()) {
+		try (Connection myCon = ConnectionPool.getInstance().getConnection()) {
 			// Select prepared statement
 			PreparedStatement selectStmt = myCon.prepareStatement(
 					"select * from customer "
@@ -145,7 +122,7 @@ public class CustomerDBDAO implements CustomerDAO {
 	@Override
 	public Collection<Customer> getAllCustomer() throws CouponSystemException {
 		// Creating a Connection object to the DB 
-		try (Connection myCon = DataSource.getInstance().getConnection()){
+		try (Connection myCon = ConnectionPool.getInstance().getConnection()){
 			// Select prepared statement
 			PreparedStatement selectStmt = myCon.prepareStatement(
 					"select * from customer");
@@ -155,21 +132,21 @@ public class CustomerDBDAO implements CustomerDAO {
 					
 			// Processing resultSet into a Collection of Customer
 			//---------------------------------------------------
-			//Declaring a set of 'Customer's
-			Collection <Customer> custSet = new HashSet<>(); 
+			//Declaring a List of 'Customer's
+			Collection <Customer> customers = new ArrayList<>(); 
 					
 			// Iterating the resultSet - 
-			// each iteration is converted into a Customer instance and added to the set
+			// each iteration is converted into a Customer instance and added to the List
 				while(myRs.next()){
 					Customer customer = new Customer(
 						myRs.getLong("ID"),
 						myRs.getString("CUST_NAME"),
 						myRs.getString("PASSWORD"));
-					custSet.add(customer);
+					customers.add(customer);
 				}
 
 			// Return customer
-			return custSet;	
+			return customers;	
 		
 		} catch (PropertyVetoException | SQLException | IOException e) {
 			throw new CouponSystemException("CouponSystemException", e);
@@ -179,7 +156,7 @@ public class CustomerDBDAO implements CustomerDAO {
 	@Override
 	public Collection<Coupon> getCoupons(long id) throws CouponSystemException {
 		// Creating a Connection object to the DB
-		try (Connection myCon = DataSource.getInstance().getConnection()){
+		try (Connection myCon = ConnectionPool.getInstance().getConnection()){
 		
 		// Select prepared statement
 		PreparedStatement selectStmt = myCon.prepareStatement(
@@ -194,12 +171,12 @@ public class CustomerDBDAO implements CustomerDAO {
 
 		// Processing resultSet into a Collection of Coupon
 		// ---------------------------------------------------
-		// Declaring a set of 'Coupon's
-		Collection<Coupon> couptSet = new HashSet<>();
+		// Declaring a List of 'Coupon's
+		Collection<Coupon> coupons = new ArrayList<>();
 
 		// Iterating the resultSet -
 		// each iteration is converted into a Coupon instance and added to the
-		// set
+		// List
 		while (myRs.next()) {
 			// Generating Coupon
 			Coupon coupon = new Coupon(
@@ -208,16 +185,16 @@ public class CustomerDBDAO implements CustomerDAO {
 					myRs.getDate("START_DATE"),
 					myRs.getDate("END_DATE"), 
 					myRs.getInt("AMOUNT"), 
-					CouponType.fromString(myRs.getString("TYEP")),
+					CouponType.valueOf(myRs.getString("TYEP")),
 					myRs.getString("MESSAGE"), 
 					myRs.getDouble("PRICE"), 
 					myRs.getString("IMAGE"));
-			// Adding to set
-			couptSet.add(coupon);
+			// Adding to List
+			coupons.add(coupon);
 		}
 
-		// Return customer
-		return couptSet;
+		// Return List of coupon
+		return coupons;
 		
 		} catch (PropertyVetoException | SQLException | IOException e) {
 			throw new CouponSystemException("CouponSystemException", e);
@@ -227,7 +204,7 @@ public class CustomerDBDAO implements CustomerDAO {
 	@Override
 	public boolean login(String custNmae, String password) throws CouponSystemException {
 		// Creating a Connection object to the DB
-		try (Connection myCon = DataSource.getInstance().getConnection()) {
+		try (Connection myCon = ConnectionPool.getInstance().getConnection()) {
 
 		// Select prepared statement
 		PreparedStatement selectStmt = myCon.prepareStatement(
