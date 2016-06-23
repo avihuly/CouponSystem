@@ -24,6 +24,8 @@ public class Company {
 		this.password = password;
 		this.email = email;
 	}
+	
+	public Company(){};
 
 	//
 	// Methods - getters & setters
