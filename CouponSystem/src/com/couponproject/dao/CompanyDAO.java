@@ -35,4 +35,6 @@ public interface CompanyDAO {
 	public boolean login(String compName, String password) throws CouponSystemException;
 
 	Company getCompany(String compName, String password) throws CouponSystemException;
+
+	void addCompanyCoupon(long compId, long couponId) throws CouponSystemException;
 }

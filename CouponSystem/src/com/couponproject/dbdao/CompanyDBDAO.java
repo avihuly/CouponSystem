@@ -98,6 +98,35 @@ public class CompanyDBDAO implements CompanyDAO{
 		}
 				
 	}
+	
+	@Override
+	//a method that gets a company's ID and coupon's ID and update the company_coupon table in the DB
+	public void addCompanyCoupon(long compId, long couponId) throws CouponSystemException {
+		
+		// Creating a Connection object to the DB
+		try (Connection myCon = ConnectionPool.getInstance().getConnection()) {
+			
+			// Update prepared statement
+			PreparedStatement updateStmt = myCon.prepareStatement( 	"insert into "
+							+ "company_coupon (COMP_ID, COUPON_ID) "
+							+ "values (?,?);");
+
+			// Values
+			updateStmt.setLong(1, compId);	
+			updateStmt.setLong(2, couponId);
+			
+									
+			// Execute
+			updateStmt.executeUpdate();
+
+			//close connection
+			myCon.close();
+			
+		} catch (PropertyVetoException | SQLException | IOException e) {
+			throw new CouponSystemException("CouponSystemException", e);
+		}
+				
+	}
 
 	// a method that gets a company's name and password, looks for the line in company table in the db with that name and password
 	// creates a company instance with the details taken from the db and returns it 
