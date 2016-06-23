@@ -18,14 +18,24 @@ public class CompanyFacade implements CouponClientFacade{
 	private CouponDBDAO coupDbDao = new CouponDBDAO();
 	
 	// Constructors
-	public CompanyFacade(){};
+	public CompanyFacade(String name, String password){
+		try {
+			this.company = compDbDao.getCompany(name, password);
+		} catch (CouponSystemException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	
 	//
 	//Methods
 	//
 	
+	//A method that gets coupon instance and add the coupon to the coupon table in the DB and adds coupon' and company's
+	//ID to company_coupon table in the DB
+	//TODO: should we add throw to the functions?
 	public void createCoupon(Coupon coupon){
-		//TODO: check if the coupon doesn't exist
+		//TODO: check if the coupon doesn't exist - to add a function in CouponDBDAO that checks the title resultSet
 		//adding the coupon to the coupon table in the DB
 		try {
 			coupDbDao.createCoupon(coupon);
@@ -33,8 +43,15 @@ public class CompanyFacade implements CouponClientFacade{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}		
-		// u
-		long coupId = coupon.getId();
+		// updating company_coupon table in the DB
+		long couponId = coupon.getId();
+		long compId = company.getId();
+		try {
+			compDbDao.addCompanyCoupon(compId, couponId);
+		} catch (CouponSystemException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	@Override
@@ -45,7 +62,7 @@ public class CompanyFacade implements CouponClientFacade{
 			
 				if(compDbDao.login(name, password))
 				{
-					return new CompanyFacade();
+					return new CompanyFacade(name, password);
 				}
 				else return null;
 		}
