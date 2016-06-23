@@ -33,4 +33,6 @@ public interface CompanyDAO {
 	
 	//The login method gets String compName and String password and returns whether password fits compName (true) or not (false) 
 	public boolean login(String compName, String password) throws CouponSystemException;
+
+	Company getCompany(String compName, String password) throws CouponSystemException;
 }

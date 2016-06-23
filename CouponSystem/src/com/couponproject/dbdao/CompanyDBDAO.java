@@ -99,10 +99,10 @@ public class CompanyDBDAO implements CompanyDAO{
 				
 	}
 
-	// a method that gets a company's ID, looks for the line in company table in the db with that ID
+	// a method that gets a company's name and password, looks for the line in company table in the db with that name and password
 	// creates a company instance with the details taken from the db and returns it 
 	@Override
-	public Company getCompany(long id) throws CouponSystemException {
+	public Company getCompany(String compName, String password) throws CouponSystemException {
 		
 		// Creating a Connection object to the DB
 		try (Connection myCon = ConnectionPool.getInstance().getConnection()){
@@ -110,17 +110,17 @@ public class CompanyDBDAO implements CompanyDAO{
 			// make prepared statement
 			PreparedStatement selectStmt = myCon.prepareStatement(
 					"select * from company "
-					+ "where ID = ?");
+					+ "where COMP_NAME = ? and PASSWORD = ?");
 					
-			// Value
-			selectStmt.setLong(1, id);
+			// Values
+			selectStmt.setString(1, compName);
+			selectStmt.setString(2, password);
 			
 			// Execute and get a resultSet
 			ResultSet myRs = selectStmt.executeQuery();
 
 			// Processing resultSet into a Company(bean) instance
-			String compName = myRs.getString("COMP_NAME");
-			String password = myRs.getString("PASSWORD");
+			long id = myRs.getLong("ID");
 			String email = myRs.getString("EMAIL");
 			
 			Company comp = new Company(id, compName, password, email);	
@@ -133,6 +133,42 @@ public class CompanyDBDAO implements CompanyDAO{
 		}
 				
 	}
+	
+	// a method that gets a company's ID, looks for the line in company table in the db with that ID
+		// creates a company instance with the details taken from the db and returns it 
+		@Override
+		public Company getCompany(long id) throws CouponSystemException {
+			
+			// Creating a Connection object to the DB
+			try (Connection myCon = ConnectionPool.getInstance().getConnection()){
+				
+				// make prepared statement
+				PreparedStatement selectStmt = myCon.prepareStatement(
+						"select * from company "
+						+ "where ID = ?");
+						
+				// Value
+				selectStmt.setLong(1, id);
+				
+				// Execute and get a resultSet
+				ResultSet myRs = selectStmt.executeQuery();
+
+				// Processing resultSet into a Company(bean) instance
+				String compName = myRs.getString("COMP_NAME");
+				String password = myRs.getString("PASSWORD");
+				String email = myRs.getString("EMAIL");
+				
+				Company comp = new Company(id, compName, password, email);	
+		
+				//return company
+				return comp;
+				
+			} catch (PropertyVetoException | SQLException | IOException e) {
+				throw new CouponSystemException("CouponSystemException", e);
+			}
+					
+		}
+	
 	
 	
 	// a method that gets a collection of all the companies in the company table on the db
