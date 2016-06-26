@@ -48,7 +48,7 @@ public class CompanyDBDAO implements CompanyDAO{
 			// Delete prepared statement
 			PreparedStatement removeStmt = myCon.prepareStatement(
 					"delete from company "
-					+ "where ID = ? and CAST_NAME = ? and PASSWORD = ?");
+					+ "where ID = ? and COMP_NAME = ? and PASSWORD = ?");
 
 			// Values
 			removeStmt.setLong(1, company.getId());
@@ -118,9 +118,6 @@ public class CompanyDBDAO implements CompanyDAO{
 									
 			// Execute
 			updateStmt.executeUpdate();
-
-			//close connection
-			myCon.close();
 			
 		} catch (PropertyVetoException | SQLException | IOException e) {
 			throw new CouponSystemException("CouponSystemException", e);
@@ -128,6 +125,33 @@ public class CompanyDBDAO implements CompanyDAO{
 				
 	}
 
+	@Override
+	//a method that gets a company's ID and coupon's ID and removes it from the company_coupon table in the DB
+	public void removeCompanyCoupon(long compId, long couponId) throws CouponSystemException {
+		
+		// Creating a Connection object to the DB
+		try (Connection myCon = ConnectionPool.getInstance().getConnection()) {
+			
+			// Update prepared statement
+			PreparedStatement deleteStmt = myCon.prepareStatement( 	"delete from company_coupon "
+					+ "where COMP_ID = ? and COUPON_ID = ? ");
+
+			// Values
+			deleteStmt.setLong(1, compId);	
+			deleteStmt.setLong(2, couponId);
+			
+									
+			// Execute
+			deleteStmt.executeUpdate();
+
+			
+		} catch (PropertyVetoException | SQLException | IOException e) {
+			throw new CouponSystemException("CouponSystemException", e);
+		}
+				
+	}
+	
+	
 	// a method that gets a company's name and password, looks for the line in company table in the db with that name and password
 	// creates a company instance with the details taken from the db and returns it 
 	@Override

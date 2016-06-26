@@ -34,7 +34,13 @@ public interface CompanyDAO extends DAO {
 	//The login method gets String compName and String password and returns whether password fits compName (true) or not (false) 
 	public boolean login(String compName, String password) throws CouponSystemException;
 
-	Company getCompany(String compName, String password) throws CouponSystemException;
+	//This method gets a company name and password and return an instance of company with the related information in the company 
+	//table in the DB
+	public Company getCompany(String compName, String password) throws CouponSystemException;
 
+	//This method adds coupon ID and company ID to the joined company_coupon table in the DB
 	void addCompanyCoupon(long compId, long couponId) throws CouponSystemException;
+
+	//This method removes a line from the company_coupon table with a  specific company ID and coupon ID
+	void removeCompanyCoupon(long compId, long couponId) throws CouponSystemException;
 }

@@ -27,15 +27,15 @@ public class CompanyFacade implements CouponClientFacade{
 		}
 	}
 	
-	//
+	//********
 	//Methods
-	//
+	//********
 	
 	//A method that gets coupon instance and add the coupon to the coupon table in the DB and adds coupon' and company's
 	//ID to company_coupon table in the DB
 	//TODO: should we add throw to the functions?
 	public void createCoupon(Coupon coupon){
-		//TODO: check if the coupon doesn't exist - to add a function in CouponDBDAO that checks the title resultSet
+		//TODO: check if the coupon doesn't exist - to add a function in CouponDBDAO that checks the title resultSet - checkCouponTitle
 		//adding the coupon to the coupon table in the DB
 		try {
 			coupDbDao.createCoupon(coupon);
@@ -54,9 +54,38 @@ public class CompanyFacade implements CouponClientFacade{
 		}
 	}
 	
+	//A methods that gets a coupon instance and removes it from the coupon table and company_coupon table in the DB
+	//TODO: check if the coupon exists before removing
+	public void removeCoupon(Coupon coupon){
+		//check if the coupon exists
+		//remove from coupon table in the DB
+		try {
+			coupDbDao.removeCoupon(coupon);
+		} catch (CouponSystemException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//remove from company_coupon table
+		long couponId = coupon.getId();
+		long compId = company.getId();
+		try {
+			compDbDao.removeCompanyCoupon(compId, couponId);
+		} catch (CouponSystemException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//TODO: removes from customet_coupon table
+		
+		
+	}
+	
+	//A method that update coupon details - EndDate and Price
+	
+	
+	
 	@Override
 	public CouponClientFacade login(String name, String password, ClientType clientType) {
-		//cheking if the login is of a company
+		//checking if the login is of a company
 		try {
 		if(clientType == ClientType.Company){
 			

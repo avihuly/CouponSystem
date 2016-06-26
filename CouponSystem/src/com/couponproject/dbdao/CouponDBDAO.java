@@ -150,6 +150,32 @@ public class CouponDBDAO implements CouponDAO{
 			throw new CouponSystemException("CouponSystemException", e);
 		}
 	}
+	
+	//A method that gets an instance of a coupon and checks if a coupon with the same title already exists.
+	//The mthod returns true if the coupon exists and false if it does not existss
+	public boolean checkCouponTitle(Coupon coupon)throws CouponSystemException{
+		// Creating a Connection object to the DB
+		try (Connection myCon = ConnectionPool.getInstance().getConnection()){
+						
+		// Select prepared statement
+		PreparedStatement selectStmt = myCon.prepareStatement(
+							"select * from coupon ");
+							
+		// Execute and get a resultSet
+		ResultSet myRs = selectStmt.executeQuery();
+							
+		while(myRs.next()){
+			if(myRs.getString("TITLE")==coupon.getTitle()){
+				return true;
+			}
+		}
+		return false;
+		
+		
+		} catch (PropertyVetoException | SQLException | IOException e) {
+			throw new CouponSystemException("CouponSystemException", e);
+		}
+	}
 
 	// a method that returns a List of all the coupons from the coupon table in the DB
 	@Override
