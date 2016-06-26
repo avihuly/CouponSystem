@@ -8,7 +8,7 @@ import com.couponproject.exception.CouponSystemException;
 
 //This interface specify's all the functions 
 //of a Company in relation to the data base
-public interface CompanyDAO {
+public interface CompanyDAO extends DAO {
 	// ************
 	// Methods list
 	// ************
@@ -33,4 +33,8 @@ public interface CompanyDAO {
 	
 	//The login method gets String compName and String password and returns whether password fits compName (true) or not (false) 
 	public boolean login(String compName, String password) throws CouponSystemException;
+
+	Company getCompany(String compName, String password) throws CouponSystemException;
+
+	void addCompanyCoupon(long compId, long couponId) throws CouponSystemException;
 }
