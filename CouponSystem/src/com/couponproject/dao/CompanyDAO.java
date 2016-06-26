@@ -8,7 +8,7 @@ import com.couponproject.exception.CouponSystemException;
 
 //This interface specify's all the functions 
 //of a Company in relation to the data base
-public interface CompanyDAO {
+public interface CompanyDAO extends DAO {
 	// ************
 	// Methods list
 	// ************
