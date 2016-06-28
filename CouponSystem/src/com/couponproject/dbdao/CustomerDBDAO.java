@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 
 import com.couponproject.beans.*;
 import com.couponproject.dao.CustomerDAO;
@@ -42,7 +41,6 @@ public class CustomerDBDAO implements CustomerDAO {
 	@Override
 	public void removeCustomer(Customer custumer) throws CouponSystemException {
 		// Creating a Connection object to the DB
-		
 		try (Connection myCon = ConnectionPool.getInstance().getConnection()){
 		
 			// Delete prepared statement
@@ -102,9 +100,7 @@ public class CustomerDBDAO implements CustomerDAO {
 			
 			// Execute and get a resultSet
 			ResultSet myRs = selectStmt.executeQuery();
-			
-			System.out.println("HERE");
-			
+						
 			// Processing resultSet into a Customer(bean) instance
 			myRs.next();
 			Customer customer = new Customer(
@@ -114,6 +110,37 @@ public class CustomerDBDAO implements CustomerDAO {
 
 			// Return customer
 			return customer;
+		} catch (PropertyVetoException | SQLException | IOException e) {
+			throw new CouponSystemException("CouponSystemException", e);
+		}
+	}
+	
+	public Customer getCustomer(String name, String password) throws CouponSystemException {
+		// Creating a Connection object to the DB
+		try (Connection myCon = ConnectionPool.getInstance().getConnection()) {
+			
+			// Select prepared statement
+			PreparedStatement selectStmt = myCon.prepareStatement(
+					"select * from customer "
+					+ "where CUST_NAME = ? and PASSWORD = ?");
+
+			// Values
+			selectStmt.setString(1, name);
+			selectStmt.setString(2, password);
+
+			// Execute and get a resultSet
+			ResultSet myRs = selectStmt.executeQuery();
+
+			// Processing resultSet into a Customer(bean) instance
+			myRs.next();
+			Customer customer = new Customer(
+					myRs.getLong("ID"), 
+					myRs.getString("CUST_NAME"),
+					myRs.getString("PASSWORD"));
+
+			// Return customer
+			return customer;
+			
 		} catch (PropertyVetoException | SQLException | IOException e) {
 			throw new CouponSystemException("CouponSystemException", e);
 		}
@@ -225,4 +252,29 @@ public class CustomerDBDAO implements CustomerDAO {
 		throw new CouponSystemException("CouponSystemException", e);
 	}
 }
+
+	public void addCouponToCustomer(long custId, long coupId) throws CouponSystemException {
+		// Creating a Connection object to the DB
+		try (Connection myCon = ConnectionPool.getInstance().getConnection()) {
+
+			// Insert prepared statement
+			PreparedStatement insertStmt = myCon.prepareStatement(					
+					"insert into "
+					+ "customer_coupon (CUST_ID, COUPON_ID) "
+					+ "values (?,?);"); //id will be assign in the DB
+
+			// Values
+			insertStmt.setLong(1, custId);
+			insertStmt.setLong(2, coupId);
+
+			// Execute
+			insertStmt.executeUpdate();
+
+		} catch (PropertyVetoException | SQLException | IOException e) {
+			throw new CouponSystemException("CouponSystemException", e);
+		}
+
+	}
+
+	
 }
