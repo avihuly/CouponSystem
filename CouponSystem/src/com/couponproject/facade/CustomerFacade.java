@@ -36,7 +36,6 @@ public class CustomerFacade implements CouponClientFacade {
 				
 				// loading Dao's
 				custDbdao = new CustomerDBDAO();
-				coupDbdao = new CouponDBDAO();
 				// loading Customer by invoking the getCustomer method in CustomerDBDAO
 				customer = custDbdao.getCustomer(name, password);
 			} 
