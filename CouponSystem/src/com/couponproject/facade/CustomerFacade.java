@@ -15,9 +15,8 @@ public class CustomerFacade implements CouponClientFacade {
 	// Instants variables
 	private Customer customer;
 	private CustomerDBDAO custDbdao;
-	private CouponDBDAO coupDbdao;
 	
-	// Empty constructor
+	// Empty constructor 
 	public CustomerFacade() {
 		// The Constructor is Empty to prevent accede to the DB 
 		// before login   
