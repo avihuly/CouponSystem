@@ -3,6 +3,7 @@ package com.couponproject.dbdao;
 import java.beans.PropertyVetoException;
 import java.io.IOException;
 import java.sql.*;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -16,7 +17,7 @@ public class CustomerDBDAO implements CustomerDAO {
 	@Override
 	public void createCustomer(Customer custumer) throws CouponSystemException {
 
-		// Creating a Connection object to the DB
+		// getting a connection to DB from  pool
 		try (Connection myCon = ConnectionPool.getInstance().getConnection()){
 			
 			// Insert prepared statement
@@ -40,7 +41,7 @@ public class CustomerDBDAO implements CustomerDAO {
 
 	@Override
 	public void removeCustomer(Customer custumer) throws CouponSystemException {
-		// Creating a Connection object to the DB
+		// getting a connection to DB from  pool
 		try (Connection myCon = ConnectionPool.getInstance().getConnection()){
 		
 			// Delete prepared statement
@@ -64,7 +65,7 @@ public class CustomerDBDAO implements CustomerDAO {
 
 	@Override
 	public void updateCustomer(Customer custumer) throws CouponSystemException {
-		// Creating a Connection object to the DB
+		// getting a connection to DB from  pool
 		try (Connection myCon = ConnectionPool.getInstance().getConnection()){
 			// Update prepared statement
 			PreparedStatement updateStmt = myCon.prepareStatement(
@@ -88,7 +89,7 @@ public class CustomerDBDAO implements CustomerDAO {
 
 	@Override
 	public Customer getCustomer(long id) throws CouponSystemException {
-		// Creating a Connection object to the DB
+		// getting a connection to DB from  pool
 		try (Connection myCon = ConnectionPool.getInstance().getConnection()) {
 			// Select prepared statement
 			PreparedStatement selectStmt = myCon.prepareStatement(
@@ -116,7 +117,7 @@ public class CustomerDBDAO implements CustomerDAO {
 	}
 	
 	public Customer getCustomer(String name, String password) throws CouponSystemException {
-		// Creating a Connection object to the DB
+		// getting a connection to DB from  pool
 		try (Connection myCon = ConnectionPool.getInstance().getConnection()) {
 			
 			// Select prepared statement
@@ -148,7 +149,7 @@ public class CustomerDBDAO implements CustomerDAO {
 
 	@Override
 	public Collection<Customer> getAllCustomer() throws CouponSystemException {
-		// Creating a Connection object to the DB 
+		// getting a connection to DB from  pool 
 		try (Connection myCon = ConnectionPool.getInstance().getConnection()){
 			// Select prepared statement
 			PreparedStatement selectStmt = myCon.prepareStatement(
@@ -182,7 +183,7 @@ public class CustomerDBDAO implements CustomerDAO {
 
 	@Override
 	public Collection<Coupon> getCoupons(long id) throws CouponSystemException {
-		// Creating a Connection object to the DB
+		// getting a connection to DB from  pool
 		try (Connection myCon = ConnectionPool.getInstance().getConnection()){
 		
 		// Select prepared statement
@@ -191,8 +192,11 @@ public class CustomerDBDAO implements CustomerDAO {
 				"SELECT * FROM coupon "
 				+ "JOIN customer_coupon "
 				+ "ON coupon.ID = customer_coupon.COUPON_ID "
-				+ "WHERE customer_coupon.CUST_ID = " + id);		   		
-
+				+ "WHERE customer_coupon.CUST_ID = ?");
+		
+		// Value 
+		selectStmt.setLong(1, id);
+		
 		// Execute and get a resultSet		
 		ResultSet myRs = selectStmt.executeQuery();
 
@@ -209,8 +213,10 @@ public class CustomerDBDAO implements CustomerDAO {
 			Coupon coupon = new Coupon(
 					myRs.getLong("ID"),
 					myRs.getString("TITLE"), 
-					myRs.getDate("START_DATE"),
-					myRs.getDate("END_DATE"), 
+					// converting Date to LocalDate
+					myRs.getDate("START_DATE").toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
+					// converting Date to LocalDate
+					myRs.getDate("END_DATE").toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
 					myRs.getInt("AMOUNT"), 
 					CouponType.valueOf(myRs.getString("TYEP")),
 					myRs.getString("MESSAGE"), 
@@ -230,7 +236,7 @@ public class CustomerDBDAO implements CustomerDAO {
 
 	@Override
 	public boolean login(String custNmae, String password) throws CouponSystemException {
-		// Creating a Connection object to the DB
+		// getting a connection to DB from  pool
 		try (Connection myCon = ConnectionPool.getInstance().getConnection()) {
 
 		// Select prepared statement
@@ -254,7 +260,7 @@ public class CustomerDBDAO implements CustomerDAO {
 }
 
 	public void addCouponToCustomer(long custId, long coupId) throws CouponSystemException {
-		// Creating a Connection object to the DB
+		// getting a connection to DB from  pool
 		try (Connection myCon = ConnectionPool.getInstance().getConnection()) {
 
 			// Insert prepared statement

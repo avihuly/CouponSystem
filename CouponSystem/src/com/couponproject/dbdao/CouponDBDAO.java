@@ -2,26 +2,25 @@ package com.couponproject.dbdao;
 
 import java.beans.PropertyVetoException;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.time.LocalDate;
+
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 
 import com.couponproject.beans.Coupon;
 import com.couponproject.beans.CouponType;
 import com.couponproject.dao.CouponDAO;
 import com.couponproject.exception.CouponSystemException;
+import com.couponproject.util.DateUtils;
 
 public class CouponDBDAO implements CouponDAO{
 
-	// a method that gets an insnance of a coupon and adds it to the coupon table in the DB
-	// TODO: when creating a coupon it should be joind also to a company.
+	// a method that gets an instance of a coupon and adds it to the coupon table in the DB
+	// TODO: when creating a coupon it should be joined also to a company.
 	@Override
 	public void createCoupon(Coupon coupon) throws CouponSystemException {
-		// Creating a Connection object to the DB
+		// getting a connection to DB from  pool
 		try (Connection myCon = ConnectionPool.getInstance().getConnection()){
 						
 			// Insert prepared statement 
@@ -32,8 +31,8 @@ public class CouponDBDAO implements CouponDAO{
 					
 					// Values 
 					createStmt.setString(1, coupon.getTitle());
-					createStmt.setDate(2, coupon.getStartDate());
-					createStmt.setDate(2, coupon.getEndDate());
+					createStmt.setDate(2, (Date) DateUtils.asDate(coupon.getStartDate()));
+					createStmt.setDate(3, coupon.getEndDate());
 					createStmt.setInt(4, coupon.getAmount());
 					createStmt.setString(5, coupon.getType().name());
 					createStmt.setString(6, coupon.getMessage());
@@ -55,7 +54,7 @@ public class CouponDBDAO implements CouponDAO{
 	//TODO: remove the coupon from the joined tables!!
 	@Override
 	public void removeCoupon(Coupon coupon) throws CouponSystemException {
-		// Creating a Connection object to the DB
+		// getting a connection to DB from  pool
 		try (Connection myCon = ConnectionPool.getInstance().getConnection()){
 					
 			// Delete prepared statement
@@ -81,7 +80,7 @@ public class CouponDBDAO implements CouponDAO{
 	@Override
 	public void updateCoupon(Coupon coupon) throws CouponSystemException {
 		
-		// Creating a Connection object to the DB
+		// getting a connection to DB from  pool
 		try (Connection myCon = ConnectionPool.getInstance().getConnection()){
 			
 			// Update prepared statement
@@ -116,7 +115,7 @@ public class CouponDBDAO implements CouponDAO{
 	@Override
 	public Coupon getCoupon(long id) throws CouponSystemException {
 		
-		// Creating a Connection object to the DB
+		// getting a connection to DB from  pool
 		try (Connection myCon = ConnectionPool.getInstance().getConnection()){
 				
 			// Select prepared statement
@@ -152,9 +151,9 @@ public class CouponDBDAO implements CouponDAO{
 	}
 	
 	//A method that gets an instance of a coupon and checks if a coupon with the same title already exists.
-	//The mthod returns true if the coupon exists and false if it does not existss
+	//The method returns true if the coupon exists and false if it does not existss
 	public boolean checkCouponTitle(Coupon coupon)throws CouponSystemException{
-		// Creating a Connection object to the DB
+		// getting a connection to DB from  pool
 		try (Connection myCon = ConnectionPool.getInstance().getConnection()){
 						
 		// Select prepared statement
@@ -181,7 +180,7 @@ public class CouponDBDAO implements CouponDAO{
 	@Override
 	public Collection<Coupon> getAllCoupons() throws CouponSystemException {
 		
-		// Creating a Connection object to the DB
+		// getting a connection to DB from  pool
 		try (Connection myCon = ConnectionPool.getInstance().getConnection()){
 						
 			// Select prepared statement
@@ -224,7 +223,7 @@ public class CouponDBDAO implements CouponDAO{
 	@Override
 	public Collection<Coupon> getCouponsByType(CouponType couponType) throws CouponSystemException {
 		
-		// Creating a Connection object to the DB
+		// Getting a connection to DB from  pool
 		try (Connection myCon = ConnectionPool.getInstance().getConnection()){
 						
 			// Select prepared statement

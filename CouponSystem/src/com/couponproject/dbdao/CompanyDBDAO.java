@@ -3,7 +3,8 @@ package com.couponproject.dbdao;
 import java.beans.PropertyVetoException;
 import java.io.IOException;
 import java.sql.*;
-
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.*;
 
 import com.couponproject.beans.*;
@@ -15,7 +16,7 @@ public class CompanyDBDAO implements CompanyDAO{
 
 	//a method that gets Company instance that should be of a new company and adds it to the company table in the db
 	public void createCompany(Company company) throws CouponSystemException {
-		// Creating a Connection object to the DB
+		// getting a connection to DB from  pool
 		try (Connection myCon = ConnectionPool.getInstance().getConnection()){
 						
 			// Insert prepared statement
@@ -42,7 +43,7 @@ public class CompanyDBDAO implements CompanyDAO{
 	
 	//a method that gets an instance of an existing (!!!) company and removes it from the company table in the db
 	public void removeCompany(Company company) throws CouponSystemException {
-		// Creating a Connection object to the DB
+		// getting a connection to DB from  pool
 		try (Connection myCon = ConnectionPool.getInstance().getConnection()) {
 			
 			// Delete prepared statement
@@ -71,7 +72,7 @@ public class CompanyDBDAO implements CompanyDAO{
 	//TODO: the instance should include all the details from the existing line in db beside what that was changed
 	public void updateCompany(Company company) throws CouponSystemException {
 		
-		// Creating a Connection object to the DB
+		// getting a connection to DB from  pool
 		try (Connection myCon = ConnectionPool.getInstance().getConnection()) {
 			
 			// Update prepared statement
@@ -103,7 +104,7 @@ public class CompanyDBDAO implements CompanyDAO{
 	//a method that gets a company's ID and coupon's ID and update the company_coupon table in the DB
 	public void addCompanyCoupon(long compId, long couponId) throws CouponSystemException {
 		
-		// Creating a Connection object to the DB
+		// getting a connection to DB from  pool
 		try (Connection myCon = ConnectionPool.getInstance().getConnection()) {
 			
 			// Update prepared statement
@@ -129,7 +130,7 @@ public class CompanyDBDAO implements CompanyDAO{
 	//a method that gets a company's ID and coupon's ID and removes it from the company_coupon table in the DB
 	public void removeCompanyCoupon(long compId, long couponId) throws CouponSystemException {
 		
-		// Creating a Connection object to the DB
+		// getting a connection to DB from  pool
 		try (Connection myCon = ConnectionPool.getInstance().getConnection()) {
 			
 			// Update prepared statement
@@ -157,7 +158,7 @@ public class CompanyDBDAO implements CompanyDAO{
 	@Override
 	public Company getCompany(String compName, String password) throws CouponSystemException {
 		
-		// Creating a Connection object to the DB
+		// getting a connection to DB from  pool
 		try (Connection myCon = ConnectionPool.getInstance().getConnection()){
 			
 			// make prepared statement
@@ -192,7 +193,7 @@ public class CompanyDBDAO implements CompanyDAO{
 		@Override
 		public Company getCompany(long id) throws CouponSystemException {
 			
-			// Creating a Connection object to the DB
+			// getting a connection to DB from  pool
 			try (Connection myCon = ConnectionPool.getInstance().getConnection()){
 				
 				// make prepared statement
@@ -228,7 +229,7 @@ public class CompanyDBDAO implements CompanyDAO{
 	@Override
 	public Collection<Company> getAllCompanies() throws CouponSystemException {
 
-		// Creating a Connection object to the DB
+		// getting a connection to DB from  pool
 		try (Connection myCon = ConnectionPool.getInstance().getConnection()){
 						
 			//declaring a collection of companies
@@ -244,14 +245,14 @@ public class CompanyDBDAO implements CompanyDAO{
 			// Processing resultSet into a List of Company
 			// each iteration is converted into a Company instance and added to the list
 			while(myRs.next()){
-				long id = myRs.getLong("ID");
-				String compName = myRs.getString("COMP_NAME");
-				String password = myRs.getString("PASSWORD");
-				String email = myRs.getString("EMAIL");
-				companies.add(new Company(id, compName, password, email));
+				Company company = new Company(
+						myRs.getLong("ID"),
+						myRs.getString("COMP_NAME"),
+						myRs.getString("PASSWORD"),
+						myRs.getString("EMAIL"));
+				companies.add(company);
 			}
 			
-		
 			//return List<Company>
 			return companies;	
 			
@@ -267,7 +268,7 @@ public class CompanyDBDAO implements CompanyDAO{
 	public Collection<Coupon> getCoupons(long id) throws CouponSystemException {
 		
 		try (Connection myCon = ConnectionPool.getInstance().getConnection()){
-			// Creating a Connection object to the DB
+			// getting a connection to DB from  pool
 			
 			//statement - going to Company_Coupon table and getting the list of the coupons that relates to a company.
 			PreparedStatement selectStmt = myCon.prepareStatement(
@@ -292,8 +293,10 @@ public class CompanyDBDAO implements CompanyDAO{
 				Coupon coupon = new Coupon(
 						myRs.getLong("ID"),
 						myRs.getString("TITLE"), 
-						myRs.getDate("START_DATE"),
-						myRs.getDate("END_DATE"), 
+						// converting Date to LocalDate
+						myRs.getDate("START_DATE").toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
+						// converting Date to LocalDate
+						myRs.getDate("END_DATE").toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), 
 						myRs.getInt("AMOUNT"), 
 						CouponType.valueOf(myRs.getString("TYEP")),
 						myRs.getString("MESSAGE"), 
@@ -317,7 +320,7 @@ public class CompanyDBDAO implements CompanyDAO{
 	@Override
 	public boolean login(String compName, String password) throws CouponSystemException {
 
-		// Creating a Connection object to the DB
+		// getting a connection to DB from pool
 		try (Connection myCon = ConnectionPool.getInstance().getConnection()){
 			
 			// Select prepared statement

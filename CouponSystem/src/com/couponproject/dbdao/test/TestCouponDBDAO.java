@@ -1,6 +1,7 @@
 package com.couponproject.dbdao.test;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -37,8 +38,8 @@ public class TestCouponDBDAO {
 			// Coupon instance
 			Coupon coupon = new Coupon(
 					"title" + (i+1),
-					LocalDateTime.now(),
-					new LocalDateTime,
+					LocalDate.now(),
+					new LocalDate,
 					"amount" + (i+1),
 					"type" + (i+1),
 					"message" + (i+1),
