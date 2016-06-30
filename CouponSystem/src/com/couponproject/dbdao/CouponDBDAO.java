@@ -87,21 +87,13 @@ public class CouponDBDAO implements CouponDAO{
 			// Update prepared statement
 			PreparedStatement updateStmt = myCon.prepareStatement(
 					"update coupon "
-					+ "set TITILE = ? and START_DATE = ? and END_DATE = ? and AMOUNT = ? and TYPE = ? and MESSAGE = ? "
-					+ "and PRICE = ? and IMAGE = ?"
-					+ "where ID = ?");
+					+ "set END_DATE = ? and PRICE = ? "
+					+ "where TITLE = ?");
 
 			// Values
-			updateStmt.setString(1, coupon.getTitle());
-			updateStmt.setDate(2, coupon.getStartDate());
-			updateStmt.setDate(3, coupon.getEndDate());
-			updateStmt.setInt(4, coupon.getAmount());
-			updateStmt.setString(5, coupon.getType().name());
-			updateStmt.setString(6, coupon.getMessage());
-			updateStmt.setDouble(7, coupon.getPrice());
-			updateStmt.setString(8, coupon.getImage());
-			updateStmt.setLong(9, coupon.getId());
-			
+			updateStmt.setDate(1, coupon.getEndDate());
+			updateStmt.setDouble(2, coupon.getPrice());
+			updateStmt.setString(3, coupon.getTitle());
 			
 			// Execute
 			updateStmt.executeUpdate();

@@ -303,7 +303,7 @@ public class CompanyDBDAO implements CompanyDAO{
 				coupons.add(coupon);
 			}
 
-			// Return customer
+			// Return coupon
 			return coupons;
 	
 		} catch (PropertyVetoException | SQLException | IOException e) {
