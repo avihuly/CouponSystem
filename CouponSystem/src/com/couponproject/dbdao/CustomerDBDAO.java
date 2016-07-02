@@ -251,7 +251,7 @@ public class CustomerDBDAO implements CustomerDAO {
 		// Execute and get a resultSet
 		ResultSet myRs = selectStmt.executeQuery();
 		
-		// Return true if the is a match
+		// Return true if the is a match	
 		return myRs.next(); 
 		
 	} catch (PropertyVetoException | SQLException | IOException e) {

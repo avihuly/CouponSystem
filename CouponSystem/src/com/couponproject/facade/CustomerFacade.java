@@ -6,49 +6,54 @@ import com.couponproject.beans.*;
 import com.couponproject.dbdao.*;
 import com.couponproject.exception.CouponSystemException;
 import com.couponproject.exception.CustomerFacadeException;
+import com.couponproject.exception.FacadeException;
 
 public class CustomerFacade implements CouponClientFacade {
 	// **********
 	// Attributes
 	// **********
 
-	// Instants variables
-	private Customer customer;
-	private CustomerDBDAO custDbdao;
+	// A static customer DB access
+	private static CustomerDBDAO custDbdao = new CustomerDBDAO();
 	
-	// Empty constructor 
-	public CustomerFacade() {
-		// The Constructor is Empty to prevent access to the DB 
-		// before login   
+	// Customer instance variable   
+	private Customer customer;
+	
+	
+	// constructor loading customer
+	public CustomerFacade(String name, String password) throws CustomerFacadeException {
+		try {
+			customer = custDbdao.getCustomer(name, password);
+		} catch (CouponSystemException e){
+			// In case of a problem throw new CustomerFacadeException  
+			throw new CustomerFacadeException("CustomerFacadeException - "
+					+ "Constructor error", e);
+		}
 	}
 
+	
+	
 	//***************
 	//*****Methods***
 	//***************
 	
 	// Login
-	@Override
-	public CouponClientFacade login(String name, String password, ClientType clientType) throws CustomerFacadeException {
+	
+	public static CouponClientFacade login(String name, String password) throws FacadeException {
 		try {
 			// Invoking the login method in CustomerDBDAO
-			// if true - load DAO's and relevant Customer
+			// if true - return new CustomerFacade instance with a specific Customer 
 			if (custDbdao.login(name, password)) {
-				
-				// loading Dao's
-				custDbdao = new CustomerDBDAO();
-				// loading Customer by invoking the getCustomer method in CustomerDBDAO
-				customer = custDbdao.getCustomer(name, password);
+				return new CustomerFacade(name, password);
 			} 
-			// if login is successful 'this' will have Costumer asses to DB
-			// else 'this' attributes will by null
-			return this;
-			// Catching couponSystemException
-			} catch (CouponSystemException e){
+			return null;
+		} catch (CouponSystemException e){
 				// In case of a problem throw new CustomerFacadeException  
 				throw new CustomerFacadeException("CustomerFacadeException - "
 						+ "login() Error", e);
 			}
 	}
+	
 	
 	public void purchaseCoupon(Coupon coupon) throws CustomerFacadeException{
 		// TODO check if coupon exist
@@ -64,6 +69,7 @@ public class CustomerFacade implements CouponClientFacade {
 					+ "addCouponToCustomer() Error", e);
 			}
 	}
+	
 	
 	public Collection<Coupon> getAllPurchasedCoupons() throws CustomerFacadeException{
 		try {
@@ -129,4 +135,14 @@ public class CustomerFacade implements CouponClientFacade {
 					+ "getAllPurchasedCouponsByType() Error", e);
 		}
 	}
+
+	// toString
+	@Override
+	public String toString() {
+		return "CustomerFacade [customer=" + customer + "]";
+	}
+	
+	
+	
+	
 }
