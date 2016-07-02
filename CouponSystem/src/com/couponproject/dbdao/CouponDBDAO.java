@@ -3,8 +3,7 @@ package com.couponproject.dbdao;
 import java.beans.PropertyVetoException;
 import java.io.IOException;
 import java.sql.*;
-import java.time.LocalDate;
-
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -12,7 +11,7 @@ import com.couponproject.beans.Coupon;
 import com.couponproject.beans.CouponType;
 import com.couponproject.dao.CouponDAO;
 import com.couponproject.exception.CouponSystemException;
-import com.couponproject.util.DateUtils;
+
 
 public class CouponDBDAO implements CouponDAO{
 
@@ -26,24 +25,24 @@ public class CouponDBDAO implements CouponDAO{
 			// Insert prepared statement 
 			PreparedStatement createStmt = myCon.prepareStatement(
 					"insert into "
-					+ "coupon (TITLE, START_DATE, ENT_DATE, AMOUNT, TYPE, MESSAGE, PRICE, IMAGE) "
+					+ "coupon (TITLE, START_DATE, END_DATE, AMOUNT, TYPE, MESSAGE, PRICE, IMAGE) "
 					+ "values (?,?,?,?,?,?,?,?);"); //id will be assign in the DB
 					
 					// Values 
 					createStmt.setString(1, coupon.getTitle());
-					createStmt.setDate(2, (Date) DateUtils.asDate(coupon.getStartDate()));
-					createStmt.setDate(3, coupon.getEndDate());
+										  // converting localDate to sql.date
+					createStmt.setDate(2, Date.valueOf(coupon.getStartDate()));
+										  // converting localDate to sql.date
+					createStmt.setDate(3, Date.valueOf(coupon.getEndDate()));
 					createStmt.setInt(4, coupon.getAmount());
 					createStmt.setString(5, coupon.getType().name());
 					createStmt.setString(6, coupon.getMessage());
 					createStmt.setDouble(7, coupon.getPrice());
 					createStmt.setString(8, coupon.getImage());
 					
-					
 					// Execute
 					createStmt.executeUpdate();
 					
-		
 		} catch (PropertyVetoException | SQLException | IOException e) {
 			throw new CouponSystemException("CouponSystemException", e);
 		}
@@ -60,13 +59,11 @@ public class CouponDBDAO implements CouponDAO{
 			// Delete prepared statement
 			PreparedStatement deleteStmt = myCon.prepareStatement(
 					"delete from coupon "
-					+ "where ID = ? and TITLE = ? and START_DATE = ? and END_DATE = ?");
+					+ "where ID = ? and TITLE = ?");
 
 			// Values
 			deleteStmt.setLong(1, coupon.getId());
 			deleteStmt.setString(2, coupon.getTitle());
-			deleteStmt.setDate(3, coupon.getStartDate());
-			deleteStmt.setDate(4, coupon.getEndDate());
 			
 			// Execute
 			deleteStmt.executeUpdate();
@@ -92,8 +89,10 @@ public class CouponDBDAO implements CouponDAO{
 
 			// Values
 			updateStmt.setString(1, coupon.getTitle());
-			updateStmt.setDate(2, coupon.getStartDate());
-			updateStmt.setDate(3, coupon.getEndDate());
+								  // converting localDate to sql.date
+			updateStmt.setDate(2, Date.valueOf(coupon.getStartDate()));
+			  					  // converting localDate to sql.date
+			updateStmt.setDate(3, Date.valueOf(coupon.getEndDate()));
 			updateStmt.setInt(4, coupon.getAmount());
 			updateStmt.setString(5, coupon.getType().name());
 			updateStmt.setString(6, coupon.getMessage());
@@ -133,8 +132,10 @@ public class CouponDBDAO implements CouponDAO{
 			Coupon coupon = new Coupon(
 					myRs.getLong("ID"),
 					myRs.getString("TITLE"),
-					myRs.getDate("START_DATE"),
-					myRs.getDate("END_DATE"),
+					// converting sql.Date to LocalDate
+					myRs.getDate("START_DATE").toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
+					// converting sql.Date to LocalDate
+					myRs.getDate("END_DATE").toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
 					myRs.getInt("AMOUNT"),
 					CouponType.valueOf(myRs.getString("TYPE")),
 					myRs.getString("MESSEGE"),
@@ -201,8 +202,10 @@ public class CouponDBDAO implements CouponDAO{
 					Coupon coupon = new Coupon(
 							myRs.getLong("ID"),
 							myRs.getString("TITLE"),
-							myRs.getDate("START_DATE"),
-							myRs.getDate("END_DATE"),
+							// converting sql.Date to LocalDate
+							myRs.getDate("START_DATE").toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
+							// converting sql.Date to LocalDate
+							myRs.getDate("END_DATE").toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
 							myRs.getInt("AMOUNT"),
 							CouponType.valueOf(myRs.getString("TYPE")),
 							myRs.getString("MESSEGE"),
@@ -247,8 +250,10 @@ public class CouponDBDAO implements CouponDAO{
 					Coupon coupon = new Coupon(
 							myRs.getLong("ID"),
 							myRs.getString("TITLE"),
-							myRs.getDate("START_DATE"),
-							myRs.getDate("END_DATE"),
+							// converting sql.Date to LocalDate
+							myRs.getDate("START_DATE").toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
+							// converting sql.Date to LocalDate
+							myRs.getDate("END_DATE").toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
 							myRs.getInt("AMOUNT"),
 							CouponType.valueOf(myRs.getString("TYPE")),
 							myRs.getString("MESSEGE"),

@@ -18,7 +18,7 @@ public class CustomerFacade implements CouponClientFacade {
 	
 	// Empty constructor 
 	public CustomerFacade() {
-		// The Constructor is Empty to prevent accede to the DB 
+		// The Constructor is Empty to prevent access to the DB 
 		// before login   
 	}
 

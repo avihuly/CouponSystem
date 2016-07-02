@@ -3,7 +3,6 @@ package com.couponproject.dbdao;
 import java.beans.PropertyVetoException;
 import java.io.IOException;
 import java.sql.*;
-import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.*;
 
@@ -59,7 +58,6 @@ public class CompanyDBDAO implements CompanyDAO{
 			// Execute
 			removeStmt.executeUpdate();
 			
-
 		} catch (PropertyVetoException | SQLException | IOException e) {
 			throw new CouponSystemException("CouponSystemException", e);
 		}
@@ -293,9 +291,9 @@ public class CompanyDBDAO implements CompanyDAO{
 				Coupon coupon = new Coupon(
 						myRs.getLong("ID"),
 						myRs.getString("TITLE"), 
-						// converting Date to LocalDate
+						// converting sql.Date to LocalDate
 						myRs.getDate("START_DATE").toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
-						// converting Date to LocalDate
+						// converting sql.Date to LocalDate
 						myRs.getDate("END_DATE").toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), 
 						myRs.getInt("AMOUNT"), 
 						CouponType.valueOf(myRs.getString("TYEP")),
