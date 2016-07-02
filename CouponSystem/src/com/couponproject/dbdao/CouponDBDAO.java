@@ -2,49 +2,47 @@ package com.couponproject.dbdao;
 
 import java.beans.PropertyVetoException;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 
 import com.couponproject.beans.Coupon;
 import com.couponproject.beans.CouponType;
 import com.couponproject.dao.CouponDAO;
 import com.couponproject.exception.CouponSystemException;
 
+
 public class CouponDBDAO implements CouponDAO{
 
-	// a method that gets an insnance of a coupon and adds it to the coupon table in the DB
-	// TODO: when creating a coupon it should be joind also to a company.
+	// a method that gets an instance of a coupon and adds it to the coupon table in the DB
+	// TODO: when creating a coupon it should be joined also to a company.
 	@Override
 	public void createCoupon(Coupon coupon) throws CouponSystemException {
-		// Creating a Connection object to the DB
+		// getting a connection to DB from  pool
 		try (Connection myCon = ConnectionPool.getInstance().getConnection()){
 						
 			// Insert prepared statement 
 			PreparedStatement createStmt = myCon.prepareStatement(
 					"insert into "
-					+ "coupon (TITLE, START_DATE, ENT_DATE, AMOUNT, TYPE, MESSAGE, PRICE, IMAGE) "
+					+ "coupon (TITLE, START_DATE, END_DATE, AMOUNT, TYPE, MESSAGE, PRICE, IMAGE) "
 					+ "values (?,?,?,?,?,?,?,?);"); //id will be assign in the DB
 					
 					// Values 
 					createStmt.setString(1, coupon.getTitle());
-					createStmt.setDate(2, coupon.getStartDate());
-					createStmt.setDate(2, coupon.getEndDate());
+										  // converting localDate to sql.date
+					createStmt.setDate(2, Date.valueOf(coupon.getStartDate()));
+										  // converting localDate to sql.date
+					createStmt.setDate(3, Date.valueOf(coupon.getEndDate()));
 					createStmt.setInt(4, coupon.getAmount());
 					createStmt.setString(5, coupon.getType().name());
 					createStmt.setString(6, coupon.getMessage());
 					createStmt.setDouble(7, coupon.getPrice());
 					createStmt.setString(8, coupon.getImage());
 					
-					
 					// Execute
 					createStmt.executeUpdate();
 					
-		
 		} catch (PropertyVetoException | SQLException | IOException e) {
 			throw new CouponSystemException("CouponSystemException", e);
 		}
@@ -55,19 +53,17 @@ public class CouponDBDAO implements CouponDAO{
 	//TODO: remove the coupon from the joined tables!!
 	@Override
 	public void removeCoupon(Coupon coupon) throws CouponSystemException {
-		// Creating a Connection object to the DB
+		// getting a connection to DB from  pool
 		try (Connection myCon = ConnectionPool.getInstance().getConnection()){
 					
 			// Delete prepared statement
 			PreparedStatement deleteStmt = myCon.prepareStatement(
 					"delete from coupon "
-					+ "where ID = ? and TITLE = ? and START_DATE = ? and END_DATE = ?");
+					+ "where ID = ? and TITLE = ?");
 
 			// Values
 			deleteStmt.setLong(1, coupon.getId());
 			deleteStmt.setString(2, coupon.getTitle());
-			deleteStmt.setDate(3, coupon.getStartDate());
-			deleteStmt.setDate(4, coupon.getEndDate());
 			
 			// Execute
 			deleteStmt.executeUpdate();
@@ -81,7 +77,7 @@ public class CouponDBDAO implements CouponDAO{
 	@Override
 	public void updateCoupon(Coupon coupon) throws CouponSystemException {
 		
-		// Creating a Connection object to the DB
+		// getting a connection to DB from  pool
 		try (Connection myCon = ConnectionPool.getInstance().getConnection()){
 			
 			// Update prepared statement
@@ -91,9 +87,18 @@ public class CouponDBDAO implements CouponDAO{
 					+ "where TITLE = ?");
 
 			// Values
-			updateStmt.setDate(1, coupon.getEndDate());
-			updateStmt.setDouble(2, coupon.getPrice());
-			updateStmt.setString(3, coupon.getTitle());
+			updateStmt.setString(1, coupon.getTitle());
+								  // converting localDate to sql.date
+			updateStmt.setDate(2, Date.valueOf(coupon.getStartDate()));
+			  					  // converting localDate to sql.date
+			updateStmt.setDate(3, Date.valueOf(coupon.getEndDate()));
+			updateStmt.setInt(4, coupon.getAmount());
+			updateStmt.setString(5, coupon.getType().name());
+			updateStmt.setString(6, coupon.getMessage());
+			updateStmt.setDouble(7, coupon.getPrice());
+			updateStmt.setString(8, coupon.getImage());
+			updateStmt.setLong(9, coupon.getId());
+			
 			
 			// Execute
 			updateStmt.executeUpdate();
@@ -108,7 +113,7 @@ public class CouponDBDAO implements CouponDAO{
 	@Override
 	public Coupon getCoupon(long id) throws CouponSystemException {
 		
-		// Creating a Connection object to the DB
+		// getting a connection to DB from  pool
 		try (Connection myCon = ConnectionPool.getInstance().getConnection()){
 				
 			// Select prepared statement
@@ -126,8 +131,10 @@ public class CouponDBDAO implements CouponDAO{
 			Coupon coupon = new Coupon(
 					myRs.getLong("ID"),
 					myRs.getString("TITLE"),
-					myRs.getDate("START_DATE"),
-					myRs.getDate("END_DATE"),
+					// converting sql.Date to LocalDate
+					myRs.getDate("START_DATE").toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
+					// converting sql.Date to LocalDate
+					myRs.getDate("END_DATE").toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
 					myRs.getInt("AMOUNT"),
 					CouponType.valueOf(myRs.getString("TYPE")),
 					myRs.getString("MESSEGE"),
@@ -144,9 +151,9 @@ public class CouponDBDAO implements CouponDAO{
 	}
 	
 	//A method that gets an instance of a coupon and checks if a coupon with the same title already exists.
-	//The mthod returns true if the coupon exists and false if it does not existss
+	//The method returns true if the coupon exists and false if it does not existss
 	public boolean checkCouponTitle(Coupon coupon)throws CouponSystemException{
-		// Creating a Connection object to the DB
+		// getting a connection to DB from  pool
 		try (Connection myCon = ConnectionPool.getInstance().getConnection()){
 						
 		// Select prepared statement
@@ -173,7 +180,7 @@ public class CouponDBDAO implements CouponDAO{
 	@Override
 	public Collection<Coupon> getAllCoupons() throws CouponSystemException {
 		
-		// Creating a Connection object to the DB
+		// getting a connection to DB from  pool
 		try (Connection myCon = ConnectionPool.getInstance().getConnection()){
 						
 			// Select prepared statement
@@ -194,8 +201,10 @@ public class CouponDBDAO implements CouponDAO{
 					Coupon coupon = new Coupon(
 							myRs.getLong("ID"),
 							myRs.getString("TITLE"),
-							myRs.getDate("START_DATE"),
-							myRs.getDate("END_DATE"),
+							// converting sql.Date to LocalDate
+							myRs.getDate("START_DATE").toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
+							// converting sql.Date to LocalDate
+							myRs.getDate("END_DATE").toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
 							myRs.getInt("AMOUNT"),
 							CouponType.valueOf(myRs.getString("TYPE")),
 							myRs.getString("MESSEGE"),
@@ -216,7 +225,7 @@ public class CouponDBDAO implements CouponDAO{
 	@Override
 	public Collection<Coupon> getCouponsByType(CouponType couponType) throws CouponSystemException {
 		
-		// Creating a Connection object to the DB
+		// Getting a connection to DB from  pool
 		try (Connection myCon = ConnectionPool.getInstance().getConnection()){
 						
 			// Select prepared statement
