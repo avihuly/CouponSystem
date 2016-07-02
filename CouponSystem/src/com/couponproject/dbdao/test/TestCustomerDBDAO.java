@@ -1,7 +1,5 @@
 package com.couponproject.dbdao.test;
 
-import java.sql.SQLException;
-
 import com.couponproject.beans.Coupon;
 import com.couponproject.beans.Customer;
 import com.couponproject.dbdao.CustomerDBDAO;
