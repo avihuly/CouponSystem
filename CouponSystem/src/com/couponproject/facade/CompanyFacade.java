@@ -17,15 +17,24 @@ public class CompanyFacade implements CouponClientFacade{
 	// Attributes
 	// **********
 	
-	// Instants variables TODO: dont know if they should be of the instance
-	private Company company;
-	private CompanyDBDAO compDbDao;
-	private CouponDBDAO coupDbDao;
+	// Static DB access
+	private static CompanyDBDAO compDbDao = new CompanyDBDAO();
+	private static CouponDBDAO coupDbDao = new CouponDBDAO();
 	
-	// Empty Constructors
-	public CompanyFacade(){
-		// The Constructor is Empty to prevent accede to the DB 
-		// before login 
+	// Company instance variable
+	private Company company;
+	
+	
+	// constructor loading company after login
+	public CompanyFacade(String name, String password) throws CompanyFacadeException {
+		try {
+			company = compDbDao.getCompany(name, password);
+			// Catching couponSystemException
+		} catch (CouponSystemException e) {
+			// In case of a problem throw new CompanyFacadeException
+			throw new CompanyFacadeException("CompanyFacadeException - " 
+					+ "constructor Error", e);
+		}
 	}
 	
 	//***************
@@ -34,22 +43,15 @@ public class CompanyFacade implements CouponClientFacade{
 	
 
 	// Login
-	@Override
-	public CouponClientFacade login(String name, String password, ClientType clientType) throws CompanyFacadeException {
+	public static CouponClientFacade login(String name, String password) throws CompanyFacadeException {
 		
 		try {
 			// Invoking the login method in CustomerDBDAO
-			// if true - load DAO's and relevant Customer
+			// if true - return new CustomerFacade instance with a specific Company
 			if (compDbDao.login(name, password)) {
-				// loading Dao's
-				compDbDao = new CompanyDBDAO();
-				coupDbDao = new CouponDBDAO();
-				// loading Company by invoking the getCompany method in CompanyDBDAO
-				company = compDbDao.getCompany(name, password);
-			} 
-			// if login is successful 'this' will have Company asses to DB
-			// else 'this' attributes will by null
-			return this;
+				return new CompanyFacade(name, password);
+			}
+			return null;
 			// Catching couponSystemException
 			} catch (CouponSystemException e){
 				// In case of a problem throw new CompanyFacadeException  
@@ -186,4 +188,12 @@ public class CompanyFacade implements CouponClientFacade{
 
 	}
 
+	// toString
+	@Override
+	public String toString() {
+		return "CompanyFacade [company=" + company + "]";
+	}
+
+	
+	
 }

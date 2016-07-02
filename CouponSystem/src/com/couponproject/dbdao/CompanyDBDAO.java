@@ -22,7 +22,7 @@ public class CompanyDBDAO implements CompanyDAO{
 			PreparedStatement createStmt = myCon.prepareStatement(
 					"insert into "
 					+ "company (COMP_NAME, PASSWORD, EMAIL) "
-					+ "values (?,?);"); //id will be assign in the DB
+					+ "values (?,?,?);"); //id will be assign in the DB
 			
 			// Values 
 			createStmt.setString(1, company.getCompName());
@@ -172,15 +172,17 @@ public class CompanyDBDAO implements CompanyDAO{
 			ResultSet myRs = selectStmt.executeQuery();
 
 			// Processing resultSet into a Company(bean) instance
-			long id = myRs.getLong("ID");
-			String email = myRs.getString("EMAIL");
-			
-			Company comp = new Company(id, compName, password, email);	
+			myRs.next();
+			Company comp = new Company(myRs.getLong("ID"),
+					myRs.getString("COMP_NAME"), 
+					myRs.getString("PASSWORD"), 
+					myRs.getString("EMAIL"));	
 	
 			//return company
 			return comp;
 			
 		} catch (PropertyVetoException | SQLException | IOException e) {
+			
 			throw new CouponSystemException("CouponSystemException", e);
 		}
 				
