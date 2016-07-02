@@ -19,6 +19,9 @@ public class CustomerFacade implements CouponClientFacade {
 	// Customer instance variable   
 	private Customer customer;
 	
+	// ***********
+	// constructor
+	// ***********
 	
 	// constructor loading customer after login
 	public CustomerFacade(String name, String password) throws CustomerFacadeException {
@@ -38,7 +41,6 @@ public class CustomerFacade implements CouponClientFacade {
 	//***************
 	
 	// Login
-	
 	public static CouponClientFacade login(String name, String password) throws FacadeException {
 		try {
 			// Invoking the login method in CustomerDBDAO

@@ -2,16 +2,15 @@ package com.couponproject.facade;
 
 import java.util.Collection;
 
-import com.couponproject.beans.Company;
-import com.couponproject.beans.Coupon;
-import com.couponproject.beans.CouponType;
+import com.couponproject.beans.*;
+import com.couponproject.exception.*;
+
 import com.couponproject.dbdao.CompanyDBDAO;
 import com.couponproject.dbdao.CouponDBDAO;
-import com.couponproject.exception.CompanyFacadeException;
-import com.couponproject.exception.CouponSystemException;
-import com.couponproject.exception.CustomerFacadeException;
 
-//TODO: limits cheking
+
+
+//TODO: limits cheking!!!
 public class CompanyFacade implements CouponClientFacade{
 	// **********
 	// Attributes
@@ -24,6 +23,9 @@ public class CompanyFacade implements CouponClientFacade{
 	// Company instance variable
 	private Company company;
 	
+	// ***********
+	// constructor
+	// ***********
 	
 	// constructor loading company after login
 	public CompanyFacade(String name, String password) throws CompanyFacadeException {
@@ -41,7 +43,6 @@ public class CompanyFacade implements CouponClientFacade{
 	//*****Methods***
 	//***************
 	
-
 	// Login
 	public static CouponClientFacade login(String name, String password) throws CompanyFacadeException {
 		
@@ -63,9 +64,9 @@ public class CompanyFacade implements CouponClientFacade{
 	
 	//A method that gets coupon instance and add the coupon to the coupon table in the DB and adds coupon's and company's
 	//ID to company_coupon table in the DB
-	//TODO: should we add throw to the functions?
 	public void createCoupon(Coupon coupon) throws CompanyFacadeException{
 		//TODO: check if the coupon doesn't exist - to add a function in CouponDBDAO that checks the title resultSet - checkCouponTitle
+		
 		//adding the coupon to the coupon table in the DB
 		try {
 			coupDbDao.createCoupon(coupon);
