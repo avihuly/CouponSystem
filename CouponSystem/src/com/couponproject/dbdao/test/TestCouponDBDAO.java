@@ -1,12 +1,11 @@
 package com.couponproject.dbdao.test;
 
-import java.sql.SQLException;
-import java.time.LocalDateTime;
-import java.util.Date;
+import java.time.LocalDate;
 
 import com.couponproject.beans.Coupon;
-import com.couponproject.beans.Customer;
+import com.couponproject.beans.CouponType;
 import com.couponproject.dbdao.CouponDBDAO;
+import com.couponproject.exception.CouponSystemException;
 
 //the main method of this calls 
 //contains a test program for all the methods in CouponDBDAO class
@@ -33,24 +32,23 @@ public class TestCouponDBDAO {
 	// Testing createCouponTest()
 	private static void createCouponTest() {
 		// Add new 'Coupon' to DB
-		for (int i = 0; i < 25; i++) {
+		for (int i = 0; i < 1; i++) {
 			// Coupon instance
 			Coupon coupon = new Coupon(
 					"title" + (i+1),
-					LocalDateTime.now(),
-					new LocalDateTime,
-					"amount" + (i+1),
-					"type" + (i+1),
+					LocalDate.now(),
+					LocalDate.of(2016, 9, 23),
+					((int)Math.random()*102),
+					CouponType.RESTAURANT,
 					"message" + (i+1),
-					"price" + (i+1),
+					(i+20.99),
 					"image" + (i+1));
 			try {
 				// This is the hart of the test
 				// converting coupon object into a sql query and running it
 				coupDbDao.createCoupon(coupon);
-			} catch (SQLException e) {
+			} catch (CouponSystemException e) {
 				System.out.println("createCouponTest Error");
-				e.printStackTrace();
 			}
 		}
 

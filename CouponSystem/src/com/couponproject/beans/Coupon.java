@@ -1,7 +1,6 @@
 package com.couponproject.beans;
 
-import java.sql.Date;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 public class Coupon {
 	//
@@ -11,8 +10,8 @@ public class Coupon {
 	// Instants variables
 	private final long id; // TODO: final
 	private String title;
-	private Date startDate;
-	private Date endDate;
+	private LocalDate startDate;
+	private LocalDate endDate;
 	private int amount;
 	private CouponType type;
 	private String message;
@@ -20,7 +19,7 @@ public class Coupon {
 	private String image;
 
 	// Constructors
-	public Coupon(long id, String title, Date startDate, Date endDate, 
+	public Coupon(long id, String title, LocalDate startDate, LocalDate endDate, 
 			int amount, CouponType type, String message, double price, String image) {
 		this.id = id;
 		this.title = title;
@@ -33,7 +32,7 @@ public class Coupon {
 		this.image = image;
 	}
 
-	public Coupon(String title, Date startDate, Date endDate, 
+	public Coupon(String title, LocalDate startDate, LocalDate endDate, 
 		int amount, CouponType type, String message, double price, String image) {
 		this.title = title;
 		this.startDate = startDate;
@@ -69,22 +68,22 @@ public class Coupon {
 	}
 
 	// Get start date
-	public Date getStartDate() {
+	public LocalDate getStartDate() {
 		return startDate;
 	}
 
 	// Set start date
-	public void setStartDate(Date startDate) {
+	public void setStartDate(LocalDate startDate) {
 		this.startDate = startDate;
 	}
 
 	// Get end date
-	public Date getEndDate() {
+	public LocalDate getEndDate() {
 		return endDate;
 	}
 
 	// Set end date
-	public void setEndDate(Date endDate) {
+	public void setEndDate(LocalDate endDate) {
 		this.endDate = endDate;
 	}
 
