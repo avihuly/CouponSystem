@@ -11,22 +11,14 @@ public class TestCompanyDBDAO {
 		
 		
 		public static void main(String[] args) {
-			// Add new Company's to DB
-			for (int i = 0; i < 25; i++) {
-				// Company instance
-				Company company = new Company(
-						"company " + (i + 7000), 
-						"password " + (i + 7000),
-						"Email@"+(i + 7000)+".com");
-				try {
-					// This is the hart of the test
-					// converting company object into a sql query and running it
-					compDbDao.createCompany(company);
-				
-				} catch (CouponSystemException e) {
-					System.out.println("createCustomerTest Error");
-					e.printStackTrace();
-				}
+			
+			//testing create company
+			Company c1 = new Company(1011, "TEVA", "TEVA", "Teva@teva.co.il" );
+			try {
+				compDbDao.createCompany(c1);
+			} catch (CouponSystemException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 

@@ -74,7 +74,7 @@ public class TestCustomerDBDAO {
 	// Testing createCustomer()
 	private static void createCustomerTest() {
 		// Add new 'Customer's to DB
-		for (int i = 0; i < 1; i++) {
+		for (int i = 0; i < 25; i++) {
 			// Customer instance
 			Customer customer = new Customer("customer " + (i + 99), "password " + (i + 99));
 			try {

@@ -1,10 +1,8 @@
-package com.couponproject.facade.test;
+package com.couponproject.facade;
 
 import com.couponproject.exception.FacadeException;
-import com.couponproject.facade.CompanyFacade;
-import com.couponproject.facade.CouponClientFacade;
 
-public class CompanyFacadeTest {
+public class CustomerFacadeTest {
 	
 	// CouponClientFacade instance for testing
 	private static CouponClientFacade facade;
@@ -14,7 +12,7 @@ public class CompanyFacadeTest {
 		try {
 			
 			// test login
-			facade = CompanyFacade.login("company 7000", "password 7000");
+			facade = CustomerFacade.login("customer 100", "password 100");
 			System.out.println(facade);
  
 			
