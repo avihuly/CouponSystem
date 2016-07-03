@@ -13,14 +13,17 @@ public class CustomerFacade implements CouponClientFacade {
 	// Attributes
 	// **********
 
-	// A static customer DB access
+	// Static DB access
 	private static CustomerDBDAO custDbdao = new CustomerDBDAO();
 	
 	// Customer instance variable   
 	private Customer customer;
 	
+	// ***********
+	// constructor
+	// ***********
 	
-	// constructor loading customer
+	// constructor loading customer after login
 	public CustomerFacade(String name, String password) throws CustomerFacadeException {
 		try {
 			customer = custDbdao.getCustomer(name, password);
@@ -38,7 +41,6 @@ public class CustomerFacade implements CouponClientFacade {
 	//***************
 	
 	// Login
-	
 	public static CouponClientFacade login(String name, String password) throws FacadeException {
 		try {
 			// Invoking the login method in CustomerDBDAO
