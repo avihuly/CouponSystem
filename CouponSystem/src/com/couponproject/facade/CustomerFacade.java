@@ -48,6 +48,7 @@ public class CustomerFacade implements CouponClientFacade {
 			if (custDbdao.login(name, password)) {
 				return new CustomerFacade(name, password);
 			} 
+			
 			return null;
 		} catch (CouponSystemException e){
 				// In case of a problem throw new CustomerFacadeException  
