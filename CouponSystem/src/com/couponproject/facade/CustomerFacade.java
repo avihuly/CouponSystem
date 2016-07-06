@@ -33,7 +33,6 @@ public class CustomerFacade implements CouponClientFacade {
 					+ "Constructor error", e);
 		}
 	}
-
 	
 	
 	//***************

@@ -12,9 +12,9 @@ public class AdminFacadeTest {
 
 	public static void main(String[] args) {
 		
-		testLogin();
-		testCreateCompany();
-		testGetAllCompanies();
+		// testLogin();
+		// testCreateCompany();
+		// testGetAllCompanies();
 	}
 	
 	// Test login
