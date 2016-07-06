@@ -11,7 +11,7 @@ import com.couponproject.dbdao.CouponDBDAO;
 
 
 //TODO: limits cheking!!!
-public class CompanyFacade implements CouponClientFacade{
+public class CompanyFacade {
 	// **********
 	// Attributes
 	// **********
@@ -44,7 +44,7 @@ public class CompanyFacade implements CouponClientFacade{
 	//***************
 	
 	// Login
-	public static CouponClientFacade login(String name, String password) throws CompanyFacadeException {
+	public static CompanyFacade login(String name, String password) throws CompanyFacadeException {
 		
 		try {
 			// Invoking the login method in CustomerDBDAO

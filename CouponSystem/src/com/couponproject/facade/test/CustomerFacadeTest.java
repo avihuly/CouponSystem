@@ -1,13 +1,12 @@
 package com.couponproject.facade.test;
 
 import com.couponproject.exception.FacadeException;
-import com.couponproject.facade.CouponClientFacade;
 import com.couponproject.facade.CustomerFacade;
 
 public class CustomerFacadeTest {
 	
 	// CouponClientFacade instance for testing
-	private static CouponClientFacade facade;
+	private static CustomerFacade facade;
 	
 	public static void main(String[] args) {
 		

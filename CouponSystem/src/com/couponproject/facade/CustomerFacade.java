@@ -8,7 +8,7 @@ import com.couponproject.exception.CouponSystemException;
 import com.couponproject.exception.CustomerFacadeException;
 import com.couponproject.exception.FacadeException;
 
-public class CustomerFacade implements CouponClientFacade {
+public class CustomerFacade {
 	// **********
 	// Attributes
 	// **********
@@ -40,7 +40,7 @@ public class CustomerFacade implements CouponClientFacade {
 	//***************
 	
 	// Login
-	public static CouponClientFacade login(String name, String password) throws FacadeException {
+	public static CustomerFacade login(String name, String password) throws FacadeException {
 		try {
 			// Invoking the login method in CustomerDBDAO
 			// if true - return new CustomerFacade instance with a specific Customer 

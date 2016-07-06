@@ -5,5 +5,7 @@
 	<classpathentry kind="lib" path="mysql-connector-java-5.1.39-bin.jar" sourcepath="C:/Program Files/Java/jdk1.8.0_77/src.zip"/>
 	<classpathentry kind="lib" path="c3p0-0.9.5.2.jar"/>
 	<classpathentry kind="lib" path="mchange-commons-java-0.2.11.jar"/>
+	<classpathentry kind="lib" path="jgoodies-forms-1.8.0.jar" sourcepath="jgoodies-forms-1.8.0-sources.jar"/>
+	<classpathentry kind="lib" path="miglayout15-swing.jar" sourcepath="miglayout-src.zip"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

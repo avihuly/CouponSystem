@@ -1,9 +1,10 @@
 package com.couponproject.system;
 
 import com.couponproject.dbdao.*;
+import com.couponproject.facade.*;
+
 import com.couponproject.exception.CompanyFacadeException;
 import com.couponproject.exception.FacadeException;
-import com.couponproject.facade.*;
 import com.couponproject.threads.DailyCouponExportationTask;
 
 public class CouponSystem {
@@ -13,11 +14,11 @@ public class CouponSystem {
 	// **********	
 	private static CouponSystem instance = null;
 	
-	private static CouponDBDAO custDbdao;
-	private static CompanyDBDAO compDbdao;
-	private static CustomerDBDAO coupDbdao;
+	private CouponDBDAO custDbdao;
+	private CompanyDBDAO compDbdao;
+	private CustomerDBDAO coupDbdao;
 	
-	private static Thread dailyExportationTask = new Thread(new DailyCouponExportationTask());
+	private Thread dailyExportationTask = new Thread(new DailyCouponExportationTask());
 	
 	// ***********
 	// constructor
@@ -50,7 +51,7 @@ public class CouponSystem {
 	// ******************
 	// ****Login Methods*
 	// ******************
-	public CouponClientFacade loginAsCustomer(String name, String password){
+	public CustomerFacade loginAsCustomer(String name, String password){
 		try {
 			return CustomerFacade.login(name, password);
 		} catch (FacadeException e) {
@@ -60,7 +61,7 @@ public class CouponSystem {
 		return null; 
 	}
 	
-	public CouponClientFacade loginAsCompany(String name, String password){
+	public CompanyFacade loginAsCompany(String name, String password){
 		try {
 			return CompanyFacade.login(name, password);
 		} catch (CompanyFacadeException e) {
@@ -70,7 +71,7 @@ public class CouponSystem {
 		return null; 
 	}
 	
-	public CouponClientFacade loginAsAdmin(String name, String password){
+	public AdminFacade loginAsAdmin(String name, String password){
 			try {
 				return AdminFacade.login(name, password);
 			} catch (FacadeException e) {

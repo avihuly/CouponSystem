@@ -17,7 +17,7 @@ public class CustomerDBDAO implements CustomerDAO {
 	@Override
 	public void createCustomer(Customer custumer) throws CouponSystemException {
 
-		// getting a connection to DB from  pool
+		// getting a connection to DB from pool
 		try (Connection myCon = ConnectionPool.getInstance().getConnection()){
 			
 			// Insert prepared statement

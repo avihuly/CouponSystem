@@ -17,7 +17,7 @@ public class DailyCouponExportationTask implements Runnable {
 	private CouponDBDAO coupDbdao = new CouponDBDAO();
 	
 	// Quit boolean 
-	private boolean quit = false;
+	private volatile boolean quit = false;
 
 	@Override
 	public void run() {

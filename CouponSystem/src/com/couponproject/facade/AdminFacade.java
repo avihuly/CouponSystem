@@ -8,7 +8,7 @@ import com.couponproject.exception.AdminFacadeException;
 import com.couponproject.exception.CouponSystemException;
 import com.couponproject.exception.FacadeException;
 
-public class AdminFacade implements CouponClientFacade {
+public class AdminFacade{
 	// **********
 	// Attributes
 	// **********
@@ -32,7 +32,7 @@ public class AdminFacade implements CouponClientFacade {
 	// ***************
 
 	// Login
-	public static CouponClientFacade login(String name, String password) throws FacadeException {
+	public static AdminFacade login(String name, String password) throws FacadeException {
 		// TODO: logic - to something with name and password
 		return new AdminFacade();
 	}
