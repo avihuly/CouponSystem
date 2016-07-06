@@ -21,10 +21,10 @@ public class TestCustomerDBDAO {
 		 //createCustomerTest();
 		 //removeCustomerTest();
 		 //updateCustomerTest();
-		 //getCustomerTest();
+		 getCustomerTest();
 		 //getAllCustomerTest();
 		 //getCouponsTest();
-		 loginTest();
+		 //loginTest();
 	}
 
 	//*******
@@ -35,7 +35,7 @@ public class TestCustomerDBDAO {
 	private static void getCustomerTest() {
 		
 		try {
-			System.out.println(custDbDao.getCustomer(23));
+			System.out.println(custDbDao.getCustomer(99488));
 		} catch (CouponSystemException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
