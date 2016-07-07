@@ -232,6 +232,7 @@ public class CompanyDBDAO implements CompanyDAO{
 				ResultSet myRs = selectStmt.executeQuery();
 
 				// Processing resultSet into a Company(bean) instance
+				myRs.next();
 				String compName = myRs.getString("COMP_NAME");
 				String password = myRs.getString("PASSWORD");
 				String email = myRs.getString("EMAIL");
