@@ -49,6 +49,11 @@ public class AdminFacade{
 	public void removeCompany(Company company) throws AdminFacadeException {
 		// TODO check if Company exist
 		try {
+			// Deleting all company's coupons by invoking the getCoupons method in CustomerDBDAO
+			for (Coupon coupon : CompanyDBDAO.getInstace().getCoupons(company.getId())) {
+				CouponDBDAO.getInstace().removeCoupon(coupon);
+			}
+					
 			// Invoking the removeCompany method in CompanyDBDAO
 			CompanyDBDAO.getInstace().removeCompany(company);
 
@@ -128,9 +133,16 @@ public class AdminFacade{
 	public void removeCustomer(Customer customer) throws AdminFacadeException {
 		// TODO check if Customer exist
 		try {
+			
+			// Deleting all customer's coupons by invoking the getCoupons method in CustomerDBDAO
+			for (Coupon coupon : CustomerDBDAO.getInstace().getCoupons(customer.getId())) {
+				CouponDBDAO.getInstace().removeCoupon(coupon);
+			}
+			
 			// Invoking the removeCustomer method in CustomerDBDAO
 			CustomerDBDAO.getInstace().removeCustomer(customer);
-
+			
+			
 			// Catching couponSystemException
 		} catch (CouponSystemException e) {
 

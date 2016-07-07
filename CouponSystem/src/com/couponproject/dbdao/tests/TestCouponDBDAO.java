@@ -1,4 +1,4 @@
-package com.couponproject.dbdao.test;
+package com.couponproject.dbdao.tests;
 
 import java.time.LocalDate;
 
