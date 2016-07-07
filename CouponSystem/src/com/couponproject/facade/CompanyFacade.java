@@ -8,19 +8,11 @@ import com.couponproject.exception.*;
 import com.couponproject.dbdao.CompanyDBDAO;
 import com.couponproject.dbdao.CouponDBDAO;
 
-
-
 //TODO: limits cheking!!!
 public class CompanyFacade {
 	// **********
 	// Attributes
 	// **********
-	
-	// Static DB access
-	private static CompanyDBDAO compDbDao = new CompanyDBDAO();
-	private static CouponDBDAO coupDbDao = new CouponDBDAO();
-	
-	// Company instance variable
 	private Company company;
 	
 	// ***********
@@ -30,7 +22,7 @@ public class CompanyFacade {
 	// constructor loading company after login
 	public CompanyFacade(String name, String password) throws CompanyFacadeException {
 		try {
-			company = compDbDao.getCompany(name, password);
+			company = CompanyDBDAO.getInstace().getCompany(name, password);
 			// Catching couponSystemException
 		} catch (CouponSystemException e) {
 			// In case of a problem throw new CompanyFacadeException
@@ -49,7 +41,7 @@ public class CompanyFacade {
 		try {
 			// Invoking the login method in CustomerDBDAO
 			// if true - return new CustomerFacade instance with a specific Company
-			if (compDbDao.login(name, password)) {
+			if (CompanyDBDAO.getInstace().login(name, password)) {
 				return new CompanyFacade(name, password);
 			}
 			return null;
@@ -69,7 +61,7 @@ public class CompanyFacade {
 		
 		//adding the coupon to the coupon table in the DB
 		try {
-			coupDbDao.createCoupon(coupon);
+			CouponDBDAO.getInstace().createCoupon(coupon);
 		} catch (CouponSystemException e) {
 			// In case of a problem throw new CompanyFacadeException  
 			throw new CompanyFacadeException("CompanyFacadeException - "
@@ -79,7 +71,7 @@ public class CompanyFacade {
 		long couponId = coupon.getId();
 		long compId = company.getId();
 		try {
-			compDbDao.addCompanyCoupon(compId, couponId);
+			CompanyDBDAO.getInstace().addCompanyCoupon(compId, couponId);
 		} 
 		// Catching couponSystemException
 		catch (CouponSystemException e) {
@@ -95,7 +87,7 @@ public class CompanyFacade {
 		//TODO: check if the coupon exists
 		//remove from coupon table in the DB
 		try {
-			coupDbDao.removeCoupon(coupon);
+			CouponDBDAO.getInstace().removeCoupon(coupon);
 		} 
 		// Catching couponSystemException
 		catch (CouponSystemException e) {
@@ -107,7 +99,7 @@ public class CompanyFacade {
 		long couponId = coupon.getId();
 		long compId = company.getId();
 		try {
-			compDbDao.removeCompanyCoupon(compId, couponId);
+			CompanyDBDAO.getInstace().removeCompanyCoupon(compId, couponId);
 		} 
 		// Catching couponSystemException
 		catch (CouponSystemException e) {
@@ -123,7 +115,7 @@ public class CompanyFacade {
 		//TODO: check if coupon exists
 		try {
 			//updating the coupon
-			coupDbDao.updateCoupon(coupon);
+			CouponDBDAO.getInstace().updateCoupon(coupon);
 		} 
 		// Catching couponSystemException
 		catch (CouponSystemException e) {
@@ -137,7 +129,7 @@ public class CompanyFacade {
 	//A method that gets coupon's ID and returns that coupon's instance
 	public Coupon getCoupon(long id) throws CompanyFacadeException{
 		try {
-			return coupDbDao.getCoupon(id);
+			return CouponDBDAO.getInstace().getCoupon(id);
 		} 
 		// Catching couponSystemException
 		catch (CouponSystemException e) {
@@ -152,7 +144,7 @@ public class CompanyFacade {
 	public Collection<Coupon> getAllCoupons() throws CompanyFacadeException{
 		
 		try {
-			return compDbDao.getCoupons(company.getId());
+			return CompanyDBDAO.getInstace().getCoupons(company.getId());
 		} 
 		// Catching couponSystemException
 		catch (CouponSystemException e) {
@@ -166,7 +158,7 @@ public class CompanyFacade {
 	public Collection<Coupon> getCouponByType(CouponType type) throws CustomerFacadeException{
 		try {
 			// Invoking the getCoupons method in CompanyDBDAO
-			Collection<Coupon> coupons = compDbDao.getCoupons(company.getId());
+			Collection<Coupon> coupons = CompanyDBDAO.getInstace().getCoupons(company.getId());
 
 			// Iterating coupons collection and 
 			// removing coupons that not match relevant type

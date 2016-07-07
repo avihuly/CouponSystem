@@ -14,7 +14,30 @@ import com.couponproject.exception.CouponSystemException;
 
 
 public class CouponDBDAO implements CouponDAO{
+	// *********
+	// Attribute
+	// *********
+	private static CouponDBDAO instace = null;
 
+	// ***********
+	// constructor
+	// ***********
+	private CouponDBDAO(){
+		}
+
+	// ***************
+	// *****Methods***
+	// ***************
+
+	// Get instace
+	public static CouponDBDAO getInstace() {
+		if (instace == null) {
+			return new CouponDBDAO();
+		}
+		return instace;
+	}
+	
+	
 	// a method that gets an instance of a coupon and adds it to the coupon table in the DB
 	// TODO: when creating a coupon it should be joined also to a company.
 	@Override

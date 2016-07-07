@@ -10,13 +10,8 @@ import com.couponproject.exception.FacadeException;
 
 public class CustomerFacade {
 	// **********
-	// Attributes
+	// Attribute
 	// **********
-
-	// Static DB access
-	private static CustomerDBDAO custDbdao = new CustomerDBDAO();
-	
-	// Customer instance variable   
 	private Customer customer;
 	
 	// ***********
@@ -26,7 +21,7 @@ public class CustomerFacade {
 	// constructor loading customer after login
 	public CustomerFacade(String name, String password) throws CustomerFacadeException {
 		try {
-			customer = custDbdao.getCustomer(name, password);
+			customer = CustomerDBDAO.getInstace().getCustomer(name, password);
 		} catch (CouponSystemException e){
 			// In case of a problem throw new CustomerFacadeException  
 			throw new CustomerFacadeException("CustomerFacadeException - "
@@ -44,7 +39,7 @@ public class CustomerFacade {
 		try {
 			// Invoking the login method in CustomerDBDAO
 			// if true - return new CustomerFacade instance with a specific Customer 
-			if (custDbdao.login(name, password)) {
+			if (CustomerDBDAO.getInstace().login(name, password)) {
 				return new CustomerFacade(name, password);
 			} 
 			
@@ -61,7 +56,7 @@ public class CustomerFacade {
 		// TODO check if coupon exist
 		try {
 			// Invoking the addCouponToCustomer method in CustomerDBDAO
-			custDbdao.addCouponToCustomer(customer.getId(), coupon.getId());
+			CustomerDBDAO.getInstace().addCouponToCustomer(customer.getId(), coupon.getId());
 			
 			// Catching couponSystemException
 			} catch (CouponSystemException e){
@@ -77,7 +72,7 @@ public class CustomerFacade {
 		try {
 			// Invoking (and return the result of) 
 			// the getCoupons method in CustomerDBDAO
-			return custDbdao.getCoupons(customer.getId());
+			return CustomerDBDAO.getInstace().getCoupons(customer.getId());
 		
 		// Catching couponSystemException
 		} catch (CouponSystemException e){
@@ -91,7 +86,7 @@ public class CustomerFacade {
 	public Collection<Coupon> getAllPurchasedCouponsByType(CouponType type) throws CustomerFacadeException {
 		try {
 			// Invoking the getCoupons method in CustomerDBDAO
-			Collection<Coupon> coupons = custDbdao.getCoupons(customer.getId());
+			Collection<Coupon> coupons = CustomerDBDAO.getInstace().getCoupons(customer.getId());
 
 			// Iterating coupons collection and 
 			// removing coupons that not match relevant type
@@ -116,7 +111,7 @@ public class CustomerFacade {
 	public Collection<Coupon> getAllPurchasedCouponsByPrice(Double price) throws CustomerFacadeException {
 		try {
 			// Invoking the getCoupons method in CustomerDBDAO
-			Collection<Coupon> coupons = custDbdao.getCoupons(customer.getId());
+			Collection<Coupon> coupons = CustomerDBDAO.getInstace().getCoupons(customer.getId());
 
 			// Iterating coupons collection and 
 			// removing coupons that not match relevant price

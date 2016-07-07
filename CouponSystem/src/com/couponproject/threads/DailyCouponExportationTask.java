@@ -13,8 +13,6 @@ import com.couponproject.exception.CouponSystemException;
  */
 
 public class DailyCouponExportationTask implements Runnable {
-	// Access to DB throw CouponDBDAO
-	private CouponDBDAO coupDbdao = new CouponDBDAO();
 	
 	// Quit boolean 
 	private volatile boolean quit = false;
@@ -24,11 +22,11 @@ public class DailyCouponExportationTask implements Runnable {
 		while (!quit) {
 			try {
 				// get all coupons from DB
-				for (Coupon coupon : coupDbdao.getAllCoupons()) {
+				for (Coupon coupon : CouponDBDAO.getInstace().getAllCoupons()) {
 
 					// check if coupon end date as past
 					if (LocalDate.now().isAfter(coupon.getEndDate())) {
-						coupDbdao.removeCoupon(coupon);
+						CouponDBDAO.getInstace().removeCoupon(coupon);
 					}
 				}
 				// Sleep for 24 Hours

@@ -9,9 +9,6 @@ import com.couponproject.exception.CouponSystemException;
 // contains a test program for all the methods in CustomerDBDAO calls
 public class TestCustomerDBDAO {
 
-	// CustomerDBDAO instance for testing
-	private static final CustomerDBDAO custDbDao = new CustomerDBDAO();
-
 	// Main
 	public static void main(String[] args) {
 		System.out.println("i am adding this line to check github, it should be deleted");
@@ -35,7 +32,7 @@ public class TestCustomerDBDAO {
 	private static void getCustomerTest() {
 		
 		try {
-			System.out.println(custDbDao.getCustomer(99488));
+			System.out.println(CustomerDBDAO.getInstace().getCustomer(99488));
 		} catch (CouponSystemException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -46,7 +43,7 @@ public class TestCustomerDBDAO {
 	// Testing login()
 	private static void loginTest() {
 		try {
-			if (custDbDao.login("customer 115", "password 116")) {
+			if (CustomerDBDAO.getInstace().login("customer 115", "password 116")) {
 				System.out.println("Successful LOGIN");
 			} else {
 				System.out.println("unSuccessful Login");
@@ -62,7 +59,7 @@ public class TestCustomerDBDAO {
 	private static void getAllCustomerTest() {
 		try {
 			// This is the hart of the test
-			for (Customer customer : custDbDao.getAllCustomer()) {
+			for (Customer customer : CustomerDBDAO.getInstace().getAllCustomer()) {
 				System.out.println(customer);
 			}
 		} catch (CouponSystemException e) {
@@ -80,7 +77,7 @@ public class TestCustomerDBDAO {
 			try {
 				// This is the hart of the test
 				// converting costumer object into a sql query and running it
-				custDbDao.createCustomer(customer);
+				CustomerDBDAO.getInstace().createCustomer(customer);
 			} catch (CouponSystemException e) {
 				System.out.println("createCustomerTest Error");
 				e.printStackTrace();
@@ -97,7 +94,7 @@ public class TestCustomerDBDAO {
 			try {
 				// This is the hart of the test
 				// converting costumer object into a sql query and urning it
-				custDbDao.removeCustomer(customer);
+				CustomerDBDAO.getInstace().removeCustomer(customer);
 			} catch (CouponSystemException e) {
 				System.out.println("removeCustomerTest Error");
 				e.printStackTrace();
@@ -109,7 +106,7 @@ public class TestCustomerDBDAO {
 	private static void getCouponsTest() {
 		try {
 			// This is the hart of the test
-			for(Coupon coupon:custDbDao.getCoupons(108)){
+			for(Coupon coupon:CustomerDBDAO.getInstace().getCoupons(108)){
 				System.out.println(coupon);
 			}
 		} catch (CouponSystemException e) {

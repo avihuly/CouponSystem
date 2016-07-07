@@ -12,7 +12,31 @@ import com.couponproject.exception.CouponSystemException;
 
 //This class implements the CompanyDAO interface with mySQL
 public class CompanyDBDAO implements CompanyDAO{
+	// *********
+	// Attribute
+	// *********
+	private static CompanyDBDAO instace = null;
 
+	// ***********
+	// constructor
+	// ***********
+	private CompanyDBDAO(){
+		}
+
+	// ***************
+	// *****Methods***
+	// ***************
+
+	// Get instance
+	public static CompanyDBDAO getInstace() {
+		if (instace == null) {
+			return new CompanyDBDAO();
+		}
+		return instace;
+	}
+	
+	
+	
 	//a method that gets Company instance that should be of a new company and adds it to the company table in the db
 	public void createCompany(Company company) throws CouponSystemException {
 		// getting a connection to DB from  pool

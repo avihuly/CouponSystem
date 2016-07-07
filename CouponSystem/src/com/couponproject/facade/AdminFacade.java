@@ -9,22 +9,12 @@ import com.couponproject.exception.CouponSystemException;
 import com.couponproject.exception.FacadeException;
 
 public class AdminFacade{
-	// **********
-	// Attributes
-	// **********
-
-	// Static DB access
-	private static CustomerDBDAO custDbdao;
-	private static CompanyDBDAO compDbdao;
 
 	// ***********
 	// constructor
 	// ***********
 
-	// constructor loading customer after login
 	public AdminFacade() throws AdminFacadeException {
-		custDbdao = new CustomerDBDAO();
-		compDbdao = new CompanyDBDAO();
 	}
 
 	// ***************
@@ -45,7 +35,7 @@ public class AdminFacade{
 		// TODO check if Company exist
 		try {
 			// Invoking the createCompany method in CompanyDBDAO
-			compDbdao.createCompany(company);
+			CompanyDBDAO.getInstace().createCompany(company);
 
 			// Catching couponSystemException
 		} catch (CouponSystemException e) {
@@ -60,7 +50,7 @@ public class AdminFacade{
 		// TODO check if Company exist
 		try {
 			// Invoking the removeCompany method in CompanyDBDAO
-			compDbdao.removeCompany(company);
+			CompanyDBDAO.getInstace().removeCompany(company);
 
 			// Catching couponSystemException
 		} catch (CouponSystemException e) {
@@ -75,7 +65,7 @@ public class AdminFacade{
 		// TODO check if Company exist
 		try {
 			// Invoking the updateCompany method in CompanyDBDAO
-			compDbdao.updateCompany(company);
+			CompanyDBDAO.getInstace().updateCompany(company);
 
 			// Catching couponSystemException
 		} catch (CouponSystemException e) {
@@ -90,7 +80,7 @@ public class AdminFacade{
 		// TODO check if Company exist
 		try {
 			// Invoking the getCompany method in CompanyDBDAO
-			return compDbdao.getCompany(id);
+			return CompanyDBDAO.getInstace().getCompany(id);
 
 			// Catching couponSystemException
 		} catch (CouponSystemException e) {
@@ -105,7 +95,7 @@ public class AdminFacade{
 		// TODO check if Company exist
 		try {
 			// Invoking the getAllCompanies method in CompanyDBDAO
-			return compDbdao.getAllCompanies();
+			return CompanyDBDAO.getInstace().getAllCompanies();
 
 			// Catching couponSystemException
 		} catch (CouponSystemException e) {
@@ -118,13 +108,13 @@ public class AdminFacade{
 	}
 	
 	// ***************
-	// customer method
+	// Customer method
 	// ***************
 	public void createCustomer(Customer customer) throws AdminFacadeException {
 		// TODO check if Customer exist
 		try {
 			// Invoking the createCompany method in CustomerDBDAO
-			custDbdao.createCustomer(customer);
+			CustomerDBDAO.getInstace().createCustomer(customer);
 
 			// Catching couponSystemException
 		} catch (CouponSystemException e) {
@@ -139,7 +129,7 @@ public class AdminFacade{
 		// TODO check if Customer exist
 		try {
 			// Invoking the removeCustomer method in CustomerDBDAO
-			custDbdao.removeCustomer(customer);
+			CustomerDBDAO.getInstace().removeCustomer(customer);
 
 			// Catching couponSystemException
 		} catch (CouponSystemException e) {
@@ -154,7 +144,7 @@ public class AdminFacade{
 		// TODO check if Customer exist
 		try {
 			// Invoking the updateCustomer method in CustomerDBDAO
-			custDbdao.updateCustomer(customer);
+			CustomerDBDAO.getInstace().updateCustomer(customer);
 
 			// Catching couponSystemException
 		} catch (CouponSystemException e) {
@@ -169,7 +159,7 @@ public class AdminFacade{
 		// TODO check if Customer exist
 		try {
 			// Invoking the getCostomer method in CustomerDBDAO
-			return custDbdao.getCustomer(id);
+			return CustomerDBDAO.getInstace().getCustomer(id);
 
 			// Catching couponSystemException
 		} catch (CouponSystemException e) {
@@ -184,7 +174,7 @@ public class AdminFacade{
 		// TODO check if Customer exist
 		try {
 			// Invoking the getAllCustomers method in CustomerDBDAO
-			return custDbdao.getAllCustomer();
+			return CustomerDBDAO.getInstace().getAllCustomer();
 
 			// Catching couponSystemException
 		} catch (CouponSystemException e) {

@@ -4,12 +4,7 @@ import com.couponproject.beans.Company;
 import com.couponproject.dbdao.CompanyDBDAO;
 import com.couponproject.exception.CouponSystemException;
 
-public class TestCompanyDBDAO {
-	
-	// CustomerDBDAO instance for testing
-		private static final CompanyDBDAO compDbDao = new CompanyDBDAO();
-		
-		
+public class TestCompanyDBDAO {	
 		public static void main(String[] args) {
 			// Add new Company's to DB
 			for (int i = 0; i < 25; i++) {
@@ -21,7 +16,7 @@ public class TestCompanyDBDAO {
 				try {
 					// This is the hart of the test
 					// converting company object into a sql query and running it
-					compDbDao.createCompany(company);
+					CompanyDBDAO.getInstace().createCompany(company);
 				
 				} catch (CouponSystemException e) {
 					System.out.println("createCustomerTest Error");

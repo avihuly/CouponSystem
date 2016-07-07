@@ -13,6 +13,29 @@ import com.couponproject.exception.CouponSystemException;
 
 // implements CustomerDAO with mysql
 public class CustomerDBDAO implements CustomerDAO {
+	// *********
+	// Attribute
+	// *********
+	private static CustomerDBDAO instace = null;
+	
+	// ***********
+	// constructor
+	// ***********
+	private CustomerDBDAO(){
+	}
+
+	// ***************
+	// *****Methods***
+	// ***************
+	
+	// Get instace
+	public static CustomerDBDAO getInstace(){
+		if (instace == null){
+			return new CustomerDBDAO();
+		}
+		return instace;
+	}
+	
 	
 	@Override
 	public void createCustomer(Customer custumer) throws CouponSystemException {

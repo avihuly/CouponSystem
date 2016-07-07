@@ -11,9 +11,6 @@ import com.couponproject.exception.CouponSystemException;
 //contains a test program for all the methods in CouponDBDAO class
 public class TestCouponDBDAO {
 
-	// CouponDBDAO instance for testing
-	private static final CouponDBDAO coupDbDao = new CouponDBDAO();
-
 	// Main
 	public static void main(String[] args) {
 		// Each method in CustomerDBDAO is being teased in a separate private
@@ -46,7 +43,7 @@ public class TestCouponDBDAO {
 			try {
 				// This is the hart of the test
 				// converting coupon object into a sql query and running it
-				coupDbDao.createCoupon(coupon);
+				CouponDBDAO.getInstace().createCoupon(coupon);
 			} catch (CouponSystemException e) {
 				System.out.println("createCouponTest Error");
 			}

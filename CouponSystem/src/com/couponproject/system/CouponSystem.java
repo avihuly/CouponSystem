@@ -1,6 +1,5 @@
 package com.couponproject.system;
 
-import com.couponproject.dbdao.*;
 import com.couponproject.facade.*;
 
 import com.couponproject.exception.CompanyFacadeException;
@@ -13,10 +12,6 @@ public class CouponSystem {
 	// Attributes
 	// **********	
 	private static CouponSystem instance = null;
-	
-	private CouponDBDAO custDbdao;
-	private CompanyDBDAO compDbdao;
-	private CustomerDBDAO coupDbdao;
 	
 	private Thread dailyExportationTask = new Thread(new DailyCouponExportationTask());
 	
@@ -36,12 +31,16 @@ public class CouponSystem {
 	//***************
 	//*****Methods***
 	//***************
+	
+	// Get instance
 	public static CouponSystem getInstance(){
 		if (instance == null){
 			instance = new CouponSystem();
 		}
 		return instance;
 	}
+	
+	
 	
 	public void shutDown(){
 		
