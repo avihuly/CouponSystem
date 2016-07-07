@@ -39,5 +39,9 @@ public class ConnectionPool {
 	public Connection getConnection() throws SQLException {
 		return this.cpds.getConnection();
 	}
+	
+	public void shutDown () {
+		cpds.close();
+	}
 
 }

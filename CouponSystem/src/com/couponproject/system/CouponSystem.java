@@ -2,6 +2,11 @@ package com.couponproject.system;
 
 import com.couponproject.facade.*;
 
+import java.beans.PropertyVetoException;
+import java.io.IOException;
+import java.sql.SQLException;
+
+import com.couponproject.dbdao.ConnectionPool;
 import com.couponproject.exception.CompanyFacadeException;
 import com.couponproject.exception.FacadeException;
 import com.couponproject.threads.DailyCouponExportationTask;
@@ -40,10 +45,20 @@ public class CouponSystem {
 		return instance;
 	}
 	
-	
-	
+	// Shut down
 	public void shutDown(){
-		
+		try {
+			ConnectionPool.getInstance().shutDown();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (PropertyVetoException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	
