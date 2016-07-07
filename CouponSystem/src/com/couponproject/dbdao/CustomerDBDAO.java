@@ -28,7 +28,7 @@ public class CustomerDBDAO implements CustomerDAO {
 	// *****Methods***
 	// ***************
 	
-	// Get instace
+	// Get instance
 	public static CustomerDBDAO getInstace(){
 		if (instace == null){
 			return new CustomerDBDAO();
@@ -46,9 +46,10 @@ public class CustomerDBDAO implements CustomerDAO {
 			// Insert prepared statement
 			PreparedStatement createStmt = myCon.prepareStatement(					
 					"insert into "
-					+ "customer (CUST_NAME, PASSWORD) "
+					+ "customer ("+ TablesColumnNames.CUST_NAME +", "+ TablesColumnNames.PASSWORD +") "
 					+ "values (?,?);"); //id will be assign in the DB
-
+			System.out.println(createStmt);
+			
 			// Values
 			createStmt.setString(1, custumer.getCustName());
 			createStmt.setString(2, custumer.getPassword());
@@ -70,7 +71,7 @@ public class CustomerDBDAO implements CustomerDAO {
 			// Delete prepared statement
 			PreparedStatement deleteStmt = myCon.prepareStatement(
 					"delete from customer "
-					+ "where ID = ? and CUST_NAME = ? and PASSWORD = ?");
+					+ "where "+TablesColumnNames.ID+" = ? and CUST_NAME = ? and PASSWORD = ?");
 
 			// Values
 			deleteStmt.setLong(1, custumer.getId());
