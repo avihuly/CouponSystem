@@ -13,26 +13,31 @@ import javax.swing.JButton;
 import javax.swing.JRadioButton;
 import javax.swing.JLabel;
 import javax.swing.border.TitledBorder;
+
+import com.couponproject.facade.ClientType;
+import com.couponproject.gui.Actionlisteners.LoginActionlistener;
+
 import javax.imageio.ImageIO;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
-import java.awt.event.ActionEvent;
+
 import java.awt.GridLayout;
 import javax.swing.JTextField;
 
 import java.awt.Color;
 import javax.swing.JMenuItem;
+import javax.swing.JPasswordField;
+
 
 public class CouponSystemGui {
 
 	private JFrame loginFrame;
-	private final ButtonGroup buttonGroup = new ButtonGroup();
-	private JTextField textField;
-	private JTextField textField_1;
+	private final ButtonGroup userTypeRadioGroup = new ButtonGroup();
+	private JTextField txtUserName;
+	private JPasswordField txtPassword;
 
 	/**
 	 * Launch the application.
@@ -72,21 +77,11 @@ public class CouponSystemGui {
 			// getting image refrains
 			File input = new File("image/frameIcon.png");
 			Image frameImg = ImageIO.read(input);
-/*
-			// resizing image to fit panel
-			Image frameImgResized = frameImg.getScaledInstance
-					(40, 40, Image.SCALE_SMOOTH);
-*/
 			// loading icon to frame
 			loginFrame.setIconImage(frameImg);
 		} catch (IOException ie) {
 			System.out.println(ie.getMessage());
 		}
-		
-		
-		
-		
-		
 		
 		
 		JMenuBar menuBar = new JMenuBar();
@@ -117,7 +112,6 @@ public class CouponSystemGui {
 		}
 
 		
-
 		mnHelp.add(mntmAbout);
 		loginFrame.getContentPane().setLayout(new BorderLayout(0, 0));
 
@@ -130,7 +124,7 @@ public class CouponSystemGui {
 		bntPanel.setLayout(new BorderLayout(0, 0));
 
 		JButton LoginBnt = new JButton("Login");
-
+		
 		// Login icon
 		Image loginIcon;
 		try {
@@ -141,38 +135,40 @@ public class CouponSystemGui {
 			System.out.println(ie.getMessage());
 		}
 
-		LoginBnt.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
 		bntPanel.add(LoginBnt, BorderLayout.SOUTH);
 
 		JPanel radioPanel = new JPanel();
 		southPanel.add(radioPanel, BorderLayout.NORTH);
 		radioPanel.setBorder(new TitledBorder(null, "Login As", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 
-		JRadioButton radioButton = new JRadioButton("Customer");
-		radioButton.setSelected(true);
-		buttonGroup.add(radioButton);
-		radioPanel.add(radioButton);
+		JRadioButton radioCustomer = new JRadioButton("Customer");
+		radioCustomer.setSelected(true);
+		// ******* setActionCommand *******
+		radioCustomer.setActionCommand(ClientType.Customer.name());
+		userTypeRadioGroup.add(radioCustomer);
+		radioPanel.add(radioCustomer);
 
-		JRadioButton radioButton_1 = new JRadioButton("Company");
-		buttonGroup.add(radioButton_1);
-		radioPanel.add(radioButton_1);
+		JRadioButton radioCompany = new JRadioButton("Company");
+		// ******* setActionCommand *******
+		radioCompany.setActionCommand(ClientType.Company.name());
+		userTypeRadioGroup.add(radioCompany);
+		radioPanel.add(radioCompany);
 
-		JRadioButton radioButton_2 = new JRadioButton("Admin");
-		buttonGroup.add(radioButton_2);
-		radioPanel.add(radioButton_2);
+		JRadioButton radioAdmin = new JRadioButton("Admin");
+		userTypeRadioGroup.add(radioAdmin);
+		// ******* setActionCommand *******
+		radioAdmin.setActionCommand(ClientType.Admin.name());
+		radioPanel.add(radioAdmin);
 
 		JPanel westPanel = new JPanel();
 		loginFrame.getContentPane().add(westPanel, BorderLayout.WEST);
 		westPanel.setLayout(new GridLayout(3, 1, 0, 0));
 
-		JLabel label = new JLabel("User Nane:");
-		westPanel.add(label);
+		JLabel labelUserName = new JLabel("User Nane:");
+		westPanel.add(labelUserName);
 
-		JLabel label_1 = new JLabel("Password:");
-		westPanel.add(label_1);
+		JLabel labelPassword = new JLabel("Password:");
+		westPanel.add(labelPassword);
 
 		JPanel eastPanel = new JPanel();
 		loginFrame.getContentPane().add(eastPanel, BorderLayout.EAST);
@@ -182,13 +178,12 @@ public class CouponSystemGui {
 		loginFrame.getContentPane().add(CenterPanel, BorderLayout.CENTER);
 		CenterPanel.setLayout(new GridLayout(3, 1, 0, 0));
 
-		textField = new JTextField();
-		CenterPanel.add(textField);
-		textField.setColumns(10);
-
-		textField_1 = new JTextField();
-		CenterPanel.add(textField_1);
-		textField_1.setColumns(10);
+		txtUserName = new JTextField();
+		CenterPanel.add(txtUserName);
+		txtUserName.setColumns(10);
+		
+		txtPassword = new JPasswordField();
+		CenterPanel.add(txtPassword);
 
 		// LOGO ******
 		JPanel northPanel = new JPanel();
@@ -215,7 +210,15 @@ public class CouponSystemGui {
 		}
 
 		loginFrame.getContentPane().add(northPanel, BorderLayout.NORTH);
-
+		
+		
+		// *****************
+		// LoginBnt - Action
+		// *****************
+		LoginBnt.addActionListener(new LoginActionlistener(
+				userTypeRadioGroup, 
+				txtUserName, 
+				txtPassword));
 	}
 
 }

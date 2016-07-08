@@ -225,12 +225,12 @@ public class CouponDBDAO implements CouponDAO{
 							myRs.getLong("ID"),
 							myRs.getString("TITLE"),
 							// converting sql.Date to LocalDate
-							myRs.getDate("START_DATE").toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
+							myRs.getDate("START_DATE").toLocalDate(),
 							// converting sql.Date to LocalDate
-							myRs.getDate("END_DATE").toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
+							myRs.getDate("END_DATE").toLocalDate(),
 							myRs.getInt("AMOUNT"),
 							CouponType.valueOf(myRs.getString("TYPE")),
-							myRs.getString("MESSEGE"),
+							myRs.getString("MESSAGE"),
 							myRs.getDouble("PRICE"),
 							myRs.getString("IMAGE"));
 					coupons.add(coupon);

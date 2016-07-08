@@ -23,8 +23,10 @@ public class AdminFacade{
 
 	// Login
 	public static AdminFacade login(String name, String password) throws FacadeException {
-		// TODO: logic - to something with name and password
-		return new AdminFacade();
+		if (name.equals("admin") && password.equals("admin")) {
+			return new AdminFacade();
+		} 
+		return null;
 	}
 	
 	

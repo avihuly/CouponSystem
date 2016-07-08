@@ -29,7 +29,7 @@ public class TestCouponDBDAO {
 	// Testing createCouponTest()
 	private static void createCouponTest() {
 		// Add new 'Coupon' to DB
-		for (int i = 0; i < 1; i++) {
+		for (int i = 50; i < 98; i++) {
 			// Coupon instance
 			Coupon coupon = new Coupon(
 					"title" + (i+1),
@@ -38,7 +38,7 @@ public class TestCouponDBDAO {
 					((int)Math.random()*102),
 					CouponType.RESTAURANT,
 					"message" + (i+1),
-					(i+20.99),
+					(Math.random()*10+20.99),
 					"image" + (i+1));
 			try {
 				// This is the hart of the test
