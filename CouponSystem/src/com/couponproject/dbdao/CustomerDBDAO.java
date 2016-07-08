@@ -38,8 +38,9 @@ public class CustomerDBDAO implements CustomerDAO {
 	
 	
 	@Override
-	public void createCustomer(Customer custumer) throws CouponSystemException {
-
+	public void createCustomer(Customer customer) throws CouponSystemException {
+		// ///////////// /// /// /// /// //Util.isCustomer(customer); //// // // // / /
+		
 		// getting a connection to DB from pool
 		try (Connection myCon = ConnectionPool.getInstance().getConnection()){
 			
@@ -51,8 +52,8 @@ public class CustomerDBDAO implements CustomerDAO {
 			System.out.println(createStmt);
 			
 			// Values
-			createStmt.setString(1, custumer.getCustName());
-			createStmt.setString(2, custumer.getPassword());
+			createStmt.setString(1, customer.getCustName());
+			createStmt.setString(2, customer.getPassword());
 
 			// Execute
 			createStmt.executeUpdate();
