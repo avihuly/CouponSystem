@@ -58,7 +58,6 @@ public class LoginActionlistener implements ActionListener {
 		}
 	}
 
-	
 	//
 	// Loading AdminFarme
 	//

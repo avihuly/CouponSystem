@@ -15,6 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.border.TitledBorder;
 
 import com.couponproject.facade.ClientType;
+import com.couponproject.gui.Actionlisteners.AboutActionListener;
 import com.couponproject.gui.Actionlisteners.LoginActionlistener;
 
 import javax.imageio.ImageIO;
@@ -29,7 +30,10 @@ import javax.swing.JTextField;
 
 import java.awt.Color;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 
 public class CouponSystemGui {
@@ -92,7 +96,8 @@ public class CouponSystemGui {
 
 		// About Icon - "image/about.png"
 		JMenuItem mntmAbout = new JMenuItem("About");
-
+		mntmAbout.addActionListener(new AboutActionListener());
+		
 		try {
 			// getting image refrains
 			File input = new File("image/about.png");
