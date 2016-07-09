@@ -9,7 +9,7 @@ import java.util.Collection;
 
 import com.couponproject.beans.*;
 import com.couponproject.constants.CouponType;
-import com.couponproject.constants.TablesColumnNames;
+import com.couponproject.constants.CustomerTableColumnNames;
 import com.couponproject.dao.CustomerDAO;
 import com.couponproject.exception.CouponSystemException;
 
@@ -49,7 +49,7 @@ public class CustomerDBDAO implements CustomerDAO {
 			// Insert prepared statement
 			PreparedStatement createStmt = myCon.prepareStatement(					
 					"insert into "
-					+ "customer ("+ TablesColumnNames.CUST_NAME +", "+ TablesColumnNames.PASSWORD +") "
+					+ "customer ("+ CustomerTableColumnNames.CUST_NAME +", "+ CustomerTableColumnNames.PASSWORD +") "
 					+ "values (?,?);"); //id will be assign in the DB
 			System.out.println(createStmt);
 			
@@ -74,7 +74,7 @@ public class CustomerDBDAO implements CustomerDAO {
 			// Delete prepared statement
 			PreparedStatement deleteStmt = myCon.prepareStatement(
 					"delete from customer "
-					+ "where "+TablesColumnNames.ID+" = ? and CUST_NAME = ? and PASSWORD = ?");
+					+ "where "+CustomerTableColumnNames.ID+" = ? and CUST_NAME = ? and PASSWORD = ?");
 
 			// Values
 			deleteStmt.setLong(1, custumer.getId());

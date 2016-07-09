@@ -1,8 +1,7 @@
 package com.couponproject.constants;
 
-public enum TablesColumnNames {
+public enum CustomerTableColumnNames {
+	ID,
 	CUST_NAME,
 	PASSWORD,
-	ID,
-
 }
