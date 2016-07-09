@@ -1,4 +1,4 @@
-package com.couponproject.facade;
+package com.couponproject.constants;
 
 public enum ClientType {
 	Admin,

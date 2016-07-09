@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import com.couponproject.beans.*;
+import com.couponproject.constants.CouponType;
+import com.couponproject.constants.TablesColumnNames;
 import com.couponproject.dao.CustomerDAO;
 import com.couponproject.exception.CouponSystemException;
 

@@ -8,8 +8,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import com.couponproject.constants.ClientType;
 import com.couponproject.facade.AdminFacade;
-import com.couponproject.facade.ClientType;
 import com.couponproject.facade.CompanyFacade;
 import com.couponproject.facade.CustomerFacade;
 import com.couponproject.system.CouponSystem;

@@ -2,6 +2,8 @@ package com.couponproject.beans;
 
 import java.time.LocalDate;
 
+import com.couponproject.constants.CouponType;
+
 public class Coupon {
 	//
 	// Attributes

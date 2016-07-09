@@ -1,4 +1,4 @@
-package com.couponproject.dbdao;
+package com.couponproject.constants;
 
 public enum TablesColumnNames {
 	CUST_NAME,

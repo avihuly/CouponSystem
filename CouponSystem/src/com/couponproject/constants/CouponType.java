@@ -1,4 +1,4 @@
-package com.couponproject.beans;
+package com.couponproject.constants;
 
 public enum CouponType {
 	RESTAURANT, 

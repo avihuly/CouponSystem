@@ -3,7 +3,7 @@ package com.couponproject.dbdao.tests;
 import java.time.LocalDate;
 
 import com.couponproject.beans.Coupon;
-import com.couponproject.beans.CouponType;
+import com.couponproject.constants.CouponType;
 import com.couponproject.dbdao.CouponDBDAO;
 import com.couponproject.exception.CouponSystemException;
 

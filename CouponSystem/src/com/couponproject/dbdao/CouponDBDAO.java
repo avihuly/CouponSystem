@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import com.couponproject.beans.Coupon;
-import com.couponproject.beans.CouponType;
+import com.couponproject.constants.CouponType;
 import com.couponproject.dao.CouponDAO;
 import com.couponproject.exception.CouponSystemException;
 

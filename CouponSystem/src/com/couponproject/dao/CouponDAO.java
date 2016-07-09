@@ -4,6 +4,7 @@ package com.couponproject.dao;
 import java.util.Collection;
 
 import com.couponproject.beans.*;
+import com.couponproject.constants.CouponType;
 import com.couponproject.exception.CouponSystemException;
 
 //this interface specify's all the functions 

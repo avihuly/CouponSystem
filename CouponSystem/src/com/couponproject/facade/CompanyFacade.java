@@ -3,6 +3,7 @@ package com.couponproject.facade;
 import java.util.Collection;
 
 import com.couponproject.beans.*;
+import com.couponproject.constants.CouponType;
 import com.couponproject.exception.*;
 
 import com.couponproject.dbdao.CompanyDBDAO;

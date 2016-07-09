@@ -14,7 +14,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JLabel;
 import javax.swing.border.TitledBorder;
 
-import com.couponproject.facade.ClientType;
+import com.couponproject.constants.ClientType;
 import com.couponproject.gui.Actionlisteners.AboutActionListener;
 import com.couponproject.gui.Actionlisteners.LoginActionlistener;
 

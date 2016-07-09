@@ -7,6 +7,7 @@ import java.time.ZoneId;
 import java.util.*;
 
 import com.couponproject.beans.*;
+import com.couponproject.constants.CouponType;
 import com.couponproject.dao.CompanyDAO;
 import com.couponproject.exception.CouponSystemException;
 
