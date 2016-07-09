@@ -66,18 +66,15 @@ public class Customer {
 		return "Customer [id=" + id + ", custName=" + custName + ", password=" + password + "]";
 	}
 
-	// HashCode
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((custName == null) ? 0 : custName.hashCode());
-		result = prime * result + (int) (id ^ (id >>> 32));
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
 		return result;
 	}
 
-	// Equals
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -92,8 +89,6 @@ public class Customer {
 				return false;
 		} else if (!custName.equals(other.custName))
 			return false;
-		if (id != other.id)
-			return false;
 		if (password == null) {
 			if (other.password != null)
 				return false;
@@ -101,5 +96,8 @@ public class Customer {
 			return false;
 		return true;
 	}
+
+	// Equals
+	
 		
 }

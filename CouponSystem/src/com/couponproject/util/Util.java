@@ -10,7 +10,7 @@ public class Util {
 	// Returns true if Customer exist in DB
 	public static boolean isCustomer(Customer customer){
 		try {
-			Customer dbCustomer = CustomerDBDAO.getInstace().getCustomer(customer.getId());
+			Customer dbCustomer = CustomerDBDAO.getInstace().getCustomer(customer.getCustName(),customer.getPassword());
 			return (customer.equals(dbCustomer));
 		} catch (CouponSystemException e) {
 			return false;

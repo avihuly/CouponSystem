@@ -12,6 +12,7 @@ import com.couponproject.constants.CouponType;
 import com.couponproject.constants.CustomerTableColumnNames;
 import com.couponproject.dao.CustomerDAO;
 import com.couponproject.exception.CouponSystemException;
+import com.couponproject.util.Util;
 
 // implements CustomerDAO with mysql
 public class CustomerDBDAO implements CustomerDAO {
@@ -41,57 +42,62 @@ public class CustomerDBDAO implements CustomerDAO {
 	
 	@Override
 	public void createCustomer(Customer customer) throws CouponSystemException {
-		// ///////////// /// /// /// /// //Util.isCustomer(customer); //// // // // / /
-		
-		// getting a connection to DB from pool
-		try (Connection myCon = ConnectionPool.getInstance().getConnection()){
-			
-			// Insert prepared statement
-			PreparedStatement createStmt = myCon.prepareStatement(					
-					"insert into "
-					+ "customer ("+ CustomerTableColumnNames.CUST_NAME +", "+ CustomerTableColumnNames.PASSWORD +") "
-					+ "values (?,?);"); //id will be assign in the DB
-			System.out.println(createStmt);
-			
-			// Values
-			createStmt.setString(1, customer.getCustName());
-			createStmt.setString(2, customer.getPassword());
+		if (!Util.isCustomer(customer)){
+			// getting a connection to DB from pool
+			try (Connection myCon = ConnectionPool.getInstance().getConnection()){
+				
+				// Insert prepared statement
+				PreparedStatement createStmt = myCon.prepareStatement(					
+						"insert into "
+						+ "customer ("+ CustomerTableColumnNames.CUST_NAME +", "+ CustomerTableColumnNames.PASSWORD +") "
+						+ "values (?,?);"); //id will be assign in the DB
+				System.out.println(createStmt);
+				
+				// Values
+				createStmt.setString(1, customer.getCustName());
+				createStmt.setString(2, customer.getPassword());
 
-			// Execute
-			createStmt.executeUpdate();
-
-		} catch (PropertyVetoException | SQLException | IOException e) {
-			throw new CouponSystemException("CouponSystemException", e);
-		} 
-		
-	}
-
-	@Override
-	public void removeCustomer(Customer custumer) throws CouponSystemException {
-		// getting a connection to DB from  pool
-		try (Connection myCon = ConnectionPool.getInstance().getConnection()){
-		
-			// Delete prepared statement
-			PreparedStatement deleteStmt = myCon.prepareStatement(
-					"delete from customer "
-					+ "where "+CustomerTableColumnNames.ID+" = ? and CUST_NAME = ? and PASSWORD = ?");
-
-			// Values
-			deleteStmt.setLong(1, custumer.getId());
-			deleteStmt.setString(2, custumer.getCustName());
-			deleteStmt.setString(3, custumer.getPassword());
-			
-			// Execute
-			deleteStmt.executeUpdate();
-			
-		} catch (PropertyVetoException | SQLException | IOException e) {
-			throw new CouponSystemException("CouponSystemException", e);
+				// Execute
+				createStmt.executeUpdate();
+			} catch (PropertyVetoException | SQLException | IOException e) {
+				throw new CouponSystemException("CouponSystemException", e);
+			} 
+		} else {
+			// TODO: ...
 		}
-
+		
 	}
 
 	@Override
-	public void updateCustomer(Customer custumer) throws CouponSystemException {
+	public void removeCustomer(Customer customer) throws CouponSystemException {
+		if (Util.isCustomer(customer)){
+			// getting a connection to DB from  pool
+			try (Connection myCon = ConnectionPool.getInstance().getConnection()){
+		
+				// Delete prepared statement
+				PreparedStatement deleteStmt = myCon.prepareStatement(
+						"delete from customer "
+						+ "where "+CustomerTableColumnNames.ID+" = ? and CUST_NAME = ? and PASSWORD = ?");
+
+				// Values
+				deleteStmt.setLong(1, customer.getId());
+				deleteStmt.setString(2, customer.getCustName());
+				deleteStmt.setString(3, customer.getPassword());
+			
+				// Execute
+				deleteStmt.executeUpdate();
+			
+			} catch (PropertyVetoException | SQLException | IOException e) {
+				throw new CouponSystemException("CouponSystemException", e);
+			}
+		} else {
+			//TODO:...
+		}
+			
+	}
+
+	@Override
+	public void updateCustomer(Customer customer) throws CouponSystemException {
 		// getting a connection to DB from  pool
 		try (Connection myCon = ConnectionPool.getInstance().getConnection()){
 			// Update prepared statement
@@ -101,9 +107,9 @@ public class CustomerDBDAO implements CustomerDAO {
 					+ "where ID = ?");
 
 			// Values
-			updateStmt.setString(1, custumer.getCustName());
-			updateStmt.setString(2, custumer.getPassword());
-			updateStmt.setLong(3, custumer.getId());
+			updateStmt.setString(1, customer.getCustName());
+			updateStmt.setString(2, customer.getPassword());
+			updateStmt.setLong(3, customer.getId());
 			
 			// Execute
 			updateStmt.executeUpdate();
@@ -215,7 +221,6 @@ public class CustomerDBDAO implements CustomerDAO {
 		
 		// Select prepared statement
 		PreparedStatement selectStmt = myCon.prepareStatement(
-				// TODO: read about Relational Division ???
 				"SELECT * FROM coupon "
 				+ "JOIN customer_coupon "
 				+ "ON coupon.ID = customer_coupon.COUPON_ID "
@@ -228,7 +233,7 @@ public class CustomerDBDAO implements CustomerDAO {
 		ResultSet myRs = selectStmt.executeQuery();
 
 		// Processing resultSet into a Collection of Coupon
-		// ---------------------------------------------------
+		// ------------------------------------------------
 		// Declaring a List of 'Coupon's
 		Collection<Coupon> coupons = new ArrayList<>();
 

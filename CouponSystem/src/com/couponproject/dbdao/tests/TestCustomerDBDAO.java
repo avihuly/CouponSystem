@@ -15,10 +15,10 @@ public class TestCustomerDBDAO {
 
 		// Each method in CustomerDBDAO is being teased in a separate private method
 
-		 //createCustomerTest();
+		 createCustomerTest();
 		 //removeCustomerTest();
 		 //updateCustomerTest();
-		 getCustomerTest();
+		 //getCustomerTest();
 		 //getAllCustomerTest();
 		 //getCouponsTest();
 		 //loginTest();
@@ -71,7 +71,7 @@ public class TestCustomerDBDAO {
 	// Testing createCustomer()
 	private static void createCustomerTest() {
 		// Add new 'Customer's to DB
-		for (int i = 0; i < 1; i++) {
+		for (int i = 0; i < 10; i++) {
 			// Customer instance
 			Customer customer = new Customer("customer " + (i + 99), "password " + (i + 99));
 			try {
