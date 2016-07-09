@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.ButtonGroup;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -12,6 +13,7 @@ import com.couponproject.constants.ClientType;
 import com.couponproject.facade.AdminFacade;
 import com.couponproject.facade.CompanyFacade;
 import com.couponproject.facade.CustomerFacade;
+import com.couponproject.gui.CustomerMainFrame;
 import com.couponproject.system.CouponSystem;
 
 public class LoginActionlistener implements ActionListener {
@@ -19,6 +21,7 @@ public class LoginActionlistener implements ActionListener {
 	// **********
 	// Attributes
 	// **********
+	JFrame loginframe;
 	ButtonGroup userTypeRadioGroup;
 	JTextField txtUserName;
 	JPasswordField txtPassword;
@@ -30,7 +33,8 @@ public class LoginActionlistener implements ActionListener {
 	// ***********
 	// constructor
 	// ***********
-	public LoginActionlistener(ButtonGroup userTypeRadioGroup, JTextField txtUserName, JPasswordField txtPassword) {
+	public LoginActionlistener(JFrame loginframe, ButtonGroup userTypeRadioGroup, JTextField txtUserName, JPasswordField txtPassword) {
+		this.loginframe = loginframe;
 		this.userTypeRadioGroup = userTypeRadioGroup;
 		this.txtUserName = txtUserName;
 		this.txtPassword = txtPassword;
@@ -58,9 +62,9 @@ public class LoginActionlistener implements ActionListener {
 		}
 	}
 
-	//
-	// Loading AdminFarme
-	//
+	/////////////////////////	
+	// Loading AdminFarme ///
+	/////////////////////////
 	private void loadAdminFarme() {
 		AdminFacade adminFacade = CouponSystem.getInstance().loginAsAdmin(userName, userName);
 		
@@ -83,13 +87,24 @@ public class LoginActionlistener implements ActionListener {
 		}
 	}
 
-	//
-	// Loading CustomerFrame
-	//
+	////////////////////////////
+	// Loading CustomerFrame////
+	////////////////////////////
 	private void loadCustomerFrame() {
 		CustomerFacade customerFacade = CouponSystem.getInstance().loginAsCustomer(userName, password);
+		
+		// check for a successful login 
 		if (customerFacade != null) {
+			// Turing LoginFrame Visibility off
+			loginframe.setVisible(false);
+			
+			// login message 
 			JOptionPane.showMessageDialog(null, "Login!!!");
+			
+			// loading Customer main Frame 
+			CustomerMainFrame customerMainFrame = new CustomerMainFrame(customerFacade);
+			customerMainFrame.setVisible(true);
+			
 		} else {
 			JOptionPane.showMessageDialog(null, "!!!!!NOT LOGED IN!!!");
 		}

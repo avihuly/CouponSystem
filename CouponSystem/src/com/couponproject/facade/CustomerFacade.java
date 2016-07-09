@@ -77,7 +77,6 @@ public class CustomerFacade {
 		
 		// Catching couponSystemException
 		} catch (CouponSystemException e){
-
 			// In case of a problem throw new CustomerFacadeException  
 			throw new CustomerFacadeException("CustomerFacadeException - "
 					+ "getAllPurchasedCoupons() Error", e);

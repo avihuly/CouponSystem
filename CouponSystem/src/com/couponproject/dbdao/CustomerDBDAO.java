@@ -246,11 +246,11 @@ public class CustomerDBDAO implements CustomerDAO {
 					myRs.getLong("ID"),
 					myRs.getString("TITLE"), 
 					// converting Date to LocalDate
-					myRs.getDate("START_DATE").toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
+					myRs.getDate("START_DATE").toLocalDate(),
 					// converting Date to LocalDate
-					myRs.getDate("END_DATE").toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
+					myRs.getDate("END_DATE").toLocalDate(),
 					myRs.getInt("AMOUNT"), 
-					CouponType.valueOf(myRs.getString("TYEP")),
+					CouponType.valueOf(myRs.getString("TYPE")),
 					myRs.getString("MESSAGE"), 
 					myRs.getDouble("PRICE"), 
 					myRs.getString("IMAGE"));
