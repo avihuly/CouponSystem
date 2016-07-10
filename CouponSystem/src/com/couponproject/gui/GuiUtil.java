@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -13,8 +15,13 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
+import com.couponproject.beans.Coupon;
+import com.couponproject.constants.CouponTableColumnNames;
 import com.couponproject.gui.Actionlisteners.AboutActionListener;
+import com.mysql.fabric.xmlrpc.base.Array;
 
 public class GuiUtil {
 	protected static void setLogoBySize(JFrame frame, int width, int height) {
@@ -37,13 +44,13 @@ public class GuiUtil {
 
 			// loading Jlabel to panel
 			northPanel.add(logoLabel);
-			
+
 			// adding to frame's BorderLayout.NORTH
 			frame.getContentPane().add(northPanel, BorderLayout.NORTH);
 		} catch (IOException ie) {
 			System.out.println(ie.getMessage());
 		}
-		
+
 	}
 
 	protected static void setFrameIconAndMenu(JFrame frame) {
@@ -93,4 +100,35 @@ public class GuiUtil {
 		mnHelp.add(mntmAbout);
 
 	}
+
+	// ****************
+	// Coupon Table Set
+	// ****************
+	public static void CouponsToTable(JTable tableCouponData, Collection<Coupon> PurchasedCoupons) {
+		DefaultTableModel model = new DefaultTableModel();
+		model.addColumn("Title");
+		model.addColumn("Description");
+		model.addColumn("Type");
+		model.addColumn("Start Date");
+		model.addColumn("End Date");
+		model.addColumn("Price");
+		
+		for (Coupon coupon : PurchasedCoupons) {
+			ArrayList<String> tempCoupon = new ArrayList<>();
+			tempCoupon.add(coupon.getTitle());
+			tempCoupon.add(coupon.getMessage());
+			tempCoupon.add(coupon.getType().name());
+			tempCoupon.add(coupon.getStartDate().toString());
+			tempCoupon.add(coupon.getEndDate().toString());
+			tempCoupon.add(Double.toString(coupon.getPrice()));
+			model.addRow(tempCoupon.toArray());
+		}
+		tableCouponData.setModel(model);
+		
+	}
+	
+	
+	
+	
+	
 }

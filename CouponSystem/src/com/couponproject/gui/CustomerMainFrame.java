@@ -5,8 +5,7 @@ import javax.swing.*;
 
 import com.couponproject.exception.CustomerFacadeException;
 import com.couponproject.facade.CustomerFacade;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+
 
 public class CustomerMainFrame extends JFrame {
 	private CustomerFacade customerFacade;
@@ -28,26 +27,8 @@ public class CustomerMainFrame extends JFrame {
 		// ***********
 		JPanel southPanel = new JPanel();
 		getContentPane().add(southPanel, BorderLayout.SOUTH);
-
-		// ***********
-		// West Panel
-		// ***********
-		JPanel westPanel = new JPanel();
-		getContentPane().add(westPanel, BorderLayout.WEST);
-		westPanel.setLayout(new GridLayout(10, 1, 0, 0));
-
-		JButton btnMyCoupons = new JButton("My Coupons");
-		btnMyCoupons.addActionListener(e -> {
-			try {
-				System.out.println(customerFacade.getAllPurchasedCoupons());
-			} catch (CustomerFacadeException custE) {
-				// TODO Auto-generated catch block
-				custE.printStackTrace();
-			}
-		});
 		
 		
-		westPanel.add(btnMyCoupons);
 
 		// ***********
 		// East Panel
@@ -73,6 +54,33 @@ public class CustomerMainFrame extends JFrame {
 		// North Panel
 		// ***********
 		GuiUtil.setLogoBySize(this, 750, 75);
+		
+		
+		// ***********
+		// West Panel
+		// ***********
+		JPanel westPanel = new JPanel();
+		getContentPane().add(westPanel, BorderLayout.WEST);
+		westPanel.setLayout(new GridLayout(10, 1, 0, 0));
+
+		JButton btnMyCoupons = new JButton("My Coupons");
+		btnMyCoupons.addActionListener(e -> {
+			try {
+				System.out.println(customerFacade.getAllPurchasedCoupons());
+				// load Coupons to table
+				GuiUtil.CouponsToTable(tableCouponData, customerFacade.getAllPurchasedCoupons());
+				
+				
+				
+			} catch (CustomerFacadeException custE) {
+				// TODO Auto-generated catch block
+				custE.printStackTrace();
+			}
+		});
+		
+		//TODO: not here
+		westPanel.add(btnMyCoupons);
+
 	}
 
 }
