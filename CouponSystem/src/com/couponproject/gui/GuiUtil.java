@@ -9,6 +9,7 @@ import java.util.Collection;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -16,10 +17,14 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import com.couponproject.beans.Coupon;
 import com.couponproject.constants.CouponTableColumnNames;
+import com.couponproject.constants.CouponType;
+import com.couponproject.exception.CustomerFacadeException;
+import com.couponproject.facade.CustomerFacade;
 import com.couponproject.gui.Actionlisteners.AboutActionListener;
 import com.mysql.fabric.xmlrpc.base.Array;
 
@@ -112,7 +117,7 @@ public class GuiUtil {
 		model.addColumn("Start Date");
 		model.addColumn("End Date");
 		model.addColumn("Price");
-		
+
 		for (Coupon coupon : PurchasedCoupons) {
 			ArrayList<String> tempCoupon = new ArrayList<>();
 			tempCoupon.add(coupon.getTitle());
@@ -124,11 +129,21 @@ public class GuiUtil {
 			model.addRow(tempCoupon.toArray());
 		}
 		tableCouponData.setModel(model);
+
+		// Center alignment
+		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+		centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+		for (int i = 0; i < model.getColumnCount(); i++) {
+			tableCouponData.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+		}
+	}
+
+	// ***********************
+	// setPanelToBntCouponType
+	// ***********************
+	public static void setPanelToBntCouponType(CustomerFacade customerFacade, JPanel westPanel)
+			throws CustomerFacadeException {
+		
 		
 	}
-	
-	
-	
-	
-	
 }

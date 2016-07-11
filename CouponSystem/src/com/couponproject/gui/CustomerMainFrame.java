@@ -3,17 +3,14 @@ package com.couponproject.gui;
 import java.awt.*;
 import javax.swing.*;
 
-import com.couponproject.exception.CustomerFacadeException;
-import com.couponproject.facade.CustomerFacade;
 
+import com.couponproject.facade.CustomerFacade;
+import com.couponproject.gui.Actionlisteners.AllCouponsActionListener;
 
 public class CustomerMainFrame extends JFrame {
-	private CustomerFacade customerFacade;
 	private JTable tableCouponData;
 
 	public CustomerMainFrame(CustomerFacade customerFacade) {
-		this.customerFacade = customerFacade;
-
 		setBackground(Color.LIGHT_GRAY);
 		setBounds(100, 100, 750, 500);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -27,8 +24,6 @@ public class CustomerMainFrame extends JFrame {
 		// ***********
 		JPanel southPanel = new JPanel();
 		getContentPane().add(southPanel, BorderLayout.SOUTH);
-		
-		
 
 		// ***********
 		// East Panel
@@ -48,14 +43,14 @@ public class CustomerMainFrame extends JFrame {
 		CenterPanel.add(lblCouponPic);
 
 		tableCouponData = new JTable();
-		CenterPanel.add(tableCouponData);
+		CenterPanel.add(new JScrollPane(tableCouponData));
+		// CenterPanel.add(tableCouponData);
 
 		// ***********
 		// North Panel
 		// ***********
 		GuiUtil.setLogoBySize(this, 750, 75);
-		
-		
+
 		// ***********
 		// West Panel
 		// ***********
@@ -63,22 +58,17 @@ public class CustomerMainFrame extends JFrame {
 		getContentPane().add(westPanel, BorderLayout.WEST);
 		westPanel.setLayout(new GridLayout(10, 1, 0, 0));
 
-		JButton btnMyCoupons = new JButton("My Coupons");
-		btnMyCoupons.addActionListener(e -> {
-			try {
-				System.out.println(customerFacade.getAllPurchasedCoupons());
-				// load Coupons to table
-				GuiUtil.CouponsToTable(tableCouponData, customerFacade.getAllPurchasedCoupons());
+		// ***************
+		// ActionListeners
+		// ***************
+		// All Purchased Coupons
+		JButton btnMyCoupons = new JButton("All My Coupons");
+		btnMyCoupons.addActionListener(
+				new AllCouponsActionListener(tableCouponData, westPanel, customerFacade));
 				
-				
-				
-			} catch (CustomerFacadeException custE) {
-				// TODO Auto-generated catch block
-				custE.printStackTrace();
-			}
-		});
-		
-		//TODO: not here
+		// *******************
+		// Adding bnt to panel
+		// *******************
 		westPanel.add(btnMyCoupons);
 
 	}

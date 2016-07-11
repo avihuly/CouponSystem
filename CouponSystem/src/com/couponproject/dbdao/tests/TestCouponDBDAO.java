@@ -29,14 +29,14 @@ public class TestCouponDBDAO {
 	// Testing createCouponTest()
 	private static void createCouponTest() {
 		// Add new 'Coupon' to DB
-		for (int i = 50; i < 98; i++) {
+		for (int i = 49; i < 54; i++) {
 			// Coupon instance
 			Coupon coupon = new Coupon(
-					"title" + (i+1),
+					"title" + ("ELECTRICITY " +i+1),
 					LocalDate.now(),
-					LocalDate.of(2016, 9, 23),
+					LocalDate.of(2017, 11, 23),
 					((int)Math.random()*102),
-					CouponType.RESTAURANT,
+					CouponType.ELECTRICITY,
 					"message" + (i+1),
 					(Math.random()*10+20.99),
 					"image" + (i+1));
