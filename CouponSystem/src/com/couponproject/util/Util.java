@@ -13,6 +13,7 @@ public class Util {
 			Customer dbCustomer = CustomerDBDAO.getInstace().getCustomer(customer.getCustName(),customer.getPassword());
 			return (customer.equals(dbCustomer));
 		} catch (CouponSystemException e) {
+			//TODO: what if there is a problem with the connection
 			return false;
 		}
 	}
@@ -23,6 +24,7 @@ public class Util {
 			Company dbCompany = CompanyDBDAO.getInstace().getCompany(company.getId());
 			return (company.equals(dbCompany));
 		} catch (CouponSystemException e) {
+			//TODO: what if there is a problem with the connection
 			return false;
 		}
 	}

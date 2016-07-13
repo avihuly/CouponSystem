@@ -6,15 +6,13 @@ import com.couponproject.beans.*;
 import com.couponproject.dbdao.*;
 import com.couponproject.exception.AdminFacadeException;
 import com.couponproject.exception.CouponSystemException;
-import com.couponproject.exception.FacadeException;
 
 public class AdminFacade{
 
 	// ***********
 	// constructor
 	// ***********
-
-	public AdminFacade() throws AdminFacadeException {
+	public AdminFacade() {
 	}
 
 	// ***************
@@ -22,7 +20,7 @@ public class AdminFacade{
 	// ***************
 
 	// Login
-	public static AdminFacade login(String name, String password) throws FacadeException {
+	public static AdminFacade login(String name, String password){
 		if (name.equals("admin") && password.equals("admin")) {
 			return new AdminFacade();
 		} 
@@ -99,7 +97,6 @@ public class AdminFacade{
 	}
 
 	public Collection<Company> getAllCompanies() throws AdminFacadeException {
-		// TODO check if Company exist
 		try {
 			// Invoking the getAllCompanies method in CompanyDBDAO
 			return CompanyDBDAO.getInstace().getAllCompanies();
@@ -199,9 +196,4 @@ public class AdminFacade{
 		}
 
 	}
-	
-	
-	
-	
-	
 }

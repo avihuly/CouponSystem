@@ -25,7 +25,6 @@ public class ConnectionPool {
 		cpds.setAcquireIncrement(5);
 		cpds.setMaxPoolSize(10);
 		cpds.setMaxStatements(180);
-
 	}
 
 	public static ConnectionPool getInstance() throws IOException, SQLException, PropertyVetoException {

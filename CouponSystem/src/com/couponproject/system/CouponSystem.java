@@ -16,7 +16,7 @@ public class CouponSystem {
 	// **********
 	// Attributes
 	// **********	
-	private static CouponSystem instance = null;
+	private static CouponSystem instance = new CouponSystem();
 	
 	private Thread dailyExportationTask = new Thread(new DailyCouponExportationTask());
 	
@@ -24,11 +24,6 @@ public class CouponSystem {
 	// constructor
 	// ***********
 	private CouponSystem(){
-		// TODO: why i need to load daos here??!?! i load them in the facades
-		// custDbdao = new CouponDBDAO();
-		// compDbdao = new CompanyDBDAO();
-		// coupDbdao = new CustomerDBDAO();
-
 		dailyExportationTask.start();
 	}
 	
@@ -39,9 +34,6 @@ public class CouponSystem {
 	
 	// Get instance
 	public static CouponSystem getInstance(){
-		if (instance == null){
-			instance = new CouponSystem();
-		}
 		return instance;
 	}
 	
@@ -49,6 +41,7 @@ public class CouponSystem {
 	public void shutDown(){
 		try {
 			ConnectionPool.getInstance().shutDown();
+			// TODO: dailyExportationTask.stopTask();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -86,12 +79,6 @@ public class CouponSystem {
 	}
 	
 	public AdminFacade loginAsAdmin(String name, String password){
-			try {
-				return AdminFacade.login(name, password);
-			} catch (FacadeException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		return null; 
+			return AdminFacade.login(name, password);
 	}
 }

@@ -34,7 +34,7 @@ public class LoginFrame extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		// Set Frame's Icon And MenuBar
 		GuiUtil.setFrameIconAndMenu(this);
-		// Set setLayout
+		// Set Layout
 		getContentPane().setLayout(new BorderLayout(0, 0));
 
 		
@@ -127,9 +127,6 @@ public class LoginFrame extends JFrame {
 		// North Panel
 		// ***********
 		GuiUtil.setLogoBySize(this,300,50);
-		
-
-		
 		
 		
 		// *****************

@@ -35,9 +35,9 @@ public class AllCouponsActionListener implements ActionListener {
 		try {
 			// load Coupons to table
 			GuiUtil.CouponsToTable(tableCouponData, customerFacade.getAllPurchasedCoupons());
+			
 			// clear panel
 			Panel.removeAll();
-			
 			// Generating buttons by relevant coupons
 			CouponType tempCouponType = null;
 			// Iterating All PurchasedCoupons - for checking relevant coupon types

@@ -19,12 +19,7 @@ public class AdminFacadeTest {
 	
 	// Test login
 	private static void testLogin() {
-		try {
-			adminFacade = (AdminFacade) AdminFacade.login("admin", "admin");
-		} catch (CouponSystemException e) {
-			e.toString();
-			e.printStackTrace();
-		}
+		adminFacade = (AdminFacade) AdminFacade.login("admin", "admin");
 
 		System.out.println("Test login:");
 		System.out.println(adminFacade);

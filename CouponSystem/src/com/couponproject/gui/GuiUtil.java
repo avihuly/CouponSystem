@@ -142,8 +142,6 @@ public class GuiUtil {
 	// setPanelToBntCouponType
 	// ***********************
 	public static void setPanelToBntCouponType(CustomerFacade customerFacade, JPanel westPanel)
-			throws CustomerFacadeException {
-		
-		
+			throws CustomerFacadeException {	
 	}
 }
