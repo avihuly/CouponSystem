@@ -58,8 +58,6 @@ public class CompanyFacade {
 	//A method that gets coupon instance and add the coupon to the coupon table in the DB and adds coupon's and company's
 	//ID to company_coupon table in the DB
 	public void createCoupon(Coupon coupon) throws CompanyFacadeException{
-		//TODO: check if the coupon doesn't exist - to add a function in CouponDBDAO that checks the title resultSet - checkCouponTitle
-		
 		//adding the coupon to the coupon table in the DB
 		try {
 			CouponDBDAO.getInstace().createCoupon(coupon);

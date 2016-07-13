@@ -132,7 +132,6 @@ public class AdminFacade{
 	public void removeCustomer(Customer customer) throws AdminFacadeException {
 		// TODO check if Customer exist
 		try {
-			
 			// Deleting all customer's coupons by invoking the getCoupons method in CustomerDBDAO
 			for (Coupon coupon : CustomerDBDAO.getInstace().getCoupons(customer.getId())) {
 				CouponDBDAO.getInstace().removeCoupon(coupon);
