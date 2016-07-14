@@ -4,6 +4,7 @@ import com.couponproject.beans.Coupon;
 import com.couponproject.beans.Customer;
 import com.couponproject.dbdao.CustomerAlreadyExistsException;
 import com.couponproject.dbdao.CustomerDBDAO;
+import com.couponproject.dbdao.CustomerDoesNotExistException;
 import com.couponproject.exception.CouponSystemException;
 import com.couponproject.exception.IllegalPasswordException;
 
@@ -33,7 +34,7 @@ public class TestCustomerDBDAO {
 		
 		try {
 			System.out.println(CustomerDBDAO.getInstace().getCustomer(99488));
-		} catch (CouponSystemException e) {
+		} catch (CouponSystemException | CustomerAlreadyExistsException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -94,7 +95,7 @@ public class TestCustomerDBDAO {
 				// This is the hart of the test
 				// converting costumer object into a sql query and urning it
 				CustomerDBDAO.getInstace().removeCustomer(customer);
-			} catch (CouponSystemException e) {
+			} catch (CouponSystemException | CustomerDoesNotExistException e) {
 				System.out.println("removeCustomerTest Error");
 				e.printStackTrace();
 			}

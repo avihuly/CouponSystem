@@ -55,7 +55,6 @@ public class CustomerDBDAO implements CustomerDAO {
 			throw new CustomerAlreadyExistsException(
 					"User name already exists in DB");	
 		} else {
-			
 			// getting a connection to DB from pool
 			try (Connection myCon = ConnectionPool.getInstance().getConnection()){
 				
@@ -78,8 +77,11 @@ public class CustomerDBDAO implements CustomerDAO {
 	}}
 
 	@Override
-	public void removeCustomer(Customer customer) throws CouponSystemException {
-		if (Util.isCustomer(customer)){
+	public void removeCustomer(Customer customer) throws CouponSystemException, CustomerDoesNotExistException {
+		if (!Util.isCustomer(customer)){
+			throw new CustomerDoesNotExistException(
+					"Customer does not exist exception");
+		} else {
 			// getting a connection to DB from  pool
 			try (Connection myCon = ConnectionPool.getInstance().getConnection()){
 		
@@ -99,93 +101,113 @@ public class CustomerDBDAO implements CustomerDAO {
 			} catch (PropertyVetoException | SQLException | IOException e) {
 				throw new CouponSystemException("CouponSystemException", e);
 			}
+		}
+			
+	}
+
+	@Override
+	public void updateCustomer(Customer customer) throws CouponSystemException, IllegalPasswordException, CustomerAlreadyExistsException {
+		if(!Util.passwordvalidation(customer.getPassword())){
+			throw new IllegalPasswordException(
+					"Password must contain:\n"
+					+ "6-10 characters\n"
+					+ "At lest one upper case letter\n"
+					+ "At lest one lower case letter\n"
+					+ "At lest one digit");	
+		}
+		else if (Util.isCustomer(customer)){
+			throw new CustomerAlreadyExistsException(
+					"User name already exists in DB");	
 		} else {
-			//TODO:...
+			// getting a connection to DB from  pool
+			try (Connection myCon = ConnectionPool.getInstance().getConnection()){
+				// Update prepared statement
+				PreparedStatement updateStmt = myCon.prepareStatement(
+						"update customer "
+						+ "set CUST_NAME = ? and PASSWORD = ? "
+						+ "where ID = ?");
+	
+				// Values
+				updateStmt.setString(1, customer.getCustName());
+				updateStmt.setString(2, customer.getPassword());
+				updateStmt.setLong(3, customer.getId());
+				
+				// Execute
+				updateStmt.executeUpdate();
+				
+			} catch (PropertyVetoException | SQLException | IOException e) {
+				throw new CouponSystemException("CouponSystemException", e);
+			}
 		}
-			
 	}
 
 	@Override
-	public void updateCustomer(Customer customer) throws CouponSystemException {
-		// getting a connection to DB from  pool
-		try (Connection myCon = ConnectionPool.getInstance().getConnection()){
-			// Update prepared statement
-			PreparedStatement updateStmt = myCon.prepareStatement(
-					"update customer "
-					+ "set CUST_NAME = ? and PASSWORD = ? "
-					+ "where ID = ?");
-
-			// Values
-			updateStmt.setString(1, customer.getCustName());
-			updateStmt.setString(2, customer.getPassword());
-			updateStmt.setLong(3, customer.getId());
-			
-			// Execute
-			updateStmt.executeUpdate();
-			
-		} catch (PropertyVetoException | SQLException | IOException e) {
-			throw new CouponSystemException("CouponSystemException", e);
-		}
-
-	}
-
-	@Override
-	public Customer getCustomer(long id) throws CouponSystemException {
-		// getting a connection to DB from  pool
-		try (Connection myCon = ConnectionPool.getInstance().getConnection()) {
-			// Select prepared statement
-			PreparedStatement selectStmt = myCon.prepareStatement(
-					"select * from customer "
-					+ "where ID = ?");
-			
-			// Values
-			selectStmt.setLong(1, id);
-			
-			// Execute and get a resultSet
-			ResultSet myRs = selectStmt.executeQuery();
-						
-			// Processing resultSet into a Customer(bean) instance
-			myRs.next();
-			Customer customer = new Customer(
-					myRs.getLong("ID"),
-					myRs.getString("CUST_NAME"),
-					myRs.getString("PASSWORD"));
-
-			// Return customer
-			return customer;
-		} catch (PropertyVetoException | SQLException | IOException e) {
-			throw new CouponSystemException("CouponSystemException", e);
+	public Customer getCustomer(long id) throws CouponSystemException, CustomerAlreadyExistsException {
+		if (Util.isCustomer(new Customer(id,null,null))){
+			throw new CustomerAlreadyExistsException(
+					"User name already exists in DB");	
+		} else {
+			// getting a connection to DB from  pool
+			try (Connection myCon = ConnectionPool.getInstance().getConnection()) {
+				// Select prepared statement
+				PreparedStatement selectStmt = myCon.prepareStatement(
+						"select * from customer "
+						+ "where ID = ?");
+				
+				// Values
+				selectStmt.setLong(1, id);
+				
+				// Execute and get a resultSet
+				ResultSet myRs = selectStmt.executeQuery();
+							
+				// Processing resultSet into a Customer(bean) instance
+				myRs.next();
+				Customer customer = new Customer(
+						myRs.getLong("ID"),
+						myRs.getString("CUST_NAME"),
+						myRs.getString("PASSWORD"));
+	
+				// Return customer
+				return customer;
+			} catch (PropertyVetoException | SQLException | IOException e) {
+				throw new CouponSystemException("CouponSystemException", e);
+			}
 		}
 	}
 	
-	public Customer getCustomer(String name, String password) throws CouponSystemException {
-		// getting a connection to DB from  pool
-		try (Connection myCon = ConnectionPool.getInstance().getConnection()) {
-			
-			// Select prepared statement
-			PreparedStatement selectStmt = myCon.prepareStatement(
-					"select * from customer "
-					+ "where CUST_NAME = ? and PASSWORD = ?");
-
-			// Values
-			selectStmt.setString(1, name);
-			selectStmt.setString(2, password);
-
-			// Execute and get a resultSet
-			ResultSet myRs = selectStmt.executeQuery();
-
-			// Processing resultSet into a Customer(bean) instance
-			myRs.next();
-			Customer customer = new Customer(
-					myRs.getLong("ID"), 
-					myRs.getString("CUST_NAME"),
-					myRs.getString("PASSWORD"));
-
-			// Return customer
-			return customer;
-			
-		} catch (PropertyVetoException | SQLException | IOException e) {
-			throw new CouponSystemException("CouponSystemException", e);
+	public Customer getCustomer(String name, String password) throws CouponSystemException, CustomerAlreadyExistsException {
+		if (Util.isCustomer(new Customer(name,password))){
+			throw new CustomerAlreadyExistsException(
+					"User name already exists in DB");	
+		} else {
+			// getting a connection to DB from  pool
+			try (Connection myCon = ConnectionPool.getInstance().getConnection()) {
+				
+				// Select prepared statement
+				PreparedStatement selectStmt = myCon.prepareStatement(
+						"select * from customer "
+						+ "where CUST_NAME = ? and PASSWORD = ?");
+	
+				// Values
+				selectStmt.setString(1, name);
+				selectStmt.setString(2, password);
+	
+				// Execute and get a resultSet
+				ResultSet myRs = selectStmt.executeQuery();
+	
+				// Processing resultSet into a Customer(bean) instance
+				myRs.next();
+				Customer customer = new Customer(
+						myRs.getLong("ID"), 
+						myRs.getString("CUST_NAME"),
+						myRs.getString("PASSWORD"));
+	
+				// Return customer
+				return customer;
+				
+			} catch (PropertyVetoException | SQLException | IOException e) {
+				throw new CouponSystemException("CouponSystemException", e);
+			}
 		}
 	}
 

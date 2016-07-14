@@ -13,32 +13,47 @@ public class Util {
 			Customer dbCustomer = CustomerDBDAO.getInstace().getCustomer(customer.getCustName(),
 					customer.getPassword());
 
-			if (customer.equals(dbCustomer)) {
-				return true;
-			} else if (customer.getId() == dbCustomer.getId()) {
+			if (customer.getCustName().equals(dbCustomer.getCustName())) {
 				return true;
 			} else {
-				return false;
+				return (customer.getId() == dbCustomer.getId());
+			} 
+		} catch (CouponSystemException | CustomerAlreadyExistsException e) {
+			return false;
+		}
+	}
+
+	// Returns true if Customers name of id already exist in DB
+	public static boolean isCompany(Company company) {
+		try {
+			Company dbCompany = CompanyDBDAO.getInstace().getCompany(company.getId());
+			if (company.equals(dbCompany)) {
+				return true;
+			} else {
+				return (company.getId() == dbCompany.getId());
 			}
 		} catch (CouponSystemException e) {
 			// TODO: what if there is a problem with the connection
 			return false;
 		}
 	}
-
-	// Returns true if Customer exist in DB
-	public static boolean isCompany(Company company) {
+	
+	public static boolean isCoupon(Coupon coupon){
 		try {
-			Company dbCompany = CompanyDBDAO.getInstace().getCompany(company.getId());
-			if (company.equals(dbCompany)) {
+			Coupon dbCoupon = CouponDBDAO.getInstace().getCoupon(coupon.getId());
+			if (coupon.getTitle().equals(dbCoupon.getTitle())) {
 				return true;
-			} else
-				return (company.getId() == dbCompany.getId());
+			} else {
+				return (coupon.getId() == dbCoupon.getId());
+			}
 		} catch (CouponSystemException e) {
 			// TODO: what if there is a problem with the connection
 			return false;
 		}
 	}
+	
+	
+	
 	
 	
 	/* Password validation
