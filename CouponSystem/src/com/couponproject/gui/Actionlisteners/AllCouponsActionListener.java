@@ -40,7 +40,7 @@ public class AllCouponsActionListener implements ActionListener {
 			Panel.removeAll();
 			// Generating buttons by relevant coupons
 			CouponType tempCouponType = null;
-			// Iterating All PurchasedCoupons - for checking relevant coupon types
+			// Iterating relevant coupon types
 			for (Coupon coupon : customerFacade.getAllPurchasedCoupons()) {
 				// each type will generate one button 
 				if (tempCouponType != coupon.getType()) {

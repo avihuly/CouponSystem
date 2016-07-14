@@ -6,7 +6,10 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import javax.swing.plaf.metal.MetalBorders.TableHeaderBorder;
+
 import com.couponproject.beans.*;
+import com.couponproject.constants.CouponTableColumnNames;
 import com.couponproject.constants.CouponType;
 import com.couponproject.constants.CustomerTableColumnNames;
 import com.couponproject.dao.CustomerDAO;
@@ -272,21 +275,8 @@ public class CustomerDBDAO implements CustomerDAO {
 		// each iteration is converted into a Coupon instance and added to the
 		// List
 		while (myRs.next()) {
-			// Generating Coupon
-			Coupon coupon = new Coupon(
-					myRs.getLong("ID"),
-					myRs.getString("TITLE"), 
-					// converting Date to LocalDate
-					myRs.getDate("START_DATE").toLocalDate(),
-					// converting Date to LocalDate
-					myRs.getDate("END_DATE").toLocalDate(),
-					myRs.getInt("AMOUNT"), 
-					CouponType.valueOf(myRs.getString("TYPE")),
-					myRs.getString("MESSAGE"), 
-					myRs.getDouble("PRICE"), 
-					myRs.getString("IMAGE"));
-			// Adding to List
-			coupons.add(coupon);
+			// Generating Coupon and adding it to the List
+			coupons.add(resultSetToCoupn(myRs));
 		}
 
 		// Return List of coupon
@@ -342,8 +332,58 @@ public class CustomerDBDAO implements CustomerDAO {
 		} catch (PropertyVetoException | SQLException | IOException e) {
 			throw new CouponSystemException("CouponSystemException", e);
 		}
-
 	}
 
-	
+	// ****************
+	// UniqueCouponType
+	// *****************
+	public Collection<CouponType> getUniqueCouponType(Customer cstomer) throws CouponSystemException {
+		// getting a connection to DB from pool
+		try (Connection myCon = ConnectionPool.getInstance().getConnection()) {
+
+			// Select prepared statement
+			PreparedStatement selectStmt = myCon
+					.prepareStatement("SELECT DISTINCT " + CouponTableColumnNames.TYPE + "FROM coupon");
+
+			// Execute and get a resultSet
+			ResultSet myRs = selectStmt.executeQuery();
+
+			// Processing resultSet into a Collection of CouponType
+			Collection<CouponType> couponsTypes = new ArrayList<>();
+
+			// Iterating the resultSet
+			while (myRs.next()) {
+				// Generating Coupons type and adding it to the List
+				CouponType couponType = CouponType.valueOf(myRs.getString(CouponTableColumnNames.TYPE.name()));
+				couponsTypes.add(couponType);
+			}
+
+			// Return List of coupon
+			return couponsTypes;
+
+		} catch (PropertyVetoException | SQLException | IOException e) {
+			throw new CouponSystemException("CouponSystemException", e);
+		}
+	}
+
+
+			
+			
+	// ***************
+	// private methods
+	// ***************
+	private Coupon resultSetToCoupn(ResultSet myRs) throws SQLException{
+		return new Coupon(
+				myRs.getLong("ID"),
+				myRs.getString("TITLE"), 
+				// converting Date to LocalDate
+				myRs.getDate("START_DATE").toLocalDate(),
+				// converting Date to LocalDate
+				myRs.getDate("END_DATE").toLocalDate(),
+				myRs.getInt("AMOUNT"), 
+				CouponType.valueOf(myRs.getString("TYPE")),
+				myRs.getString("MESSAGE"), 
+				myRs.getDouble("PRICE"), 
+				myRs.getString("IMAGE"));
+	}
 }
