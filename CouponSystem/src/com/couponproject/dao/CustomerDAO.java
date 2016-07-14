@@ -2,7 +2,9 @@ package com.couponproject.dao;
 
 import java.util.Collection;
 import com.couponproject.beans.*;
+import com.couponproject.dbdao.CustomerAlreadyExistsException;
 import com.couponproject.exception.CouponSystemException;
+import com.couponproject.exception.IllegalPasswordException;
 
 
 // this interface specify's all the functions 
@@ -14,7 +16,10 @@ public interface CustomerDAO {
 	
 	// This method should take a Customer instance as argument 
 	// and add its details to DB
-	public void createCustomer(Customer custumer) throws CouponSystemException;
+	public void createCustomer(Customer custumer) 
+			throws CouponSystemException, 
+			IllegalPasswordException, 
+			CustomerAlreadyExistsException;
 	
 	// This method should take a Customer instance as argument 
 	// and remove its details from DB

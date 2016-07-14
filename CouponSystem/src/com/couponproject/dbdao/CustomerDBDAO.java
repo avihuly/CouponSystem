@@ -11,6 +11,7 @@ import com.couponproject.constants.CouponType;
 import com.couponproject.constants.CustomerTableColumnNames;
 import com.couponproject.dao.CustomerDAO;
 import com.couponproject.exception.CouponSystemException;
+import com.couponproject.exception.IllegalPasswordException;
 import com.couponproject.util.Util;
 
 // implements CustomerDAO with mysql
@@ -40,8 +41,21 @@ public class CustomerDBDAO implements CustomerDAO {
 	
 	
 	@Override
-	public void createCustomer(Customer customer) throws CouponSystemException {
-		if (!Util.isCustomer(customer)){
+	// createCustomer
+	public void createCustomer(Customer customer) throws CouponSystemException, IllegalPasswordException, CustomerAlreadyExistsException {
+		if(!Util.passwordvalidation(customer.getPassword())){
+			throw new IllegalPasswordException(
+					"Password must contain:\n"
+					+ "6-10 characters\n"
+					+ "At lest one upper case letter\n"
+					+ "At lest one lower case letter\n"
+					+ "At lest one digit");	
+		}
+		else if (Util.isCustomer(customer)){
+			throw new CustomerAlreadyExistsException(
+					"User name already exists in DB");	
+		} else {
+			
 			// getting a connection to DB from pool
 			try (Connection myCon = ConnectionPool.getInstance().getConnection()){
 				
@@ -61,11 +75,7 @@ public class CustomerDBDAO implements CustomerDAO {
 			} catch (PropertyVetoException | SQLException | IOException e) {
 				throw new CouponSystemException("CouponSystemException", e);
 			} 
-		} else {
-			// TODO: ...
-		}
-		
-	}
+	}}
 
 	@Override
 	public void removeCustomer(Customer customer) throws CouponSystemException {

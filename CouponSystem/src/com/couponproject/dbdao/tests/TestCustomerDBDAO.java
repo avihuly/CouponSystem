@@ -2,8 +2,10 @@ package com.couponproject.dbdao.tests;
 
 import com.couponproject.beans.Coupon;
 import com.couponproject.beans.Customer;
+import com.couponproject.dbdao.CustomerAlreadyExistsException;
 import com.couponproject.dbdao.CustomerDBDAO;
 import com.couponproject.exception.CouponSystemException;
+import com.couponproject.exception.IllegalPasswordException;
 
 // The main method of this class 
 // contains a test program for all the methods in CustomerDBDAO calls
@@ -11,8 +13,6 @@ public class TestCustomerDBDAO {
 
 	// Main
 	public static void main(String[] args) {
-		System.out.println("i am adding this line to check github, it should be deleted");
-
 		// Each method in CustomerDBDAO is being teased in a separate private method
 
 		 createCustomerTest();
@@ -71,19 +71,18 @@ public class TestCustomerDBDAO {
 	// Testing createCustomer()
 	private static void createCustomerTest() {
 		// Add new 'Customer's to DB
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 1; i++) {
 			// Customer instance
-			Customer customer = new Customer("customer " + (i + 99), "password " + (i + 99));
+			Customer customer = new Customer("customer " + (i + 99), "A" + (i + 99));
 			try {
 				// This is the hart of the test
 				// converting costumer object into a sql query and running it
 				CustomerDBDAO.getInstace().createCustomer(customer);
-			} catch (CouponSystemException e) {
-				System.out.println("createCustomerTest Error");
-				e.printStackTrace();
+			} catch (CouponSystemException|CustomerAlreadyExistsException|IllegalPasswordException e) {
+				System.out.println(e.getMessage());
+				}	
 			}
 		}
-	}
 
 	// Testing removeCustomer()
 	private static void removeCustomerTest() {
