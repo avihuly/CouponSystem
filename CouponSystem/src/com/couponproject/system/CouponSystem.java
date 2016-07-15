@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 import com.couponproject.dbdao.ConnectionPool;
+import com.couponproject.dbdao.CustomerAlreadyExistsException;
 import com.couponproject.exception.CompanyFacadeException;
 import com.couponproject.exception.FacadeException;
 import com.couponproject.threads.DailyCouponExportationTask;
@@ -58,7 +59,7 @@ public class CouponSystem {
 	// ******************
 	// ****Login Methods*
 	// ******************
-	public CustomerFacade loginAsCustomer(String name, String password){
+	public CustomerFacade loginAsCustomer(String name, String password) {
 		try {
 			return CustomerFacade.login(name, password);
 		} catch (FacadeException e) {

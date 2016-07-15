@@ -7,9 +7,8 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 
-import com.couponproject.beans.Coupon;
 import com.couponproject.constants.CouponType;
-import com.couponproject.exception.CustomerFacadeException;
+import com.couponproject.exception.CouponSystemException;
 import com.couponproject.facade.CustomerFacade;
 import com.couponproject.gui.GuiUtil;
 
@@ -33,34 +32,45 @@ public class AllCouponsActionListener implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		try {
-			// load Coupons to table
+			// ----------------------------------
+			// Step 1 - load all Coupons to table    
+			// ----------------------------------
 			GuiUtil.CouponsToTable(tableCouponData, customerFacade.getAllPurchasedCoupons());
 			
-			// clear panel
-			Panel.removeAll();
-			// Generating buttons by relevant coupons
-			CouponType tempCouponType = null;
-			// Iterating relevant coupon types
-			for (Coupon coupon : customerFacade.getAllPurchasedCoupons()) {
-				// each type will generate one button 
-				if (tempCouponType != coupon.getType()) {
-					tempCouponType = coupon.getType();
-					JButton tempBnt = new JButton(tempCouponType.name());
-					// ActionListener
-					tempBnt.addActionListener(typeE -> {
-						try {
-							GuiUtil.CouponsToTable(tableCouponData,
-									customerFacade.getAllPurchasedCouponsByType(CouponType.valueOf(tempBnt.getText())));
-						} catch (Exception e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-					});
-					Panel.add(tempBnt);
-				}
+			// -----------------------------------------------------
+			// Step 2 - generate buttons for coupon by relevant types   
+			// ------------------------------------------------------
+			Panel.removeAll();  	// clear panel
+			for (CouponType couponType: customerFacade.getUniqueCouponTypes()){
+				// Each type will generate a button
+				JButton tempBnt = new JButton(couponType.name());
+				// ActionListener - GuiUtil.CouponsToTable()
+				tempBnt.addActionListener(typeE -> {
+					try {
+						GuiUtil.CouponsToTable(tableCouponData,
+								customerFacade.getAllPurchasedCouponsByType(CouponType.valueOf(tempBnt.getText())));
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				});
+				Panel.add(tempBnt);
 			}
 			
-			// Back button
+			// ---------------------------
+			// Step 3 - All coupons button   
+			// ---------------------------
+			JButton allkBnt = new JButton("All Coupons");
+			allkBnt.addActionListener(allE -> {
+				try {
+					GuiUtil.CouponsToTable(tableCouponData, customerFacade.getAllPurchasedCoupons());
+				} catch (Exception e1) {}
+			});
+			Panel.add(allkBnt);
+			
+			// --------------------
+			// Step 4 - Back button   
+			// --------------------
 			JButton backBnt = new JButton("Back");
 			backBnt.addActionListener(backE -> {
 				// clear panel
@@ -75,11 +85,13 @@ public class AllCouponsActionListener implements ActionListener {
 			Panel.add(backBnt);
 			
 			
-			// reprint panel
+			// -----------------------------
+			// Step 5 - revalidate & repaint
+			// -----------------------------			
 			Panel.revalidate();
 			Panel.repaint();
 
-		} catch (CustomerFacadeException custE) {
+		} catch (CouponSystemException custE) {
 			// TODO Auto-generated catch block
 			custE.printStackTrace();
 		}

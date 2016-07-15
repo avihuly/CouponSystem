@@ -6,8 +6,6 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import javax.swing.plaf.metal.MetalBorders.TableHeaderBorder;
-
 import com.couponproject.beans.*;
 import com.couponproject.constants.CouponTableColumnNames;
 import com.couponproject.constants.CouponType;
@@ -145,11 +143,7 @@ public class CustomerDBDAO implements CustomerDAO {
 	}
 
 	@Override
-	public Customer getCustomer(long id) throws CouponSystemException, CustomerAlreadyExistsException {
-		if (Util.isCustomer(new Customer(id,null,null))){
-			throw new CustomerAlreadyExistsException(
-					"User name already exists in DB");	
-		} else {
+	public Customer getCustomer(long id) throws CouponSystemException {
 			// getting a connection to DB from  pool
 			try (Connection myCon = ConnectionPool.getInstance().getConnection()) {
 				// Select prepared statement
@@ -175,14 +169,9 @@ public class CustomerDBDAO implements CustomerDAO {
 			} catch (PropertyVetoException | SQLException | IOException e) {
 				throw new CouponSystemException("CouponSystemException", e);
 			}
-		}
 	}
 	
-	public Customer getCustomer(String name, String password) throws CouponSystemException, CustomerAlreadyExistsException {
-		if (Util.isCustomer(new Customer(name,password))){
-			throw new CustomerAlreadyExistsException(
-					"User name already exists in DB");	
-		} else {
+	public Customer getCustomer(String name, String password) throws CouponSystemException {
 			// getting a connection to DB from  pool
 			try (Connection myCon = ConnectionPool.getInstance().getConnection()) {
 				
@@ -212,7 +201,6 @@ public class CustomerDBDAO implements CustomerDAO {
 				throw new CouponSystemException("CouponSystemException", e);
 			}
 		}
-	}
 
 	@Override
 	public Collection<Customer> getAllCustomer() throws CouponSystemException {
@@ -337,13 +325,13 @@ public class CustomerDBDAO implements CustomerDAO {
 	// ****************
 	// UniqueCouponType
 	// *****************
-	public Collection<CouponType> getUniqueCouponType(Customer cstomer) throws CouponSystemException {
+	public Collection<CouponType> getUniqueCouponTypes(Customer customer) throws CouponSystemException {
 		// getting a connection to DB from pool
 		try (Connection myCon = ConnectionPool.getInstance().getConnection()) {
 
 			// Select prepared statement
 			PreparedStatement selectStmt = myCon
-					.prepareStatement("SELECT DISTINCT " + CouponTableColumnNames.TYPE + "FROM coupon");
+					.prepareStatement("SELECT DISTINCT " + CouponTableColumnNames.TYPE + " FROM coupon");
 
 			// Execute and get a resultSet
 			ResultSet myRs = selectStmt.executeQuery();
@@ -362,7 +350,13 @@ public class CustomerDBDAO implements CustomerDAO {
 			return couponsTypes;
 
 		} catch (PropertyVetoException | SQLException | IOException e) {
+			e.getMessage();
+			e.printStackTrace();
 			throw new CouponSystemException("CouponSystemException", e);
+			///////////////
+			////////
+			///// problem here 
+			///////
 		}
 	}
 

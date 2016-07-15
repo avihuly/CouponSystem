@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.File;
 import java.io.IOException;
 
@@ -15,14 +17,14 @@ import com.couponproject.constants.ClientType;
 import com.couponproject.gui.Actionlisteners.LoginActionlistener;
 
 public class LoginFrame extends JFrame {
-	
+
 	// **********
 	// Attributes
 	// **********
 	private ButtonGroup userTypeRadioGroup = new ButtonGroup();
 	private JTextField txtUserName;
 	private JPasswordField txtPassword;
-	
+
 	// ***********
 	// constructor
 	// ***********
@@ -129,14 +131,13 @@ public class LoginFrame extends JFrame {
 		GuiUtil.setLogoBySize(this,300,50);
 		
 		
-		// *****************
-		// LoginBnt - Action
-		// *****************
+		// *****************************
+		// LoginBnt & Enter Key - Action
+		// *****************************
 		LoginBnt.addActionListener(new LoginActionlistener(
 				(JFrame)this,
 				userTypeRadioGroup, 
 				txtUserName, 
 				txtPassword));
 	}
-}	
-
+}

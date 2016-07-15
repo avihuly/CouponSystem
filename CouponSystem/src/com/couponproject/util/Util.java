@@ -38,6 +38,7 @@ public class Util {
 		}
 	}
 	
+	// Returns true if argument coupon name or ID already exist in DB
 	public static boolean isCoupon(Coupon coupon){
 		try {
 			Coupon dbCoupon = CouponDBDAO.getInstace().getCoupon(coupon.getId());
@@ -53,11 +54,8 @@ public class Util {
 	}
 	
 	
-	
-	
-	
-	/* Password validation
-	 *  # start-of-string
+	/* Password validation - returns true of password is valid
+	 *  			  # start-of-string
 	(?=.*[0-9])       # a digit must occur at least once
 	(?=.*[a-z])       # a lower case letter must occur at least once
 	(?=.*[A-Z])       # an upper case letter must occur at least once

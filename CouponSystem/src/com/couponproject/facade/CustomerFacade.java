@@ -36,7 +36,13 @@ public class CustomerFacade {
 	//*****Methods***
 	//***************
 	
+	public Collection<CouponType> getUniqueCouponTypes() throws CouponSystemException{
+		return CustomerDBDAO.getInstace().getUniqueCouponTypes(customer);
+	}
+	
+	// -----
 	// Login
+	// -----
 	public static CustomerFacade login(String name, String password) throws FacadeException {
 		try {
 			// Invoking the login method in CustomerDBDAO
