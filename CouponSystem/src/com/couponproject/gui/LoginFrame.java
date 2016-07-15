@@ -4,8 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.io.File;
 import java.io.IOException;
 
@@ -139,5 +137,18 @@ public class LoginFrame extends JFrame {
 				userTypeRadioGroup, 
 				txtUserName, 
 				txtPassword));
+		
+		txtUserName.addActionListener(new LoginActionlistener(
+				(JFrame)this,
+				userTypeRadioGroup, 
+				txtUserName, 
+				txtPassword));
+		
+		txtPassword.addActionListener(new LoginActionlistener(
+				(JFrame)this,
+				userTypeRadioGroup, 
+				txtUserName, 
+				txtPassword));
+		
 	}
 }

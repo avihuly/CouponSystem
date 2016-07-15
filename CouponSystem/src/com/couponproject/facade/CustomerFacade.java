@@ -1,6 +1,5 @@
 package com.couponproject.facade;
 
-import java.rmi.AlreadyBoundException;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.HashSet;
@@ -8,12 +7,7 @@ import java.util.HashSet;
 import com.couponproject.beans.*;
 import com.couponproject.constants.CouponType;
 import com.couponproject.dbdao.*;
-import com.couponproject.exception.CouponAlreadyPurchasedException;
-import com.couponproject.exception.CouponSystemException;
-import com.couponproject.exception.CustomerFacadeException;
-import com.couponproject.exception.FacadeException;
-import com.couponproject.exception.OutOfDateException;
-import com.couponproject.exception.OutOfStockException;
+import com.couponproject.exception.*;
 import com.couponproject.util.Util;
 
 public class CustomerFacade {
@@ -95,7 +89,9 @@ public class CustomerFacade {
 		}
 	}
 	
-	
+	// ----------------------
+	// getAllPurchasedCoupons
+	// ----------------------
 	public Collection<Coupon> getAllPurchasedCoupons() throws CustomerFacadeException{
 		try {
 			// Invoking (and return the result of) 
