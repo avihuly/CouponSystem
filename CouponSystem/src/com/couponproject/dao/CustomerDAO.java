@@ -2,9 +2,9 @@ package com.couponproject.dao;
 
 import java.util.Collection;
 import com.couponproject.beans.*;
-import com.couponproject.dbdao.CustomerAlreadyExistsException;
-import com.couponproject.dbdao.CustomerDoesNotExistException;
 import com.couponproject.exception.CouponSystemException;
+import com.couponproject.exception.CustomerAlreadyExistsException;
+import com.couponproject.exception.CustomerDoesNotExistException;
 import com.couponproject.exception.IllegalPasswordException;
 
 

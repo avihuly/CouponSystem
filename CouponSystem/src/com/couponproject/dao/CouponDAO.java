@@ -5,7 +5,9 @@ import java.util.Collection;
 
 import com.couponproject.beans.*;
 import com.couponproject.constants.CouponType;
+import com.couponproject.exception.CouponDoesNotExistException;
 import com.couponproject.exception.CouponSystemException;
+import com.couponproject.exception.CouponTitleAlreadyExistException;
 
 //this interface specify's all the functions 
 //of a Coupon in relation to the data base
@@ -15,13 +17,19 @@ public interface CouponDAO {
 	// ************
 	
 	//This method gets instance of Coupon and adds it in to the Coupons table in the DB
-	public void createCoupon(Coupon coupon) throws CouponSystemException;
+	public void createCoupon(Coupon coupon) 
+			throws CouponSystemException, 
+			CouponTitleAlreadyExistException;
 
 	//This method gets instance of Coupon and removes it from the Coupons table in the DB
-	public void removeCoupon(Coupon coupon) throws CouponSystemException;
+	public void removeCoupon(Coupon coupon) 
+			throws CouponSystemException, 
+			CouponDoesNotExistException;
 
 	//This method gets instance of Coupon and updates it in the Coupons table in the DB
-	public void updateCoupon(Coupon coupon) throws CouponSystemException;
+	public void updateCoupon(Coupon coupon) 
+			throws CouponSystemException, 
+			CouponTitleAlreadyExistException;
 	
 	//This method gets Coupon's ID and returns instance of Coupon that this ID belongs to
 	public Coupon getCoupon(long id) throws CouponSystemException;

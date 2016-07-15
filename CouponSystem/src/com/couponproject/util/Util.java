@@ -1,5 +1,12 @@
 package com.couponproject.util;
 
+import java.beans.PropertyVetoException;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import com.couponproject.beans.*;
 import com.couponproject.dbdao.*;
 import com.couponproject.exception.CouponSystemException;
@@ -18,7 +25,7 @@ public class Util {
 			} else {
 				return (customer.getId() == dbCustomer.getId());
 			} 
-		} catch (CouponSystemException | CustomerAlreadyExistsException e) {
+		} catch (CouponSystemException e) {
 			return false;
 		}
 	}
@@ -67,4 +74,34 @@ public class Util {
 		String pattern = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{6,10}";
 		return password.matches(pattern);
 	}
+	
+	
+	
+	
+	// A method that gets an instance of a coupon and checks if a coupon with
+	// the same title already exists.
+	// The method returns true if the coupon exists and false if it does not
+	// Exists
+	@Deprecated
+	public boolean checkCouponTitle(Coupon coupon) throws CouponSystemException {
+		// getting a connection to DB from pool
+		try (Connection myCon = ConnectionPool.getInstance().getConnection()) {
+
+			// Select prepared statement
+			PreparedStatement selectStmt = myCon.prepareStatement("select * from coupon ");
+
+			// Execute and get a resultSet
+			ResultSet myRs = selectStmt.executeQuery();
+
+			while (myRs.next()) {
+				if (myRs.getString("TITLE") == coupon.getTitle()) {
+					return true;
+				}
+			}
+			return false;
+		} catch (PropertyVetoException | SQLException | IOException e) {
+			throw new CouponSystemException("CouponSystemException", e);
+		}
+	}
+
 }

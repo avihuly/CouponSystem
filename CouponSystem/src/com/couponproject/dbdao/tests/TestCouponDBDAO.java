@@ -6,6 +6,7 @@ import com.couponproject.beans.Coupon;
 import com.couponproject.constants.CouponType;
 import com.couponproject.dbdao.CouponDBDAO;
 import com.couponproject.exception.CouponSystemException;
+import com.couponproject.exception.CouponTitleAlreadyExistException;
 
 //the main method of this calls 
 //contains a test program for all the methods in CouponDBDAO class
@@ -43,7 +44,12 @@ public class TestCouponDBDAO {
 			try {
 				// This is the hart of the test
 				// converting coupon object into a sql query and running it
-				CouponDBDAO.getInstace().createCoupon(coupon);
+				try {
+					CouponDBDAO.getInstace().createCoupon(coupon);
+				} catch (CouponTitleAlreadyExistException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			} catch (CouponSystemException e) {
 				System.out.println("createCouponTest Error");
 			}

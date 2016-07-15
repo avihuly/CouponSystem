@@ -57,7 +57,7 @@ public class CompanyFacade {
 	
 	//A method that gets coupon instance and add the coupon to the coupon table in the DB and adds coupon's and company's
 	//ID to company_coupon table in the DB
-	public void createCoupon(Coupon coupon) throws CompanyFacadeException{
+	public void createCoupon(Coupon coupon) throws CompanyFacadeException, CouponTitleAlreadyExistException{
 		//adding the coupon to the coupon table in the DB
 		try {
 			CouponDBDAO.getInstace().createCoupon(coupon);
@@ -82,7 +82,7 @@ public class CompanyFacade {
 	
 	//A methods that gets a coupon instance and removes it from the coupon table and company_coupon table in the DB
 	//TODO: check if the coupon exists before removing
-	public void removeCoupon(Coupon coupon) throws CompanyFacadeException{
+	public void removeCoupon(Coupon coupon) throws CompanyFacadeException, CouponDoesNotExistException{
 		//TODO: check if the coupon exists
 		//remove from coupon table in the DB
 		try {
@@ -110,7 +110,7 @@ public class CompanyFacade {
 	
 	
 	//A method that update coupon details - EndDate and Price
-	public void updateCoupon(Coupon coupon) throws CompanyFacadeException{
+	public void updateCoupon(Coupon coupon) throws CompanyFacadeException, CouponTitleAlreadyExistException{
 		//TODO: check if coupon exists
 		try {
 			//updating the coupon

@@ -10,7 +10,11 @@ import java.util.Collection;
 import com.couponproject.beans.Coupon;
 import com.couponproject.constants.CouponType;
 import com.couponproject.dao.CouponDAO;
+import com.couponproject.exception.CouponDoesNotExistException;
 import com.couponproject.exception.CouponSystemException;
+import com.couponproject.exception.CouponTitleAlreadyExistException;
+import com.couponproject.exception.CustomerDoesNotExistException;
+import com.couponproject.util.Util;
 
 
 public class CouponDBDAO implements CouponDAO{
@@ -38,96 +42,111 @@ public class CouponDBDAO implements CouponDAO{
 	}
 	
 	
-	// a method that gets an instance of a coupon and adds it to the coupon table in the DB
-	// TODO: when creating a coupon it should be joined also to a company.
+	// Takes Coupon as argument and  
+	// adds it to the coupon table in the DB
 	@Override
-	public void createCoupon(Coupon coupon) throws CouponSystemException {
-		// getting a connection to DB from  pool
-		try (Connection myCon = ConnectionPool.getInstance().getConnection()){
+	public void createCoupon(Coupon coupon) throws CouponSystemException, CouponTitleAlreadyExistException {
+		if (Util.isCoupon(coupon)){
+			throw new CouponTitleAlreadyExistException(
+					"Coupon title already exist in DB\n"
+					+ "choose another title");
+		} else {
+			// Getting a connection to DB from  pool
+			try (Connection myCon = ConnectionPool.getInstance().getConnection()){			
+				// Insert prepared statement 
+				PreparedStatement createStmt = myCon.prepareStatement(
+						"insert into "
+						+ "coupon (TITLE, START_DATE, END_DATE, AMOUNT, TYPE, MESSAGE, PRICE, IMAGE) "
+						+ "values (?,?,?,?,?,?,?,?);"); //id will be assign in the DB
 						
-			// Insert prepared statement 
-			PreparedStatement createStmt = myCon.prepareStatement(
-					"insert into "
-					+ "coupon (TITLE, START_DATE, END_DATE, AMOUNT, TYPE, MESSAGE, PRICE, IMAGE) "
-					+ "values (?,?,?,?,?,?,?,?);"); //id will be assign in the DB
-					
-					// Values 
-					createStmt.setString(1, coupon.getTitle());
-										  // converting localDate to sql.date
-					createStmt.setDate(2, Date.valueOf(coupon.getStartDate()));
-										  // converting localDate to sql.date
-					createStmt.setDate(3, Date.valueOf(coupon.getEndDate()));
-					createStmt.setInt(4, coupon.getAmount());
-					createStmt.setString(5, coupon.getType().name());
-					createStmt.setString(6, coupon.getMessage());
-					createStmt.setDouble(7, coupon.getPrice());
-					createStmt.setString(8, coupon.getImage());
-					
-					// Execute
-					createStmt.executeUpdate();
-					
-		} catch (PropertyVetoException | SQLException | IOException e) {
-			throw new CouponSystemException("CouponSystemException", e);
+						// Values 
+						createStmt.setString(1, coupon.getTitle());
+											  // converting localDate to sql.date
+						createStmt.setDate(2, Date.valueOf(coupon.getStartDate()));
+											  // converting localDate to sql.date
+						createStmt.setDate(3, Date.valueOf(coupon.getEndDate()));
+						createStmt.setInt(4, coupon.getAmount());
+						createStmt.setString(5, coupon.getType().name());
+						createStmt.setString(6, coupon.getMessage());
+						createStmt.setDouble(7, coupon.getPrice());
+						createStmt.setString(8, coupon.getImage());
+						
+						// Execute
+						createStmt.executeUpdate();
+						
+			} catch (PropertyVetoException | SQLException | IOException e) {
+				throw new CouponSystemException("CouponSystemException", e);
+			}
 		}
 	}
 
 
-	// a method that gets an instance of a coupon and removes it form the db
-	//TODO: remove the coupon from the joined tables!!
+	// Takes Coupon as argument and  
+	// removes it from the coupon table in the DB
 	@Override
-	public void removeCoupon(Coupon coupon) throws CouponSystemException {
-		// getting a connection to DB from  pool
-		try (Connection myCon = ConnectionPool.getInstance().getConnection()){
-					
-			// Delete prepared statement
-			PreparedStatement deleteStmt = myCon.prepareStatement(
-					"delete from coupon "
-					+ "where ID = ? and TITLE = ?");
-
-			// Values
-			deleteStmt.setLong(1, coupon.getId());
-			deleteStmt.setString(2, coupon.getTitle());
-			
-			// Execute
-			deleteStmt.executeUpdate();
-
-		} catch (PropertyVetoException | SQLException | IOException e) {
-			throw new CouponSystemException("CouponSystemException", e);
+	public void removeCoupon(Coupon coupon) throws CouponSystemException, CouponDoesNotExistException {
+		if (!Util.isCoupon(coupon)){
+			throw new CouponDoesNotExistException(
+					"Coupon does not exist exception");
+		} else {
+			// getting a connection to DB from  pool
+			try (Connection myCon = ConnectionPool.getInstance().getConnection()){
+						
+				// Delete prepared statement
+				PreparedStatement deleteStmt = myCon.prepareStatement(
+						"delete from coupon "
+						+ "where ID = ? and TITLE = ?");
+	
+				// Values
+				deleteStmt.setLong(1, coupon.getId());
+				deleteStmt.setString(2, coupon.getTitle());
+				
+				// Execute
+				deleteStmt.executeUpdate();
+	
+			} catch (PropertyVetoException | SQLException | IOException e) {
+				throw new CouponSystemException("CouponSystemException", e);
+			}
 		}
 	}
 
 	//a method that gets an instance of a coupon and changes the related line in the DB
 	@Override
-	public void updateCoupon(Coupon coupon) throws CouponSystemException {
-		
-		// getting a connection to DB from  pool
-		try (Connection myCon = ConnectionPool.getInstance().getConnection()){
+	public void updateCoupon(Coupon coupon) throws CouponSystemException, CouponTitleAlreadyExistException {
+		if (Util.isCoupon(coupon)){
+			throw new CouponTitleAlreadyExistException(
+					"Coupon title already exist in DB\n"
+					+ "choose another title");
+		} else {
+			// getting a connection to DB from  pool
+			try (Connection myCon = ConnectionPool.getInstance().getConnection()){
+				
+				// Update prepared statement
+				PreparedStatement updateStmt = myCon.prepareStatement(
+						"update coupon "
+						+ "set END_DATE = ? and PRICE = ? "
+						+ "where TITLE = ?");
+	
+				// Values
+				updateStmt.setString(1, coupon.getTitle());
+									  // converting localDate to sql.date
+				updateStmt.setDate(2, Date.valueOf(coupon.getStartDate()));
+				  					  // converting localDate to sql.date
+				updateStmt.setDate(3, Date.valueOf(coupon.getEndDate()));
+				updateStmt.setInt(4, coupon.getAmount());
+				updateStmt.setString(5, coupon.getType().name());
+				updateStmt.setString(6, coupon.getMessage());
+				updateStmt.setDouble(7, coupon.getPrice());
+				updateStmt.setString(8, coupon.getImage());
+				updateStmt.setLong(9, coupon.getId());
+				
+				
+				// Execute
+				updateStmt.executeUpdate();
 			
-			// Update prepared statement
-			PreparedStatement updateStmt = myCon.prepareStatement(
-					"update coupon "
-					+ "set END_DATE = ? and PRICE = ? "
-					+ "where TITLE = ?");
-
-			// Values
-			updateStmt.setString(1, coupon.getTitle());
-								  // converting localDate to sql.date
-			updateStmt.setDate(2, Date.valueOf(coupon.getStartDate()));
-			  					  // converting localDate to sql.date
-			updateStmt.setDate(3, Date.valueOf(coupon.getEndDate()));
-			updateStmt.setInt(4, coupon.getAmount());
-			updateStmt.setString(5, coupon.getType().name());
-			updateStmt.setString(6, coupon.getMessage());
-			updateStmt.setDouble(7, coupon.getPrice());
-			updateStmt.setString(8, coupon.getImage());
-			updateStmt.setLong(9, coupon.getId());
-			
-			
-			// Execute
-			updateStmt.executeUpdate();
-		
-		} catch (PropertyVetoException | SQLException | IOException e) {
-			throw new CouponSystemException("CouponSystemException", e);
+			} catch (PropertyVetoException | SQLException | IOException e) {
+				throw new CouponSystemException("CouponSystemException", e);
+			}
 		}
 	}
 
@@ -173,30 +192,7 @@ public class CouponDBDAO implements CouponDAO{
 		}
 	}
 	
-	//A method that gets an instance of a coupon and checks if a coupon with the same title already exists.
-	//The method returns true if the coupon exists and false if it does not existss
-	public boolean checkCouponTitle(Coupon coupon)throws CouponSystemException{
-		// getting a connection to DB from  pool
-		try (Connection myCon = ConnectionPool.getInstance().getConnection()){
-						
-		// Select prepared statement
-		PreparedStatement selectStmt = myCon.prepareStatement(
-							"select * from coupon ");
-							
-		// Execute and get a resultSet
-		ResultSet myRs = selectStmt.executeQuery();
-							
-		while(myRs.next()){
-			if(myRs.getString("TITLE")==coupon.getTitle()){
-				return true;
-			}
-		}
-		return false;
-		} catch (PropertyVetoException | SQLException | IOException e) {
-			throw new CouponSystemException("CouponSystemException", e);
-		}
-	}
-
+	
 	// a method that returns a List of all the coupons from the coupon table in the DB
 	@Override
 	public Collection<Coupon> getAllCoupons() throws CouponSystemException {

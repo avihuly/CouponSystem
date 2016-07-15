@@ -2,10 +2,10 @@ package com.couponproject.dbdao.tests;
 
 import com.couponproject.beans.Coupon;
 import com.couponproject.beans.Customer;
-import com.couponproject.dbdao.CustomerAlreadyExistsException;
 import com.couponproject.dbdao.CustomerDBDAO;
-import com.couponproject.dbdao.CustomerDoesNotExistException;
 import com.couponproject.exception.CouponSystemException;
+import com.couponproject.exception.CustomerAlreadyExistsException;
+import com.couponproject.exception.CustomerDoesNotExistException;
 import com.couponproject.exception.IllegalPasswordException;
 
 // The main method of this class 
@@ -34,7 +34,7 @@ public class TestCustomerDBDAO {
 		
 		try {
 			System.out.println(CustomerDBDAO.getInstace().getCustomer(99488));
-		} catch (CouponSystemException | CustomerAlreadyExistsException e) {
+		} catch (CouponSystemException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

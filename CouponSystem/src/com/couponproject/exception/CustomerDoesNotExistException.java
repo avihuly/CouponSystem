@@ -1,4 +1,4 @@
-package com.couponproject.dbdao;
+package com.couponproject.exception;
 
 public class CustomerDoesNotExistException extends Exception {
 

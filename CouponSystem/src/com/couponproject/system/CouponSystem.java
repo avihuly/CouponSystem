@@ -7,8 +7,8 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 import com.couponproject.dbdao.ConnectionPool;
-import com.couponproject.dbdao.CustomerAlreadyExistsException;
 import com.couponproject.exception.CompanyFacadeException;
+import com.couponproject.exception.CustomerAlreadyExistsException;
 import com.couponproject.exception.FacadeException;
 import com.couponproject.threads.DailyCouponExportationTask;
 

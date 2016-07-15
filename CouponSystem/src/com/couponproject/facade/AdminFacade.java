@@ -5,7 +5,11 @@ import java.util.Collection;
 import com.couponproject.beans.*;
 import com.couponproject.dbdao.*;
 import com.couponproject.exception.AdminFacadeException;
+import com.couponproject.exception.CouponDoesNotExistException;
 import com.couponproject.exception.CouponSystemException;
+import com.couponproject.exception.CustomerAlreadyExistsException;
+import com.couponproject.exception.CustomerDoesNotExistException;
+import com.couponproject.exception.IllegalPasswordException;
 
 public class AdminFacade{
 
@@ -32,7 +36,6 @@ public class AdminFacade{
 	// Company method
 	// **************
 	public void createCompany(Company company) throws AdminFacadeException {
-		// TODO check if Company exist
 		try {
 			// Invoking the createCompany method in CompanyDBDAO
 			CompanyDBDAO.getInstace().createCompany(company);
@@ -46,7 +49,7 @@ public class AdminFacade{
 		}
 	}
 
-	public void removeCompany(Company company) throws AdminFacadeException {
+	public void removeCompany(Company company) throws AdminFacadeException, CouponDoesNotExistException {
 		// TODO check if Company exist
 		try {
 			// Deleting all company's coupons by invoking the getCoupons method in CustomerDBDAO
@@ -114,8 +117,7 @@ public class AdminFacade{
 	// ***************
 	// Customer method
 	// ***************
-	public void createCustomer(Customer customer) throws AdminFacadeException {
-		// TODO check if Customer exist
+	public void createCustomer(Customer customer) throws AdminFacadeException, IllegalPasswordException, CustomerAlreadyExistsException {
 		try {
 			// Invoking the createCompany method in CustomerDBDAO
 			CustomerDBDAO.getInstace().createCustomer(customer);
@@ -129,7 +131,7 @@ public class AdminFacade{
 		}
 	}
 
-	public void removeCustomer(Customer customer) throws AdminFacadeException {
+	public void removeCustomer(Customer customer) throws AdminFacadeException, CouponDoesNotExistException, CustomerDoesNotExistException {
 		// TODO check if Customer exist
 		try {
 			// Deleting all customer's coupons by invoking the getCoupons method in CustomerDBDAO
@@ -150,7 +152,7 @@ public class AdminFacade{
 		}
 	}
 
-	public void updateCustomer(Customer customer) throws AdminFacadeException {
+	public void updateCustomer(Customer customer) throws AdminFacadeException, IllegalPasswordException, CustomerAlreadyExistsException {
 		// TODO check if Customer exist
 		try {
 			// Invoking the updateCustomer method in CustomerDBDAO

@@ -12,6 +12,8 @@ import com.couponproject.constants.CouponType;
 import com.couponproject.constants.CustomerTableColumnNames;
 import com.couponproject.dao.CustomerDAO;
 import com.couponproject.exception.CouponSystemException;
+import com.couponproject.exception.CustomerAlreadyExistsException;
+import com.couponproject.exception.CustomerDoesNotExistException;
 import com.couponproject.exception.IllegalPasswordException;
 import com.couponproject.util.Util;
 
