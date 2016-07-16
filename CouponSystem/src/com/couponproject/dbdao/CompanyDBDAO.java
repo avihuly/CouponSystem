@@ -133,14 +133,12 @@ public class CompanyDBDAO implements CompanyDAO{
 				// Update prepared statement
 				PreparedStatement updateStmt = myCon.prepareStatement(
 								"update company " 
-								+ "set EMAIL = ? and set PASSWORD = ? and set COMP_NAME"
-								+ "where ID = ? ");
+								+ "set EMAIL = ? and set PASSWORD = ? where COMP_NAME = ?");
 
 				// Values
 				updateStmt.setString(1, company.getEmail());	
 				updateStmt.setString(2, company.getPassword());
 				updateStmt.setString(3, company.getCompName());
-				updateStmt.setLong(4, company.getId());
 				
 										
 				// Execute
