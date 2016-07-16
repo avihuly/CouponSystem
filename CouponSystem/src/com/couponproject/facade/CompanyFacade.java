@@ -1,5 +1,6 @@
 package com.couponproject.facade;
 
+import java.time.LocalDate;
 import java.util.Collection;
 
 import com.couponproject.beans.*;
@@ -83,7 +84,6 @@ public class CompanyFacade {
 	//A methods that gets a coupon instance and removes it from the coupon table and company_coupon table in the DB
 	//TODO: check if the coupon exists before removing
 	public void removeCoupon(Coupon coupon) throws CompanyFacadeException, CouponDoesNotExistException{
-		//TODO: check if the coupon exists
 		//remove from coupon table in the DB
 		try {
 			CouponDBDAO.getInstace().removeCoupon(coupon);
@@ -99,6 +99,16 @@ public class CompanyFacade {
 		long compId = company.getId();
 		try {
 			CompanyDBDAO.getInstace().removeCompanyCoupon(compId, couponId);
+		} 
+		// Catching couponSystemException
+		catch (CouponSystemException e) {
+			// In case of a problem throw new CompanyFacadeException  
+			throw new CompanyFacadeException("CompanyFacadeException - "
+					+ "removeCoupon Error", e);
+		}
+		//remove coupon from customer_coupon table
+		try {
+			CouponDBDAO.getInstace().removeCouponCustomerByCouponID(couponId);
 		} 
 		// Catching couponSystemException
 		catch (CouponSystemException e) {
@@ -154,7 +164,7 @@ public class CompanyFacade {
 	}
 	
 	//A method that returns all of the company's coupons with a specific type
-	public Collection<Coupon> getCouponByType(CouponType type) throws CustomerFacadeException{
+	public Collection<Coupon> getCouponByType(CouponType type) throws CompanyFacadeException{
 		try {
 			// Invoking the getCoupons method in CompanyDBDAO
 			Collection<Coupon> coupons = CompanyDBDAO.getInstace().getCoupons(company.getId());
@@ -174,10 +184,87 @@ public class CompanyFacade {
 		} catch (CouponSystemException e) {
 
 			// In case of a problem throw new CompanyFacadeException
-			throw new CustomerFacadeException("CustomerFacadeException - " 
+			throw new CompanyFacadeException("CompanyFacadeException - " 
 					+ "getCouponsByType() Error", e);
 		}
+	}
+	
+	//A method that returns all of the company's coupons up to a specific price
+	public Collection<Coupon> getCouponByPrice(double price) throws CompanyFacadeException{
+		try {
+			// Invoking the getCoupons method in CompanyDBDAO
+			Collection<Coupon> coupons = CompanyDBDAO.getInstace().getCoupons(company.getId());
 
+			// Iterating coupons collection and 
+			// removing coupons that above the specified price
+			for (Coupon coupon : coupons) {
+				if (coupon.getPrice() > price){
+					coupons.remove(coupon);
+				}
+			}
+			
+			//return couponsByPrice collection
+			return coupons;
+
+		// Catching couponSystemException
+		} catch (CouponSystemException e) {
+
+			// In case of a problem throw new CompanyFacadeException
+			throw new CompanyFacadeException("CompanyFacadeException - " 
+					+ "getCouponsByPrice() Error", e);
+		}
+	}
+	
+	//A method that returns all of the company's coupons after a specific start date
+	public Collection<Coupon> getCouponByStartDate(LocalDate date) throws CompanyFacadeException{
+		try {
+			// Invoking the getCoupons method in CompanyDBDAO
+			Collection<Coupon> coupons = CompanyDBDAO.getInstace().getCoupons(company.getId());
+
+			// Iterating coupons collection and 
+			// removing coupons that start before specified date
+			for (Coupon coupon : coupons) {
+				if (coupon.getStartDate().isBefore(date)){
+					coupons.remove(coupon);
+				}
+			}
+			
+			//return couponsByStartDate collection
+			return coupons;
+
+		// Catching couponSystemException
+		} catch (CouponSystemException e) {
+
+			// In case of a problem throw new CompanyFacadeException
+			throw new CompanyFacadeException("CompanyFacadeException - " 
+					+ "getCouponsByStartDate() Error", e);
+		}
+	}
+	
+	//A method that returns all of the company's coupons that expire before a specific end date
+	public Collection<Coupon> getCouponByEndDate(LocalDate date) throws CompanyFacadeException{
+		try {
+			// Invoking the getCoupons method in CompanyDBDAO
+			Collection<Coupon> coupons = CompanyDBDAO.getInstace().getCoupons(company.getId());
+
+			// Iterating coupons collection and 
+			// removing coupons that start before specified date
+			for (Coupon coupon : coupons) {
+				if (coupon.getEndDate().isAfter(date)){
+					coupons.remove(coupon);
+				}
+			}
+			
+			//return couponsByEndDate collection
+			return coupons;
+
+		// Catching couponSystemException
+		} catch (CouponSystemException e) {
+
+			// In case of a problem throw new CompanyFacadeException
+			throw new CompanyFacadeException("CompanyFacadeException - " 
+					+ "getCouponsByEndDate() Error", e);
+		}
 	}
 
 	// toString
@@ -185,7 +272,4 @@ public class CompanyFacade {
 	public String toString() {
 		return "CompanyFacade [company=" + company + "]";
 	}
-
-	
-	
 }

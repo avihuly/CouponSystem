@@ -109,6 +109,27 @@ public class CouponDBDAO implements CouponDAO{
 			}
 		}
 	}
+	
+	public void removeCouponCustomerByCouponID(long couponID) throws CouponSystemException{
+		// getting a connection to DB from  pool
+				try (Connection myCon = ConnectionPool.getInstance().getConnection()) {
+					
+					// Update prepared statement
+					PreparedStatement deleteStmt = myCon.prepareStatement( 	"delete * from customer_coupon "
+							+ "where COUPON_ID = ? ");
+
+					// Values
+					deleteStmt.setLong(1, couponID);
+					
+											
+					// Execute
+					deleteStmt.executeUpdate();
+
+					
+				} catch (PropertyVetoException | SQLException | IOException e) {
+					throw new CouponSystemException("CouponSystemException", e);
+				}
+	}
 
 	//a method that gets an instance of a coupon and changes the related line in the DB
 	@Override
