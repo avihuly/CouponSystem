@@ -2,7 +2,9 @@ package com.couponproject.dbdao.tests;
 
 import com.couponproject.beans.Company;
 import com.couponproject.dbdao.CompanyDBDAO;
+import com.couponproject.exception.CompanyAlreadyExistsException;
 import com.couponproject.exception.CouponSystemException;
+import com.couponproject.exception.IllegalPasswordException;
 
 public class TestCompanyDBDAO {	
 		public static void main(String[] args) {
@@ -18,7 +20,7 @@ public class TestCompanyDBDAO {
 					// converting company object into a sql query and running it
 					CompanyDBDAO.getInstace().createCompany(company);
 				
-				} catch (CouponSystemException e) {
+				} catch (CouponSystemException | IllegalPasswordException | CompanyAlreadyExistsException e) {
 					System.out.println("createCustomerTest Error");
 					e.printStackTrace();
 				}

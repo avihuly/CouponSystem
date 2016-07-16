@@ -5,6 +5,8 @@ import java.util.Collection;
 import com.couponproject.beans.*;
 import com.couponproject.dbdao.*;
 import com.couponproject.exception.AdminFacadeException;
+import com.couponproject.exception.CompanyAlreadyExistsException;
+import com.couponproject.exception.CompanyDoesNotExistException;
 import com.couponproject.exception.CouponDoesNotExistException;
 import com.couponproject.exception.CouponSystemException;
 import com.couponproject.exception.CustomerAlreadyExistsException;
@@ -35,7 +37,7 @@ public class AdminFacade{
 	// **************
 	// Company method
 	// **************
-	public void createCompany(Company company) throws AdminFacadeException {
+	public void createCompany(Company company) throws AdminFacadeException, IllegalPasswordException, CompanyAlreadyExistsException {
 		try {
 			// Invoking the createCompany method in CompanyDBDAO
 			CompanyDBDAO.getInstace().createCompany(company);
@@ -49,16 +51,21 @@ public class AdminFacade{
 		}
 	}
 
-	public void removeCompany(Company company) throws AdminFacadeException, CouponDoesNotExistException {
-		// TODO check if Company exist
+	public void removeCompany(Company company) throws AdminFacadeException, CouponDoesNotExistException, CompanyDoesNotExistException {
 		try {
-			// Deleting all company's coupons by invoking the getCoupons method in CustomerDBDAO
+			// Deleting all company's coupons by invoking the getCoupons method in **CustomerDBDAO**
 			for (Coupon coupon : CompanyDBDAO.getInstace().getCoupons(company.getId())) {
+				//deleting from Coupon table
 				CouponDBDAO.getInstace().removeCoupon(coupon);
+				//deleting from Company_Coupon table
+				CompanyDBDAO.getInstace().removeCompanyCoupon(company.getId(), coupon.getId());
+				//deleting from Cust_Coupon table
+				CouponDBDAO.getInstace().removeCouponCustomerByCouponID(coupon.getId());
 			}
 					
 			// Invoking the removeCompany method in CompanyDBDAO
 			CompanyDBDAO.getInstace().removeCompany(company);
+			 
 
 			// Catching couponSystemException
 		} catch (CouponSystemException e) {
@@ -69,8 +76,7 @@ public class AdminFacade{
 		}
 	}
 
-	public void updateCompany(Company company) throws AdminFacadeException {
-		// TODO check if Company exist
+	public void updateCompany(Company company) throws AdminFacadeException, IllegalPasswordException, CompanyAlreadyExistsException {
 		try {
 			// Invoking the updateCompany method in CompanyDBDAO
 			CompanyDBDAO.getInstace().updateCompany(company);
