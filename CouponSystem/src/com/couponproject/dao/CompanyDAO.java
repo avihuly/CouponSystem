@@ -3,7 +3,10 @@ package com.couponproject.dao;
 import java.util.Collection;
 
 import com.couponproject.beans.*;
+import com.couponproject.exception.CompanyAlreadyExistsException;
+import com.couponproject.exception.CompanyDoesNotExistException;
 import com.couponproject.exception.CouponSystemException;
+import com.couponproject.exception.IllegalPasswordException;
 
 //This interface specify's all the functions 
 //of a Company in relation to the data base
@@ -13,13 +16,13 @@ public interface CompanyDAO extends DAO {
 	// ************
 	
 	//This method gets instance of a Company and adds it to the Company table in the DB
-	public void createCompany(Company company) throws CouponSystemException;
+	public void createCompany(Company company) throws CouponSystemException, IllegalPasswordException, CompanyAlreadyExistsException;
 	
 	//This method gets instance of a Company and removes it from the Company table in the DB
-	public void removeCompany(Company company) throws CouponSystemException;
+	public void removeCompany(Company company) throws CouponSystemException, CompanyDoesNotExistException;
 	
 	//This method gets instance of a Company and updates it in the Company table in the DB
-	public void updateCompany(Company company) throws CouponSystemException;
+	public void updateCompany(Company company) throws CouponSystemException, IllegalPasswordException, CompanyAlreadyExistsException;
 	
 	//This method gets company's ID and return the Company instance with that ID
 	public Company getCompany(long id) throws CouponSystemException;

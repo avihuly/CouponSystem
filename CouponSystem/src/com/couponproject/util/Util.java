@@ -48,20 +48,19 @@ public class Util {
 		}
 	}
 
-	
-	
-	
-	// Returns true if Customers name of id already exist in DB
+		
+	// Returns true if Company name of id already exist in DB
 	public static boolean isCompany(Company company) {
 		try {
-			Company dbCompany = CompanyDBDAO.getInstace().getCompany(company.getId());
-			if (company.equals(dbCompany)) {
+			Company dbCompany = CompanyDBDAO.getInstace().getCompany(company.getCompName(),
+					company.getPassword());
+
+			if (company.getCompName().equals(dbCompany.getCompName())) {
 				return true;
 			} else {
 				return (company.getId() == dbCompany.getId());
-			}
+			} 
 		} catch (CouponSystemException e) {
-			// TODO: what if there is a problem with the connection
 			return false;
 		}
 	}
