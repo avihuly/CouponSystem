@@ -2,6 +2,7 @@ package com.couponproject.facade;
 
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.HashSet;
 
 import com.couponproject.beans.*;
 import com.couponproject.constants.CouponType;
@@ -176,17 +177,17 @@ public class CompanyFacade {
 		try {
 			// Invoking the getCoupons method in CompanyDBDAO
 			Collection<Coupon> coupons = CompanyDBDAO.getInstace().getCoupons(company.getId());
-
+			Collection<Coupon> couponsByType = new HashSet<>();
 			// Iterating coupons collection and 
 			// removing coupons that not match relevant type
 			for (Coupon coupon : coupons) {
-				if (!(coupon.getType() == type)){
-					coupons.remove(coupon);
+				if (coupon.getType() == type){
+					couponsByType.add(coupon);
 				}
 			}
 			
 			//return couponsByType collection
-			return coupons;
+			return couponsByType;
 
 		// Catching couponSystemException
 		} catch (CouponSystemException e) {

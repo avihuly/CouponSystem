@@ -4,8 +4,6 @@ import java.awt.*;
 import javax.swing.*;
 
 import com.couponproject.facade.CustomerFacade;
-import com.couponproject.gui.Actionlisteners.AllCouponsActionListener;
-import com.couponproject.gui.Actionlisteners.PurchasedCouponsActionListener;
 
 public class CustomerMainFrame extends JFrame {
 	private JTable tableCouponData;

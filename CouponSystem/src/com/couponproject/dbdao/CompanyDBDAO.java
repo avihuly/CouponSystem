@@ -334,7 +334,6 @@ public class CompanyDBDAO implements CompanyDAO{
 			
 			//statement - going to Company_Coupon table and getting the list of the coupons that relates to a company.
 			PreparedStatement selectStmt = myCon.prepareStatement(
-					// TODO: read about Relational Division ???
 					"SELECT * FROM coupon "
 					+ "JOIN company_coupon "
 					+ "ON coupon.ID = company_coupon.COUPON_ID "
@@ -355,12 +354,12 @@ public class CompanyDBDAO implements CompanyDAO{
 				Coupon coupon = new Coupon(
 						myRs.getLong("ID"),
 						myRs.getString("TITLE"), 
-						// converting sql.Date to LocalDate
-						myRs.getDate("START_DATE").toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
-						// converting sql.Date to LocalDate
-						myRs.getDate("END_DATE").toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), 
+						// converting Date to LocalDate
+						myRs.getDate("START_DATE").toLocalDate(),
+						// converting Date to LocalDate
+						myRs.getDate("END_DATE").toLocalDate(),
 						myRs.getInt("AMOUNT"), 
-						CouponType.valueOf(myRs.getString("TYEP")),
+						CouponType.valueOf(myRs.getString("TYPE")),
 						myRs.getString("MESSAGE"), 
 						myRs.getDouble("PRICE"), 
 						myRs.getString("IMAGE"));
@@ -414,7 +413,8 @@ public class CompanyDBDAO implements CompanyDAO{
 
 			// Select prepared statement
 			PreparedStatement selectStmt = myCon
-					.prepareStatement("SELECT DISTINCT CouponTableColumnNames.TYPE FROM coupon JOIN company_coupon "
+					.prepareStatement("SELECT DISTINCT " + CouponTableColumnNames.TYPE 
+							+ " FROM coupon JOIN company_coupon "
 							+ "ON coupon.ID = company_coupon.COUPON_ID "
 							+ "WHERE company_coupon.COMP_ID = ?");
 
@@ -438,13 +438,7 @@ public class CompanyDBDAO implements CompanyDAO{
 			return couponsTypes;
 
 		} catch (PropertyVetoException | SQLException | IOException e) {
-			e.getMessage();
-			e.printStackTrace();
 			throw new CouponSystemException("CouponSystemException", e);
-			///////////////
-			////////
-			///// problem here 
-			///////
 		}
 	}
 	
