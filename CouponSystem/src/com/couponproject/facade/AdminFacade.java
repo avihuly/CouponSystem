@@ -6,6 +6,7 @@ import com.couponproject.beans.*;
 import com.couponproject.dbdao.*;
 import com.couponproject.exception.AdminFacadeException;
 import com.couponproject.exception.CompanyAlreadyExistsException;
+import com.couponproject.exception.CompanyCouponDoesNotExistsException;
 import com.couponproject.exception.CompanyDoesNotExistException;
 import com.couponproject.exception.CouponDoesNotExistException;
 import com.couponproject.exception.CouponSystemException;
@@ -51,7 +52,7 @@ public class AdminFacade{
 		}
 	}
 
-	public void removeCompany(Company company) throws AdminFacadeException, CouponDoesNotExistException, CompanyDoesNotExistException {
+	public void removeCompany(Company company) throws AdminFacadeException, CouponDoesNotExistException, CompanyDoesNotExistException, CompanyCouponDoesNotExistsException {
 		try {
 			// Deleting all company's coupons by invoking the getCoupons method in **CustomerDBDAO**
 			for (Coupon coupon : CompanyDBDAO.getInstace().getCoupons(company.getId())) {

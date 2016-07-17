@@ -83,7 +83,7 @@ public class CompanyFacade {
 	
 	//A methods that gets a coupon instance and removes it from the coupon table and company_coupon table in the DB
 	//TODO: check if the coupon exists before removing
-	public void removeCoupon(Coupon coupon) throws CompanyFacadeException, CouponDoesNotExistException{
+	public void removeCoupon(Coupon coupon) throws CompanyFacadeException, CouponDoesNotExistException, CompanyCouponDoesNotExistsException{
 		//remove from coupon table in the DB
 		try {
 			CouponDBDAO.getInstace().removeCoupon(coupon);
