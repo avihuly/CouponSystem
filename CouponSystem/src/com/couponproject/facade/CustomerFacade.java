@@ -105,7 +105,10 @@ public class CustomerFacade {
 					+ "getAllPurchasedCoupons() Error", e);
 		}
 	}
-	
+
+	// ----------------------------
+	// getAllPurchasedCouponsByType
+	// ----------------------------
 	public Collection<Coupon> getAllPurchasedCouponsByType(CouponType type) throws CustomerFacadeException {
 		try {
 			// Invoking the getCoupons method in CustomerDBDAO

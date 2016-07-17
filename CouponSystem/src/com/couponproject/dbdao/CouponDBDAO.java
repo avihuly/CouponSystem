@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import com.couponproject.beans.Coupon;
+import com.couponproject.constants.CouponTableColumnNames;
 import com.couponproject.constants.CouponType;
 import com.couponproject.dao.CouponDAO;
 import com.couponproject.exception.CouponDoesNotExistException;
@@ -287,13 +288,13 @@ public class CouponDBDAO implements CouponDAO{
 					Coupon coupon = new Coupon(
 							myRs.getLong("ID"),
 							myRs.getString("TITLE"),
-							// converting sql.Date to LocalDate
-							myRs.getDate("START_DATE").toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
-							// converting sql.Date to LocalDate
-							myRs.getDate("END_DATE").toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
+							// converting Date to LocalDate
+							myRs.getDate("START_DATE").toLocalDate(),
+							// converting Date to LocalDate
+							myRs.getDate("END_DATE").toLocalDate(),
 							myRs.getInt("AMOUNT"),
 							CouponType.valueOf(myRs.getString("TYPE")),
-							myRs.getString("MESSEGE"),
+							myRs.getString(CouponTableColumnNames.MESSAGE.name()),
 							myRs.getDouble("PRICE"),
 							myRs.getString("IMAGE"));
 					coupons.add(coupon);
