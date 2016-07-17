@@ -5,6 +5,7 @@ import javax.swing.*;
 
 import com.couponproject.facade.CustomerFacade;
 import com.couponproject.gui.Actionlisteners.AllCouponsActionListener;
+import com.couponproject.gui.Actionlisteners.PurchasedCouponsActionListener;
 
 public class CustomerMainFrame extends JFrame {
 	private JTable tableCouponData;
@@ -63,10 +64,10 @@ public class CustomerMainFrame extends JFrame {
 		// All Purchased Coupons
 		JButton btnMyCoupons = new JButton("All My Coupons");
 		btnMyCoupons.addActionListener(
-				new AllCouponsActionListener(tableCouponData, westPanel, customerFacade));
+				new PurchasedCouponsActionListener(tableCouponData, westPanel, customerFacade));
 		
 		JButton bntBrowseCoupons  = new JButton("Browse Coupons");
-		
+		bntBrowseCoupons.addActionListener(new AllCouponsActionListener(tableCouponData, westPanel));
 		
 		
 		// ***************************	
