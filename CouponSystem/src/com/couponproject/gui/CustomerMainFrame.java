@@ -57,25 +57,8 @@ public class CustomerMainFrame extends JFrame {
 		JPanel westPanel = new JPanel();
 		getContentPane().add(westPanel, BorderLayout.WEST);
 		westPanel.setLayout(new GridLayout(10, 1, 0, 0));
-
-		// *************************
+		
 		// Buttons & ActionListeners
-		// *************************
-		// All Purchased Coupons
-		JButton btnMyCoupons = new JButton("All My Coupons");
-		btnMyCoupons.addActionListener(
-				new PurchasedCouponsActionListener(tableCouponData, westPanel, customerFacade));
-		
-		JButton bntBrowseCoupons  = new JButton("Browse Coupons");
-		bntBrowseCoupons.addActionListener(new AllCouponsActionListener(tableCouponData, westPanel));
-		
-		
-		// ***************************	
-		// Adding buttons to westPanel
-		// ***************************
-		westPanel.add(btnMyCoupons);
-		westPanel.add(bntBrowseCoupons);
-
+		GuiUtil.setCustomerHomeBntLayout(tableCouponData, westPanel, customerFacade);
 	}
-
 }

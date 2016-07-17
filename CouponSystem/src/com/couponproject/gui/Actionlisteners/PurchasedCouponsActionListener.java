@@ -67,7 +67,10 @@ public class PurchasedCouponsActionListener implements ActionListener {
 			allkBnt.addActionListener(allE -> {
 				try {
 					GuiUtil.CouponsToTable(tableCouponData, customerFacade.getAllPurchasedCoupons());
-				} catch (Exception e1) {}
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			});
 			Panel.add(allkBnt);
 			
@@ -76,17 +79,9 @@ public class PurchasedCouponsActionListener implements ActionListener {
 			// --------------------
 			JButton backBnt = new JButton("Back");
 			backBnt.addActionListener(backE -> {
-				// clear panel
-				Panel.removeAll();
-				JButton btnMyCoupons = new JButton("All My Coupons");
-				btnMyCoupons.addActionListener(
-						new PurchasedCouponsActionListener(tableCouponData, Panel, customerFacade));
-				Panel.add(btnMyCoupons);
-				Panel.revalidate();
-				Panel.repaint();
+				GuiUtil.setCustomerHomeBntLayout(tableCouponData, Panel, customerFacade);
 			});
 			Panel.add(backBnt);
-			
 			
 			// -----------------------------
 			// Step 5 - revalidate & repaint

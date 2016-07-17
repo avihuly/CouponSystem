@@ -333,11 +333,17 @@ public class CustomerDBDAO implements CustomerDAO {
 
 			// Select prepared statement
 			PreparedStatement selectStmt = myCon
-					.prepareStatement("SELECT DISTINCT " + CouponTableColumnNames.TYPE + " FROM coupon");
-
-			// Execute and get a resultSet
+					.prepareStatement("SELECT DISTINCT " + CouponTableColumnNames.TYPE + " FROM coupon "
+					+ "JOIN customer_coupon "
+					+ "ON coupon.ID = customer_coupon.COUPON_ID "
+					+ "WHERE customer_coupon.CUST_ID = ?");
+			
+			// Value 
+			selectStmt.setLong(1, customer.getId());
+			
+			// Execute and get a resultSet		
 			ResultSet myRs = selectStmt.executeQuery();
-
+			
 			// Processing resultSet into a Collection of CouponType
 			Collection<CouponType> couponsTypes = new ArrayList<>();
 
@@ -352,13 +358,7 @@ public class CustomerDBDAO implements CustomerDAO {
 			return couponsTypes;
 
 		} catch (PropertyVetoException | SQLException | IOException e) {
-			e.getMessage();
-			e.printStackTrace();
 			throw new CouponSystemException("CouponSystemException", e);
-			///////////////
-			////////
-			///// problem here 
-			///////
 		}
 	}
 
