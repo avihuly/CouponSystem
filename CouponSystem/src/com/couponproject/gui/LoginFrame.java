@@ -27,16 +27,16 @@ public class LoginFrame extends JFrame {
 	// constructor
 	// ***********
 	public LoginFrame(){
+		// frame properties 
 		super("Coupons");
 		setResizable(false);
 		setBackground(Color.LIGHT_GRAY);
 		setBounds(100, 100, 313, 286);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		// Set Frame's Icon And MenuBar
-		GuiUtil.setFrameIconAndMenu(this);
 		// Set Layout
 		getContentPane().setLayout(new BorderLayout(0, 0));
-
+		// Set Frame's Icon And MenuBar
+		GuiUtil.setFrameIconAndMenu(this);
 		
 		// ***********
 		// South Panel
@@ -86,7 +86,6 @@ public class LoginFrame extends JFrame {
 		radioAdmin.setActionCommand(ClientType.Admin.name());
 		radioPanel.add(radioAdmin);
 
-		
 		
 		// ***********
 		// West Panel

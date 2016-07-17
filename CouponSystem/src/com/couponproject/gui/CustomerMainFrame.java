@@ -3,7 +3,6 @@ package com.couponproject.gui;
 import java.awt.*;
 import javax.swing.*;
 
-
 import com.couponproject.facade.CustomerFacade;
 import com.couponproject.gui.Actionlisteners.AllCouponsActionListener;
 
@@ -11,13 +10,14 @@ public class CustomerMainFrame extends JFrame {
 	private JTable tableCouponData;
 
 	public CustomerMainFrame(CustomerFacade customerFacade) {
+		// frame properties
 		setBackground(Color.LIGHT_GRAY);
 		setBounds(100, 100, 750, 500);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		// Set Frame's Icon And MenuBar
-		GuiUtil.setFrameIconAndMenu(this);
 		// set layout
 		getContentPane().setLayout(new BorderLayout(0, 0));
+		// Set Frame's Icon And MenuBar
+		GuiUtil.setFrameIconAndMenu(this);
 
 		// ***********
 		// South Panel
@@ -44,7 +44,6 @@ public class CustomerMainFrame extends JFrame {
 
 		tableCouponData = new JTable();
 		CenterPanel.add(new JScrollPane(tableCouponData));
-		// CenterPanel.add(tableCouponData);
 
 		// ***********
 		// North Panel
@@ -58,18 +57,23 @@ public class CustomerMainFrame extends JFrame {
 		getContentPane().add(westPanel, BorderLayout.WEST);
 		westPanel.setLayout(new GridLayout(10, 1, 0, 0));
 
-		// ***************
-		// ActionListeners
-		// ***************
+		// *************************
+		// Buttons & ActionListeners
+		// *************************
 		// All Purchased Coupons
 		JButton btnMyCoupons = new JButton("All My Coupons");
 		btnMyCoupons.addActionListener(
 				new AllCouponsActionListener(tableCouponData, westPanel, customerFacade));
-				
-		// *******************
-		// Adding bnt to panel
-		// *******************
+		
+		JButton bntBrowseCoupons  = new JButton("Browse Coupons");
+		
+		
+		
+		// ***************************	
+		// Adding buttons to westPanel
+		// ***************************
 		westPanel.add(btnMyCoupons);
+		westPanel.add(bntBrowseCoupons);
 
 	}
 

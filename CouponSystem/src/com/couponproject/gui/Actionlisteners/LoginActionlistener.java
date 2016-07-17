@@ -68,7 +68,7 @@ public class LoginActionlistener implements ActionListener {
 	// Loading AdminFarme ///
 	/////////////////////////
 	private void loadAdminFarme() {
-		AdminFacade adminFacade = CouponSystem.getInstance().loginAsAdmin(userName, userName);
+		AdminFacade adminFacade = CouponSystem.getInstance().loginAsAdmin(userName, password);
 		
 		if (adminFacade != null) {
 			JOptionPane.showMessageDialog(null, "Login!!!");
