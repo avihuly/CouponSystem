@@ -2,7 +2,9 @@ package com.couponproject.facade.test;
 
 import com.couponproject.beans.Company;
 import com.couponproject.exception.AdminFacadeException;
+import com.couponproject.exception.CompanyAlreadyExistsException;
 import com.couponproject.exception.CouponSystemException;
+import com.couponproject.exception.IllegalPasswordException;
 import com.couponproject.facade.AdminFacade;
 
 
@@ -28,7 +30,7 @@ public class AdminFacadeTest {
 	
 	
 	// createCompany test
-	private static void testCreateCompany(){
+	private static void testCreateCompany() throws IllegalPasswordException, CompanyAlreadyExistsException{
 		for (int i = 0; i < 25; i++) {
 			// Company instance
 			Company company = new Company(
