@@ -9,6 +9,7 @@ import com.couponproject.exception.*;
 
 import com.couponproject.dbdao.CompanyDBDAO;
 import com.couponproject.dbdao.CouponDBDAO;
+import com.couponproject.dbdao.CustomerDBDAO;
 
 //TODO: limits cheking!!!
 public class CompanyFacade {
@@ -147,6 +148,13 @@ public class CompanyFacade {
 					+ "getCoupon Error", e);
 		}
 	}
+	
+	// -----------------
+	// UniqueCouponTypes
+	// -----------------
+	public Collection<CouponType> getUniqueCouponTypes() throws CouponSystemException{
+		return CompanyDBDAO.getInstace().getUniqueCouponTypes(company);
+	} 
 	
 	
 	//A method that returns a list of all the Coupons of the company

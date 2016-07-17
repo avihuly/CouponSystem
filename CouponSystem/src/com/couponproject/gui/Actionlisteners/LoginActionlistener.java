@@ -15,6 +15,7 @@ import com.couponproject.constants.ClientType;
 import com.couponproject.facade.AdminFacade;
 import com.couponproject.facade.CompanyFacade;
 import com.couponproject.facade.CustomerFacade;
+import com.couponproject.gui.CompanyMainFrame;
 import com.couponproject.gui.CustomerMainFrame;
 import com.couponproject.system.CouponSystem;
 
@@ -83,7 +84,15 @@ public class LoginActionlistener implements ActionListener {
 	private void loadComapnyFrame() {
 		CompanyFacade companyFacade = CouponSystem.getInstance().loginAsCompany(userName, password);
 		if (companyFacade != null) {
+			// Turing LoginFrame Visibility off
+			loginframe.setVisible(false);
+			// login message 
 			JOptionPane.showMessageDialog(null, "Login!!!");
+			
+			//loading Company main frame
+			CompanyMainFrame companyMainFrame = new CompanyMainFrame(companyFacade);
+			companyMainFrame.setVisible(true);
+			
 		} else {
 			JOptionPane.showMessageDialog(null, "!!!!!NOT LOGED IN!!!");
 		}

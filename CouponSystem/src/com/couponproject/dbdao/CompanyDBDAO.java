@@ -7,6 +7,7 @@ import java.time.ZoneId;
 import java.util.*;
 
 import com.couponproject.beans.*;
+import com.couponproject.constants.CouponTableColumnNames;
 import com.couponproject.constants.CouponType;
 import com.couponproject.dao.CompanyDAO;
 import com.couponproject.exception.CompanyAlreadyExistsException;
@@ -401,6 +402,49 @@ public class CompanyDBDAO implements CompanyDAO{
 
 		} catch (PropertyVetoException | SQLException | IOException e) {
 			throw new CouponSystemException("CouponSystemException", e);
+		}
+	}
+	
+	// ****************
+	// UniqueCouponType
+	// *****************
+	public Collection<CouponType> getUniqueCouponTypes(Company company) throws CouponSystemException {
+		// getting a connection to DB from pool
+		try (Connection myCon = ConnectionPool.getInstance().getConnection()) {
+
+			// Select prepared statement
+			PreparedStatement selectStmt = myCon
+					.prepareStatement("SELECT DISTINCT CouponTableColumnNames.TYPE FROM coupon JOIN company_coupon "
+							+ "ON coupon.ID = company_coupon.COUPON_ID "
+							+ "WHERE company_coupon.COMP_ID = ?");
+
+			//Values
+			selectStmt.setLong(1, company.getId());		
+			
+			// Execute and get a resultSet
+			ResultSet myRs = selectStmt.executeQuery();
+
+			// Processing resultSet into a Collection of CouponType
+			Collection<CouponType> couponsTypes = new ArrayList<>();
+
+			// Iterating the resultSet
+			while (myRs.next()) {
+				// Generating Coupons type and adding it to the List
+				CouponType couponType = CouponType.valueOf(myRs.getString(CouponTableColumnNames.TYPE.name()));
+				couponsTypes.add(couponType);
+			}
+
+			// Return List of coupon
+			return couponsTypes;
+
+		} catch (PropertyVetoException | SQLException | IOException e) {
+			e.getMessage();
+			e.printStackTrace();
+			throw new CouponSystemException("CouponSystemException", e);
+			///////////////
+			////////
+			///// problem here 
+			///////
 		}
 	}
 	
