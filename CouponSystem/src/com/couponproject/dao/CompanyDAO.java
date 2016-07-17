@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import com.couponproject.beans.*;
 import com.couponproject.exception.CompanyAlreadyExistsException;
+import com.couponproject.exception.CompanyCouponDoesNotExistsException;
 import com.couponproject.exception.CompanyDoesNotExistException;
 import com.couponproject.exception.CouponSystemException;
 import com.couponproject.exception.IllegalPasswordException;
@@ -44,5 +45,5 @@ public interface CompanyDAO extends DAO {
 	void addCompanyCoupon(long compId, long couponId) throws CouponSystemException;
 
 	//This method removes a line from the company_coupon table with a  specific company ID and coupon ID
-	void removeCompanyCoupon(long compId, long couponId) throws CouponSystemException;
+	void removeCompanyCoupon(long compId, long couponId) throws CouponSystemException, CompanyCouponDoesNotExistsException;
 }

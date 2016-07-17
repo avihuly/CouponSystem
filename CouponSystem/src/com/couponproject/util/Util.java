@@ -66,8 +66,6 @@ public class Util {
 	}
 	
 	
-	
-	
 	// Returns true if argument coupon name or ID already exist in DB
 	public static boolean isCoupon(Coupon coupon){
 		try {
@@ -93,6 +91,22 @@ public class Util {
 			boolean result = false;
 			for (Coupon purchasedCoupon : purchasedCoupons){
 				if (purchasedCoupon.equals(coupon)){
+					result = true;
+				}
+			}
+			return result;
+		} catch (CouponSystemException e) {return true;}
+	}
+	
+	
+	public static boolean isCompanyCoupon(long couponID, long companyID) {
+		try {
+			// Get all company's coupon 
+			Collection<Coupon> companysCoupons = CompanyDBDAO.getInstace().getCoupons(companyID);
+			// Iterating and checking if coupon exist for company 
+			boolean result = false;
+			for (Coupon companysCoupon : companysCoupons){
+				if (companysCoupon.getId()==couponID){
 					result = true;
 				}
 			}

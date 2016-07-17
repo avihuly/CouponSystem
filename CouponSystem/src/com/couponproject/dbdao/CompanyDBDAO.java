@@ -10,8 +10,10 @@ import com.couponproject.beans.*;
 import com.couponproject.constants.CouponType;
 import com.couponproject.dao.CompanyDAO;
 import com.couponproject.exception.CompanyAlreadyExistsException;
+import com.couponproject.exception.CompanyCouponDoesNotExistsException;
 import com.couponproject.exception.CompanyDoesNotExistException;
 import com.couponproject.exception.CouponSystemException;
+import com.couponproject.exception.CustomerAlreadyExistsException;
 import com.couponproject.exception.IllegalPasswordException;
 import com.couponproject.util.Util;
 
@@ -181,28 +183,31 @@ public class CompanyDBDAO implements CompanyDAO{
 
 	@Override
 	//a method that gets a company's ID and coupon's ID and removes it from the company_coupon table in the DB
-	public void removeCompanyCoupon(long compId, long couponId) throws CouponSystemException {
-		
-		// getting a connection to DB from  pool
-		try (Connection myCon = ConnectionPool.getInstance().getConnection()) {
-			
-			// Update prepared statement
-			PreparedStatement deleteStmt = myCon.prepareStatement( 	"delete from company_coupon "
-					+ "where COMP_ID = ? and COUPON_ID = ? ");
-
-			// Values
-			deleteStmt.setLong(1, compId);	
-			deleteStmt.setLong(2, couponId);
-			
-									
-			// Execute
-			deleteStmt.executeUpdate();
-
-			
-		} catch (PropertyVetoException | SQLException | IOException e) {
-			throw new CouponSystemException("CouponSystemException", e);
-		}
+	public void removeCompanyCoupon(long compId, long couponId) throws CouponSystemException, CompanyCouponDoesNotExistsException {
+		if(!Util.isCompanyCoupon(couponId, compId)){
+			throw new CompanyCouponDoesNotExistsException(
+					"No such coupons for this company");
+		} else {
+			// getting a connection to DB from  pool
+			try (Connection myCon = ConnectionPool.getInstance().getConnection()) {
 				
+				// Update prepared statement
+				PreparedStatement deleteStmt = myCon.prepareStatement( 	"delete from company_coupon "
+						+ "where COMP_ID = ? and COUPON_ID = ? ");
+
+				// Values
+				deleteStmt.setLong(1, compId);	
+				deleteStmt.setLong(2, couponId);
+				
+										
+				// Execute
+				deleteStmt.executeUpdate();
+
+				
+			} catch (PropertyVetoException | SQLException | IOException e) {
+				throw new CouponSystemException("CouponSystemException", e);
+			}
+		}				
 	}
 	
 	
