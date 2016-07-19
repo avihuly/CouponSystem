@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 
 import com.couponproject.facade.CompanyFacade;
 import com.couponproject.gui.Actionlisteners.CompanysCouponActionListener;
@@ -68,8 +69,15 @@ public class CompanyMainFrame extends JFrame{
 		westPanel.setLayout(new GridLayout(10, 1, 0, 0));
 		
 		// *************************
-		// Buttons & ActionListeners
+		// ActionListeners & Buttons 
 		// *************************
+		// Coupon tables ActionListeners 
+		ListSelectionModel selectedModel = tableCouponData.getSelectionModel();
+		selectedModel.addListSelectionListener(e -> {
+			int selectedRow = selectedModel.getMinSelectionIndex();
+			System.out.println(selectedRow);
+		});
+		
 		// All Company's Coupons
 		JButton btnCompCoupons = new JButton("All Company's Coupons");
 		btnCompCoupons.addActionListener(

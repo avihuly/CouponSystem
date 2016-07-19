@@ -4,6 +4,7 @@ import java.awt.*;
 import javax.swing.*;
 
 import com.couponproject.facade.CustomerFacade;
+import com.couponproject.gui.Actionlisteners.CouponTableListSelectionListener;
 
 public class CustomerMainFrame extends JFrame {
 	private JTable tableCouponData;
@@ -36,13 +37,13 @@ public class CustomerMainFrame extends JFrame {
 		// ***********
 		JPanel CenterPanel = new JPanel();
 		getContentPane().add(CenterPanel, BorderLayout.CENTER);
-		CenterPanel.setLayout(new GridLayout(2, 1, 0, 0));
+		CenterPanel.setLayout(new BorderLayout());
 
 		JLabel lblCouponPic = new JLabel("");
-		CenterPanel.add(lblCouponPic);
+		CenterPanel.add(lblCouponPic, BorderLayout.SOUTH);
 
 		tableCouponData = new JTable();
-		CenterPanel.add(new JScrollPane(tableCouponData));
+		CenterPanel.add(new JScrollPane(tableCouponData), BorderLayout.CENTER);
 
 		// ***********
 		// North Panel
@@ -56,7 +57,14 @@ public class CustomerMainFrame extends JFrame {
 		getContentPane().add(westPanel, BorderLayout.WEST);
 		westPanel.setLayout(new GridLayout(10, 1, 0, 0));
 		
+		
+		// *************************
 		// Buttons & ActionListeners
+		// *************************
 		GuiUtil.setCustomerHomeBntLayout(tableCouponData, westPanel, customerFacade);
+
+		// Coupon Table ActionListeners 
+		ListSelectionModel selectedModel = tableCouponData.getSelectionModel();
+		selectedModel.addListSelectionListener(new CouponTableListSelectionListener(tableCouponData, lblCouponPic));	
 	}
 }

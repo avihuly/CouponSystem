@@ -17,6 +17,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
@@ -159,15 +160,17 @@ public class GuiUtil {
 		for (int i = 0; i < (tableCouponData.getColumnCount()); i++) {
 			tableCouponData.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
 		}
+		// First row selected as default
+		tableCouponData.setRowSelectionInterval(0, 0);
 	}
 
 	// ************************
 	// setCustomerHomeBntLayout
 	// ************************
-	public static void setCustomerHomeBntLayout(JTable tableCouponData, JPanel Panel, CustomerFacade customerFacade){
-		// *************************
-		// Buttons & ActionListeners
-		// *************************
+	public static void setCustomerHomeBntLayout(JTable tableCouponData, JPanel Panel, CustomerFacade customerFacade){		
+		// ***********************
+		// Buttons ActionListeners
+		// ***********************
 		Panel.removeAll();  	// clear panel
 		
 		// All Purchased Coupons
