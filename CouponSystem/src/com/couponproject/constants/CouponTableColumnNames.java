@@ -9,4 +9,5 @@ public enum CouponTableColumnNames {
 	TYPE,
 	MESSAGE,
 	PRICE,
+	IMAGE,
 }

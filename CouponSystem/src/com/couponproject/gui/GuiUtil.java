@@ -125,6 +125,10 @@ public class GuiUtil {
 		model.addColumn("Start Date");
 		model.addColumn("End Date");
 		model.addColumn("Price");
+		// Hidden columns 
+		model.addColumn("ID");
+		model.addColumn("Amount");
+		model.addColumn("Image");
 
 		for (Coupon coupon : PurchasedCoupons) {
 			ArrayList<String> tempCoupon = new ArrayList<>();
@@ -134,14 +138,25 @@ public class GuiUtil {
 			tempCoupon.add(coupon.getStartDate().toString());
 			tempCoupon.add(coupon.getEndDate().toString());
 			tempCoupon.add(Double.toString(coupon.getPrice()));
+			// Hidden details  
+			tempCoupon.add(Long.toString(coupon.getId()));
+			tempCoupon.add(Integer.toString(coupon.getAmount()));
+			tempCoupon.add(coupon.getImage());
+			// Adding row to table
 			model.addRow(tempCoupon.toArray());
 		}
+		// Adding model to table		
 		tableCouponData.setModel(model);
-
+		
+		// Heightening columns ID Amount & Image
+		tableCouponData.removeColumn(tableCouponData.getColumnModel().getColumn(6));
+		tableCouponData.removeColumn(tableCouponData.getColumnModel().getColumn(6));
+		tableCouponData.removeColumn(tableCouponData.getColumnModel().getColumn(6));
+		
 		// Center alignment
 		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
 		centerRenderer.setHorizontalAlignment(JLabel.CENTER);
-		for (int i = 0; i < model.getColumnCount(); i++) {
+		for (int i = 0; i < (tableCouponData.getColumnCount()); i++) {
 			tableCouponData.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
 		}
 	}
