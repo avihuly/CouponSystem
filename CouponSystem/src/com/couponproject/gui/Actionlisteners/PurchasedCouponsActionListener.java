@@ -90,7 +90,6 @@ public class PurchasedCouponsActionListener implements ActionListener {
 			Panel.repaint();
 
 		} catch (CouponSystemException custE) {
-			// TODO Auto-generated catch block
 			custE.printStackTrace();
 		}
 	}

@@ -240,9 +240,9 @@ public class CouponDBDAO implements CouponDAO{
 					Coupon coupon = new Coupon(
 							myRs.getLong("ID"),
 							myRs.getString("TITLE"),
-							// converting sql.Date to LocalDate
+							// converting Date to LocalDate
 							myRs.getDate("START_DATE").toLocalDate(),
-							// converting sql.Date to LocalDate
+							// converting Date to LocalDate
 							myRs.getDate("END_DATE").toLocalDate(),
 							myRs.getInt("AMOUNT"),
 							CouponType.valueOf(myRs.getString("TYPE")),

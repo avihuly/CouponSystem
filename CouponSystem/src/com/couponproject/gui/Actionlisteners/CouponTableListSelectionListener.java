@@ -26,33 +26,32 @@ public class CouponTableListSelectionListener implements ListSelectionListener {
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
 		ListSelectionModel selectedModel = (ListSelectionModel) e.getSource();
-		int selectedRow = selectedModel.getMinSelectionIndex();
+		if (!selectedModel.isSelectionEmpty()) {
 
-		// getting image path
-		String ImagePath = (String) tableCouponData.getModel().getValueAt(selectedRow, 8);
-		System.out.println(ImagePath);
-		
-		// getting Image object instance
-		File input = new File(ImagePath);
-		Image couponImg;
-		try {
-			couponImg = ImageIO.read(input);
+			int selectedRow = selectedModel.getMinSelectionIndex();
 
-			// converting image to icon
-			ImageIcon couponIcon = new ImageIcon(couponImg);
+			// getting image path
+			String ImagePath = (String) tableCouponData.getModel().getValueAt(selectedRow, 8);
 
-			// loading icon to Jlabel
-			lblCouponPic.setIcon(couponIcon);
-			lblCouponPic.setHorizontalAlignment(SwingConstants.CENTER);
-			
-			
-			lblCouponPic.revalidate();
-			lblCouponPic.repaint();
+			// getting Image object instance
+			File input = new File(ImagePath);
+			Image couponImg;
+			try {
+				couponImg = ImageIO.read(input);
 
-		} catch (IOException e1) {
-			e1.printStackTrace();
+				// converting image to icon
+				ImageIcon couponIcon = new ImageIcon(couponImg);
+
+				// loading icon to Jlabel
+				lblCouponPic.setIcon(couponIcon);
+				lblCouponPic.setHorizontalAlignment(SwingConstants.CENTER);
+
+				lblCouponPic.revalidate();
+				lblCouponPic.repaint();
+
+			} catch (IOException e1) {
+			}
 		}
-
 	}
 
 }

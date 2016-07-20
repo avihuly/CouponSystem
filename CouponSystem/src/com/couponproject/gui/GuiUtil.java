@@ -59,7 +59,6 @@ public class GuiUtil {
 			// adding to frame's BorderLayout.NORTH
 			frame.getContentPane().add(northPanel, BorderLayout.NORTH);
 		} catch (IOException ie) {
-			System.out.println(ie.getMessage());
 		}
 
 	}
@@ -119,7 +118,14 @@ public class GuiUtil {
 	// Coupon Table Set
 	// ****************
 	public static void CouponsToTable(JTable tableCouponData, Collection<Coupon> PurchasedCoupons) {
-		DefaultTableModel model = new DefaultTableModel();
+		// Disable editing 
+		DefaultTableModel model = new DefaultTableModel() {
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+		};
+		
 		model.addColumn("Title");
 		model.addColumn("Description");
 		model.addColumn("Type");
@@ -150,18 +156,21 @@ public class GuiUtil {
 		tableCouponData.setModel(model);
 		
 		// Heightening columns ID Amount & Image
-		tableCouponData.removeColumn(tableCouponData.getColumnModel().getColumn(6));
-		tableCouponData.removeColumn(tableCouponData.getColumnModel().getColumn(6));
-		tableCouponData.removeColumn(tableCouponData.getColumnModel().getColumn(6));
-		
+		tableCouponData.removeColumn(tableCouponData.getColumn("ID"));
+		tableCouponData.removeColumn(tableCouponData.getColumn("Amount"));
+		tableCouponData.removeColumn(tableCouponData.getColumn("Image"));
+			
 		// Center alignment
 		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
 		centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+		
 		for (int i = 0; i < (tableCouponData.getColumnCount()); i++) {
 			tableCouponData.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
 		}
 		// First row selected as default
-		tableCouponData.setRowSelectionInterval(0, 0);
+		if (tableCouponData.getRowCount() > 0) {
+			tableCouponData.setRowSelectionInterval(0, 0);
+		}
 	}
 
 	// ************************

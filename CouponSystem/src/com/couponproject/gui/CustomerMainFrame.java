@@ -1,6 +1,10 @@
 package com.couponproject.gui;
 
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
 import javax.swing.*;
 
 import com.couponproject.facade.CustomerFacade;
@@ -64,7 +68,8 @@ public class CustomerMainFrame extends JFrame {
 		GuiUtil.setCustomerHomeBntLayout(tableCouponData, westPanel, customerFacade);
 
 		// Coupon Table ActionListeners 
+		// ----------------------------
 		ListSelectionModel selectedModel = tableCouponData.getSelectionModel();
-		selectedModel.addListSelectionListener(new CouponTableListSelectionListener(tableCouponData, lblCouponPic));	
+		selectedModel.addListSelectionListener(new CouponTableListSelectionListener(tableCouponData, lblCouponPic));
 	}
 }
