@@ -67,17 +67,11 @@ public class CompanyMainFrame extends JFrame{
 		JPanel westPanel = new JPanel();
 		getContentPane().add(westPanel, BorderLayout.WEST);
 		westPanel.setLayout(new GridLayout(10, 1, 0, 0));
-		
+			
+	
 		// *************************
-		// ActionListeners & Buttons 
-		// *************************
-		// Coupon tables ActionListeners 
-		ListSelectionModel selectedModel = tableCouponData.getSelectionModel();
-		selectedModel.addListSelectionListener(e -> {
-			int selectedRow = selectedModel.getMinSelectionIndex();
-			System.out.println(selectedRow);
-		});
-		
+		// Buttons & ActionListeners  
+		// *************************		
 		// All Company's Coupons
 		JButton btnCompCoupons = new JButton("All Company's Coupons");
 		btnCompCoupons.addActionListener(

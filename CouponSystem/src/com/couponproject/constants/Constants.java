@@ -1,5 +1,5 @@
 package com.couponproject.constants;
 
 public class Constants {
-	public static final int tableCouponColumns = 9;
+	public static final int couponTableIDIndex = 6;
 }

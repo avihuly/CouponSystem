@@ -39,6 +39,9 @@ public class CouponTableListSelectionListener implements ListSelectionListener {
 			try {
 				couponImg = ImageIO.read(input);
 
+				// Resize image
+				couponImg = couponImg.getScaledInstance(400, 175, Image.SCALE_SMOOTH);
+
 				// converting image to icon
 				ImageIcon couponIcon = new ImageIcon(couponImg);
 

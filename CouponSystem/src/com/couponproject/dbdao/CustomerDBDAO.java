@@ -75,7 +75,7 @@ public class CustomerDBDAO implements CustomerDAO {
 				// Execute
 				createStmt.executeUpdate();
 			} catch (PropertyVetoException | SQLException | IOException e) {
-				throw new CouponSystemException("CouponSystemException", e);
+				throw new CouponSystemException(e.getMessage() , e);
 			} 
 	}}
 
@@ -102,7 +102,7 @@ public class CustomerDBDAO implements CustomerDAO {
 				deleteStmt.executeUpdate();
 			
 			} catch (PropertyVetoException | SQLException | IOException e) {
-				throw new CouponSystemException("CouponSystemException", e);
+				throw new CouponSystemException(e.getMessage() , e);
 			}
 		}
 			
@@ -139,7 +139,7 @@ public class CustomerDBDAO implements CustomerDAO {
 				updateStmt.executeUpdate();
 				
 			} catch (PropertyVetoException | SQLException | IOException e) {
-				throw new CouponSystemException("CouponSystemException", e);
+				throw new CouponSystemException(e.getMessage() , e);
 			}
 		}
 	}
@@ -169,7 +169,7 @@ public class CustomerDBDAO implements CustomerDAO {
 				// Return customer
 				return customer;
 			} catch (PropertyVetoException | SQLException | IOException e) {
-				throw new CouponSystemException("CouponSystemException", e);
+				throw new CouponSystemException(e.getMessage() , e);
 			}
 	}
 	
@@ -200,7 +200,7 @@ public class CustomerDBDAO implements CustomerDAO {
 				return customer;
 				
 			} catch (PropertyVetoException | SQLException | IOException e) {
-				throw new CouponSystemException("CouponSystemException", e);
+				throw new CouponSystemException(e.getMessage() , e);
 			}
 		}
 
@@ -234,7 +234,7 @@ public class CustomerDBDAO implements CustomerDAO {
 			return customers;	
 		
 		} catch (PropertyVetoException | SQLException | IOException e) {
-			throw new CouponSystemException("CouponSystemException", e);
+			throw new CouponSystemException(e.getMessage() , e);
 		}
 	}
 
@@ -273,7 +273,7 @@ public class CustomerDBDAO implements CustomerDAO {
 		return coupons;
 		
 		} catch (PropertyVetoException | SQLException | IOException e) {
-			throw new CouponSystemException("CouponSystemException", e);
+			throw new CouponSystemException(e.getMessage() , e);
 		}
 	}
 
@@ -298,7 +298,7 @@ public class CustomerDBDAO implements CustomerDAO {
 		return myRs.next(); 
 		
 	} catch (PropertyVetoException | SQLException | IOException e) {
-		throw new CouponSystemException("CouponSystemException", e);
+		throw new CouponSystemException(e.getMessage() , e);
 	}
 }
 
@@ -310,7 +310,7 @@ public class CustomerDBDAO implements CustomerDAO {
 			PreparedStatement insertStmt = myCon.prepareStatement(					
 					"insert into "
 					+ "customer_coupon (CUST_ID, COUPON_ID) "
-					+ "values (?,?);"); //id will be assign in the DB
+					+ "values (?,?);"); 
 
 			// Values
 			insertStmt.setLong(1, custId);
@@ -320,7 +320,7 @@ public class CustomerDBDAO implements CustomerDAO {
 			insertStmt.executeUpdate();
 
 		} catch (PropertyVetoException | SQLException | IOException e) {
-			throw new CouponSystemException("CouponSystemException", e);
+			throw new CouponSystemException(e.getMessage(), e);
 		}
 	}
 
@@ -358,7 +358,7 @@ public class CustomerDBDAO implements CustomerDAO {
 			return couponsTypes;
 
 		} catch (PropertyVetoException | SQLException | IOException e) {
-			throw new CouponSystemException("CouponSystemException", e);
+			throw new CouponSystemException(e.getMessage() , e);
 		}
 	}
 

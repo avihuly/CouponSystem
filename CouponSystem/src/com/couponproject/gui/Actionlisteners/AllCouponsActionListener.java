@@ -1,13 +1,8 @@
 package com.couponproject.gui.Actionlisteners;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 
 import javax.swing.JButton;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 
@@ -51,17 +46,9 @@ public class AllCouponsActionListener implements ActionListener {
 		// ---------------------------------------------------
 		// Step 2 - add purchase coupon MouseListener to table
 		// ---------------------------------------------------
-		tableCouponData.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				if (e.getClickCount() == 2) {
-					JTable target = (JTable) e.getSource();
-					int row = target.getSelectedRow();
-					JOptionPane.showMessageDialog(null, row);
-				}
-			}
-		});
-
+		MouseAdapter doubleClickToPerches = new PurchaseCouponMouseListener(customerFacade);
+		tableCouponData.addMouseListener(doubleClickToPerches);
+		
 		// -----------------------------------------------------
 		// Step 3 - generate buttons for coupon by relevant types
 		// ------------------------------------------------------
@@ -87,6 +74,7 @@ public class AllCouponsActionListener implements ActionListener {
 		// ---------------------------
 		JButton allkBnt = new JButton("All Coupons");
 		allkBnt.addActionListener(allE -> {
+		
 			try {
 				GuiUtil.CouponsToTable(tableCouponData, CouponDBDAO.getInstace().getAllCoupons());
 			} catch (Exception e1) {
@@ -101,23 +89,10 @@ public class AllCouponsActionListener implements ActionListener {
 		// --------------------
 		JButton backBnt = new JButton("Back");
 		backBnt.addActionListener(backE -> {
+			// Remove purchase coupon MouseListener
+			tableCouponData.removeMouseListener(doubleClickToPerches);
 			// Set Customer Home Button Layout
-			GuiUtil.setCustomerHomeBntLayout(tableCouponData, Panel, customerFacade);
-			
-			// Remove all MouseListeners
-			MouseListener[] mouseListeners = tableCouponData.getMouseListeners();
-			for (MouseListener mouseListener: mouseListeners){
-
-				////////////////
-				////////////////
-				
-				//System.out.println(mouseListener.getClass() instanceof MouseAdapter);
-				// tableCouponData.removeMouseListener(mouseListener);
-				
-				
-				/////////////////
-				/////////////////
-			}
+			GuiUtil.setCustomerHomeBntLayout(tableCouponData, Panel, customerFacade);		
 		});
 		Panel.add(backBnt);
 		

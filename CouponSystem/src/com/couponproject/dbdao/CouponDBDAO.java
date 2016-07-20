@@ -190,22 +190,23 @@ public class CouponDBDAO implements CouponDAO{
 					
 			// Execute and get a resultSet
 			ResultSet myRs = selectStmt.executeQuery();
-					
+			
+			myRs.next();
+			
 			// Processing resultSet into a Coupon(bean) instance
 			Coupon coupon = new Coupon(
 					myRs.getLong("ID"),
 					myRs.getString("TITLE"),
 					// converting sql.Date to LocalDate
-					myRs.getDate("START_DATE").toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
+					myRs.getDate("START_DATE").toLocalDate(),
 					// converting sql.Date to LocalDate
-					myRs.getDate("END_DATE").toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
+					myRs.getDate("END_DATE").toLocalDate(),
 					myRs.getInt("AMOUNT"),
 					CouponType.valueOf(myRs.getString("TYPE")),
-					myRs.getString("MESSEGE"),
+					myRs.getString(CouponTableColumnNames.MESSAGE.name()),
 					myRs.getDouble("PRICE"),
 					myRs.getString("IMAGE"));
 					
-			
 			// Return coupon
 			return coupon;
 		

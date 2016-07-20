@@ -85,12 +85,12 @@ public class Util {
 	
 	public static boolean isPurchased(Coupon coupon, Customer customer) {
 		try {
-			// Get all customers coupon 
+			// Get all customers coupons 
 			Collection<Coupon> purchasedCoupons = CustomerDBDAO.getInstace().getCoupons(customer.getId());
-			// Iterating and checking if coupon alredy Purchased 
+			// Iterating and checking if coupon already Purchased 
 			boolean result = false;
-			for (Coupon purchasedCoupon : purchasedCoupons){
-				if (purchasedCoupon.equals(coupon)){
+			for (Coupon Coupon : purchasedCoupons){
+				if (Coupon.equals(coupon)){
 					result = true;
 				}
 			}

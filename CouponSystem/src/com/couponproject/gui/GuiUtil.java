@@ -138,16 +138,16 @@ public class GuiUtil {
 		model.addColumn("Image");
 
 		for (Coupon coupon : PurchasedCoupons) {
-			ArrayList<String> tempCoupon = new ArrayList<>();
+			ArrayList<Object> tempCoupon = new ArrayList<>();
 			tempCoupon.add(coupon.getTitle());
 			tempCoupon.add(coupon.getMessage());
-			tempCoupon.add(coupon.getType().name());
-			tempCoupon.add(coupon.getStartDate().toString());
-			tempCoupon.add(coupon.getEndDate().toString());
-			tempCoupon.add(Double.toString(coupon.getPrice()));
+			tempCoupon.add(coupon.getType());
+			tempCoupon.add(coupon.getStartDate());
+			tempCoupon.add(coupon.getEndDate());
+			tempCoupon.add(coupon.getPrice());
 			// Hidden details  
-			tempCoupon.add(Long.toString(coupon.getId()));
-			tempCoupon.add(Integer.toString(coupon.getAmount()));
+			tempCoupon.add(coupon.getId());
+			tempCoupon.add(coupon.getAmount());
 			tempCoupon.add(coupon.getImage());
 			// Adding row to table
 			model.addRow(tempCoupon.toArray());
@@ -155,7 +155,7 @@ public class GuiUtil {
 		// Adding model to table		
 		tableCouponData.setModel(model);
 		
-		// Heightening columns ID Amount & Image
+		// Heeding columns ID Amount & Image
 		tableCouponData.removeColumn(tableCouponData.getColumn("ID"));
 		tableCouponData.removeColumn(tableCouponData.getColumn("Amount"));
 		tableCouponData.removeColumn(tableCouponData.getColumn("Image"));
@@ -177,9 +177,7 @@ public class GuiUtil {
 	// setCustomerHomeBntLayout
 	// ************************
 	public static void setCustomerHomeBntLayout(JTable tableCouponData, JPanel Panel, CustomerFacade customerFacade){		
-		// ***********************
 		// Buttons ActionListeners
-		// ***********************
 		Panel.removeAll();  	// clear panel
 		
 		// All Purchased Coupons
@@ -189,17 +187,12 @@ public class GuiUtil {
 		
 		JButton bntBrowseCoupons  = new JButton("Browse Coupons");
 		bntBrowseCoupons.addActionListener(new AllCouponsActionListener(tableCouponData, Panel, customerFacade));
-		
-		
-		// ***************************	
+			
 		// Adding buttons to westPanel
-		// ***************************
 		Panel.add(btnMyCoupons);
 		Panel.add(bntBrowseCoupons);
-		
-		// --------------------
+	
 		// revalidate & repaint
-		// --------------------
 		Panel.revalidate();
 		Panel.repaint();	
 	}
