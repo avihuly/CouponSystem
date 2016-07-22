@@ -94,7 +94,7 @@ public class LoginFrame extends JFrame {
 		getContentPane().add(westPanel, BorderLayout.WEST);
 		westPanel.setLayout(new GridLayout(3, 1, 0, 0));
 
-		JLabel labelUserName = new JLabel("User Nane:");
+		JLabel labelUserName = new JLabel("User Name:");
 		westPanel.add(labelUserName);
 
 		JLabel labelPassword = new JLabel("Password:");

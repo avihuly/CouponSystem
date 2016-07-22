@@ -12,6 +12,10 @@ import com.couponproject.exception.CouponSystemException;
 import com.couponproject.facade.CompanyFacade;
 import com.couponproject.gui.GuiUtil;
 
+//**********************************
+//This class's purpose is to give an action to the All Company's Coupons button
+//Upon pressing All Company's Coupons button a table of all compny's coupons will appear in the frame
+
 public class CompanysCouponActionListener implements ActionListener{
 
 	// **********
