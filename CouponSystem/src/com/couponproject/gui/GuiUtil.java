@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -16,6 +17,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -32,8 +34,18 @@ import com.couponproject.gui.Actionlisteners.PurchasedCouponsActionListener;
 import com.mysql.fabric.xmlrpc.base.Array;
 
 public class GuiUtil {
+	// ********************
+	// Set ScrollPane dizing
+	// ********************	
+	protected static void SetScrollPaneDizing(JScrollPane sp) {
+		sp.setBorder(BorderFactory.createEmptyBorder());
+		
+
+	}
+	
+	
 	// ********
-	// Set Logo
+	// Set logo
 	// ********
 	protected static void setLogoBySize(JFrame frame, int width, int height) {
 		JPanel northPanel = new JPanel();

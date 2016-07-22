@@ -114,7 +114,6 @@ public class LoginActionlistener implements ActionListener {
 			
 			// loading Customer main Frame 
 			CustomerMainFrame customerMainFrame = new CustomerMainFrame(customerFacade);
-			customerMainFrame.setVisible(true);
 			
 		} else {
 			JOptionPane.showMessageDialog(null, "!!!!!NOT LOGED IN!!!");
