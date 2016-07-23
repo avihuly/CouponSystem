@@ -1,4 +1,4 @@
-package com.couponproject.gui;
+package com.couponproject.gui.frames;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -12,6 +12,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import com.couponproject.facade.CompanyFacade;
+import com.couponproject.gui.GuiUtil;
 import com.couponproject.gui.Actionlisteners.ClearFormActionListener;
 import com.couponproject.gui.Actionlisteners.SubmittingFormActionListener;
 

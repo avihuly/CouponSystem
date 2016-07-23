@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import com.couponproject.facade.CompanyFacade;
-import com.couponproject.gui.NewCouponForm;
+import com.couponproject.gui.frames.NewCouponForm;
 
 public class NewCompanysCouponActionListener implements ActionListener {
 

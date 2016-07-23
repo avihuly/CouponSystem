@@ -1,5 +1,6 @@
 package com.couponproject.gui.Actionlisteners;
 
+import java.awt.GridLayout;
 import java.awt.event.*;
 
 import javax.swing.JButton;
@@ -53,6 +54,7 @@ public class AllCouponsActionListener implements ActionListener {
 		// Step 3 - generate buttons for coupon by relevant types
 		// ------------------------------------------------------
 		Panel.removeAll(); // clear panel
+		
 		for (CouponType couponType : CouponType.values()) {
 			// Each type will generate a button
 			JButton tempBnt = new JButton(couponType.name());

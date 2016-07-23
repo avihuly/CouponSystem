@@ -1,4 +1,4 @@
-package com.couponproject.gui;
+package com.couponproject.gui.frames;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -10,6 +10,8 @@ import javax.swing.*;
 import com.couponproject.dbdao.CouponDBDAO;
 import com.couponproject.exception.CouponSystemException;
 import com.couponproject.facade.CustomerFacade;
+import com.couponproject.gui.CouponByPriceSliders;
+import com.couponproject.gui.GuiUtil;
 import com.couponproject.gui.Actionlisteners.CouponTableListSelectionListener;
 
 public class CustomerMainFrame extends JFrame {
@@ -21,7 +23,7 @@ public class CustomerMainFrame extends JFrame {
 		setBounds(100, 100, 750, 500);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
-		
+
 		// set layout
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		// Set Frame's Icon And MenuBar
@@ -54,13 +56,13 @@ public class CustomerMainFrame extends JFrame {
 		sp.setBorder(BorderFactory.createEmptyBorder());
 		tableCouponData.setShowGrid(false);
 		tableCouponData.setShowHorizontalLines(true);
-		
+
 		CenterPanel.add(sp, BorderLayout.CENTER);
-		
+			
 		// make it all fit
 		CenterPanel.setPreferredSize(new Dimension(750, 500));
 		pack();
-		
+
 		// ***********
 		// North Panel
 		// ***********
@@ -71,7 +73,6 @@ public class CustomerMainFrame extends JFrame {
 		// ***********
 		JPanel westPanel = new JPanel();
 		getContentPane().add(westPanel, BorderLayout.WEST);
-		westPanel.setLayout(new GridLayout(10, 1, 0, 0));
 
 		// *************************
 		// Buttons & ActionListeners

@@ -1,4 +1,4 @@
-package com.couponproject.gui;
+package com.couponproject.gui.frames;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -18,6 +18,7 @@ import javax.swing.plaf.DimensionUIResource;
 import com.couponproject.dbdao.CouponDBDAO;
 import com.couponproject.exception.CouponSystemException;
 import com.couponproject.facade.CompanyFacade;
+import com.couponproject.gui.GuiUtil;
 import com.couponproject.gui.Actionlisteners.CompanysCouponActionListener;
 import com.couponproject.gui.Actionlisteners.NewCompanysCouponActionListener;
 

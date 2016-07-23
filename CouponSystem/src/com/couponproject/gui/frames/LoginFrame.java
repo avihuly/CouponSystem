@@ -1,4 +1,4 @@
-package com.couponproject.gui;
+package com.couponproject.gui.frames;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -12,6 +12,7 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
 import com.couponproject.constants.ClientType;
+import com.couponproject.gui.GuiUtil;
 import com.couponproject.gui.Actionlisteners.LoginActionlistener;
 
 public class LoginFrame extends JFrame {

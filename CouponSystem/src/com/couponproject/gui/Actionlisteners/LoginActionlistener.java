@@ -15,8 +15,8 @@ import com.couponproject.constants.ClientType;
 import com.couponproject.facade.AdminFacade;
 import com.couponproject.facade.CompanyFacade;
 import com.couponproject.facade.CustomerFacade;
-import com.couponproject.gui.CompanyMainFrame;
-import com.couponproject.gui.CustomerMainFrame;
+import com.couponproject.gui.frames.CompanyMainFrame;
+import com.couponproject.gui.frames.CustomerMainFrame;
 import com.couponproject.system.CouponSystem;
 
 public class LoginActionlistener implements ActionListener {

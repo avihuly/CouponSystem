@@ -1,7 +1,7 @@
 package com.couponproject.gui;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
+import java.awt.GridLayout;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
@@ -15,22 +15,16 @@ import javax.swing.table.DefaultTableModel;
 
 import com.couponproject.beans.Coupon;
 import com.couponproject.constants.Constants;
-import com.couponproject.constants.CouponTableColumnNames;
-import com.couponproject.constants.CouponType;
-import com.couponproject.dbdao.CouponDBDAO;
-import com.couponproject.exception.CouponSystemException;
-import com.couponproject.exception.CustomerFacadeException;
 import com.couponproject.facade.CustomerFacade;
 import com.couponproject.gui.Actionlisteners.AboutActionListener;
 import com.couponproject.gui.Actionlisteners.AllCouponsActionListener;
 import com.couponproject.gui.Actionlisteners.PurchasedCouponsActionListener;
-import com.mysql.fabric.xmlrpc.base.Array;
 
 public class GuiUtil {	
 	// ********
 	// Set logo
 	// ********
-	protected static void setLogoBySize(JFrame frame, int width, int height) {
+	public static void setLogoBySize(JFrame frame, int width, int height) {
 		JPanel northPanel = new JPanel();
 		Image logoImg;
 
@@ -61,7 +55,7 @@ public class GuiUtil {
 	// *************
 	// Icon And Menu
 	// *************
-	protected static void setFrameIconAndMenu(JFrame frame) {
+	public static void setFrameIconAndMenu(JFrame frame) {
 		// --------
 		// Icon set
 		// --------
@@ -150,11 +144,6 @@ public class GuiUtil {
 		// Adding model to table		
 		tableCouponData.setModel(model);
 		
-		
-		// ----------------
-		// 
-		// ----------------
-		
 		// Heeding columns ID Amount & Image
 		tableCouponData.removeColumn(tableCouponData.getColumn("ID"));
 		tableCouponData.removeColumn(tableCouponData.getColumn("Amount"));
@@ -198,6 +187,7 @@ public class GuiUtil {
 	public static void setCustomerHomeBntLayout(JTable tableCouponData, JPanel Panel, CustomerFacade customerFacade){		
 		// Buttons ActionListeners
 		Panel.removeAll();  	// clear panel
+		Panel.setLayout(new GridLayout(10, 1, 0, 0));
 		
 		// All Purchased Coupons
 		JButton btnMyCoupons = new JButton("All My Coupons");

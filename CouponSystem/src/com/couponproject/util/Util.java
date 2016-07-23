@@ -1,13 +1,6 @@
 package com.couponproject.util;
 
-import java.beans.PropertyVetoException;
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Collection;
-
 import com.couponproject.beans.*;
 import com.couponproject.dbdao.*;
 import com.couponproject.exception.CouponSystemException;
@@ -29,9 +22,7 @@ public class Util {
 		return password.matches(pattern);
 	}
 	
-	
-	
-	
+
 	// Returns true if Customer exist in DB
 	public static boolean isCustomer(Customer customer) {
 		try {
@@ -48,7 +39,6 @@ public class Util {
 		}
 	}
 
-		
 	// Returns true if Company name of id already exist in DB
 	public static boolean isCompany(Company company) {
 		try {
@@ -65,7 +55,6 @@ public class Util {
 		}
 	}
 	
-	
 	// Returns true if argument coupon name or ID already exist in DB
 	public static boolean isCoupon(Coupon coupon){
 		try {
@@ -80,8 +69,6 @@ public class Util {
 			return false;
 		}
 	}
-	
-	
 	
 	public static boolean isPurchased(Coupon coupon, Customer customer) {
 		try {
@@ -98,7 +85,6 @@ public class Util {
 		} catch (CouponSystemException e) {return true;}
 	}
 	
-	
 	public static boolean isCompanyCoupon(long couponID, long companyID) {
 		try {
 			// Get all company's coupon 
@@ -113,35 +99,4 @@ public class Util {
 			return result;
 		} catch (CouponSystemException e) {return true;}
 	}
-
-	
-	
-	
-	
-	// A method that gets an instance of a coupon and checks if a coupon with
-	// the same title already exists.
-	// The method returns true if the coupon exists and false if it does not
-	// Exists
-	@Deprecated
-	public boolean checkCouponTitle(Coupon coupon) throws CouponSystemException {
-		// getting a connection to DB from pool
-		try (Connection myCon = ConnectionPool.getInstance().getConnection()) {
-
-			// Select prepared statement
-			PreparedStatement selectStmt = myCon.prepareStatement("select * from coupon ");
-
-			// Execute and get a resultSet
-			ResultSet myRs = selectStmt.executeQuery();
-
-			while (myRs.next()) {
-				if (myRs.getString("TITLE") == coupon.getTitle()) {
-					return true;
-				}
-			}
-			return false;
-		} catch (PropertyVetoException | SQLException | IOException e) {
-			throw new CouponSystemException("CouponSystemException", e);
-		}
-	}
-
 }

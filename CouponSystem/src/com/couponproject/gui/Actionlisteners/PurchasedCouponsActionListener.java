@@ -1,15 +1,21 @@
 package com.couponproject.gui.Actionlisteners;
 
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
+import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JSlider;
 import javax.swing.JTable;
 
 import com.couponproject.constants.CouponType;
 import com.couponproject.exception.CouponSystemException;
 import com.couponproject.facade.CustomerFacade;
+import com.couponproject.gui.CouponByPriceSliders;
 import com.couponproject.gui.GuiUtil;
 
 public class PurchasedCouponsActionListener implements ActionListener {
@@ -40,10 +46,22 @@ public class PurchasedCouponsActionListener implements ActionListener {
 			// ----------------------------------
 			GuiUtil.CouponsToTable(tableCouponData, customerFacade.getAllPurchasedCoupons());
 			
-			// -----------------------------------------------------
-			// Step 2 - generate buttons for coupon by relevant types   
-			// ------------------------------------------------------
+			// ----------------------------------------------------------------
+			// Step 2 - generate buttons for coupon by relevant types and price  
+			// ----------------------------------------------------------------
 			Panel.removeAll();  	// clear panel
+			
+			Panel.setLayout(new BorderLayout());
+			
+			// Price Slider panel //
+			JPanel pricePanel = new JPanel();
+			JSlider priceSlider = new CouponByPriceSliders(tableCouponData, customerFacade);
+			pricePanel.add(priceSlider);
+			pricePanel.setBorder(BorderFactory.createTitledBorder("All my coupons by price"));
+			Panel.add(pricePanel, BorderLayout.NORTH);
+			
+			// Button panel //
+			JPanel bntPanel = new JPanel(new GridLayout(8, 1, 0, 0));
 			for (CouponType couponType: customerFacade.getUniqueCouponTypes()){
 				// Each type will generate a button
 				JButton tempBnt = new JButton(couponType.name());
@@ -57,7 +75,7 @@ public class PurchasedCouponsActionListener implements ActionListener {
 						e1.printStackTrace();
 					}
 				});
-				Panel.add(tempBnt);
+				bntPanel.add(tempBnt);
 			}
 			
 			// ---------------------------
@@ -72,7 +90,7 @@ public class PurchasedCouponsActionListener implements ActionListener {
 					e1.printStackTrace();
 				}
 			});
-			Panel.add(allkBnt);
+			bntPanel.add(allkBnt);
 			
 			// --------------------
 			// Step 4 - Back button   
@@ -81,11 +99,12 @@ public class PurchasedCouponsActionListener implements ActionListener {
 			backBnt.addActionListener(backE -> {
 				GuiUtil.setCustomerHomeBntLayout(tableCouponData, Panel, customerFacade);
 			});
-			Panel.add(backBnt);
+			bntPanel.add(backBnt);
 			
 			// -----------------------------
 			// Step 5 - revalidate & repaint
 			// -----------------------------			
+			Panel.add(bntPanel,BorderLayout.CENTER);
 			Panel.revalidate();
 			Panel.repaint();
 
