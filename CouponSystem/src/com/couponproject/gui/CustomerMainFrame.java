@@ -22,7 +22,6 @@ public class CustomerMainFrame extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
 		
-		
 		// set layout
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		// Set Frame's Icon And MenuBar
@@ -52,45 +51,16 @@ public class CustomerMainFrame extends JFrame {
 		CenterPanel.add(lblCouponPic, BorderLayout.SOUTH);
 
 		JScrollPane sp = new JScrollPane(tableCouponData);
+		sp.setBorder(BorderFactory.createEmptyBorder());
+		tableCouponData.setShowGrid(false);
+		tableCouponData.setShowHorizontalLines(true);
+		
 		CenterPanel.add(sp, BorderLayout.CENTER);
 		
+		// make it all fit
+		CenterPanel.setPreferredSize(new Dimension(750, 500));
 		pack();
 		
-		////////////////////////////////////////
-		///////////////////////////////////////
-		////////////////////////////////////////
-		GuiUtil.SetScrollPaneDizing(sp);
-		
-		try {
-			GuiUtil.CouponsToTable(tableCouponData, CouponDBDAO.getInstace().getAllCoupons());
-		} catch (CouponSystemException e1) {
-			e1.printStackTrace();
-		}
-
-		tableCouponData.setAutoCreateRowSorter(true);
-		tableCouponData.setRowHeight(60);
-		
-		// Table width
-		int tW = tableCouponData.getWidth();
-		System.out.println(tW);
-		
-		
-		// Column width percentage
-		float[] columnWidthPercentage = { 0.1f, 0.5f, 0.1f, 0.1f, 0.1f, 0.1f };
-
-		for (int i = 0; i < tableCouponData.getColumnCount(); i++) {
-			// Calculating and assigning each column width 
-			tableCouponData.getColumnModel().getColumn(i).setPreferredWidth(
-					(int)columnWidthPercentage[i]*tW);
-			
-		}
-
-		/////////////////////////////////////////////
-		////////////////////////////////////////////
-		///////////////////////////////////////////
-		
-		
-
 		// ***********
 		// North Panel
 		// ***********

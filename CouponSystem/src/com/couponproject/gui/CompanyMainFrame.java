@@ -2,15 +2,18 @@ package com.couponproject.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.plaf.DimensionUIResource;
 
 import com.couponproject.dbdao.CouponDBDAO;
 import com.couponproject.exception.CouponSystemException;
@@ -58,41 +61,8 @@ public class CompanyMainFrame extends JFrame{
 
 		JScrollPane sp = new JScrollPane(tableCouponData);
 		CenterPanel.add(sp, BorderLayout.CENTER);
-		
-		pack();
-		
-		////////////////////////////////////////
-		///////////////////////////////////////
-		////////////////////////////////////////
-		GuiUtil.SetScrollPaneDizing(sp);
-		
-		try {
-			GuiUtil.CouponsToTable(tableCouponData, CouponDBDAO.getInstace().getAllCoupons());
-		} catch (CouponSystemException e1) {
-			e1.printStackTrace();
-		}
-		
-		tableCouponData.setAutoCreateRowSorter(true);
-		tableCouponData.setRowHeight(60);
-		
-		// Table width
-		int tW = tableCouponData.getWidth();
-		System.out.println(tW);
-		
-		// Column width percentage
-		float[] columnWidthPercentage = { 0.1f, 0.5f, 0.1f, 0.1f, 0.1f, 0.1f };
-
-		for (int i = 0; i < tableCouponData.getColumnCount(); i++) {
-			// Calculating and assigning each column width 
-			tableCouponData.getColumnModel().getColumn(i).setPreferredWidth(
-					(int)columnWidthPercentage[i]*tW);
-			
-		}
-
-		/////////////////////////////////////////////
-		////////////////////////////////////////////
-		///////////////////////////////////////////
-		
+		sp.setBorder(BorderFactory.createEmptyBorder());
+	
 		
 		// ***********
 		// North Panel

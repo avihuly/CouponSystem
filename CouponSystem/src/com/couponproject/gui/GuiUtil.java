@@ -1,6 +1,7 @@
 package com.couponproject.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
@@ -8,24 +9,16 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.ListSelectionModel;
+import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import com.couponproject.beans.Coupon;
+import com.couponproject.constants.Constants;
 import com.couponproject.constants.CouponTableColumnNames;
 import com.couponproject.constants.CouponType;
+import com.couponproject.dbdao.CouponDBDAO;
+import com.couponproject.exception.CouponSystemException;
 import com.couponproject.exception.CustomerFacadeException;
 import com.couponproject.facade.CustomerFacade;
 import com.couponproject.gui.Actionlisteners.AboutActionListener;
@@ -33,17 +26,7 @@ import com.couponproject.gui.Actionlisteners.AllCouponsActionListener;
 import com.couponproject.gui.Actionlisteners.PurchasedCouponsActionListener;
 import com.mysql.fabric.xmlrpc.base.Array;
 
-public class GuiUtil {
-	// ********************
-	// Set ScrollPane dizing
-	// ********************	
-	protected static void SetScrollPaneDizing(JScrollPane sp) {
-		sp.setBorder(BorderFactory.createEmptyBorder());
-		
-
-	}
-	
-	
+public class GuiUtil {	
 	// ********
 	// Set logo
 	// ********
@@ -167,6 +150,11 @@ public class GuiUtil {
 		// Adding model to table		
 		tableCouponData.setModel(model);
 		
+		
+		// ----------------
+		// 
+		// ----------------
+		
 		// Heeding columns ID Amount & Image
 		tableCouponData.removeColumn(tableCouponData.getColumn("ID"));
 		tableCouponData.removeColumn(tableCouponData.getColumn("Amount"));
@@ -183,6 +171,25 @@ public class GuiUtil {
 		if (tableCouponData.getRowCount() > 0) {
 			tableCouponData.setRowSelectionInterval(0, 0);
 		}
+		
+		// RowSorter
+		tableCouponData.setAutoCreateRowSorter(true);
+		
+		// Table widths
+		int tW = tableCouponData.getWidth();
+		
+		// Column width percentage
+		float[] columnWidthPercentage = { 0.15f, 0.45f, 0.14f, 0.1f, 0.1f, 0.06f };
+
+		for (int i = 0; i < tableCouponData.getColumnCount(); i++) {
+			// Calculating and assigning each column width 
+			tableCouponData.getColumnModel().getColumn(i).setPreferredWidth(
+					(int)(columnWidthPercentage[i]*tW));
+		}
+		
+		tableCouponData.setRowHeight(50);
+		// Message Column Renderer
+		tableCouponData.getColumnModel().getColumn(Constants.couponTableMESSAGEIndex).setCellRenderer(new MessageCellRenderer());
 	}
 
 	// ************************
