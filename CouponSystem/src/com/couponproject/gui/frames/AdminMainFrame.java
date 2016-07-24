@@ -14,10 +14,10 @@ import com.couponproject.facade.CustomerFacade;
 import com.couponproject.gui.GuiUtil;
 import com.couponproject.gui.Actionlisteners.CouponByPriceSliders;
 import com.couponproject.gui.Actionlisteners.CouponTableListSelectionListener;
+import com.couponproject.gui.Actionlisteners.UpdateCustomerActionListener;
 import com.couponproject.gui.Actionlisteners.allCustomersActionListeners;
 
 public class AdminMainFrame extends JFrame {
-
 	public AdminMainFrame(AdminFacade adminFacade) {
 		// frame properties
 		super("Coupons (logged as admin)");
@@ -109,14 +109,29 @@ public class AdminMainFrame extends JFrame {
 		// ***************
 		// ActionListeners
 		// ***************
-
-		// Create customer
-//		bntCreateCustomer.addActionListener(new createCustomerActionListeners());
-//		bntRemoveCustomer.addActionListener(new removeCustomerActionListeners());
-		
+		// All Customer
 		bntAllCustomers.addActionListener(e -> {
 			CustomersFrame customerFrame = new CustomersFrame(adminFacade);
 			customerFrame.setVisible(true);
 		});
+		
+		// Create customer
+		bntCreateCustomer.addActionListener(e->{
+			NewCustomerForme customerInfoFrame = new NewCustomerForme(adminFacade);
+			customerInfoFrame.setVisible(true);
+		});
+		
+		// Search customer by ID
+		bntCustomerByID.addActionListener(e->{
+			String input = JOptionPane.showInputDialog("Enter customer ID:");
+			
+			try {
+				long targetID = Long.parseLong(input); 
+			} catch (NumberFormatException e1) {
+				JOptionPane.showMessageDialog(null, "ID must be a number");
+			}
+			
+		});
+
 	}
 }

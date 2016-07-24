@@ -20,8 +20,14 @@ import com.couponproject.gui.Actionlisteners.RemoveCustomerActionListener;
 import com.couponproject.gui.Actionlisteners.UpdateCustomerActionListener;
 
 public class CustomersFrame extends JFrame {
+	// **********
+	// Attributes
+	// **********
 	JTable clientsTable = new JTable();
 
+	// ***********
+	// constructor
+	// ***********
 	public CustomersFrame(AdminFacade adminFacade) {
 		// frame properties
 		super("Admin - All Custimers");
@@ -71,33 +77,28 @@ public class CustomersFrame extends JFrame {
 		JPanel CenterPanel = new JPanel();
 		getContentPane().add(CenterPanel, BorderLayout.CENTER);
 		CenterPanel.setLayout(new BorderLayout());
-		
+
 		JScrollPane sp = new JScrollPane(clientsTable);
 		CenterPanel.add(sp, BorderLayout.CENTER);
 		try {
 			GuiUtil.clientsToTable(clientsTable, adminFacade.getAllCustomers());
 		} catch (AdminFacadeException e) {// TODO:
 		}
-		
+
 		// make it all fit
 		pack();
-		
-		
+
 		// ***************
 		// ActionListeners
 		// ***************
+		// RemoveCustomer
 		bntRemoveCustomer.addActionListener(new RemoveCustomerActionListener(adminFacade, clientsTable));
-		bntUpdateCustomer.addActionListener(e ->{
-			CustomerInfoFrame customerInfoFrame = new CustomerInfoFrame(adminFacade, clientsTable); 
-			JButton bntUpdate = new JButton("Update");
-			bntUpdate.addActionListener(new UpdateCustomerActionListener(adminFacade, clientsTable,customerInfoFrame.getNameTextFiled(),customerInfoFrame.getPasswordTextFiled()));
-			customerInfoFrame.add(bntUpdate, BorderLayout.SOUTH);
-			
+
+		// UpdateCustomer
+		bntUpdateCustomer.addActionListener(e -> {
+			CustomerInfoFrame customerInfoFrame = new CustomerInfoFrame(adminFacade, clientsTable);
+			customerInfoFrame.setVisible(true);
 		});
-		
-		
-		
-		
-		
+
 	}
 }

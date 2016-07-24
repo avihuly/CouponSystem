@@ -118,7 +118,7 @@ public class CustomerDBDAO implements CustomerDAO {
 					+ "At lest one lower case letter\n"
 					+ "At lest one digit");	
 		}
-		else if (Util.isCustomer(customer)){
+		else if (Util.isCustomerNameExist(customer)){
 			throw new CustomerAlreadyExistsException(
 					"User name already exists in DB");	
 		} else {

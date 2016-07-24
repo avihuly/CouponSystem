@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -14,19 +15,26 @@ import com.couponproject.beans.Customer;
 import com.couponproject.exception.AdminFacadeException;
 import com.couponproject.facade.AdminFacade;
 import com.couponproject.gui.GuiUtil;
+import com.couponproject.gui.Actionlisteners.UpdateCustomerActionListener;
 
 public class CustomerInfoFrame extends JFrame {
+	// **********
+	// Attributes
+	// **********
 	private JTextArea txtName = new JTextArea();
 	private JTextArea txtPassword = new JTextArea();
 
+	// ***********
+	// constructor
+	// ***********
 	public CustomerInfoFrame(AdminFacade adminFacade, JTable clientsTable) {
 		// frame properties
 		super("Admin - Custimer Info");
 		setBackground(Color.LIGHT_GRAY);
-		setBounds(100, 100, 400, 300);
+		setBounds(100, 100, 300, 250);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setResizable(false);
-		setVisible(true);
+
 		// set layout
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		// Set Frame's Icon And MenuBar
@@ -37,26 +45,20 @@ public class CustomerInfoFrame extends JFrame {
 		// ***********
 		GuiUtil.setLogoBySize(this, 300, 40);
 
-		// ***********
-		// South Panel
-		// ***********
-		JPanel southPanel = new JPanel();
-		getContentPane().add(southPanel, BorderLayout.SOUTH);
-
 		// **********
 		// East Panel
 		// **********
 		JPanel eastPanel = new JPanel();
 		getContentPane().add(eastPanel, BorderLayout.EAST);
 
-		// **********************
-		// West Panel - bnt panel
-		// **********************
 		// selected customer
 		Customer customer;
 		try {
 			customer = adminFacade.getCustomer((long) clientsTable.getValueAt(clientsTable.getSelectedRow(), 0));
 
+			// **********************
+			// West Panel - bnt panel
+			// **********************
 			JPanel westPanel = new JPanel();
 			getContentPane().add(westPanel, BorderLayout.WEST);
 			westPanel.setLayout(new GridLayout(5, 1, 5, 5));
@@ -69,6 +71,18 @@ public class CustomerInfoFrame extends JFrame {
 
 			JLabel lblCustomerPassword = new JLabel("Customer Password: ");
 			westPanel.add(lblCustomerPassword);
+
+			// ***********
+			// South Panel
+			// ***********
+			JPanel southPanel = new JPanel();
+			getContentPane().add(southPanel, BorderLayout.SOUTH);
+
+			JButton bntUpdate = new JButton("Update");
+			// Update ActionListener
+			bntUpdate.addActionListener(
+					new UpdateCustomerActionListener(adminFacade, clientsTable, txtName, txtPassword));
+			add(bntUpdate, BorderLayout.SOUTH);
 
 			// **************************
 			// Center Panel - Table panel
@@ -89,17 +103,5 @@ public class CustomerInfoFrame extends JFrame {
 		} catch (AdminFacadeException e) {
 			// TODO
 		}
-
-		// make it all fit
-		// pack();
 	}
-
-	public JTextArea getNameTextFiled() {
-		return txtName;
-	}
-
-	public JTextArea getPasswordTextFiled() {
-		return txtPassword;
-	}
-
 }
