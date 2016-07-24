@@ -5,16 +5,15 @@ import java.awt.Color;
 import java.awt.GridLayout;
 
 import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import com.couponproject.facade.CompanyFacade;
 import com.couponproject.gui.GuiUtil;
-import com.couponproject.gui.Actionlisteners.ClearFormActionListener;
-import com.couponproject.gui.Actionlisteners.SubmittingFormActionListener;
+import com.couponproject.gui.Actionlisteners.SubmittingFormNewCouponActionListener;
 
 public class NewCouponForm extends JFrame{
 	// **********
@@ -22,8 +21,8 @@ public class NewCouponForm extends JFrame{
 	// **********
 	CompanyFacade companyFacade;
 	private JTextField couponTitle;
-	private JTextField startDate;
-	private JTextField endDate;
+	private JFormattedTextField  startDate;
+	private JFormattedTextField  endDate;
 	private JTextField amount;
 	private JTextField type;
 	private JTextField messege;
@@ -39,7 +38,7 @@ public class NewCouponForm extends JFrame{
 		// frame properties
 		setBackground(Color.LIGHT_GRAY);
 		setBounds(100, 100, 600, 300);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setVisible(true);
 		
 		// set layout
@@ -57,7 +56,7 @@ public class NewCouponForm extends JFrame{
 		// ***********
 		JPanel westPanel = new JPanel();
 		getContentPane().add(westPanel, BorderLayout.WEST);
-		westPanel.setLayout(new GridLayout(3, 1, 0, 0));
+		westPanel.setLayout(new GridLayout(8, 1, 0, 0));
 
 		JLabel labelCouponTitle = new JLabel("Coupon Title:");
 		westPanel.add(labelCouponTitle);
@@ -88,38 +87,34 @@ public class NewCouponForm extends JFrame{
 		// ***********
 		JPanel eastPanel = new JPanel();
 		getContentPane().add(eastPanel, BorderLayout.EAST);
-		eastPanel.setLayout(new GridLayout(6, 1, 0, 0));
+		eastPanel.setLayout(new GridLayout(8, 1, 0, 0));
 
 		// ***********
 		// Center Panel
 		// ***********
 		JPanel CenterPanel = new JPanel();
 		getContentPane().add(CenterPanel, BorderLayout.CENTER);
-		CenterPanel.setLayout(new GridLayout(3, 1, 0, 0));
+		CenterPanel.setLayout(new GridLayout(8, 1, 0, 0));
 
 		couponTitle = new JTextField();
 		CenterPanel.add(couponTitle);
 		couponTitle.setColumns(10);
 				
-		startDate = new JTextField();
+		startDate = new JFormattedTextField();
 		CenterPanel.add(startDate);
 		startDate.setColumns(10);
-		//TODO: how to change to date?
 		
-		endDate = new JTextField();
+		endDate = new JFormattedTextField();
 		CenterPanel.add(endDate);
 		endDate.setColumns(10);
-		//TODO: how to change to date?
 		
 		amount = new JTextField();
 		CenterPanel.add(amount);
 		amount.setColumns(10);
-		//TODO: how to change to int?
 		
 		type = new JTextField();
 		CenterPanel.add(type);
 		type.setColumns(10);
-		//TODO: how to change to enum?
 		
 		messege = new JTextField();
 		CenterPanel.add(messege);
@@ -128,7 +123,6 @@ public class NewCouponForm extends JFrame{
 		price = new JTextField();
 		CenterPanel.add(price);
 		price.setColumns(10);
-		//TODO: how to change to double?
 		
 		image = new JTextField();
 		CenterPanel.add(image);
@@ -138,24 +132,29 @@ public class NewCouponForm extends JFrame{
 		// ***********
 		// South Panel
 		// ***********
-		
-		//TODO: should include the following buttons - 
-			//1. submit form
-			//2. clear form
+
 		JPanel southPanel = new JPanel();
 		getContentPane().add(southPanel, BorderLayout.SOUTH);
 		southPanel.setLayout(new BorderLayout(0, 0));
 		
 		//submit button
 		JButton submitBtn = new JButton("Submit");
-		submitBtn.addActionListener(new SubmittingFormActionListener());
+		submitBtn.addActionListener(new SubmittingFormNewCouponActionListener(this, companyFacade, couponTitle, startDate, 
+						endDate, amount, type, messege, price, image));
 		southPanel.add(submitBtn, BorderLayout.WEST);
-		//TODO: adding action listener - SubmittingFormActionListener
 		
 		//clear form button
 		JButton clearFormBtn = new JButton("Clear From");
-		clearFormBtn.addActionListener(new ClearFormActionListener());
+		clearFormBtn.addActionListener(e ->{
+			couponTitle.setText(null); 
+			startDate.setText(null);
+			endDate.setText(null);
+			amount.setText(null);
+			type.setText(null);
+			messege.setText(null);
+			price.setText(null);
+			image.setText(null);
+		});
 		southPanel.add(clearFormBtn, BorderLayout.EAST);
-		//TODO: adding action listener - ClearFormActionListener
 	}
 }

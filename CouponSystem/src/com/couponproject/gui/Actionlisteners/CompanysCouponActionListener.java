@@ -1,10 +1,13 @@
 package com.couponproject.gui.Actionlisteners;
 
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JSlider;
 import javax.swing.JTable;
 
 import com.couponproject.constants.CouponType;
@@ -49,6 +52,9 @@ public class CompanysCouponActionListener implements ActionListener{
 			// Step 2 - generate buttons for coupon by relevant types   
 			// ------------------------------------------------------
 			Panel.removeAll();  	// clear panel
+			
+			Panel.setLayout(new BorderLayout());
+			
 			for (CouponType couponType: companyFacade.getUniqueCouponTypes()){
 				// Each type will generate a button
 				JButton tempBnt = new JButton(couponType.name());
