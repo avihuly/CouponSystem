@@ -12,7 +12,9 @@ import com.couponproject.exception.CouponSystemException;
 import com.couponproject.facade.CustomerFacade;
 import com.couponproject.gui.CouponByPriceSliders;
 import com.couponproject.gui.GuiUtil;
+import com.couponproject.gui.Actionlisteners.AllCouponsActionListener;
 import com.couponproject.gui.Actionlisteners.CouponTableListSelectionListener;
+import com.couponproject.gui.Actionlisteners.PurchasedCouponsActionListener;
 
 public class CustomerMainFrame extends JFrame {
 	private JTable tableCouponData = new JTable();
@@ -77,11 +79,38 @@ public class CustomerMainFrame extends JFrame {
 		// *************************
 		// Buttons & ActionListeners
 		// *************************
-		GuiUtil.setCustomerHomeBntLayout(tableCouponData, westPanel, customerFacade);
+		setCustomerHomeBntLayout(tableCouponData, westPanel, customerFacade);
 
 		// Coupon Table ActionListeners
 		// ----------------------------
 		ListSelectionModel selectedModel = tableCouponData.getSelectionModel();
 		selectedModel.addListSelectionListener(new CouponTableListSelectionListener(tableCouponData, lblCouponPic));
+	}
+	// *************
+	//	end of frame
+	// *************
+	
+	
+	// setCustomerHomeBntLayout
+	public static void setCustomerHomeBntLayout(JTable tableCouponData, JPanel Panel, CustomerFacade customerFacade){		
+		// Buttons ActionListeners
+		Panel.removeAll();  	// clear panel
+		Panel.setLayout(new GridLayout(10, 1, 0, 0));
+		
+		// All Purchased Coupons
+		JButton btnMyCoupons = new JButton("All My Coupons");
+		btnMyCoupons.addActionListener(
+				new PurchasedCouponsActionListener(tableCouponData, Panel, customerFacade));
+		
+		JButton bntBrowseCoupons  = new JButton("Browse Coupons");
+		bntBrowseCoupons.addActionListener(new AllCouponsActionListener(tableCouponData, Panel, customerFacade));
+			
+		// Adding buttons to westPanel
+		Panel.add(btnMyCoupons);
+		Panel.add(bntBrowseCoupons);
+	
+		// revalidate & repaint
+		Panel.revalidate();
+		Panel.repaint();	
 	}
 }

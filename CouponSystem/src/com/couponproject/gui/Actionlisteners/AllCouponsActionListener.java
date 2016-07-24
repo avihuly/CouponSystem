@@ -12,6 +12,7 @@ import com.couponproject.dbdao.CouponDBDAO;
 import com.couponproject.exception.CouponSystemException;
 import com.couponproject.facade.CustomerFacade;
 import com.couponproject.gui.GuiUtil;
+import com.couponproject.gui.frames.CustomerMainFrame;
 
 public class AllCouponsActionListener implements ActionListener {
 	// **********
@@ -94,7 +95,7 @@ public class AllCouponsActionListener implements ActionListener {
 			// Remove purchase coupon MouseListener
 			tableCouponData.removeMouseListener(doubleClickToPerches);
 			// Set Customer Home Button Layout
-			GuiUtil.setCustomerHomeBntLayout(tableCouponData, Panel, customerFacade);		
+			CustomerMainFrame.setCustomerHomeBntLayout(tableCouponData, Panel, customerFacade);		
 		});
 		Panel.add(backBnt);
 		

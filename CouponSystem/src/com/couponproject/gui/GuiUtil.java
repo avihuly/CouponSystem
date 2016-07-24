@@ -27,34 +27,26 @@ public class GuiUtil {
 	public static void setLogoBySize(JFrame frame, int width, int height) {
 		JPanel northPanel = new JPanel();
 		Image logoImg;
-
 		try {
 			// getting image refrains
 			File input = new File("image/couponLogo.jpg");
 			logoImg = ImageIO.read(input);
-
 			// resizing image to fit panel
 			Image logoImgResized = logoImg.getScaledInstance(width, height, Image.SCALE_SMOOTH);
-
 			// converting image to icon
 			ImageIcon logoIcon = new ImageIcon(logoImgResized);
-
 			// loading icon to Jlabel
 			JLabel logoLabel = new JLabel("", logoIcon, JLabel.CENTER);
-
 			// loading Jlabel to panel
 			northPanel.add(logoLabel);
-
 			// adding to frame's BorderLayout.NORTH
 			frame.getContentPane().add(northPanel, BorderLayout.NORTH);
-		} catch (IOException ie) {
-		}
-
+		} catch (IOException ie) {}
 	}
 	
-	// *************
-	// Icon And Menu
-	// *************
+	// *****************
+	// Set Icon And Menu
+	// *****************
 	public static void setFrameIconAndMenu(JFrame frame) {
 		// --------
 		// Icon set
@@ -69,38 +61,30 @@ public class GuiUtil {
 			System.out.println(ie.getMessage());
 		}
 
-		// -----------
-		// MenuBar set
-		// -----------
+		// -------
+		// MenuBar 
+		// ------- 
 		JMenuBar menuBar = new JMenuBar();
 		frame.setJMenuBar(menuBar);
-
+		// MenuItem - About 
 		JMenu mnHelp = new JMenu("Help");
 		menuBar.add(mnHelp);
 
 		// About Icon - "image/about.png"
 		JMenuItem mntmAbout = new JMenuItem("About");
 		mntmAbout.addActionListener(new AboutActionListener());
-
 		try {
 			// getting image refrains
 			File input = new File("image/about.png");
 			Image aboutImg = ImageIO.read(input);
-
 			// resizing image to fit panel
 			Image aboutImgResized = aboutImg.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
-
 			// converting image to icon
 			ImageIcon aboutIcon = new ImageIcon(aboutImgResized);
-
 			// loading icon to menu item
 			mntmAbout.setIcon(aboutIcon);
-		} catch (IOException ie) {
-			System.out.println(ie.getMessage());
-		}
-
+		} catch (IOException ie) {}
 		mnHelp.add(mntmAbout);
-
 	}
 	
 	// ****************
@@ -156,6 +140,7 @@ public class GuiUtil {
 		for (int i = 0; i < (tableCouponData.getColumnCount()); i++) {
 			tableCouponData.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
 		}
+		
 		// First row selected as default
 		if (tableCouponData.getRowCount() > 0) {
 			tableCouponData.setRowSelectionInterval(0, 0);
@@ -170,6 +155,7 @@ public class GuiUtil {
 		// Column width percentage
 		float[] columnWidthPercentage = { 0.15f, 0.45f, 0.14f, 0.1f, 0.1f, 0.06f };
 
+		// Setting column width by percentage
 		for (int i = 0; i < tableCouponData.getColumnCount(); i++) {
 			// Calculating and assigning each column width 
 			tableCouponData.getColumnModel().getColumn(i).setPreferredWidth(
@@ -179,30 +165,5 @@ public class GuiUtil {
 		tableCouponData.setRowHeight(50);
 		// Message Column Renderer
 		tableCouponData.getColumnModel().getColumn(Constants.couponTableMESSAGEIndex).setCellRenderer(new MessageCellRenderer());
-	}
-
-	// ************************
-	// setCustomerHomeBntLayout
-	// ************************
-	public static void setCustomerHomeBntLayout(JTable tableCouponData, JPanel Panel, CustomerFacade customerFacade){		
-		// Buttons ActionListeners
-		Panel.removeAll();  	// clear panel
-		Panel.setLayout(new GridLayout(10, 1, 0, 0));
-		
-		// All Purchased Coupons
-		JButton btnMyCoupons = new JButton("All My Coupons");
-		btnMyCoupons.addActionListener(
-				new PurchasedCouponsActionListener(tableCouponData, Panel, customerFacade));
-		
-		JButton bntBrowseCoupons  = new JButton("Browse Coupons");
-		bntBrowseCoupons.addActionListener(new AllCouponsActionListener(tableCouponData, Panel, customerFacade));
-			
-		// Adding buttons to westPanel
-		Panel.add(btnMyCoupons);
-		Panel.add(bntBrowseCoupons);
-	
-		// revalidate & repaint
-		Panel.revalidate();
-		Panel.repaint();	
 	}
 }
