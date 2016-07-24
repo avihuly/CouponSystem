@@ -15,7 +15,6 @@ import javax.swing.JTable;
 import com.couponproject.constants.CouponType;
 import com.couponproject.exception.CouponSystemException;
 import com.couponproject.facade.CustomerFacade;
-import com.couponproject.gui.CouponByPriceSliders;
 import com.couponproject.gui.GuiUtil;
 import com.couponproject.gui.frames.CustomerMainFrame;
 

@@ -1,4 +1,4 @@
-package com.couponproject.gui;
+package com.couponproject.gui.Actionlisteners;
 
 import java.awt.Component;
 

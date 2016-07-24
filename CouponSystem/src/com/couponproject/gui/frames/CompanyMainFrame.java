@@ -27,6 +27,7 @@ public class CompanyMainFrame extends JFrame{
 	
 	public CompanyMainFrame(CompanyFacade companyFacade){
 		// frame properties
+		super("Coupons (logged as company)");
 		setBackground(Color.LIGHT_GRAY);
 		setBounds(100, 100, 750, 500);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

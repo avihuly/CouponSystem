@@ -18,6 +18,7 @@ import com.couponproject.constants.Constants;
 import com.couponproject.facade.CustomerFacade;
 import com.couponproject.gui.Actionlisteners.AboutActionListener;
 import com.couponproject.gui.Actionlisteners.AllCouponsActionListener;
+import com.couponproject.gui.Actionlisteners.MessageCellRenderer;
 import com.couponproject.gui.Actionlisteners.PurchasedCouponsActionListener;
 
 public class GuiUtil {	

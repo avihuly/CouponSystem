@@ -11,8 +11,8 @@ import com.couponproject.dbdao.CouponDBDAO;
 import com.couponproject.exception.CouponSystemException;
 import com.couponproject.facade.AdminFacade;
 import com.couponproject.facade.CustomerFacade;
-import com.couponproject.gui.CouponByPriceSliders;
 import com.couponproject.gui.GuiUtil;
+import com.couponproject.gui.Actionlisteners.CouponByPriceSliders;
 import com.couponproject.gui.Actionlisteners.CouponTableListSelectionListener;
 
 public class AdminMainFrame extends JFrame {

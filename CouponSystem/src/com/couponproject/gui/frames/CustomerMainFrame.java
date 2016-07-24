@@ -10,9 +10,9 @@ import javax.swing.*;
 import com.couponproject.dbdao.CouponDBDAO;
 import com.couponproject.exception.CouponSystemException;
 import com.couponproject.facade.CustomerFacade;
-import com.couponproject.gui.CouponByPriceSliders;
 import com.couponproject.gui.GuiUtil;
 import com.couponproject.gui.Actionlisteners.AllCouponsActionListener;
+import com.couponproject.gui.Actionlisteners.CouponByPriceSliders;
 import com.couponproject.gui.Actionlisteners.CouponTableListSelectionListener;
 import com.couponproject.gui.Actionlisteners.PurchasedCouponsActionListener;
 
@@ -21,6 +21,7 @@ public class CustomerMainFrame extends JFrame {
 
 	public CustomerMainFrame(CustomerFacade customerFacade) {
 		// frame properties
+		super("Coupons (logged as customer)");
 		setBackground(Color.LIGHT_GRAY);
 		setBounds(100, 100, 750, 500);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
