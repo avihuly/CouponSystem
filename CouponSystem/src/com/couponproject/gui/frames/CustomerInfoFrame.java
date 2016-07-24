@@ -9,23 +9,27 @@ import java.awt.ScrollPane;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 
+import com.couponproject.beans.Customer;
 import com.couponproject.exception.AdminFacadeException;
 import com.couponproject.facade.AdminFacade;
 import com.couponproject.gui.GuiUtil;
 import com.couponproject.gui.Actionlisteners.RemoveCustomerActionListener;
 
-public class CustomersFrame extends JFrame {
-	JTable clientsTable = new JTable();
+public class CustomerInfoFrame extends JFrame {
+	private JTextArea txtName = new JTextArea();
+	private JTextArea txtPassword = new JTextArea();
 
-	public CustomersFrame(AdminFacade adminFacade) {
+	public CustomerInfoFrame(AdminFacade adminFacade, JTable clientsTable) {
 		// frame properties
-		super("Admin - All Custimers");
+		super("Admin - Custimer Info");
 		setBackground(Color.LIGHT_GRAY);
-		setBounds(100, 100, 750, 500);
+		setBounds(100, 100, 400, 300);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setResizable(false);
 		setVisible(true);
@@ -37,7 +41,7 @@ public class CustomersFrame extends JFrame {
 		// ***********
 		// North Panel
 		// ***********
-		GuiUtil.setLogoBySize(this, 750, 75);
+		GuiUtil.setLogoBySize(this, 400, 40);
 
 		// ***********
 		// South Panel
@@ -56,44 +60,51 @@ public class CustomersFrame extends JFrame {
 		// **********************
 		JPanel westPanel = new JPanel();
 		getContentPane().add(westPanel, BorderLayout.WEST);
-		westPanel.setLayout(new GridLayout(10, 1, 0, 0));
+		westPanel.setLayout(new GridLayout(5, 1, 5, 5));
 
-		JButton bntRemoveCustomer = new JButton("Remove customer");
-		westPanel.add(bntRemoveCustomer);
+		JLabel lblCustomerID = new JLabel("ID: " + id);
+		westPanel.add(lblCustomerID);
 
-		JButton bntUpdateCustomer = new JButton("Update customer");
-		westPanel.add(bntUpdateCustomer);
+		JLabel lblCustomerName = new JLabel("Name: ");
+		westPanel.add(lblCustomerName);
+
+		JLabel lblCustomerPassword = new JLabel("Password: ");
+		westPanel.add(lblCustomerPassword);
 
 		// **************************
 		// Center Panel - Table panel
 		// **************************
 		JPanel CenterPanel = new JPanel();
 		getContentPane().add(CenterPanel, BorderLayout.CENTER);
-		CenterPanel.setLayout(new BorderLayout());
-		
-		JScrollPane sp = new JScrollPane(clientsTable);
-		CenterPanel.add(sp, BorderLayout.CENTER);
+		CenterPanel.setLayout(new GridLayout(5, 1, 5, 5));
+
 		try {
-			GuiUtil.clientsToTable(clientsTable, adminFacade.getAllCustomers());
-		} catch (AdminFacadeException e) {// TODO:
+			Customer customer = adminFacade.getCustomer(id);
+
+			JLabel lblBlanck = new JLabel();
+			CenterPanel.add(lblBlanck);
+
+			txtName = new JTextArea(customer.getCustName());
+			CenterPanel.add(txtName);
+
+			txtPassword = new JTextArea(customer.getPassword());
+			CenterPanel.add(txtPassword);
+
+		} catch (AdminFacadeException e) {
+			// TODO
 		}
-		
+
 		// make it all fit
 		pack();
-		
-		
-		// ***************
-		// ActionListeners
-		// ***************
-		bntRemoveCustomer.addActionListener(new RemoveCustomerActionListener(adminFacade, clientsTable));
-		bntUpdateCustomer.addActionListener(e ->{
-			JFrame customerInfo = new CustomerInfoFrame(adminFacade, clientsTable); 
-			
-		});
-		
-		
-		
-		
-		// UpdateCustomerActionListener(adminFacade, clientsTable)
 	}
+	
+	public JTextArea getNameTextFiled() {
+		return txtName;
+	}
+	
+	public JTextArea getPasswordTextFiled() {
+		return txtPassword;
+	}
+	
+	
 }
