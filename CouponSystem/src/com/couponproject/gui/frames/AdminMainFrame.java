@@ -19,9 +19,11 @@ public class AdminMainFrame extends JFrame {
 
 	public AdminMainFrame(AdminFacade adminFacade) {
 		// frame properties
+		super("Coupons (logged as admin)");
 		setBackground(Color.LIGHT_GRAY);
-		setBounds(100, 100, 750, 500);
+		setBounds(100, 100, 500, 300);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setResizable(false);
 		setVisible(true);
 		// set layout
 		getContentPane().setLayout(new BorderLayout(0, 0));
@@ -31,7 +33,7 @@ public class AdminMainFrame extends JFrame {
 		// ***********
 		// North Panel
 		// ***********
-		GuiUtil.setLogoBySize(this, 750, 75);
+		GuiUtil.setLogoBySize(this, 400, 40);
 
 		// ***********
 		// South Panel
@@ -39,27 +41,79 @@ public class AdminMainFrame extends JFrame {
 		JPanel southPanel = new JPanel();
 		getContentPane().add(southPanel, BorderLayout.SOUTH);
 
-		// ***********
+		// **********
 		// East Panel
-		// ***********
+		// **********
 		JPanel eastPanel = new JPanel();
 		getContentPane().add(eastPanel, BorderLayout.EAST);
 
-		// ***********
-		// Center Panel
-		// ***********
+		// **********
+		// West Panel
+		// **********
+		JPanel westPanel = new JPanel();
+		getContentPane().add(westPanel, BorderLayout.WEST);
+
+		// ************************
+		// Center Panel - Bnt panel
+		// ************************
 		JPanel CenterPanel = new JPanel();
 		getContentPane().add(CenterPanel, BorderLayout.CENTER);
 
-		// ***********
-		// West Panel
-		// ***********
-		JPanel westPanel = new JPanel();
-		getContentPane().add(westPanel, BorderLayout.WEST);
-                     		
-		// *************************
-		// Buttons & ActionListeners
-		// *************************
+		// ------------------
+		// Customer bnt panel
+		// ------------------
+		JPanel customerPanel = new JPanel();
+		customerPanel.setBorder(BorderFactory.createTitledBorder("Customer"));
+		customerPanel.setLayout(new GridLayout(5, 1, 5, 5));
+
+		JButton bntCreateCustomer = new JButton("Create customer");
+		customerPanel.add(bntCreateCustomer);
+
+		JButton bntRemoveCustomer = new JButton("Remove customer");
+		customerPanel.add(bntRemoveCustomer);
+
+		JButton bntUpdateCustomer = new JButton("Update customer");
+		customerPanel.add(bntUpdateCustomer);
+
+		JButton bntAllCustomers = new JButton("All customers");
+		customerPanel.add(bntAllCustomers);
+
+		JButton bntCustomerByID = new JButton("Search customer by ID");
+		customerPanel.add(bntCustomerByID);
+
+		// add customerPanel to CenterPanel
+		CenterPanel.add(customerPanel);
+
+		// -----------------
+		// Company bnt panel
+		// ------------------
+		JPanel companyPanel = new JPanel();
+		companyPanel.setBorder(BorderFactory.createTitledBorder("Company"));
+		companyPanel.setLayout(new GridLayout(5, 1, 5, 5));
+
+		JButton bntCreateCompany = new JButton("Create company");
+		companyPanel.add(bntCreateCompany);
+
+		JButton bntRemoveCompany = new JButton("Remove company");
+		companyPanel.add(bntRemoveCompany);
+
+		JButton bntUpdateCompany = new JButton("Update company");
+		companyPanel.add(bntUpdateCompany);
+
+		JButton bntAllCompanies = new JButton("All companies");
+		companyPanel.add(bntAllCompanies);
+
+		JButton bntCompanyByID = new JButton("Search company by ID");
+		companyPanel.add(bntCompanyByID);
+
+		// add companyPanel to CenterPanel
+		CenterPanel.add(companyPanel);
+
+		pack();
+
+		// ***************
+		// ActionListeners
+		// ***************
 
 	}
 }

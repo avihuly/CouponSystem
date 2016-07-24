@@ -19,25 +19,22 @@ public class AdminFacade{
 	// ***********
 	// constructor
 	// ***********
-	public AdminFacade() {
-	}
+	public AdminFacade() {}
 
 	// ***************
 	// *****Methods***
 	// ***************
-
 	// Login
 	public static AdminFacade login(String name, String password){
-		if (name.equals("admin") && password.equals("admin")) {
+		if (name.equals("0") && password.equals("0")) {
 			return new AdminFacade();
 		} 
 		return null;
 	}
 	
-	
-	// **************
-	// Company method
-	// **************
+	// ***************
+	// Company methods
+	// ***************
 	public void createCompany(Company company) throws AdminFacadeException, IllegalPasswordException, CompanyAlreadyExistsException {
 		try {
 			// Invoking the createCompany method in CompanyDBDAO
