@@ -17,6 +17,7 @@ import com.couponproject.exception.CouponSystemException;
 import com.couponproject.facade.CustomerFacade;
 import com.couponproject.gui.CouponByPriceSliders;
 import com.couponproject.gui.GuiUtil;
+import com.couponproject.gui.frames.CustomerMainFrame;
 
 public class PurchasedCouponsActionListener implements ActionListener {
 	// **********
@@ -97,7 +98,7 @@ public class PurchasedCouponsActionListener implements ActionListener {
 			// --------------------
 			JButton backBnt = new JButton("Back");
 			backBnt.addActionListener(backE -> {
-				GuiUtil.setCustomerHomeBntLayout(tableCouponData, Panel, customerFacade);
+				CustomerMainFrame.setCustomerHomeBntLayout(tableCouponData, Panel, customerFacade);
 			});
 			bntPanel.add(backBnt);
 			

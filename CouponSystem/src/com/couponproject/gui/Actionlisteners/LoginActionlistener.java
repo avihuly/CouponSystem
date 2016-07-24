@@ -15,6 +15,7 @@ import com.couponproject.constants.ClientType;
 import com.couponproject.facade.AdminFacade;
 import com.couponproject.facade.CompanyFacade;
 import com.couponproject.facade.CustomerFacade;
+import com.couponproject.gui.frames.AdminMainFrame;
 import com.couponproject.gui.frames.CompanyMainFrame;
 import com.couponproject.gui.frames.CustomerMainFrame;
 import com.couponproject.system.CouponSystem;
@@ -36,7 +37,8 @@ public class LoginActionlistener implements ActionListener {
 	// ***********
 	// constructor
 	// ***********
-	public LoginActionlistener(JFrame loginframe, ButtonGroup userTypeRadioGroup, JTextField txtUserName, JPasswordField txtPassword) {
+	public LoginActionlistener(JFrame loginframe, ButtonGroup userTypeRadioGroup, JTextField txtUserName,
+			JPasswordField txtPassword) {
 		this.loginframe = loginframe;
 		this.userTypeRadioGroup = userTypeRadioGroup;
 		this.txtUserName = txtUserName;
@@ -65,34 +67,38 @@ public class LoginActionlistener implements ActionListener {
 		}
 	}
 
-	/////////////////////////	
+	/////////////////////////
 	// Loading AdminFarme ///
 	/////////////////////////
 	private void loadAdminFarme() {
 		AdminFacade adminFacade = CouponSystem.getInstance().loginAsAdmin(userName, password);
-		
+		// check for a successful login
 		if (adminFacade != null) {
+			// Turing LoginFrame Visibility off
+			loginframe.setVisible(false);
+			// login message
 			JOptionPane.showMessageDialog(null, "Login!!!");
+			// loading Admin main Frame
+			AdminMainFrame adminMainFrame = new AdminMainFrame(adminFacade);
 		} else {
 			JOptionPane.showMessageDialog(null, "!!!!!NOT LOGED IN!!!");
 		}
 	}
 
-	//
-	// Loading ComapnyFrame
-	//
+	//////////////////////////
+	// Loading ComapnyFrame //
+	//////////////////////////
 	private void loadComapnyFrame() {
 		CompanyFacade companyFacade = CouponSystem.getInstance().loginAsCompany(userName, password);
+		// check for a successful login
 		if (companyFacade != null) {
 			// Turing LoginFrame Visibility off
 			loginframe.setVisible(false);
-			// login message 
+			// login message
 			JOptionPane.showMessageDialog(null, "Login!!!");
-			
-			//loading Company main frame
+			// loading Company main frame
 			CompanyMainFrame companyMainFrame = new CompanyMainFrame(companyFacade);
 			companyMainFrame.setVisible(true);
-			
 		} else {
 			JOptionPane.showMessageDialog(null, "!!!!!NOT LOGED IN!!!");
 		}
@@ -103,18 +109,15 @@ public class LoginActionlistener implements ActionListener {
 	////////////////////////////
 	private void loadCustomerFrame() {
 		CustomerFacade customerFacade = CouponSystem.getInstance().loginAsCustomer(userName, password);
-		
-		// check for a successful login 
+		// check for a successful login
 		if (customerFacade != null) {
 			// Turing LoginFrame Visibility off
 			loginframe.setVisible(false);
-			
-			// login message 
+			// login message
 			JOptionPane.showMessageDialog(null, "Login!!!");
-			
-			// loading Customer main Frame 
+			// loading Customer main Frame
 			CustomerMainFrame customerMainFrame = new CustomerMainFrame(customerFacade);
-			
+
 		} else {
 			JOptionPane.showMessageDialog(null, "!!!!!NOT LOGED IN!!!");
 		}
