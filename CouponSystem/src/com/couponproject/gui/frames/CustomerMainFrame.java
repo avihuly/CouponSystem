@@ -33,6 +33,11 @@ public class CustomerMainFrame extends JFrame {
 		GuiUtil.setFrameIconAndMenu(this);
 
 		// ***********
+		// North Panel
+		// ***********
+		GuiUtil.setLogoBySize(this, 750, 75);
+
+		// ***********
 		// South Panel
 		// ***********
 		JPanel southPanel = new JPanel();
@@ -61,21 +66,16 @@ public class CustomerMainFrame extends JFrame {
 		tableCouponData.setShowHorizontalLines(true);
 
 		CenterPanel.add(sp, BorderLayout.CENTER);
-			
-		// make it all fit
-		CenterPanel.setPreferredSize(new Dimension(750, 500));
-		pack();
-
-		// ***********
-		// North Panel
-		// ***********
-		GuiUtil.setLogoBySize(this, 750, 75);
 
 		// ***********
 		// West Panel
 		// ***********
 		JPanel westPanel = new JPanel();
 		getContentPane().add(westPanel, BorderLayout.WEST);
+
+		// make it all fit
+		CenterPanel.setPreferredSize(new Dimension(750, 500));
+		pack();
 
 		// *************************
 		// Buttons & ActionListeners
@@ -88,30 +88,28 @@ public class CustomerMainFrame extends JFrame {
 		selectedModel.addListSelectionListener(new CouponTableListSelectionListener(tableCouponData, lblCouponPic));
 	}
 	// *************
-	//	end of frame
+	// end of frame
 	// *************
-	
-	
+
 	// setCustomerHomeBntLayout
-	public static void setCustomerHomeBntLayout(JTable tableCouponData, JPanel Panel, CustomerFacade customerFacade){		
+	public static void setCustomerHomeBntLayout(JTable tableCouponData, JPanel Panel, CustomerFacade customerFacade) {
 		// Buttons ActionListeners
-		Panel.removeAll();  	// clear panel
+		Panel.removeAll(); // clear panel
 		Panel.setLayout(new GridLayout(10, 1, 0, 0));
-		
+
 		// All Purchased Coupons
 		JButton btnMyCoupons = new JButton("All My Coupons");
-		btnMyCoupons.addActionListener(
-				new PurchasedCouponsActionListener(tableCouponData, Panel, customerFacade));
-		
-		JButton bntBrowseCoupons  = new JButton("Browse Coupons");
+		btnMyCoupons.addActionListener(new PurchasedCouponsActionListener(tableCouponData, Panel, customerFacade));
+
+		JButton bntBrowseCoupons = new JButton("Browse Coupons");
 		bntBrowseCoupons.addActionListener(new AllCouponsActionListener(tableCouponData, Panel, customerFacade));
-			
+
 		// Adding buttons to westPanel
 		Panel.add(btnMyCoupons);
 		Panel.add(bntBrowseCoupons);
-	
+
 		// revalidate & repaint
 		Panel.revalidate();
-		Panel.repaint();	
+		Panel.repaint();
 	}
 }

@@ -179,7 +179,6 @@ public class AdminFacade{
 
 			// Catching couponSystemException
 		} catch (CouponSystemException e) {
-
 			// In case of a problem throw new AdminFacadeException
 			throw new AdminFacadeException("AdminFacadeException - " 
 					+ "getCustomer() - Error");

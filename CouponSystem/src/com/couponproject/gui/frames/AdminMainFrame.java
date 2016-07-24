@@ -14,6 +14,7 @@ import com.couponproject.facade.CustomerFacade;
 import com.couponproject.gui.GuiUtil;
 import com.couponproject.gui.Actionlisteners.CouponByPriceSliders;
 import com.couponproject.gui.Actionlisteners.CouponTableListSelectionListener;
+import com.couponproject.gui.Actionlisteners.allCustomersActionListeners;
 
 public class AdminMainFrame extends JFrame {
 
@@ -22,7 +23,7 @@ public class AdminMainFrame extends JFrame {
 		super("Coupons (logged as admin)");
 		setBackground(Color.LIGHT_GRAY);
 		setBounds(100, 100, 500, 300);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setResizable(false);
 		setVisible(true);
 		// set layout
@@ -69,12 +70,6 @@ public class AdminMainFrame extends JFrame {
 		JButton bntCreateCustomer = new JButton("Create customer");
 		customerPanel.add(bntCreateCustomer);
 
-		JButton bntRemoveCustomer = new JButton("Remove customer");
-		customerPanel.add(bntRemoveCustomer);
-
-		JButton bntUpdateCustomer = new JButton("Update customer");
-		customerPanel.add(bntUpdateCustomer);
-
 		JButton bntAllCustomers = new JButton("All customers");
 		customerPanel.add(bntAllCustomers);
 
@@ -115,5 +110,13 @@ public class AdminMainFrame extends JFrame {
 		// ActionListeners
 		// ***************
 
+		// Create customer
+//		bntCreateCustomer.addActionListener(new createCustomerActionListeners());
+//		bntRemoveCustomer.addActionListener(new removeCustomerActionListeners());
+		
+		bntAllCustomers.addActionListener(e -> {
+			CustomersFrame customerFrame = new CustomersFrame(adminFacade);
+			customerFrame.setVisible(true);
+		});
 	}
 }

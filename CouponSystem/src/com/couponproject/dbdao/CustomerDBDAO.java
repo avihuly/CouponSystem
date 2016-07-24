@@ -158,14 +158,13 @@ public class CustomerDBDAO implements CustomerDAO {
 				
 				// Execute and get a resultSet
 				ResultSet myRs = selectStmt.executeQuery();
-							
+						
 				// Processing resultSet into a Customer(bean) instance
 				myRs.next();
 				Customer customer = new Customer(
 						myRs.getLong("ID"),
 						myRs.getString("CUST_NAME"),
 						myRs.getString("PASSWORD"));
-	
 				// Return customer
 				return customer;
 			} catch (PropertyVetoException | SQLException | IOException e) {
