@@ -127,7 +127,7 @@ public class CustomerDBDAO implements CustomerDAO {
 				// Update prepared statement
 				PreparedStatement updateStmt = myCon.prepareStatement(
 						"update customer "
-						+ "set CUST_NAME = ? and PASSWORD = ? "
+						+ "set CUST_NAME = ?, PASSWORD = ? "
 						+ "where ID = ?");
 	
 				// Values

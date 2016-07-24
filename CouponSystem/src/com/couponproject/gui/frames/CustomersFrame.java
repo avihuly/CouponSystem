@@ -17,6 +17,7 @@ import com.couponproject.exception.AdminFacadeException;
 import com.couponproject.facade.AdminFacade;
 import com.couponproject.gui.GuiUtil;
 import com.couponproject.gui.Actionlisteners.RemoveCustomerActionListener;
+import com.couponproject.gui.Actionlisteners.UpdateCustomerActionListener;
 
 public class CustomersFrame extends JFrame {
 	JTable clientsTable = new JTable();
@@ -87,13 +88,16 @@ public class CustomersFrame extends JFrame {
 		// ***************
 		bntRemoveCustomer.addActionListener(new RemoveCustomerActionListener(adminFacade, clientsTable));
 		bntUpdateCustomer.addActionListener(e ->{
-			JFrame customerInfo = new CustomerInfoFrame(adminFacade, clientsTable); 
+			CustomerInfoFrame customerInfoFrame = new CustomerInfoFrame(adminFacade, clientsTable); 
+			JButton bntUpdate = new JButton("Update");
+			bntUpdate.addActionListener(new UpdateCustomerActionListener(adminFacade, clientsTable,customerInfoFrame.getNameTextFiled(),customerInfoFrame.getPasswordTextFiled()));
+			customerInfoFrame.add(bntUpdate, BorderLayout.SOUTH);
 			
 		});
 		
 		
 		
 		
-		// UpdateCustomerActionListener(adminFacade, clientsTable)
+		
 	}
 }
