@@ -1,8 +1,11 @@
 package com.couponproject.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Container;
+import java.awt.Event;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -185,18 +188,18 @@ public class GuiUtil {
 		model.addColumn("ID");
 		model.addColumn("NAME");
 		model.addColumn("PASSWORD");
-		
+
 		for (Customer customer : allCustomers) {
 			ArrayList<Object> tempCustomer = new ArrayList<>();
 			tempCustomer.add(customer.getId());
 			tempCustomer.add(customer.getCustName());
 			tempCustomer.add(customer.getPassword());
-			
+
 			model.addRow(tempCustomer.toArray());
 		}
 		// Adding model to table
 		customerTable.setModel(model);
-		
+
 		// Center alignment
 		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
 		centerRenderer.setHorizontalAlignment(JLabel.CENTER);
@@ -210,7 +213,22 @@ public class GuiUtil {
 		}
 
 		// RowSorter
-		customerTable.setAutoCreateRowSorter(true);		
+		customerTable.setAutoCreateRowSorter(true);
 		customerTable.setRowHeight(30);
 	}
+
+	
+	
+	
+	// **********************
+	// Dispose frame by event
+	// **********************
+	public static void disposeFrameByEvent(ActionEvent e) {
+		Container sourceFrame = ((JButton) e.getSource()).getParent();
+		while (!(sourceFrame instanceof JFrame)) {
+			sourceFrame = sourceFrame.getParent();
+		}
+		((JFrame) sourceFrame).dispose();
+	}
+
 }

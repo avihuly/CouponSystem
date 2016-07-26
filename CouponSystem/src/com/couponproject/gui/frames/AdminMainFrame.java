@@ -7,7 +7,10 @@ import java.awt.event.MouseListener;
 
 import javax.swing.*;
 
+import com.couponproject.beans.Customer;
+import com.couponproject.constants.Constants;
 import com.couponproject.dbdao.CouponDBDAO;
+import com.couponproject.exception.AdminFacadeException;
 import com.couponproject.exception.CouponSystemException;
 import com.couponproject.facade.AdminFacade;
 import com.couponproject.facade.CustomerFacade;
@@ -67,6 +70,9 @@ public class AdminMainFrame extends JFrame {
 		customerPanel.setBorder(BorderFactory.createTitledBorder("Customer"));
 		customerPanel.setLayout(new GridLayout(5, 1, 5, 5));
 
+		JLabel lblBlank = new JLabel();
+		customerPanel.add(lblBlank);
+
 		JButton bntCreateCustomer = new JButton("Create customer");
 		customerPanel.add(bntCreateCustomer);
 
@@ -114,23 +120,28 @@ public class AdminMainFrame extends JFrame {
 			CustomersFrame customerFrame = new CustomersFrame(adminFacade);
 			customerFrame.setVisible(true);
 		});
-		
+
 		// Create customer
-		bntCreateCustomer.addActionListener(e->{
+		bntCreateCustomer.addActionListener(e -> {
 			NewCustomerForme customerInfoFrame = new NewCustomerForme(adminFacade);
 			customerInfoFrame.setVisible(true);
 		});
-		
+
 		// Search customer by ID
-		bntCustomerByID.addActionListener(e->{
+		bntCustomerByID.addActionListener(e -> {
 			String input = JOptionPane.showInputDialog("Enter customer ID:");
-			
-			try {
-				long targetID = Long.parseLong(input); 
-			} catch (NumberFormatException e1) {
+			try {	
+				long targetID = Long.parseLong(input);
+				Customer customer = adminFacade.getCustomer(targetID);
+				CustomerInfoFrame customerInfoFrame = new CustomerInfoFrame(customer);
+				customerInfoFrame.setVisible(true);
+			} catch (AdminFacadeException adminE) {
+				JOptionPane.showMessageDialog(null, Constants.UnExpectedErrorMassage);
+			} catch (NumberFormatException notNumE) {
 				JOptionPane.showMessageDialog(null, "ID must be a number");
+				bntCustomerByID.doClick();
 			}
-			
+
 		});
 
 	}

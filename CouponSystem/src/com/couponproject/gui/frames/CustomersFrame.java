@@ -96,7 +96,7 @@ public class CustomersFrame extends JFrame {
 
 		// UpdateCustomer
 		bntUpdateCustomer.addActionListener(e -> {
-			CustomerInfoFrame customerInfoFrame = new CustomerInfoFrame(adminFacade, clientsTable);
+			CustomerUpDateFrame customerInfoFrame = new CustomerUpDateFrame(adminFacade, clientsTable);
 			customerInfoFrame.setVisible(true);
 		});
 

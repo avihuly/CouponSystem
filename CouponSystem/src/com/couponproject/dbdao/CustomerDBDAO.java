@@ -54,7 +54,7 @@ public class CustomerDBDAO implements CustomerDAO {
 					+ "At lest one lower case letter\n"
 					+ "At lest one digit");	
 		}
-		else if (Util.isCustomer(customer)){
+		else if (Util.isCustomerNameExist(customer)){
 			throw new CustomerAlreadyExistsException(
 					"User name already exists in DB");	
 		} else {
@@ -66,7 +66,6 @@ public class CustomerDBDAO implements CustomerDAO {
 						"insert into "
 						+ "customer ("+ CustomerTableColumnNames.CUST_NAME +", "+ CustomerTableColumnNames.PASSWORD +") "
 						+ "values (?,?);"); //id will be assign in the DB
-				System.out.println(createStmt);
 				
 				// Values
 				createStmt.setString(1, customer.getCustName());

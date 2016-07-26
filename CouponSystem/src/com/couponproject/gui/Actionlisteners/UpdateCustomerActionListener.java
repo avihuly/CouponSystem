@@ -62,12 +62,7 @@ public class UpdateCustomerActionListener implements ActionListener {
 			if (Confirmation == JOptionPane.YES_OPTION) {
 				adminFacade.updateCustomer(customer);
 				GuiUtil.clientsToTable(clientsTable, adminFacade.getAllCustomers());
-
-				Container sourceFrame = ((JButton) e.getSource()).getParent();
-				while (!(sourceFrame instanceof JFrame)) {
-					sourceFrame = sourceFrame.getParent();
-				}
-				((JFrame) sourceFrame).dispose();
+				GuiUtil.disposeFrameByEvent(e);
 			}
 
 		} catch (AdminFacadeException e1) {

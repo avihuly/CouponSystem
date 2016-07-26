@@ -12,6 +12,7 @@ import com.couponproject.exception.AdminFacadeException;
 import com.couponproject.exception.CustomerAlreadyExistsException;
 import com.couponproject.exception.IllegalPasswordException;
 import com.couponproject.facade.AdminFacade;
+import com.couponproject.gui.GuiUtil;
 
 public class CreateCustomerActionListener implements ActionListener {
 	// **********
@@ -34,14 +35,17 @@ public class CreateCustomerActionListener implements ActionListener {
 	// actionPerformed
 	// ***************
 	@Override
-	public void actionPerformed(ActionEvent arg0) {
+	public void actionPerformed(ActionEvent e) {
 		Customer customer = new Customer(txtName.getText(), txtPassword.getText());
 		try {
 			adminFacade.createCustomer(customer);
-		} catch (AdminFacadeException e) {
+			JOptionPane.showMessageDialog(null, "Customer \"" + customer.getCustName() + "\" was successful added");
+			GuiUtil.disposeFrameByEvent(e);
+		} catch (AdminFacadeException adminE) {
 			// TODO Auto-generated catch block
-		} catch (IllegalPasswordException | CustomerAlreadyExistsException e) {
-			JOptionPane.showMessageDialog(null, e.getMessage());
+		} catch (IllegalPasswordException | CustomerAlreadyExistsException OtherE) {
+			OtherE.printStackTrace();
+			JOptionPane.showMessageDialog(null, OtherE.getMessage());
 		}
 	}
 
