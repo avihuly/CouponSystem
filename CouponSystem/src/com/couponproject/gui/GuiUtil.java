@@ -16,6 +16,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
+import com.couponproject.beans.Company;
 import com.couponproject.beans.Coupon;
 import com.couponproject.beans.Customer;
 import com.couponproject.constants.Constants;
@@ -217,9 +218,53 @@ public class GuiUtil {
 		customerTable.setRowHeight(30);
 	}
 
-	
-	
-	
+	// ********************
+	// clients To Table Set
+	// ********************
+	public static void CompaniesToTable(JTable companiesTable, Collection<Company> allCompanies) {
+		// Disable editing
+		DefaultTableModel model = new DefaultTableModel() {
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+		};
+
+		model.addColumn("ID");
+		model.addColumn("NAME");
+		model.addColumn("EMAIL");
+		model.addColumn("PASSWORD");
+
+		for (Company company : allCompanies) {
+			ArrayList<Object> tempCompany = new ArrayList<>();
+			tempCompany.add(company.getId());
+			tempCompany.add(company.getCompName());
+			tempCompany.add(company.getEmail());
+			tempCompany.add(company.getPassword());
+
+			model.addRow(tempCompany.toArray());
+		}
+		// Adding model to table
+		companiesTable.setModel(model);
+
+		// Center alignment
+		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+		centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+		for (int i = 0; i < (companiesTable.getColumnCount()); i++) {
+			companiesTable.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+		}
+
+		// First row selected as default
+		if (companiesTable.getRowCount() > 0) {
+			companiesTable.setRowSelectionInterval(0, 0);
+		}
+
+		// RowSorter
+		companiesTable.setAutoCreateRowSorter(true);
+		companiesTable.setRowHeight(30);
+
+	}
+
 	// **********************
 	// Dispose frame by event
 	// **********************
@@ -230,5 +275,4 @@ public class GuiUtil {
 		}
 		((JFrame) sourceFrame).dispose();
 	}
-
 }

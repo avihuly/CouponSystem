@@ -1,24 +1,13 @@
 package com.couponproject.gui.frames;
 
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-
 import javax.swing.*;
 
+import com.couponproject.beans.Company;
 import com.couponproject.beans.Customer;
-import com.couponproject.constants.Constants;
-import com.couponproject.dbdao.CouponDBDAO;
 import com.couponproject.exception.AdminFacadeException;
-import com.couponproject.exception.CouponSystemException;
 import com.couponproject.facade.AdminFacade;
-import com.couponproject.facade.CustomerFacade;
 import com.couponproject.gui.GuiUtil;
-import com.couponproject.gui.Actionlisteners.CouponByPriceSliders;
-import com.couponproject.gui.Actionlisteners.CouponTableListSelectionListener;
-import com.couponproject.gui.Actionlisteners.UpdateCustomerActionListener;
-import com.couponproject.gui.Actionlisteners.allCustomersActionListeners;
 
 public class AdminMainFrame extends JFrame {
 	public AdminMainFrame(AdminFacade adminFacade) {
@@ -92,14 +81,11 @@ public class AdminMainFrame extends JFrame {
 		companyPanel.setBorder(BorderFactory.createTitledBorder("Company"));
 		companyPanel.setLayout(new GridLayout(5, 1, 5, 5));
 
+		JLabel lblBlank2 = new JLabel();
+		companyPanel.add(lblBlank2);
+
 		JButton bntCreateCompany = new JButton("Create company");
 		companyPanel.add(bntCreateCompany);
-
-		JButton bntRemoveCompany = new JButton("Remove company");
-		companyPanel.add(bntRemoveCompany);
-
-		JButton bntUpdateCompany = new JButton("Update company");
-		companyPanel.add(bntUpdateCompany);
 
 		JButton bntAllCompanies = new JButton("All companies");
 		companyPanel.add(bntAllCompanies);
@@ -109,7 +95,6 @@ public class AdminMainFrame extends JFrame {
 
 		// add companyPanel to CenterPanel
 		CenterPanel.add(companyPanel);
-
 		pack();
 
 		// ***************
@@ -117,7 +102,7 @@ public class AdminMainFrame extends JFrame {
 		// ***************
 		// All Customer
 		bntAllCustomers.addActionListener(e -> {
-			CustomersFrame customerFrame = new CustomersFrame(adminFacade);
+			AllCustomersFrame customerFrame = new AllCustomersFrame(adminFacade);
 			customerFrame.setVisible(true);
 		});
 
@@ -130,18 +115,51 @@ public class AdminMainFrame extends JFrame {
 		// Search customer by ID
 		bntCustomerByID.addActionListener(e -> {
 			String input = JOptionPane.showInputDialog("Enter customer ID:");
-			try {	
-				long targetID = Long.parseLong(input);
-				Customer customer = adminFacade.getCustomer(targetID);
-				CustomerInfoFrame customerInfoFrame = new CustomerInfoFrame(customer);
-				customerInfoFrame.setVisible(true);
-			} catch (AdminFacadeException adminE) {
-				JOptionPane.showMessageDialog(null, Constants.UnExpectedErrorMassage);
-			} catch (NumberFormatException notNumE) {
-				JOptionPane.showMessageDialog(null, "ID must be a number");
-				bntCustomerByID.doClick();
+			if (input != null) {
+				try {
+					long targetID = Long.parseLong(input);
+					Customer customer = adminFacade.getCustomer(targetID);
+					InfoCustomerFrame customerInfoFrame = new InfoCustomerFrame(customer);
+					customerInfoFrame.setVisible(true);
+				} catch (AdminFacadeException adminE) {
+					JOptionPane.showMessageDialog(null, "ID does not exists in database");
+					bntCustomerByID.doClick();
+				} catch (NumberFormatException notNumE) {
+					JOptionPane.showMessageDialog(null, "ID must be a number");
+					bntCustomerByID.doClick();
+				}
 			}
+		});
 
+		// All Companies
+		bntAllCompanies.addActionListener(e -> {
+			AllCompaniesFrame companiesFrame = new AllCompaniesFrame(adminFacade);
+			companiesFrame.setVisible(true);
+		});
+
+		// Create Company
+		bntCreateCompany.addActionListener(e -> {
+			NewCompanyForme companyInfoFrame = new NewCompanyForme(adminFacade);
+			companyInfoFrame.setVisible(true);
+		});
+
+		// Search Company by ID
+		bntCompanyByID.addActionListener(e -> {
+			String input = JOptionPane.showInputDialog("Enter company ID:");
+			if (input != null) {
+				try {
+					long targetID = Long.parseLong(input);
+					Company company = adminFacade.getCompany(targetID);
+					InfoCompanyFrame companyInfoFrame = new InfoCompanyFrame(company);
+					companyInfoFrame.setVisible(true);
+				} catch (AdminFacadeException adminE) {
+					JOptionPane.showMessageDialog(null, "ID does not exists in database");
+					bntCompanyByID.doClick();
+				} catch (NumberFormatException notNumE) {
+					JOptionPane.showMessageDialog(null, "ID must be a number");
+					bntCompanyByID.doClick();
+				}
+			}
 		});
 
 	}

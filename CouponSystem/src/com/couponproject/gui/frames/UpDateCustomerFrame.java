@@ -18,7 +18,7 @@ import com.couponproject.facade.AdminFacade;
 import com.couponproject.gui.GuiUtil;
 import com.couponproject.gui.Actionlisteners.UpdateCustomerActionListener;
 
-public class CustomerUpDateFrame extends JFrame {
+public class UpDateCustomerFrame extends JFrame {
 	// **********
 	// Attributes
 	// **********
@@ -28,7 +28,7 @@ public class CustomerUpDateFrame extends JFrame {
 	// ***********
 	// constructor
 	// ***********
-	public CustomerUpDateFrame(AdminFacade adminFacade, JTable clientsTable) {
+	public UpDateCustomerFrame(AdminFacade adminFacade, JTable clientsTable) {
 		// frame properties
 		super("Admin - Custimer Update");
 		setBackground(Color.LIGHT_GRAY);
@@ -46,12 +46,6 @@ public class CustomerUpDateFrame extends JFrame {
 		// ***********
 		GuiUtil.setLogoBySize(this, 300, 40);
 
-		// **********
-		// East Panel
-		// **********
-		JPanel eastPanel = new JPanel();
-		getContentPane().add(eastPanel, BorderLayout.EAST);
-
 		// selected customer
 		Customer customer;
 		try {
@@ -64,9 +58,9 @@ public class CustomerUpDateFrame extends JFrame {
 			getContentPane().add(CenterPanel, BorderLayout.CENTER);
 			CenterPanel.setLayout(new GridLayout(5, 1, 5, 5));
 
-			JLabel lblBlanck = new JLabel();
-			CenterPanel.add(lblBlanck);
-
+			JLabel lblCustomerIdVlaue = new JLabel(Long.toString(customer.getId()));
+			CenterPanel.add(lblCustomerIdVlaue);
+			
 			txtName = new JTextArea(customer.getCustName());
 			CenterPanel.add(txtName);
 
@@ -80,13 +74,13 @@ public class CustomerUpDateFrame extends JFrame {
 			getContentPane().add(westPanel, BorderLayout.WEST);
 			westPanel.setLayout(new GridLayout(5, 1, 5, 5));
 
-			JLabel lblCustomerID = new JLabel("Customer ID: " + customer.getId());
+			JLabel lblCustomerID = new JLabel(" Customer ID: ");
 			westPanel.add(lblCustomerID);
 
-			JLabel lblCustomerName = new JLabel("Customer Name: ");
+			JLabel lblCustomerName = new JLabel(" Name: ");
 			westPanel.add(lblCustomerName);
 
-			JLabel lblCustomerPassword = new JLabel("Customer Password: ");
+			JLabel lblCustomerPassword = new JLabel(" Password: ");
 			westPanel.add(lblCustomerPassword);
 
 			// ***********
@@ -94,7 +88,7 @@ public class CustomerUpDateFrame extends JFrame {
 			// ***********
 			JPanel southPanel = new JPanel();
 			getContentPane().add(southPanel, BorderLayout.SOUTH);
-
+			
 			JButton bntUpdate = new JButton("Update");
 			// Update ActionListener
 			bntUpdate.addActionListener(

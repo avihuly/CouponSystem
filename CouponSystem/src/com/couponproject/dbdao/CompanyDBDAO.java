@@ -15,7 +15,9 @@ import com.couponproject.exception.CompanyCouponDoesNotExistsException;
 import com.couponproject.exception.CompanyDoesNotExistException;
 import com.couponproject.exception.CouponSystemException;
 import com.couponproject.exception.CustomerAlreadyExistsException;
+import com.couponproject.exception.EmailAlreadyExistsException;
 import com.couponproject.exception.IllegalPasswordException;
+import com.couponproject.gui.GuiUtil;
 import com.couponproject.util.Util;
 
 //This class implements the CompanyDAO interface with mySQL
@@ -43,11 +45,8 @@ public class CompanyDBDAO implements CompanyDAO{
 		return instace;
 	}
 	
-	
-	
 	//a method that gets Company instance that should be of a new company and adds it to the company table in the db
-	public void createCompany(Company company) throws CouponSystemException, IllegalPasswordException, CompanyAlreadyExistsException {
-		
+	public void createCompany(Company company) throws CouponSystemException, IllegalPasswordException, CompanyAlreadyExistsException, EmailAlreadyExistsException {
 		if(!Util.passwordvalidation(company.getPassword())){
 			throw new IllegalPasswordException(
 					"Password must contain:\n"
@@ -56,11 +55,12 @@ public class CompanyDBDAO implements CompanyDAO{
 					+ "At lest one lower case letter\n"
 					+ "At lest one digit");		
 		}
-		else if (Util.isCompany(company)){
-			throw new CompanyAlreadyExistsException(
-					"User name already exists in DB");	
+		else if (Util.isCompany(company)) {
+			throw new CompanyAlreadyExistsException("User name already exists in DB");
+		} else if (Util.isEmailExist(company)) {
+			throw new EmailAlreadyExistsException("Email already exists in DB");
 		} else {
-			// getting a connection to DB from  pool
+			// getting a connection to DB from pool
 			try (Connection myCon = ConnectionPool.getInstance().getConnection()){
 							
 				// Insert prepared statement
@@ -116,7 +116,7 @@ public class CompanyDBDAO implements CompanyDAO{
 	@Override
 	//a method that gets a company that exists (!!!) in the company table in the updates details in the db
 	//TODO: the instance should include all the details from the existing line in db beside what that was changed
-	public void updateCompany(Company company) throws CouponSystemException, IllegalPasswordException, CompanyAlreadyExistsException {
+	public void updateCompany(Company company) throws CouponSystemException, IllegalPasswordException, CompanyAlreadyExistsException, EmailAlreadyExistsException {
 		
 		if(!Util.passwordvalidation(company.getPassword())){
 			throw new IllegalPasswordException(
@@ -125,10 +125,10 @@ public class CompanyDBDAO implements CompanyDAO{
 					+ "At lest one upper case letter\n"
 					+ "At lest one lower case letter\n"
 					+ "At lest one digit");	
-		}
-		else if (Util.isCompany(company)){
-			throw new CompanyAlreadyExistsException(
-					"User name already exists in DB");	
+		} else if (Util.isCompany(company)){
+			throw new CompanyAlreadyExistsException("User name already exists in DB");	
+		} else if (Util.isEmailExist(company)) {
+			throw new EmailAlreadyExistsException("Email already exists in DB");
 		} else {
 			// getting a connection to DB from  pool
 			try (Connection myCon = ConnectionPool.getInstance().getConnection()) {
@@ -136,7 +136,8 @@ public class CompanyDBDAO implements CompanyDAO{
 				// Update prepared statement
 				PreparedStatement updateStmt = myCon.prepareStatement(
 								"update company " 
-								+ "set EMAIL = ? and set PASSWORD = ? where COMP_NAME = ?");
+								+ "set EMAIL = ?, PASSWORD = ? "
+								+ "where COMP_NAME = ?");
 
 				// Values
 				updateStmt.setString(1, company.getEmail());	
@@ -151,6 +152,7 @@ public class CompanyDBDAO implements CompanyDAO{
 				myCon.close();
 				
 			} catch (PropertyVetoException | SQLException | IOException e) {
+				e.printStackTrace();
 				throw new CouponSystemException("CouponSystemException", e);
 			}
 		}

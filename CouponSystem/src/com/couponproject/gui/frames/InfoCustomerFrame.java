@@ -8,23 +8,18 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTable;
-import javax.swing.JTextArea;
+
 
 import com.couponproject.beans.Customer;
-import com.couponproject.constants.Constants;
-import com.couponproject.exception.AdminFacadeException;
-import com.couponproject.facade.AdminFacade;
 import com.couponproject.gui.GuiUtil;
-import com.couponproject.gui.Actionlisteners.UpdateCustomerActionListener;
 
-public class CustomerInfoFrame extends JFrame {
+public class InfoCustomerFrame extends JFrame {
 	// ***********
 	// constructor
 	// ***********
-	public CustomerInfoFrame(Customer customer) {
+	public InfoCustomerFrame(Customer customer) {
 		// frame properties
-		super("Admin - Custimer Info");
+		super("Admin - Customer Info");
 		setBackground(Color.LIGHT_GRAY);
 		setBounds(100, 100, 300, 250);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -46,13 +41,13 @@ public class CustomerInfoFrame extends JFrame {
 		getContentPane().add(CenterPanel, BorderLayout.CENTER);
 		CenterPanel.setLayout(new GridLayout(3, 1, 5, 5));
 
-		JLabel lblBlanck = new JLabel("Customer Info:");
+		JLabel lblBlanck = new JLabel(" Customer Info:");
 		CenterPanel.add(lblBlanck);
 
-		JLabel lblID = new JLabel("ID: " + customer.getId());
+		JLabel lblID = new JLabel(" ID: " + customer.getId());
 		CenterPanel.add(lblID);
 
-		JLabel lblName = new JLabel("Name: " + customer.getCustName());
+		JLabel lblName = new JLabel(" Name: " + customer.getCustName());
 		CenterPanel.add(lblName);
 
 		JButton bntBack = new JButton("Back");

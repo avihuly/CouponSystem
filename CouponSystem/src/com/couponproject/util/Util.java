@@ -76,6 +76,22 @@ public class Util {
 			return false;
 		}
 	}
+	
+	// Returns true if Customer name exist in DB
+	public static boolean isEmailExist(Company company) {
+		try {
+			for (Company dbCompany : CompanyDBDAO.getInstace().getAllCompanies()) {
+				if ((company.getEmail().equals(dbCompany.getEmail()))
+						&& (company.getId() != dbCompany.getId())) {
+					return true;
+				}
+			}
+			return false;
+		} catch (CouponSystemException e) {
+			e.printStackTrace();
+			return true;
+		}
+	}
 
 	// Returns true if argument coupon name or ID already exist in DB
 	public static boolean isCoupon(Coupon coupon) {

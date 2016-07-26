@@ -49,8 +49,8 @@ public class UpdateCustomerActionListener implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		try {
-			int selectedcustomerRow = clientsTable.getSelectedRow();
-			long customerId = (Long) clientsTable.getModel().getValueAt(selectedcustomerRow,
+			int selectedRow = clientsTable.getSelectedRow();
+			long customerId = (Long) clientsTable.getModel().getValueAt(selectedRow,
 					Constants.CustomerTableIDIndex);
 			// creating Customer from user input
 			Customer customer = new Customer(customerId,nameTextFiled.getText(), passwordTextFiled.getText());
@@ -62,6 +62,7 @@ public class UpdateCustomerActionListener implements ActionListener {
 			if (Confirmation == JOptionPane.YES_OPTION) {
 				adminFacade.updateCustomer(customer);
 				GuiUtil.clientsToTable(clientsTable, adminFacade.getAllCustomers());
+				JOptionPane.showMessageDialog(null, "Customer \"" + customer.getCustName() + "\" was successful updated");
 				GuiUtil.disposeFrameByEvent(e);
 			}
 

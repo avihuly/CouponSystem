@@ -10,24 +10,25 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
-
 import com.couponproject.facade.AdminFacade;
 import com.couponproject.gui.GuiUtil;
-import com.couponproject.gui.Actionlisteners.CreateCustomerActionListener;
+import com.couponproject.gui.Actionlisteners.CreateCompanyActionListener;
 
-public class NewCustomerForme extends JFrame {
+public class NewCompanyForme extends JFrame {
 	// **********
 	// Attributes
 	// **********
 	private JTextArea txtName = new JTextArea();
 	private JTextArea txtPassword = new JTextArea();
+	private JTextArea txtEmail = new JTextArea();
+	
 
 	// ***********
 	// constructor
 	// ***********
-	public NewCustomerForme(AdminFacade adminFacade) {
+	public NewCompanyForme(AdminFacade adminFacade) {
 		// frame properties
-		super("Admin - New Customer");
+		super("Admin - New Company");
 		setBackground(Color.LIGHT_GRAY);
 		setBounds(100, 100, 300, 250);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -56,11 +57,14 @@ public class NewCustomerForme extends JFrame {
 		getContentPane().add(westPanel, BorderLayout.WEST);
 		westPanel.setLayout(new GridLayout(5, 1, 5, 5));
 		
-		JLabel lblCustomerName = new JLabel("Customer Name: ");
-		westPanel.add(lblCustomerName);
-
-		JLabel lblCustomerPassword = new JLabel("Customer Password: ");
-		westPanel.add(lblCustomerPassword);
+		JLabel lblCompanyName = new JLabel("  Company Name: ");
+		westPanel.add(lblCompanyName);
+		
+		JLabel lblCompanyEmail = new JLabel("  Email: ");
+		westPanel.add(lblCompanyEmail);
+		
+		JLabel lblCompanyPassword = new JLabel("  Password: ");
+		westPanel.add(lblCompanyPassword);
 
 		// ***********
 		// South Panel
@@ -68,9 +72,9 @@ public class NewCustomerForme extends JFrame {
 		JPanel southPanel = new JPanel();
 		getContentPane().add(southPanel, BorderLayout.SOUTH);
 
-		JButton bntUpdate = new JButton("Create Customer");
-		// Create customer ActionListener
-		bntUpdate.addActionListener(new CreateCustomerActionListener(adminFacade, txtName, txtPassword));
+		JButton bntUpdate = new JButton("Create Company");
+		// Create company ActionListener
+		bntUpdate.addActionListener(new CreateCompanyActionListener(adminFacade, txtName, txtPassword, txtEmail));
 		add(bntUpdate, BorderLayout.SOUTH);
 
 		// **************************
@@ -81,7 +85,7 @@ public class NewCustomerForme extends JFrame {
 		CenterPanel.setLayout(new GridLayout(5, 1, 5, 5));
 
 		CenterPanel.add(txtName);
-		CenterPanel.add(txtPassword);
+		CenterPanel.add(txtEmail);
+		CenterPanel.add(txtPassword);	
 	}
-
 }

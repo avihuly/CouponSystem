@@ -4,6 +4,7 @@ import com.couponproject.beans.Company;
 import com.couponproject.dbdao.CompanyDBDAO;
 import com.couponproject.exception.CompanyAlreadyExistsException;
 import com.couponproject.exception.CouponSystemException;
+import com.couponproject.exception.EmailAlreadyExistsException;
 import com.couponproject.exception.IllegalPasswordException;
 
 public class TestCompanyDBDAO {	
@@ -21,6 +22,9 @@ public class TestCompanyDBDAO {
 					CompanyDBDAO.getInstace().createCompany(company);
 				
 				} catch (CouponSystemException | IllegalPasswordException | CompanyAlreadyExistsException e) {
+					System.out.println("createCustomerTest Error");
+					e.printStackTrace();
+				} catch (EmailAlreadyExistsException e) {
 					System.out.println("createCustomerTest Error");
 					e.printStackTrace();
 				}

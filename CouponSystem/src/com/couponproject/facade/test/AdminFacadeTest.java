@@ -4,6 +4,7 @@ import com.couponproject.beans.Company;
 import com.couponproject.exception.AdminFacadeException;
 import com.couponproject.exception.CompanyAlreadyExistsException;
 import com.couponproject.exception.CouponSystemException;
+import com.couponproject.exception.EmailAlreadyExistsException;
 import com.couponproject.exception.IllegalPasswordException;
 import com.couponproject.facade.AdminFacade;
 
@@ -43,7 +44,10 @@ public class AdminFacadeTest {
 				adminFacade.createCompany(company);
 
 			} catch (CouponSystemException e) {
-				System.out.println("createCustomerTest Error");
+				System.out.println("CouponSystemException ");
+				e.printStackTrace();
+			} catch (EmailAlreadyExistsException e) {
+				System.out.println("EmailAlreadyExistsException ");
 				e.printStackTrace();
 			}
 		}

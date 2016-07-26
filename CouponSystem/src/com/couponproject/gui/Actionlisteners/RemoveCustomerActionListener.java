@@ -36,8 +36,8 @@ public class RemoveCustomerActionListener implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 
 		try {
-			int selectedcustomerRow = clientsTable.getSelectionModel().getMinSelectionIndex();
-			long customerId = (Long) clientsTable.getModel().getValueAt(selectedcustomerRow,
+			int selectedRow = clientsTable.getSelectionModel().getMinSelectionIndex();
+			long customerId = (Long) clientsTable.getModel().getValueAt(selectedRow,
 					Constants.CustomerTableIDIndex);
 			Customer customer = adminFacade.getCustomer(customerId);
 

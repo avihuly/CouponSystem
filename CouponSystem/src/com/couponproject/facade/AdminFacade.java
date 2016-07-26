@@ -12,6 +12,7 @@ import com.couponproject.exception.CouponDoesNotExistException;
 import com.couponproject.exception.CouponSystemException;
 import com.couponproject.exception.CustomerAlreadyExistsException;
 import com.couponproject.exception.CustomerDoesNotExistException;
+import com.couponproject.exception.EmailAlreadyExistsException;
 import com.couponproject.exception.IllegalPasswordException;
 
 public class AdminFacade{
@@ -35,7 +36,7 @@ public class AdminFacade{
 	// ***************
 	// Company methods
 	// ***************
-	public void createCompany(Company company) throws AdminFacadeException, IllegalPasswordException, CompanyAlreadyExistsException {
+	public void createCompany(Company company) throws AdminFacadeException, IllegalPasswordException, CompanyAlreadyExistsException, EmailAlreadyExistsException {
 		try {
 			// Invoking the createCompany method in CompanyDBDAO
 			CompanyDBDAO.getInstace().createCompany(company);
@@ -74,14 +75,13 @@ public class AdminFacade{
 		}
 	}
 
-	public void updateCompany(Company company) throws AdminFacadeException, IllegalPasswordException, CompanyAlreadyExistsException {
+	public void updateCompany(Company company) throws AdminFacadeException, IllegalPasswordException, CompanyAlreadyExistsException, EmailAlreadyExistsException {
 		try {
 			// Invoking the updateCompany method in CompanyDBDAO
 			CompanyDBDAO.getInstace().updateCompany(company);
 
 			// Catching couponSystemException
 		} catch (CouponSystemException e) {
-
 			// In case of a problem throw new AdminFacadeException
 			throw new AdminFacadeException("AdminFacadeException - " 
 					+ "updateCompany() - Error");

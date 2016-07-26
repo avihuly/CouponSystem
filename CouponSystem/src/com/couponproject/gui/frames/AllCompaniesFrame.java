@@ -2,10 +2,7 @@ package com.couponproject.gui.frames;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.awt.ScrollPane;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -16,28 +13,27 @@ import javax.swing.JTable;
 import com.couponproject.exception.AdminFacadeException;
 import com.couponproject.facade.AdminFacade;
 import com.couponproject.gui.GuiUtil;
-import com.couponproject.gui.Actionlisteners.RemoveCustomerActionListener;
-import com.couponproject.gui.Actionlisteners.UpdateCustomerActionListener;
+import com.couponproject.gui.Actionlisteners.RemoveCompanyActionListener;
 
-public class CustomersFrame extends JFrame {
+public class AllCompaniesFrame extends JFrame {
 	// **********
 	// Attributes
 	// **********
-	JTable clientsTable = new JTable();
+	JTable CompaniesTable = new JTable();
 
 	// ***********
 	// constructor
 	// ***********
-	public CustomersFrame(AdminFacade adminFacade) {
+	public AllCompaniesFrame(AdminFacade adminFacade) {
 		// frame properties
-		super("Admin - All Custimers");
+		super("Admin - All Companies");
 		setBackground(Color.LIGHT_GRAY);
 		setBounds(100, 100, 750, 500);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setResizable(false);
 		setVisible(true);
 		// set layout
-		getContentPane().setLayout(new BorderLayout(0, 0));
+		getContentPane().setLayout(new BorderLayout());
 		// Set Frame's Icon And MenuBar
 		GuiUtil.setFrameIconAndMenu(this);
 
@@ -46,18 +42,6 @@ public class CustomersFrame extends JFrame {
 		// ***********
 		GuiUtil.setLogoBySize(this, 750, 75);
 
-		// ***********
-		// South Panel
-		// ***********
-		JPanel southPanel = new JPanel();
-		getContentPane().add(southPanel, BorderLayout.SOUTH);
-
-		// **********
-		// East Panel
-		// **********
-		JPanel eastPanel = new JPanel();
-		getContentPane().add(eastPanel, BorderLayout.EAST);
-
 		// **********************
 		// West Panel - bnt panel
 		// **********************
@@ -65,11 +49,11 @@ public class CustomersFrame extends JFrame {
 		getContentPane().add(westPanel, BorderLayout.WEST);
 		westPanel.setLayout(new GridLayout(10, 1, 0, 0));
 
-		JButton bntRemoveCustomer = new JButton("Remove customer");
-		westPanel.add(bntRemoveCustomer);
+		JButton bntRemoveCompany = new JButton("Remove company");
+		westPanel.add(bntRemoveCompany);
 
-		JButton bntUpdateCustomer = new JButton("Update customer");
-		westPanel.add(bntUpdateCustomer);
+		JButton bntUpdateCompany = new JButton("Update company");
+		westPanel.add(bntUpdateCompany);
 
 		// **************************
 		// Center Panel - Table panel
@@ -78,11 +62,12 @@ public class CustomersFrame extends JFrame {
 		getContentPane().add(CenterPanel, BorderLayout.CENTER);
 		CenterPanel.setLayout(new BorderLayout());
 
-		JScrollPane sp = new JScrollPane(clientsTable);
+		JScrollPane sp = new JScrollPane(CompaniesTable);
 		CenterPanel.add(sp, BorderLayout.CENTER);
 		try {
-			GuiUtil.clientsToTable(clientsTable, adminFacade.getAllCustomers());
-		} catch (AdminFacadeException e) {// TODO:
+			GuiUtil.CompaniesToTable(CompaniesTable, adminFacade.getAllCompanies());
+		} catch (AdminFacadeException e) {
+			// TODO:
 		}
 
 		// make it all fit
@@ -91,13 +76,13 @@ public class CustomersFrame extends JFrame {
 		// ***************
 		// ActionListeners
 		// ***************
-		// RemoveCustomer
-		bntRemoveCustomer.addActionListener(new RemoveCustomerActionListener(adminFacade, clientsTable));
+		// RemoveCompany
+		bntRemoveCompany.addActionListener(new RemoveCompanyActionListener(adminFacade, CompaniesTable));
 
-		// UpdateCustomer
-		bntUpdateCustomer.addActionListener(e -> {
-			CustomerUpDateFrame customerInfoFrame = new CustomerUpDateFrame(adminFacade, clientsTable);
-			customerInfoFrame.setVisible(true);
+		// UpdateCompany
+		bntUpdateCompany.addActionListener(e -> {
+			UpDateCompanyFrame companyInfoFrame = new UpDateCompanyFrame(adminFacade, CompaniesTable);
+			companyInfoFrame.setVisible(true);
 		});
 
 	}
