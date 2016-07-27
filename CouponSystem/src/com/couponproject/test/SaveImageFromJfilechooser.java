@@ -1,22 +1,21 @@
 package com.couponproject.test;
 
-import java.awt.BorderLayout;
-import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.io.File;
+
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
+
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class SaveImageFromJfilechooser extends JFrame {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	public static void main(String[] args) {
 		SaveImageFromJfilechooser saveImageFromJfilechooser = new SaveImageFromJfilechooser();
@@ -57,10 +56,12 @@ public class SaveImageFromJfilechooser extends JFrame {
 				while ((bytesRead = in.read(bucket)) > -1) {
 					out.write(bucket, 0, bytesRead);
 				}
+				out.close();
 			} catch (IOException e) {
 				System.out.println(e.getMessage());
 				e.printStackTrace();
 			}
+			
 			break;
 		}
 	}
