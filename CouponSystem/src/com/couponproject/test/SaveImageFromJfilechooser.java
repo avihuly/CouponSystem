@@ -29,10 +29,7 @@ public class SaveImageFromJfilechooser extends JFrame {
 		fileChooser.setAcceptAllFileFilterUsed(false);
 		fileChooser.setMultiSelectionEnabled(false);
 		fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-		fileChooser.addChoosableFileFilter(new FileNameExtensionFilter(".jpg", "jpg"));
-		fileChooser.addChoosableFileFilter(new FileNameExtensionFilter(".png", "png"));
-		fileChooser.addChoosableFileFilter(new FileNameExtensionFilter(".gif", "gif"));
-		fileChooser.addChoosableFileFilter(new FileNameExtensionFilter(".bmp", "bmp"));
+		fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("Images     (jpg/png/gif/bmp)", "jpg", "png", "gif", "bmp"));
 
 		int result = fileChooser.showOpenDialog(null);
 
