@@ -83,41 +83,42 @@ public class CompanyFacade {
 		}
 	}
 	
-	//A methods that gets a coupon instance and removes it from the coupon table and company_coupon table in the DB
-	//TODO: check if the coupon exists before removing
-	public void removeCoupon(Coupon coupon) throws CompanyFacadeException, CouponDoesNotExistException, CompanyCouponDoesNotExistsException{
-		//remove from coupon table in the DB
-		try {
-			CouponDBDAO.getInstace().removeCoupon(coupon);
-		} 
-		// Catching couponSystemException
-		catch (CouponSystemException e) {
-			// In case of a problem throw new CompanyFacadeException  
-			throw new CompanyFacadeException("CompanyFacadeException - "
-					+ "removeCoupon Error", e);
-		}
-		//remove from company_coupon table
+	// A methods that gets a coupon instance and removes it from the coupon
+	// table and company_coupon table in the DB
+	// TODO: check if the coupon exists before removing
+	public void removeCoupon(Coupon coupon)
+			throws CompanyFacadeException, CouponDoesNotExistException, CompanyCouponDoesNotExistsException {
+		// remove from company_coupon table
 		long couponId = coupon.getId();
 		long compId = company.getId();
 		try {
 			CompanyDBDAO.getInstace().removeCompanyCoupon(compId, couponId);
-		} 
+		}
 		// Catching couponSystemException
 		catch (CouponSystemException e) {
-			// In case of a problem throw new CompanyFacadeException  
-			throw new CompanyFacadeException("CompanyFacadeException - "
-					+ "removeCoupon Error", e);
+			// In case of a problem throw new CompanyFacadeException
+			throw new CompanyFacadeException("CompanyFacadeException - " + "removeCoupon Error", e);
 		}
-		//remove coupon from customer_coupon table
+		// remove coupon from customer_coupon table
 		try {
 			CouponDBDAO.getInstace().removeCouponCustomerByCouponID(couponId);
-		} 
+		}
 		// Catching couponSystemException
 		catch (CouponSystemException e) {
-			// In case of a problem throw new CompanyFacadeException  
-			throw new CompanyFacadeException("CompanyFacadeException - "
-					+ "removeCoupon Error", e);
+			// In case of a problem throw new CompanyFacadeException
+			throw new CompanyFacadeException("CompanyFacadeException - " + "removeCoupon Error", e);
 		}
+
+		// remove from coupon table in the DB
+		try {
+			CouponDBDAO.getInstace().removeCoupon(coupon);
+		}
+		// Catching couponSystemException
+		catch (CouponSystemException e) {
+			// In case of a problem throw new CompanyFacadeException
+			throw new CompanyFacadeException("CompanyFacadeException - " + "removeCoupon Error", e);
+		}
+
 	}
 	
 	

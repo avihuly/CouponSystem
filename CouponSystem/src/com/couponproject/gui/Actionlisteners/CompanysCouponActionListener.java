@@ -1,16 +1,20 @@
 package com.couponproject.gui.Actionlisteners;
 
-import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JSlider;
 import javax.swing.JTable;
+import javax.swing.table.TableModel;
 
+import com.couponproject.beans.Coupon;
+import com.couponproject.constants.Constants;
 import com.couponproject.constants.CouponType;
+import com.couponproject.exception.CompanyCouponDoesNotExistsException;
+import com.couponproject.exception.CompanyFacadeException;
+import com.couponproject.exception.CouponDoesNotExistException;
 import com.couponproject.exception.CouponSystemException;
 import com.couponproject.facade.CompanyFacade;
 import com.couponproject.gui.GuiUtil;
@@ -83,15 +87,34 @@ public class CompanysCouponActionListener implements ActionListener{
 			});
 			Panel.add(allkBnt);
 			
-			// ---------------------------
-			// Step 4 - Update and remove buttons
-			// ---------------------------
-			JButton updateBnt = new JButton("Update Coupon");
-			updateBnt.addActionListener(updateE -> {
+			// ----------------------------------
+			// Step 4 - Update and Remove buttons
+			// ----------------------------------
+			JButton updateBtn = new JButton("Update Coupon");
+			updateBtn.addActionListener(updateE -> {
 					UpDateCouponFrame updateFrame = new UpDateCouponFrame(companyFacade, tableCouponData);
 					updateFrame.setVisible(true);
 					});
-			Panel.add(updateBnt);
+			Panel.add(updateBtn);
+			
+			JButton removeBtn = new JButton("Remove Coupon");
+			removeBtn.addActionListener(removeE ->{
+				TableModel tableModel  = tableCouponData.getModel();
+				Coupon coupon;
+				try {
+					coupon = companyFacade.getCoupon((long) tableModel.getValueAt(tableCouponData.getSelectedRow(), Constants.couponTableIDIndex));
+					companyFacade.removeCoupon(coupon);
+					
+					tableCouponData.removeRowSelectionInterval(tableCouponData.getSelectedRow(), tableCouponData.getSelectedRow());
+					
+				} catch (CompanyFacadeException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (CouponDoesNotExistException |CompanyCouponDoesNotExistsException e){
+					JOptionPane.showMessageDialog(null, e.getMessage());
+				}
+			});
+			Panel.add(removeBtn);
 			
 			// --------------------
 			// Step 5 - Back button   

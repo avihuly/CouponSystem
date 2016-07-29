@@ -116,18 +116,19 @@ public class CouponDBDAO implements CouponDAO{
 				try (Connection myCon = ConnectionPool.getInstance().getConnection()) {
 					
 					// Update prepared statement
-					PreparedStatement deleteStmt = myCon.prepareStatement( 	"delete * from customer_coupon "
-							+ "where COUPON_ID = ? ");
+					PreparedStatement deleteStmt = myCon.prepareStatement("DELETE * FROM customer_coupon "
+							+ "where COUPON_ID = ?");
 
 					// Values
 					deleteStmt.setLong(1, couponID);
 					
-											
+					System.out.println(deleteStmt);
+					
 					// Execute
 					deleteStmt.executeUpdate();
-
 					
 				} catch (PropertyVetoException | SQLException | IOException e) {
+					e.printStackTrace();
 					throw new CouponSystemException("CouponSystemException", e);
 				}
 	}
