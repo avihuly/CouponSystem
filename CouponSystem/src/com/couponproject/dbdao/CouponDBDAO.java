@@ -116,13 +116,81 @@ public class CouponDBDAO implements CouponDAO{
 				try (Connection myCon = ConnectionPool.getInstance().getConnection()) {
 					
 					// Update prepared statement
-					PreparedStatement deleteStmt = myCon.prepareStatement("DELETE * FROM customer_coupon "
+					PreparedStatement deleteStmt = myCon.prepareStatement("DELETE FROM customer_coupon "
 							+ "where COUPON_ID = ?");
 
 					// Values
 					deleteStmt.setLong(1, couponID);
 					
 					System.out.println(deleteStmt);
+					
+					// Execute
+					deleteStmt.executeUpdate();
+					
+				} catch (PropertyVetoException | SQLException | IOException e) {
+					e.printStackTrace();
+					throw new CouponSystemException("CouponSystemException", e);
+				}
+	}
+	
+	public void removeCouponCompanyByCouponID(long couponID) throws CouponSystemException{
+		// getting a connection to DB from  pool
+				try (Connection myCon = ConnectionPool.getInstance().getConnection()) {
+					
+					// Update prepared statement
+					PreparedStatement deleteStmt = myCon.prepareStatement("DELETE FROM company_coupon "
+							+ "where COUPON_ID = ?");
+
+					// Values
+					deleteStmt.setLong(1, couponID);
+					
+					// Execute
+					deleteStmt.executeUpdate();
+					
+				} catch (PropertyVetoException | SQLException | IOException e) {
+					e.printStackTrace();
+					throw new CouponSystemException("CouponSystemException", e);
+				}
+	}
+	
+	public void emptyCouponCompany() throws CouponSystemException{
+		// getting a connection to DB from  pool
+				try (Connection myCon = ConnectionPool.getInstance().getConnection()) {
+					
+					// Update prepared statement
+					PreparedStatement deleteStmt = myCon.prepareStatement("DELETE FROM company_coupon");
+					
+					// Execute
+					deleteStmt.executeUpdate();
+					
+				} catch (PropertyVetoException | SQLException | IOException e) {
+					e.printStackTrace();
+					throw new CouponSystemException("CouponSystemException", e);
+				}
+	}
+	
+	public void emptyCustomerCompany() throws CouponSystemException{
+		// getting a connection to DB from  pool
+				try (Connection myCon = ConnectionPool.getInstance().getConnection()) {
+					
+					// Update prepared statement
+					PreparedStatement deleteStmt = myCon.prepareStatement("DELETE FROM customer_coupon");
+					
+					// Execute
+					deleteStmt.executeUpdate();
+					
+				} catch (PropertyVetoException | SQLException | IOException e) {
+					e.printStackTrace();
+					throw new CouponSystemException("CouponSystemException", e);
+				}
+	}
+	
+	public void emptyCouponCustomer() throws CouponSystemException{
+		// getting a connection to DB from  pool
+				try (Connection myCon = ConnectionPool.getInstance().getConnection()) {
+					
+					// Update prepared statement
+					PreparedStatement deleteStmt = myCon.prepareStatement("DELETE FROM customer_coupon");
 					
 					// Execute
 					deleteStmt.executeUpdate();

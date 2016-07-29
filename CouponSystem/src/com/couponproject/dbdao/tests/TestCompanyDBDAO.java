@@ -9,7 +9,7 @@ import com.couponproject.exception.IllegalPasswordException;
 
 public class TestCompanyDBDAO {	
 		public static void main(String[] args) {
-			// Add new Company's to DB
+			// Add new Companies to DB
 			for (int i = 0; i < 25; i++) {
 				// Company instance
 				Company company = new Company(
