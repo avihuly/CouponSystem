@@ -23,7 +23,7 @@ import com.couponproject.gui.Actionlisteners.CompanysCouponActionListener;
 import com.couponproject.gui.Actionlisteners.NewCompanysCouponActionListener;
 
 public class CompanyMainFrame extends JFrame{
-	private JTable tableCouponData;
+	private JTable tableCouponData=new JTable();
 	
 	public CompanyMainFrame(CompanyFacade companyFacade){
 		// frame properties
@@ -82,7 +82,7 @@ public class CompanyMainFrame extends JFrame{
 		// *************************
 		// Buttons & ActionListeners  
 		// *************************		
-		// All Company's Coupons Button - to show all of the company's couopns in a table
+		// All Company's Coupons Button - to show all of the company's coupons in a table
 		JButton btnCompCoupons = new JButton("All Company's Coupons");
 		btnCompCoupons.addActionListener(
 				new CompanysCouponActionListener(tableCouponData, westPanel, companyFacade));

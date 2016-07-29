@@ -330,20 +330,21 @@ public class CompanyDBDAO implements CompanyDAO{
 	//a method that get a collection of all the coupons that belongs to a company
 	//in the instruction the method does not get company, but I changed it
 	public Collection<Coupon> getCoupons(long id) throws CouponSystemException {
-		
 		try (Connection myCon = ConnectionPool.getInstance().getConnection()){
 			// getting a connection to DB from  pool
-			
 			//statement - going to Company_Coupon table and getting the list of the coupons that relates to a company.
 			PreparedStatement selectStmt = myCon.prepareStatement(
 					"SELECT * FROM coupon "
 					+ "JOIN company_coupon "
 					+ "ON coupon.ID = company_coupon.COUPON_ID "
-					+ "WHERE company_coupon.COMP_ID = " + id);
+					+ "WHERE company_coupon.COMP_ID = ?");
+			
+			// Value 
+			selectStmt.setLong(1, id);
 			
 			// Execute and get a resultSet
 			ResultSet myRs = selectStmt.executeQuery();
-
+			
 			// Processing resultSet into a Collection of Coupon
 			// ---------------------------------------------------
 			// Declaring a set of 'Coupon's
@@ -368,7 +369,6 @@ public class CompanyDBDAO implements CompanyDAO{
 				// Adding to set
 				coupons.add(coupon);
 			}
-
 			// Return coupon
 			return coupons;
 	

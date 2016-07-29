@@ -160,7 +160,7 @@ public class CompanyFacade {
 	
 	//A method that returns a list of all the Coupons of the company
 	public Collection<Coupon> getAllCoupons() throws CompanyFacadeException{
-		
+	
 		try {
 			return CompanyDBDAO.getInstace().getCoupons(company.getId());
 		} 

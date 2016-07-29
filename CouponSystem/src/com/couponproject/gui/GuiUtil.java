@@ -98,7 +98,7 @@ public class GuiUtil {
 	// ****************
 	// Coupon Table Set
 	// ****************
-	public static void CouponsToTable(JTable tableCouponData, Collection<Coupon> PurchasedCoupons) {
+	public static void CouponsToTable(JTable tableCouponData, Collection<Coupon> couponCollection) {
 		// Disable editing
 		DefaultTableModel model = new DefaultTableModel() {
 			@Override
@@ -118,7 +118,7 @@ public class GuiUtil {
 		model.addColumn("Amount");
 		model.addColumn("Image");
 
-		for (Coupon coupon : PurchasedCoupons) {
+		for (Coupon coupon : couponCollection) {
 			ArrayList<Object> tempCoupon = new ArrayList<>();
 			tempCoupon.add(coupon.getTitle());
 			tempCoupon.add(coupon.getMessage());

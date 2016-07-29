@@ -92,7 +92,22 @@ public class Util {
 			return true;
 		}
 	}
-
+	
+	// Returns true if argument coupon name or ID already exist in DB
+	public static boolean isCouponNameExist(Coupon coupon) {
+		try {
+			for (Coupon dbCoupon : CouponDBDAO.getInstace().getAllCoupons()) {
+				if (coupon.getTitle().equals(dbCoupon.getTitle())){
+					return coupon.getId() != dbCoupon.getId();
+				}
+			}
+			return false;
+		} catch (CouponSystemException e) {
+			// TODO: what if there is a problem with the connection
+			return true;
+		}
+	}
+	
 	// Returns true if argument coupon name or ID already exist in DB
 	public static boolean isCoupon(Coupon coupon) {
 		try {

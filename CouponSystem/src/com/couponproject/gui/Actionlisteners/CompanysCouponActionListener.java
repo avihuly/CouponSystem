@@ -14,6 +14,7 @@ import com.couponproject.constants.CouponType;
 import com.couponproject.exception.CouponSystemException;
 import com.couponproject.facade.CompanyFacade;
 import com.couponproject.gui.GuiUtil;
+import com.couponproject.gui.frames.UpDateCouponFrame;
 
 //**********************************
 //This class's purpose is to give an action to the All Company's Coupons button
@@ -52,8 +53,7 @@ public class CompanysCouponActionListener implements ActionListener{
 			// Step 2 - generate buttons for coupon by relevant types   
 			// ------------------------------------------------------
 			Panel.removeAll();  	// clear panel
-			
-			Panel.setLayout(new BorderLayout());
+		
 			
 			for (CouponType couponType: companyFacade.getUniqueCouponTypes()){
 				// Each type will generate a button
@@ -72,18 +72,29 @@ public class CompanysCouponActionListener implements ActionListener{
 			}
 			
 			// ---------------------------
-			// Step 3 - All coupons button   
+			// Step 3 - All coupons button
 			// ---------------------------
 			JButton allkBnt = new JButton("All Coupons");
 			allkBnt.addActionListener(allE -> {
 				try {
 					GuiUtil.CouponsToTable(tableCouponData, companyFacade.getAllCoupons());
-				} catch (Exception e1) {}
+				} catch (Exception e1) {
+				}
 			});
 			Panel.add(allkBnt);
 			
+			// ---------------------------
+			// Step 4 - Update and remove buttons
+			// ---------------------------
+			JButton updateBnt = new JButton("Update Coupon");
+			updateBnt.addActionListener(updateE -> {
+					UpDateCouponFrame updateFrame = new UpDateCouponFrame(companyFacade, tableCouponData);
+					updateFrame.setVisible(true);
+					});
+			Panel.add(updateBnt);
+			
 			// --------------------
-			// Step 4 - Back button   
+			// Step 5 - Back button   
 			// --------------------
 			JButton backBnt = new JButton("Back");
 			backBnt.addActionListener(backE -> {
@@ -100,7 +111,7 @@ public class CompanysCouponActionListener implements ActionListener{
 			
 			
 			// -----------------------------
-			// Step 5 - revalidate & repaint
+			// Step 6 - revalidate & repaint
 			// -----------------------------			
 			Panel.revalidate();
 			Panel.repaint();

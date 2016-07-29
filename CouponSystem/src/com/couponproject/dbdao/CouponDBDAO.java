@@ -135,7 +135,7 @@ public class CouponDBDAO implements CouponDAO{
 	//a method that gets an instance of a coupon and changes the related line in the DB
 	@Override
 	public void updateCoupon(Coupon coupon) throws CouponSystemException, CouponTitleAlreadyExistException {
-		if (Util.isCoupon(coupon)){
+		if (Util.isCouponNameExist(coupon)){
 			throw new CouponTitleAlreadyExistException(
 					"Coupon title already exist in DB\n"
 					+ "choose another title");
@@ -146,22 +146,16 @@ public class CouponDBDAO implements CouponDAO{
 				// Update prepared statement
 				PreparedStatement updateStmt = myCon.prepareStatement(
 						"update coupon "
-						+ "set END_DATE = ? and PRICE = ? "
-						+ "where TITLE = ?");
+						+ "set END_DATE = ? , PRICE = ? "
+						+ "where ID = ?");
 	
 				// Values
-				updateStmt.setString(1, coupon.getTitle());
-									  // converting localDate to sql.date
-				updateStmt.setDate(2, Date.valueOf(coupon.getStartDate()));
 				  					  // converting localDate to sql.date
-				updateStmt.setDate(3, Date.valueOf(coupon.getEndDate()));
-				updateStmt.setInt(4, coupon.getAmount());
-				updateStmt.setString(5, coupon.getType().name());
-				updateStmt.setString(6, coupon.getMessage());
-				updateStmt.setDouble(7, coupon.getPrice());
-				updateStmt.setString(8, coupon.getImage());
-				updateStmt.setLong(9, coupon.getId());
+				updateStmt.setDate(1, Date.valueOf(coupon.getEndDate()));
+				updateStmt.setDouble(2, coupon.getPrice());
+				updateStmt.setLong(3, coupon.getId());
 				
+				System.out.println(updateStmt);
 				
 				// Execute
 				updateStmt.executeUpdate();
