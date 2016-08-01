@@ -1,0 +1,16 @@
+com.couponproject.beans
+com.couponproject.constants
+com.couponproject.dao
+com.couponproject.dbdao
+com.couponproject.dbdao.tests
+com.couponproject.exception
+com.couponproject.facade
+com.couponproject.facade.test
+com.couponproject.gui
+com.couponproject.gui.Actionlisteners
+com.couponproject.gui.frames
+com.couponproject.system
+com.couponproject.tableAlignment
+com.couponproject.test
+com.couponproject.threads
+com.couponproject.util
