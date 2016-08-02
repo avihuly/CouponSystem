@@ -1,6 +1,12 @@
 package com.couponproject.util;
 
 import java.awt.Container;
+import java.beans.PropertyVetoException;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Properties;
 
@@ -12,8 +18,14 @@ import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
 
 import com.couponproject.beans.*;
+import com.couponproject.constants.CouponType;
 import com.couponproject.dbdao.*;
+import com.couponproject.exception.CompanyAlreadyExistsException;
 import com.couponproject.exception.CouponSystemException;
+import com.couponproject.exception.CouponTitleAlreadyExistException;
+import com.couponproject.exception.CustomerAlreadyExistsException;
+import com.couponproject.exception.EmailAlreadyExistsException;
+import com.couponproject.exception.IllegalPasswordException;
 
 // This calls provides Utilities static method for the Coupon System
 public class Util {
@@ -156,28 +168,4 @@ public class Util {
 			return true;
 		}
 	}
-	
-	//date picker
-//	void DatePicker() {
-//	        JFrame f1 = new JFrame();
-//	        f1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//	        f1.setSize(300, 300);
-//	        f1.setVisible(true);
-//
-//	        Container conn = f1.getContentPane();
-//	        conn.setLayout(null);
-//
-//	        UtilDateModel model = new UtilDateModel();
-//	        //model.setDate(20,04,2014);
-//	        Properties p = new Properties();
-//	        p.put("text.today", "Today");
-//	        p.put("text.month", "Month");
-//	        p.put("text.year", "Year");
-//	        JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
-//	        // Don't know about the formatter, but there it is...
-//	        JDatePickerImpl datePicker = new JDatePickerImpl(datePanel, new DateFormatter());
-//	        f1.add(datePicker);
-//
-//	    }
-	
 }
