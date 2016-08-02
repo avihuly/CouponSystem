@@ -4,16 +4,18 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.io.File;
+import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Properties;
 
-import javax.swing.JButton;
-
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -49,7 +51,7 @@ public class UpDateCouponFrame extends JFrame {
 		// frame properties
 		super("Coupon - Coupon Update");
 		setBackground(Color.LIGHT_GRAY);
-		setBounds(100, 100, 300, 500);
+		setBounds(100, 100, 400, 550);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setResizable(false);
 		
@@ -119,10 +121,6 @@ public class UpDateCouponFrame extends JFrame {
 			
 			txtPrice = new JTextArea(Double.toString(coupon.getPrice()));
 			CenterPanel.add(txtPrice);
-			
-			//TODO: change to picture isted of string
-			lblImage = new JLabel(coupon.getImage());
-			CenterPanel.add(lblImage);
 
 			// **********************
 			// West Panel - bnt panel
@@ -154,15 +152,12 @@ public class UpDateCouponFrame extends JFrame {
 			
 			JLabel labelPrice = new JLabel("Price:");
 			westPanel.add(labelPrice);
-			
-			JLabel labelImage = new JLabel("Image Location:");
-			westPanel.add(labelImage);
-			
+				
 			// ***********
 			// South Panel
 			// ***********
 			JPanel southPanel = new JPanel();
-			getContentPane().add(southPanel, BorderLayout.SOUTH);
+			southPanel.setLayout(new BorderLayout());
 			
 			// ---------------------
 			// Update ActionListener
@@ -200,10 +195,24 @@ public class UpDateCouponFrame extends JFrame {
 				} catch(NumberFormatException e){
 					JOptionPane.showMessageDialog(null, "Price must be a number"); 
 				}});				
-			// companyFacade.updateCoupon(coupon);
-			add(bntUpdate, BorderLayout.SOUTH);
-		} catch (CompanyFacadeException e) {
-			// TODO
-		}
+			southPanel.add(bntUpdate, BorderLayout.SOUTH);
+					
+			lblImage = new JLabel();
+			Image couponImg;
+			try {
+				couponImg = ImageIO.read(new File(coupon.getImage()));
+				ImageIcon couponIcon = new ImageIcon(couponImg.getScaledInstance(400, 130, Image.SCALE_SMOOTH));
+				lblImage.setIcon(couponIcon);
+			} catch (IOException ImgE) {
+				ImgE.printStackTrace();
+				lblImage.setText("Coupon picture wasn't able to be loaded!");
+			}	
+			
+			southPanel.add(lblImage, BorderLayout.NORTH);
+			
+	
+			getContentPane().add(southPanel, BorderLayout.SOUTH);
+			
+		} catch (CompanyFacadeException e) {} 
 	}
 }

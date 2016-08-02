@@ -1,22 +1,8 @@
 package com.couponproject.gui.frames;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
+import java.awt.*;
+import javax.swing.*;
 
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.plaf.DimensionUIResource;
-
-import com.couponproject.dbdao.CouponDBDAO;
-import com.couponproject.exception.CouponSystemException;
 import com.couponproject.facade.CompanyFacade;
 import com.couponproject.gui.GuiUtil;
 import com.couponproject.gui.Actionlisteners.CompanysCouponActionListener;

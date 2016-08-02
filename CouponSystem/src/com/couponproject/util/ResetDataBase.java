@@ -91,9 +91,14 @@ public class ResetDataBase {
 		// adding new coupons to coupon table from electricity
 		for (int i = 0; i < 10; i++) {
 			// Coupon instance
-			Coupon coupon = new Coupon("title" + ("ELECTRICITYsdc " + i + 1), LocalDate.now(),
-					LocalDate.of(2017, 11, 23), ((int) Math.random() * 102), CouponType.ELECTRICITY,
-					"message" + (i + 1), (Math.random() * 10 + 20.99), "image" + (i + 1));
+			Coupon coupon = new Coupon(
+					"title" + ("ELECTRICITY " + i + 1),
+					LocalDate.now(),
+					LocalDate.of(2017, 11, 23), 
+					((int) Math.random() * 102), CouponType.ELECTRICITY,
+					"message" + (i + 1),
+					((int)(Math.random() * 10) + 20.99),
+					"image/CouponPics/ELECTRICITY.jpg");
 				// converting coupon object into a sql query and running it
 				try {
 					CouponDBDAO.getInstace().createCoupon(coupon);
@@ -106,9 +111,14 @@ public class ResetDataBase {
 		// adding new coupons to coupon table from Camping
 		for (int i = 10; i < 20; i++) {
 			// Coupon instance
-			Coupon coupon = new Coupon("title" + ("CAMPING " + i + 1), LocalDate.now(), LocalDate.of(2017, 11, 15),
-					((int) Math.random() * 102), CouponType.CAMPING, "message" + (i + 1), (Math.random() * 10 + 20.99),
-					"image" + (i + 1));
+			Coupon coupon = new Coupon(
+					"title" + ("CAMPING " + i + 1), 
+					LocalDate.now(), 
+					LocalDate.of(2017, 11, 15),
+					((int) Math.random() * 102), 
+					CouponType.CAMPING, "message" + (i + 1), 
+					((int)(Math.random() * 10) + 20.99),
+					"image/CouponPics/CAMPING.png");
 			try {
 				// This is the hart of the test
 				// converting coupon object into a sql query and running it
@@ -125,9 +135,14 @@ public class ResetDataBase {
 		// adding new coupons to coupon table from Food
 		for (int i = 20; i < 30; i++) {
 			// Coupon instance
-			Coupon coupon = new Coupon("title" + ("FOOD " + i + 1), LocalDate.now(), LocalDate.of(2017, 11, 23),
-					((int) Math.random() * 102), CouponType.FOOD, "message" + (i + 1), (Math.random() * 10 + 20.99),
-					"image" + (i + 1));
+			Coupon coupon = new Coupon(
+					"title" + ("FOOD " + i + 1),
+					LocalDate.now(), 
+					LocalDate.of(2017, 11, 15),
+					((int) Math.random() * 102), 
+					CouponType.FOOD, "message" + (i + 1), 
+					((int)(Math.random() * 10) + 20.99),
+					"image/CouponPics/FOOD.jpg");
 			try {
 				// This is the hart of the test
 				// converting coupon object into a sql query and running it
@@ -143,9 +158,13 @@ public class ResetDataBase {
 		// adding new coupons to coupon table from Health
 		for (int i = 30; i < 40; i++) {
 			// Coupon instance
-			Coupon coupon = new Coupon("title" + ("HEALTH " + i + 1), LocalDate.now(), LocalDate.of(2017, 11, 23),
-					((int) Math.random() * 102), CouponType.HEALTH, "message" + (i + 1), (Math.random() * 10 + 20.99),
-					"image" + (i + 1));
+			Coupon coupon = new Coupon("title" + ("HEALTH " + i + 1),
+					LocalDate.now(), 
+					LocalDate.of(2017, 11, 15),
+					((int) Math.random() * 102), 
+					CouponType.HEALTH, "message" + (i + 1), 
+					((int)(Math.random() * 10) + 20.99),
+					"image/CouponPics/HEALTH.png");
 			try {
 				// This is the hart of the test
 				// converting coupon object into a sql query and running it
@@ -161,9 +180,13 @@ public class ResetDataBase {
 		// adding new coupons to coupon table from Sports
 		for (int i = 40; i < 50; i++) {
 			// Coupon instance
-			Coupon coupon = new Coupon("title" + ("SPORTS " + i + 1), LocalDate.now(), LocalDate.of(2017, 11, 23),
-					((int) Math.random() * 102), CouponType.SPORTS, "message" + (i + 1), (Math.random() * 10 + 20.99),
-					"image" + (i + 1));
+			Coupon coupon = new Coupon("title" + ("SPORTS " + i + 1), 
+					LocalDate.now(), 
+					LocalDate.of(2017, 11, 15),
+					((int) Math.random() * 102), 
+					CouponType.SPORTS, "message" + (i + 1), 
+					((int)(Math.random() * 20) + 20.99),
+					"image/CouponPics/SPORTS.jpg");
 			try {
 				// This is the hart of the test
 				// converting coupon object into a sql query and running it

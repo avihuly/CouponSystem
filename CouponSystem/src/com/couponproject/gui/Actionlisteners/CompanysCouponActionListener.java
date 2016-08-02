@@ -97,16 +97,20 @@ public class CompanysCouponActionListener implements ActionListener{
 			// ----------------------------------
 			JLabel lblBlanck = new JLabel();
 			Panel.add(lblBlanck);
-			
+
 			JButton updateBtn = new JButton("Update Coupon");
 			updateBtn.addActionListener(updateE -> {
 
-				Component c = SwingUtilities.getRoot(updateBtn);
-				JFrame frame = (JFrame) c;
-				frame.setEnabled(false);
-				
-				UpDateCouponFrame updateFrame = new UpDateCouponFrame(companyFacade, tableCouponData);
-				updateFrame.setVisible(true);
+				int selectedRow = tableCouponData.getSelectedRow();
+				if (selectedRow > -1) {
+
+					Component c = SwingUtilities.getRoot(updateBtn);
+					JFrame frame = (JFrame) c;
+					frame.setEnabled(false);
+
+					UpDateCouponFrame updateFrame = new UpDateCouponFrame(companyFacade, tableCouponData);
+					updateFrame.setVisible(true);
+				}
 			});
 			Panel.add(updateBtn);
 			

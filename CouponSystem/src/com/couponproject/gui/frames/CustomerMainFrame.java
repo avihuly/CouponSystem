@@ -1,18 +1,13 @@
 package com.couponproject.gui.frames;
 
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 import javax.swing.*;
 
-import com.couponproject.dbdao.CouponDBDAO;
-import com.couponproject.exception.CouponSystemException;
+
 import com.couponproject.facade.CustomerFacade;
 import com.couponproject.gui.GuiUtil;
 import com.couponproject.gui.Actionlisteners.AllCouponsActionListener;
-import com.couponproject.gui.Actionlisteners.CouponByPriceSliders;
 import com.couponproject.gui.Actionlisteners.CouponTableListSelectionListener;
 import com.couponproject.gui.Actionlisteners.PurchasedCouponsActionListener;
 
