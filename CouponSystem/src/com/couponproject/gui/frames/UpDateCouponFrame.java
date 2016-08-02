@@ -2,7 +2,11 @@ package com.couponproject.gui.frames;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.GridLayout;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -10,13 +14,8 @@ import java.util.Properties;
 
 import javax.swing.JButton;
 
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTable;
-import javax.swing.JTextArea;
-
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
 import org.jdatepicker.impl.JDatePanelImpl;
@@ -29,7 +28,6 @@ import com.couponproject.constants.Constants;
 import com.couponproject.exception.CompanyFacadeException;
 import com.couponproject.exception.CouponTitleAlreadyExistException;
 import com.couponproject.facade.CompanyFacade;
-import com.couponproject.gui.DateLabelFormatter;
 import com.couponproject.gui.GuiUtil;
 
 public class UpDateCouponFrame extends JFrame {
@@ -54,6 +52,15 @@ public class UpDateCouponFrame extends JFrame {
 		setBounds(100, 100, 300, 500);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setResizable(false);
+		
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				Component c = SwingUtilities.getRoot(tableCouponData);
+				JFrame frame = (JFrame) c;
+				frame.setEnabled(true);		
+			}
+		});
 
 		// set layout
 		getContentPane().setLayout(new BorderLayout(0, 0));
@@ -166,13 +173,27 @@ public class UpDateCouponFrame extends JFrame {
 				// coupon.setEndDate(endDate);
 				try {
 					java.util.Date utilDate = (java.util.Date) endDatePicker.getModel().getValue();
+					
 					LocalDate selectedEndDate = utilDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+					Double price = Double.parseDouble(txtPrice.getText());
+					
 					coupon.setEndDate(selectedEndDate);
-					coupon.setPrice(Double.parseDouble(txtPrice.getText()));
+					coupon.setPrice(price);
 					companyFacade.updateCoupon(coupon);
-					GuiUtil.CouponsToTable(tableCouponData, companyFacade.getAllCoupons());
+					
+					int selectedRow = tableCouponData.getSelectedRow();
+					DefaultTableModel model = (DefaultTableModel) tableCouponData.getModel(); 
+					
+					model.setValueAt(selectedEndDate, selectedRow, Constants.couponTableEndDateIndex);
+					model.setValueAt(price, selectedRow, Constants.couponTablePriceIndex);
+					
 					tableCouponData.getParent().revalidate();
 					tableCouponData.getParent().repaint();
+					
+					Component c = SwingUtilities.getRoot(tableCouponData);
+					JFrame frame = (JFrame) c;
+					frame.setEnabled(true);
+					
 					GuiUtil.disposeFrameByEvent(updateE);
 				} catch (CompanyFacadeException | CouponTitleAlreadyExistException e) {
 					JOptionPane.showMessageDialog(null, e.getMessage());

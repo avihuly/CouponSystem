@@ -274,7 +274,12 @@ public class CouponDBDAO implements CouponDAO{
 			return coupon;
 		
 		} catch (PropertyVetoException | SQLException | IOException e) {
-			throw new CouponSystemException("CouponSystemException", e);
+//			System.out.println("******************************");
+//			System.out.println("******************************");
+//			e.printStackTrace();
+//			System.out.println("******************************");
+//			System.out.println("******************************");
+			throw new CouponSystemException(e.getMessage(), e);
 		}
 	}
 	

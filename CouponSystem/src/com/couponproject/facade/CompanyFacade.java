@@ -146,8 +146,7 @@ public class CompanyFacade {
 		// Catching couponSystemException
 		catch (CouponSystemException e) {
 			// In case of a problem throw new CompanyFacadeException
-			throw new CompanyFacadeException("CompanyFacadeException - "
-					+ "getCoupon Error", e);
+			throw new CompanyFacadeException(e.getMessage(), e);
 		}
 	}
 	

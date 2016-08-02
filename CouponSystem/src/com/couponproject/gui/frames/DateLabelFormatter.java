@@ -1,4 +1,4 @@
-package com.couponproject.gui;
+package com.couponproject.gui.frames;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

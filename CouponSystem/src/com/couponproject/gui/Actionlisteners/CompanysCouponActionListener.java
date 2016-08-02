@@ -1,12 +1,17 @@
 package com.couponproject.gui.Actionlisteners;
 
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
+import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
 import com.couponproject.beans.Coupon;
@@ -90,11 +95,19 @@ public class CompanysCouponActionListener implements ActionListener{
 			// ----------------------------------
 			// Step 4 - Update and Remove buttons
 			// ----------------------------------
+			JLabel lblBlanck = new JLabel();
+			Panel.add(lblBlanck);
+			
 			JButton updateBtn = new JButton("Update Coupon");
 			updateBtn.addActionListener(updateE -> {
-					UpDateCouponFrame updateFrame = new UpDateCouponFrame(companyFacade, tableCouponData);
-					updateFrame.setVisible(true);
-					});
+
+				Component c = SwingUtilities.getRoot(updateBtn);
+				JFrame frame = (JFrame) c;
+				frame.setEnabled(false);
+				
+				UpDateCouponFrame updateFrame = new UpDateCouponFrame(companyFacade, tableCouponData);
+				updateFrame.setVisible(true);
+			});
 			Panel.add(updateBtn);
 			
 			JButton removeBtn = new JButton("Remove Coupon");
@@ -102,11 +115,18 @@ public class CompanysCouponActionListener implements ActionListener{
 				TableModel tableModel  = tableCouponData.getModel();
 				Coupon coupon;
 				try {
-					coupon = companyFacade.getCoupon((long) tableModel.getValueAt(tableCouponData.getSelectedRow(), Constants.couponTableIDIndex));
-					companyFacade.removeCoupon(coupon);
+					int selectedRow = tableCouponData.getSelectedRow();
+					if (selectedRow >-1) {
 					
-					tableCouponData.removeRowSelectionInterval(tableCouponData.getSelectedRow(), tableCouponData.getSelectedRow());
-					
+						coupon = companyFacade.getCoupon((long) tableModel.getValueAt(selectedRow, Constants.couponTableIDIndex));
+						companyFacade.removeCoupon(coupon);
+											 
+						((DefaultTableModel)tableCouponData.getModel()).removeRow(selectedRow);
+						
+						tableCouponData.revalidate();
+						tableCouponData.repaint();
+
+					}	
 				} catch (CompanyFacadeException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
