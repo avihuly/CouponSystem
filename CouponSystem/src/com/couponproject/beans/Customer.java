@@ -30,7 +30,7 @@ public class Customer {
 	 */
 	private String password;
 	
-	// Constructors
+	//Constructors
 	/**
 	 * Constructs a Customer with a given ID, Name and Password
 	 * @param id
