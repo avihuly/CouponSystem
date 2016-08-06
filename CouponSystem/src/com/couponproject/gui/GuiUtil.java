@@ -8,13 +8,19 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.IOException;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Properties;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+
+import org.jdatepicker.impl.JDatePanelImpl;
+import org.jdatepicker.impl.JDatePickerImpl;
+import org.jdatepicker.impl.UtilDateModel;
 
 import com.couponproject.beans.Company;
 import com.couponproject.beans.Coupon;
@@ -25,6 +31,7 @@ import com.couponproject.gui.Actionlisteners.AboutActionListener;
 import com.couponproject.gui.Actionlisteners.AllCouponsActionListener;
 import com.couponproject.gui.Actionlisteners.MessageCellRenderer;
 import com.couponproject.gui.Actionlisteners.PurchasedCouponsActionListener;
+import com.couponproject.gui.frames.DateLabelFormatter;
 
 public class GuiUtil {
 	// ********
@@ -275,4 +282,16 @@ public class GuiUtil {
 		}
 		((JFrame) sourceFrame).dispose();
 	}
+	
+	
+	public static JDatePickerImpl datePickerInitialization (){
+	UtilDateModel dateModel = new UtilDateModel();
+	Properties p = new Properties();
+	p.put("text.today", "Today");
+	p.put("text.month", "Month");
+	p.put("text.year", "Year");
+	dateModel.setSelected(true);
+	JDatePanelImpl datePanel = new JDatePanelImpl(dateModel, p);
+	return new JDatePickerImpl(datePanel, new DateLabelFormatter());
 }
+	}

@@ -97,17 +97,17 @@ public class UpDateCouponFrame extends JFrame {
 			
 			
 			// Creating date Picker 			
-			UtilDateModel dateModel = new UtilDateModel();
-			dateModel.setValue(Date.valueOf(coupon.getEndDate()));
+			endDatePicker = GuiUtil.datePickerInitialization();			
 			
-			Properties p = new Properties();
-			p.put("text.today", "Today");
-			p.put("text.month", "Month");
-			p.put("text.year", "Year");
-			dateModel.setSelected(true);
-			JDatePanelImpl datePanel = new JDatePanelImpl(dateModel, p);
-			endDatePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
-			// Adding date Picker to panel
+			endDatePicker.getModel().setDay(coupon.getEndDate().getDayOfMonth());
+			endDatePicker.getModel().setMonth(coupon.getEndDate().getMonthValue());
+			endDatePicker.getModel().setYear(coupon.getEndDate().getYear());
+			
+			
+			
+			
+
+			// Adding date Picker to panel			
 			CenterPanel.add(endDatePicker);
 			
 			lblAmount = new JLabel(Integer.toString(coupon.getAmount()));
