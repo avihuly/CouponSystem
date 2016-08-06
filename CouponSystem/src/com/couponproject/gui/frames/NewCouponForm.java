@@ -1,15 +1,22 @@
 package com.couponproject.gui.frames;
 
 import java.awt.*;
+import java.time.LocalDate;
+import java.time.ZoneId;
+
 import javax.swing.*;
 
 import org.jdatepicker.impl.JDatePickerImpl;
 
+import com.couponproject.beans.Coupon;
 import com.couponproject.constants.CouponType;
+import com.couponproject.exception.CompanyFacadeException;
+import com.couponproject.exception.CouponTitleAlreadyExistException;
 import com.couponproject.facade.CompanyFacade;
 import com.couponproject.gui.GuiUtil;
 import com.couponproject.gui.Actionlisteners.IntKeyListener;
 import com.couponproject.gui.Actionlisteners.PriceKeyListener;
+import com.couponproject.gui.Actionlisteners.messegeKeyListener;
 
 public class NewCouponForm extends JFrame {
 	// **********
@@ -19,12 +26,11 @@ public class NewCouponForm extends JFrame {
 	private JTextField couponTitle;
 	private JDatePickerImpl startDatePicker;
 	private JDatePickerImpl endDatePicker;
-	private JTextField amount;
+	private JTextField amountTxt;
 	private JComboBox<CouponType> typeBox;
-	private JTextArea messege;
-	private JTextField price;
-	private JLabel imagePath;
-	
+	private JTextArea messegeTxt;
+	private JTextField priceTxt;
+	private JLabel imagePathlbl;
 
 	// ***********
 	// constructor
@@ -61,7 +67,7 @@ public class NewCouponForm extends JFrame {
 		JLabel labelStartDate = new JLabel("Start Date:");
 		JLabel labelEndDate = new JLabel("End Date:");
 		JLabel labelAmount = new JLabel("Amount:");
-		
+
 		westPanelTop.add(labelCouponTitle);
 		westPanelTop.add(labelStartDate);
 		westPanelTop.add(labelEndDate);
@@ -109,38 +115,39 @@ public class NewCouponForm extends JFrame {
 		couponTitle = new JTextField();
 		startDatePicker = GuiUtil.datePickerInitialization();
 		endDatePicker = GuiUtil.datePickerInitialization();
-		amount = new JTextField();
-		amount.addKeyListener(new IntKeyListener());
+		amountTxt = new JTextField();
+		amountTxt.addKeyListener(new IntKeyListener());
 
 		centerPanelTop.add(couponTitle);
 		centerPanelTop.add(startDatePicker);
 		centerPanelTop.add(endDatePicker);
-		centerPanelTop.add(amount);
+		centerPanelTop.add(amountTxt);
 
-		messege = new JTextArea();
-		messege.setBorder(BorderFactory.createLineBorder(Color.gray));
-		centerPanelMiddle.add(messege);
+		messegeTxt = new JTextArea();
+		messegeTxt.addKeyListener(new messegeKeyListener(messegeTxt));
+		messegeTxt.setBorder(BorderFactory.createLineBorder(Color.gray));
+		centerPanelMiddle.add(messegeTxt);
 
 		typeBox = new JComboBox<>();
 		for (CouponType type : CouponType.values())
 			typeBox.addItem(type);
-		price = new JTextField();
-		price.addKeyListener(new PriceKeyListener());
-		
+		priceTxt = new JTextField();
+		priceTxt.addKeyListener(new PriceKeyListener());
+
 		JPanel imagePathPanel = new JPanel(new BorderLayout());
-		imagePath = new JLabel();
-		imagePath.setBorder(BorderFactory.createLineBorder(Color.gray));
-		JButton imagePathBnt = new JButton("..."); 
-		
-		imagePathPanel.add(imagePath, BorderLayout.CENTER);
+		imagePathlbl = new JLabel();
+		imagePathlbl.setBorder(BorderFactory.createLineBorder(Color.gray));
+		JButton imagePathBnt = new JButton("...");
+
+		imagePathPanel.add(imagePathlbl, BorderLayout.CENTER);
 		imagePathPanel.add(imagePathBnt, BorderLayout.EAST);
-		
+
 		imagePathBnt.addActionListener(e -> {
-			new ImagePathFromJfilechooser(imagePath);	
+			new ImagePathFromJfilechooser(imagePathlbl);
 		});
-		
+
 		centerPanelBut.add(typeBox);
-		centerPanelBut.add(price);
+		centerPanelBut.add(priceTxt);
 		centerPanelBut.add(imagePathPanel);
 
 		// ***********
@@ -156,39 +163,75 @@ public class NewCouponForm extends JFrame {
 		southPanel.add(submitBtn, BorderLayout.WEST);
 
 		submitBtn.addActionListener(e -> {
-//			FileInputStream in;
-//			try {
-//				in = new FileInputStream();
-//
-//				String targetPath = "image/CouponPics/" + imageName;
-//				System.out.println(targetPath);
-//				FileOutputStream out;
-//
-//				out = new FileOutputStream(targetPath);
-//
-//				int bytesRead = 0;
-//				byte[] bucket = new byte[256];
-//
-//				// Use the bucket to move information from src to dests
-//				while ((bytesRead = in.read(bucket)) > -1) {
-//					out.write(bucket, 0, bytesRead);
-//				}
-//				out.close();
-//			} catch (IOException e) {
-//				System.out.println(e.getMessage());
-//				e.printStackTrace();
-//			}
+			// Declaring Coupon variables
+			String title;
+			String messege;
+			String imagePath;
+			CouponType couponType;
+			LocalDate startDate;
+			LocalDate endDate;
+			java.util.Date utilDate;
+			int amount;
+			double price;
+
+			// initializing Coupon variables
+			title = couponTitle.getText();
+			messege = messegeTxt.getText();
+			imagePath = imagePathlbl.getText();
+			couponType = (CouponType) typeBox.getSelectedItem();
+			utilDate = (java.util.Date) startDatePicker.getModel().getValue();
+			startDate = utilDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+			utilDate = (java.util.Date) endDatePicker.getModel().getValue();
+			endDate = utilDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+			amount = Integer.parseInt(amountTxt.getText());
+
+			try {
+				price = Double.parseDouble(priceTxt.getText());
+				Coupon coupon = new Coupon(title, startDate, endDate, amount, couponType, messege, price, imagePath);
+
+				companyFacade.createCoupon(coupon);
+
+			} catch (NumberFormatException priceE) {
+				JOptionPane.showMessageDialog(null, "Iligal price!");
+			} catch (CouponTitleAlreadyExistException titleE) {
+				JOptionPane.showMessageDialog(null, "Title already exist");
+			} catch (CompanyFacadeException facadeE) {
+				JOptionPane.showMessageDialog(null, facadeE.getMessage());
+			}
+
+			// FileInputStream in;
+			// try {
+			// in = new FileInputStream();
+			//
+			// String targetPath = "image/CouponPics/" + imageName;
+			// System.out.println(targetPath);
+			// FileOutputStream out;
+			//
+			// out = new FileOutputStream(targetPath);
+			//
+			// int bytesRead = 0;
+			// byte[] bucket = new byte[256];
+			//
+			// // Use the bucket to move information from src to dests
+			// while ((bytesRead = in.read(bucket)) > -1) {
+			// out.write(bucket, 0, bytesRead);
+			// }
+			// out.close();
+			// } catch (IOException e) {
+			// System.out.println(e.getMessage());
+			// e.printStackTrace();
+			// }
 		});
 
 		// clear form button
 		JButton clearFormBtn = new JButton("Clear From");
 		clearFormBtn.addActionListener(e -> {
 			couponTitle.setText(null);
-			amount.setText(null);
+			amountTxt.setText(null);
 			typeBox.setSelectedIndex(-1);
-			messege.setText(null);
-			price.setText(null);
-			imagePath.setText(null);
+			messegeTxt.setText(null);
+			priceTxt.setText(null);
+			imagePathlbl.setText(null);
 		});
 		southPanel.add(clearFormBtn, BorderLayout.EAST);
 	}

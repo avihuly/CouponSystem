@@ -76,7 +76,7 @@ public class CouponDBDAO implements CouponDAO{
 						createStmt.executeUpdate();
 						
 			} catch (PropertyVetoException | SQLException | IOException e) {
-				throw new CouponSystemException("CouponSystemException", e);
+				throw new CouponSystemException(e.getMessage(), e);
 			}
 		}
 	}

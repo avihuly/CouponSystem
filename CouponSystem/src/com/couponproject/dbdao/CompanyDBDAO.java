@@ -173,12 +173,12 @@ public class CompanyDBDAO implements CompanyDAO{
 			// Values
 			updateStmt.setLong(1, compId);	
 			updateStmt.setLong(2, couponId);
-			
-									
+					
 			// Execute
 			updateStmt.executeUpdate();
 			
 		} catch (PropertyVetoException | SQLException | IOException e) {
+			e.printStackTrace();
 			throw new CouponSystemException("CouponSystemException", e);
 		}
 				

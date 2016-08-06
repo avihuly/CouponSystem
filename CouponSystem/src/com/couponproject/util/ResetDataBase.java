@@ -78,7 +78,7 @@ public class ResetDataBase {
   					+ "`TYPE` varchar(45) DEFAULT NULL,"
   					+ "`MESSAGE` varchar(1000) DEFAULT NULL,"
   					+ "`PRICE` double DEFAULT NULL,"
-  					+ "`IMAGE` varchar(45) DEFAULT NULL,"
+  					+ "`IMAGE` varchar(120) DEFAULT NULL,"
   					+ "PRIMARY KEY (`ID`)"
 					+ ") ENGINE=InnoDB AUTO_INCREMENT=3000 DEFAULT CHARSET=utf8;");
 			
