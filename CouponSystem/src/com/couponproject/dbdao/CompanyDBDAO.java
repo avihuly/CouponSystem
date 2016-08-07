@@ -76,7 +76,10 @@ public class CompanyDBDAO implements CompanyDAO{
 				
 				// Execute
 				createStmt.executeUpdate();
-
+				
+				// Verify successful coupon creation 
+				
+				
 
 			} catch (PropertyVetoException | SQLException | IOException e) {
 				throw new CouponSystemException("CouponSystemException", e);

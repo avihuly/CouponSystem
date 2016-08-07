@@ -66,12 +66,14 @@ public class CompanyFacade {
 			CouponDBDAO.getInstace().createCoupon(coupon);
 		} catch (CouponSystemException e) {
 			// In case of a problem throw new CompanyFacadeException  
-			e.printStackTrace();
 			throw new CompanyFacadeException("Create coupon Error", e);
-		}		
+		}
+		
 		// updating company_coupon table in the DB
 		long couponId = coupon.getId();
 		long compId = company.getId();
+		
+		
 		try {
 			CompanyDBDAO.getInstace().addCompanyCoupon(compId, couponId);
 		} 

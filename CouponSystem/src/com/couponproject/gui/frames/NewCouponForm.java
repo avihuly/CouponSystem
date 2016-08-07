@@ -16,7 +16,7 @@ import com.couponproject.facade.CompanyFacade;
 import com.couponproject.gui.GuiUtil;
 import com.couponproject.gui.Actionlisteners.IntKeyListener;
 import com.couponproject.gui.Actionlisteners.PriceKeyListener;
-import com.couponproject.gui.Actionlisteners.messegeKeyListener;
+import com.couponproject.gui.Actionlisteners.MessegeKeyListener;
 
 public class NewCouponForm extends JFrame {
 	// **********
@@ -124,7 +124,7 @@ public class NewCouponForm extends JFrame {
 		centerPanelTop.add(amountTxt);
 
 		messegeTxt = new JTextArea();
-		messegeTxt.addKeyListener(new messegeKeyListener(messegeTxt));
+		messegeTxt.addKeyListener(new MessegeKeyListener(messegeTxt));
 		messegeTxt.setBorder(BorderFactory.createLineBorder(Color.gray));
 		centerPanelMiddle.add(messegeTxt);
 

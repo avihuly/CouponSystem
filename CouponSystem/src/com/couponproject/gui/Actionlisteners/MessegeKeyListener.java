@@ -6,10 +6,10 @@ import java.awt.event.KeyListener;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-public class messegeKeyListener implements KeyListener {
+public class MessegeKeyListener implements KeyListener {
 	private JTextArea messegeTxt;
 
-	public messegeKeyListener(JTextArea messegeTxt) {
+	public MessegeKeyListener(JTextArea messegeTxt) {
 		this.messegeTxt = messegeTxt;
 	}
 	
@@ -27,7 +27,6 @@ public class messegeKeyListener implements KeyListener {
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		System.out.println(messegeTxt.getText().length());
 		if (messegeTxt.getText().length() > 500)
 			e.consume();
 	}

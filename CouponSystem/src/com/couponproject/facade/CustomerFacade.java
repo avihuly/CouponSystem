@@ -65,31 +65,33 @@ public class CustomerFacade {
 	// ---------------
 	// purchase Coupon
 	// ---------------
-	public void purchaseCoupon(long id) 
-			throws CouponAlreadyPurchasedException, 
-			OutOfStockException, OutOfDateException, 
-			CouponSystemException {
+	public void purchaseCoupon(long id)
+			throws CouponAlreadyPurchasedException, OutOfStockException, OutOfDateException, CouponSystemException {
+
 		Coupon coupon = CouponDBDAO.getInstace().getCoupon(id);
-				
+
 		if (LocalDate.now().isAfter(coupon.getEndDate())) {
 			throw new OutOfDateException("Coupon is out of date");
-		} if (coupon.getAmount() > 0){
+		}
+		if (coupon.getAmount() == 0) {
 			throw new OutOfStockException("Coupon is out of stock");
-		} if (Util.isPurchased(coupon, customer)) {
+		}
+		if (Util.isPurchased(coupon, customer)) {
 			throw new CouponAlreadyPurchasedException("Coupon already purchased");
 		} else {
+		
 			try {
 				// Invoking the addCouponToCustomer method in CustomerDBDAO
 				CustomerDBDAO.getInstace().addCouponToCustomer(customer.getId(), coupon.getId());
-				
+
 				// Catching couponSystemException
-				} catch (CouponSystemException e){
-					// In case of a problem throw new CustomerFacadeException  
-					throw new CustomerFacadeException(e.getMessage(), e);
-				}
+			} catch (CouponSystemException e) {
+				// In case of a problem throw new CustomerFacadeException
+				throw new CustomerFacadeException(e.getMessage(), e);
+			}
 		}
 	}
-	
+
 	// ----------------------
 	// getAllPurchasedCoupons
 	// ----------------------
