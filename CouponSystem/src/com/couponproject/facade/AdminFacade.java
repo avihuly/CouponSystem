@@ -75,8 +75,8 @@ public class AdminFacade{
 	}
 
 	/**
-	 * Removes an existing Company from the DB based on a given Company instance.</br>
-	 * All of this Company's Coupons are deleted from the DB from coupon table, company_coupon table
+	 * Removes an existing Company from the DB based on a given Company instance.
+	 * <p>All of this Company's Coupons are deleted from the DB from coupon table, company_coupon table</p>
 	 * and customer_coupon table 
 	 * @param company Company instance
 	 * @throws AdminFacadeException
@@ -196,8 +196,8 @@ public class AdminFacade{
 	}
 
 	/**
-	 * Removes an existing Customer from the DB based on a given Customer instance.</br>
-	 * All of this Customer's purchased Coupons are deleted from the DB from customer_coupon table
+	 * Removes an existing Customer from the DB based on a given Customer instance.
+	 * <p>All of this Customer's purchased Coupons are deleted from the DB from customer_coupon table</p>
 	 * 
 	 * @param customer Customer instance
 	 * @throws AdminFacadeException

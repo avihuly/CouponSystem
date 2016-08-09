@@ -31,8 +31,8 @@ public class CompanyFacade {
 	
 	// constructor loading company after login
 	/**
-	 * Construct CompanyFacade based on given name and password.</br>
-	 * A Company instance of the logged in company is created.
+	 * Construct CompanyFacade based on given name and password.
+	 * <p>A Company instance of the logged in company is created.</p>
 	 * @param name Company's User Name
 	 * @param password Company's Password
 	 * @throws CompanyFacadeException
@@ -109,8 +109,8 @@ public class CompanyFacade {
 	}
 	
 	/**
-	 * Removes an existing Coupon from the DB based on a given Coupon instance.</br>
-	 * This Coupon is deleted from the DB from coupon table, company_coupon table
+	 * Removes an existing Coupon from the DB based on a given Coupon instance.
+	 * <p>This Coupon is deleted from the DB from coupon table, company_coupon table</p>
 	 * and customer_coupon table 
 	 * @param coupon Coupon instance
 	 * @throws CompanyFacadeException

@@ -28,8 +28,8 @@ public class CustomerFacade {
 	// ***********
 	
 	/**
-	 * Construct CustomerFacade based on given name and password.</br>
-	 * A Customer instance of the logged in customer is created.
+	 * Construct CustomerFacade based on given name and password.
+	 * <p>A Customer instance of the logged in customer is created.</p>
 	 * @param name Customer's User Name
 	 * @param password Customer's Password
 	 * @throws CustomerFacadeException
