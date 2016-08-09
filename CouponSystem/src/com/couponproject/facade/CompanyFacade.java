@@ -259,7 +259,7 @@ public class CompanyFacade {
 	
 	/**
 	 * Returns a collection of all the Coupons of this Company up to a specified price
-	 * @param price The highest price of the coupons in the returned collection
+	 * @param price The highest possible price of the coupons in the returned collection
 	 * @return Collection on Coupon
 	 * @throws CompanyFacadeException
 	 */

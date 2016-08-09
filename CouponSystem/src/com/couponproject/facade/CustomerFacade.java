@@ -10,6 +10,13 @@ import com.couponproject.dbdao.*;
 import com.couponproject.exception.*;
 import com.couponproject.util.Util;
 
+/**
+ * This Class represents the Customer client of the Coupon System. 
+ * <p>This class includes all the operations Customer can perform in the system</P>
+ * 
+ * @author Avi Huly and Orit Blum
+ * @version 1.0
+ */
 public class CustomerFacade {
 	// **********
 	// Attribute
@@ -20,6 +27,13 @@ public class CustomerFacade {
 	// constructor
 	// ***********
 	
+	/**
+	 * Construct CustomerFacade based on given name and password.</br>
+	 * A Customer instance of the logged in customer is created.
+	 * @param name Customer's User Name
+	 * @param password Customer's Password
+	 * @throws CustomerFacadeException
+	 */
 	// constructor loading customer after login
 	public CustomerFacade(String name, String password) throws CustomerFacadeException {
 		try {
@@ -39,6 +53,13 @@ public class CustomerFacade {
 	// -----
 	// Login
 	// -----
+	/**
+	 * Returns CustomerFacade instance upon a successful login and null if login fails
+	 * @param name Customer's User Name
+	 * @param password Customer's Password
+	 * @return CustomerFacade instance
+	 * @throws FacadeException
+	 */
 	public static CustomerFacade login(String name, String password) throws FacadeException {
 		try {
 			// Invoking the login method in CustomerDBDAO
@@ -58,6 +79,11 @@ public class CustomerFacade {
 	// -----------------
 	// UniqueCouponTypes
 	// -----------------
+	/**
+	 * Returns a collection of of all the CouponTaypes of the Coupons purchased by this Customer
+	 * @return Collection of CouponType
+	 * @throws CouponSystemException
+	 */
 	public Collection<CouponType> getUniqueCouponTypes() throws CouponSystemException{
 		return CustomerDBDAO.getInstace().getUniqueCouponTypes(customer);
 	}
@@ -65,6 +91,14 @@ public class CustomerFacade {
 	// ---------------
 	// purchase Coupon
 	// ---------------
+	/**
+	 * Adds a coupon, based on his ID, to the customer_coupon table
+	 * @param id Coupon's ID
+	 * @throws CouponAlreadyPurchasedException
+	 * @throws OutOfStockException
+	 * @throws OutOfDateException
+	 * @throws CouponSystemException
+	 */
 	public void purchaseCoupon(long id) 
 			throws CouponAlreadyPurchasedException, 
 			OutOfStockException, OutOfDateException, 
@@ -81,7 +115,7 @@ public class CustomerFacade {
 			try {
 				// Invoking the addCouponToCustomer method in CustomerDBDAO
 				CustomerDBDAO.getInstace().addCouponToCustomer(customer.getId(), coupon.getId());
-				
+				//TODO: in the addCouponTo Customer we need to amount-- !!!!!!!
 				// Catching couponSystemException
 				} catch (CouponSystemException e){
 					// In case of a problem throw new CustomerFacadeException  
@@ -93,6 +127,11 @@ public class CustomerFacade {
 	// ----------------------
 	// getAllPurchasedCoupons
 	// ----------------------
+	/**
+	 * Returns a collection of all the Coupons purchased by this Customer
+	 * @return Collection of Coupon
+	 * @throws CustomerFacadeException
+	 */
 	public Collection<Coupon> getAllPurchasedCoupons() throws CustomerFacadeException{
 		try {
 			// Invoking (and return the result of) 
@@ -110,6 +149,12 @@ public class CustomerFacade {
 	// ----------------------------
 	// getAllPurchasedCouponsByType
 	// ----------------------------
+	/**
+	 * Returns a collection of all the Coupons purchased by this Customer with a specific CouponType
+	 * @param type CouponType
+	 * @return Collection on Coupon
+	 * @throws CustomerFacadeException
+	 */
 	public Collection<Coupon> getAllPurchasedCouponsByType(CouponType type) throws CustomerFacadeException {
 		try {
 			// Invoking the getCoupons method in CustomerDBDAO
@@ -136,6 +181,12 @@ public class CustomerFacade {
 		}
 	}
 	
+	/**
+	 * Returns a collection of all the Coupons purchased by this Customer up to a specific price
+	 * @param price The highest possible price of the coupons in the returned collection
+	 * @return Collection of Coupon
+	 * @throws CustomerFacadeException
+	 */
 	public Collection<Coupon> getAllPurchasedCouponsByPrice(Double price) throws CustomerFacadeException {
 		try {
 			// Invoking the getCoupons method in CustomerDBDAO
