@@ -10,6 +10,5 @@ com.couponproject.gui
 com.couponproject.gui.Actionlisteners
 com.couponproject.gui.frames
 com.couponproject.system
-com.couponproject.test
 com.couponproject.threads
 com.couponproject.util

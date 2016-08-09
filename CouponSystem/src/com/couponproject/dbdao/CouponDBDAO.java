@@ -19,6 +19,14 @@ import com.couponproject.util.Util;
 
 
 
+/**
+ * @{inheritDoc}
+ * 
+ * This Class implements the CouponDAO interface. The implementation is with SQL DB. 
+ * 
+ * @author Avi Huly and Orit Blum
+ * @version 1.0
+ */
 public class CouponDBDAO implements CouponDAO{
 	// *********
 	// Attribute
@@ -36,6 +44,7 @@ public class CouponDBDAO implements CouponDAO{
 	// ***************
 
 	// Get instace
+	//TODO: this should be public?
 	public static CouponDBDAO getInstace() {
 		if (instace == null) {
 			return new CouponDBDAO();
@@ -123,6 +132,12 @@ public class CouponDBDAO implements CouponDAO{
 		}
 	}
 	
+	/**
+	 * Removes from the database the link between a given Coupon, by his Coupon ID, to a Customer who purchased this Coupon
+	 * @param couponID The ID of the Coupon to be deleted
+	 * @throws CouponSystemException
+	 */
+	//TODO: should we have this also in the interface - CouponDAO?
 	public void removeCouponCustomerByCouponID(long couponID) throws CouponSystemException{
 		// getting a connection to DB from  pool
 				try (Connection myCon = ConnectionPool.getInstance().getConnection()) {
@@ -134,8 +149,6 @@ public class CouponDBDAO implements CouponDAO{
 					// Values
 					deleteStmt.setLong(1, couponID);
 					
-					System.out.println(deleteStmt);
-					
 					// Execute
 					deleteStmt.executeUpdate();
 					
@@ -145,6 +158,12 @@ public class CouponDBDAO implements CouponDAO{
 				}
 	}
 	
+	/**
+	 * Removes from the database the link between a given Coupon, by his Coupon ID, to the Company who owns this Coupon
+	 * @param couponID The ID of the Coupon to be deleted
+	 * @throws CouponSystemException
+	 */
+	//TODO: should we have this also in the interface - CouponDAO?
 	public void removeCouponCompanyByCouponID(long couponID) throws CouponSystemException{
 		// getting a connection to DB from  pool
 				try (Connection myCon = ConnectionPool.getInstance().getConnection()) {
@@ -164,55 +183,7 @@ public class CouponDBDAO implements CouponDAO{
 					throw new CouponSystemException("CouponSystemException", e);
 				}
 	}
-	
-	public void emptyCouponCompany() throws CouponSystemException{
-		// getting a connection to DB from  pool
-				try (Connection myCon = ConnectionPool.getInstance().getConnection()) {
-					
-					// Update prepared statement
-					PreparedStatement deleteStmt = myCon.prepareStatement("DELETE FROM company_coupon");
-					
-					// Execute
-					deleteStmt.executeUpdate();
-					
-				} catch (PropertyVetoException | SQLException | IOException e) {
-					e.printStackTrace();
-					throw new CouponSystemException("CouponSystemException", e);
-				}
-	}
-	
-	public void emptyCustomerCompany() throws CouponSystemException{
-		// getting a connection to DB from  pool
-				try (Connection myCon = ConnectionPool.getInstance().getConnection()) {
-					
-					// Update prepared statement
-					PreparedStatement deleteStmt = myCon.prepareStatement("DELETE FROM customer_coupon");
-					
-					// Execute
-					deleteStmt.executeUpdate();
-					
-				} catch (PropertyVetoException | SQLException | IOException e) {
-					e.printStackTrace();
-					throw new CouponSystemException("CouponSystemException", e);
-				}
-	}
-	
-	public void emptyCouponCustomer() throws CouponSystemException{
-		// getting a connection to DB from  pool
-				try (Connection myCon = ConnectionPool.getInstance().getConnection()) {
-					
-					// Update prepared statement
-					PreparedStatement deleteStmt = myCon.prepareStatement("DELETE FROM customer_coupon");
-					
-					// Execute
-					deleteStmt.executeUpdate();
-					
-				} catch (PropertyVetoException | SQLException | IOException e) {
-					e.printStackTrace();
-					throw new CouponSystemException("CouponSystemException", e);
-				}
-	}
-
+		
 	//a method that gets an instance of a coupon and changes the related line in the DB
 	@Override
 	public void updateCoupon(Coupon coupon) throws CouponSystemException, CouponTitleAlreadyExistException {

@@ -18,6 +18,14 @@ import com.couponproject.exception.IllegalPasswordException;
 import com.couponproject.util.Util;
 
 // implements CustomerDAO with mysql
+/**
+ * @{inheritDoc}
+ * 
+ * This Class implements the CustomerDAO interface. The implementation is with SQL DB.
+ * 
+ * @author Avi Huly and Orit Blum
+ * @version 1.0
+ */
 public class CustomerDBDAO implements CustomerDAO {
 	// *********
 	// Attribute
@@ -42,9 +50,8 @@ public class CustomerDBDAO implements CustomerDAO {
 		return instace;
 	}
 	
-	
-	@Override
 	// createCustomer
+	@Override
 	public void createCustomer(Customer customer) throws CouponSystemException, IllegalPasswordException, CustomerAlreadyExistsException {
 		if(!Util.passwordvalidation(customer.getPassword())){
 			throw new IllegalPasswordException(
@@ -78,6 +85,7 @@ public class CustomerDBDAO implements CustomerDAO {
 			} 
 	}}
 
+	//a method that gets an instance of an existing customer and removes it from the customer table in the db
 	@Override
 	public void removeCustomer(Customer customer) throws CouponSystemException, CustomerDoesNotExistException {
 		if (!Util.isCustomer(customer)){
@@ -104,9 +112,9 @@ public class CustomerDBDAO implements CustomerDAO {
 				throw new CouponSystemException(e.getMessage() , e);
 			}
 		}
-			
 	}
 
+	//a method that gets a customer that exists in the customer table in the updates details in the db
 	@Override
 	public void updateCustomer(Customer customer) throws CouponSystemException, IllegalPasswordException, CustomerAlreadyExistsException {
 		if(!Util.passwordvalidation(customer.getPassword())){
@@ -143,6 +151,8 @@ public class CustomerDBDAO implements CustomerDAO {
 		}
 	}
 
+	// a method that gets a customer's ID, looks for the line in customer table in the db with that ID
+	// creates a customer instance with the details taken from the db and returns it 
 	@Override
 	public Customer getCustomer(long id) throws CouponSystemException {
 			// getting a connection to DB from  pool
@@ -171,6 +181,9 @@ public class CustomerDBDAO implements CustomerDAO {
 			}
 	}
 	
+	// a method that gets a customer's name and password, looks for the line in customer table in the db with that name and password
+	// creates a customer instance with the details taken from the db and returns it 
+	@Override
 	public Customer getCustomer(String name, String password) throws CouponSystemException {
 			// getting a connection to DB from  pool
 			try (Connection myCon = ConnectionPool.getInstance().getConnection()) {
@@ -202,6 +215,7 @@ public class CustomerDBDAO implements CustomerDAO {
 			}
 		}
 
+	// a method that returns a collection of all the customers in the customer table on the db
 	@Override
 	public Collection<Customer> getAllCustomer() throws CouponSystemException {
 		// getting a connection to DB from  pool 
@@ -236,6 +250,7 @@ public class CustomerDBDAO implements CustomerDAO {
 		}
 	}
 
+	//a method that returns a collection of all the coupons that belongs to a customer	
 	@Override
 	public Collection<Coupon> getCoupons(long id) throws CouponSystemException {
 		// getting a connection to DB from  pool
@@ -275,6 +290,8 @@ public class CustomerDBDAO implements CustomerDAO {
 		}
 	}
 
+	// This method should take customer name and password as argument 
+	// and return a boolean indicating a successful login or not
 	@Override
 	public boolean login(String custNmae, String password) throws CouponSystemException {
 		// getting a connection to DB from  pool
@@ -300,6 +317,13 @@ public class CustomerDBDAO implements CustomerDAO {
 	}
 }
 
+	/**
+	 * Updates a joined Customer-Coupon table based on a gives Customer's and Coupon's IDs
+	 * @param custId Customer's ID
+	 * @param coupId Coupon's ID
+	 * @throws CouponSystemException
+	 */
+	//TODO: should be added to interface?
 	public void addCouponToCustomer(long custId, long coupId) throws CouponSystemException {
 		// getting a connection to DB from  pool
 		try (Connection myCon = ConnectionPool.getInstance().getConnection()) {
@@ -325,6 +349,12 @@ public class CustomerDBDAO implements CustomerDAO {
 	// ****************
 	// UniqueCouponType
 	// *****************
+	/**
+	 * Returns a collection of of all the CouponTaypes of the Coupons purchased by a specific Customer
+	 * @param customer The Customer for which the collection of CouponType is returned
+	 * @return Collection of CouponType 
+	 * @throws CouponSystemException
+	 */
 	public Collection<CouponType> getUniqueCouponTypes(Customer customer) throws CouponSystemException {
 		// getting a connection to DB from pool
 		try (Connection myCon = ConnectionPool.getInstance().getConnection()) {
