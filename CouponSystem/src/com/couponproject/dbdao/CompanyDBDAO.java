@@ -3,7 +3,6 @@ package com.couponproject.dbdao;
 import java.beans.PropertyVetoException;
 import java.io.IOException;
 import java.sql.*;
-import java.time.ZoneId;
 import java.util.*;
 
 import com.couponproject.beans.*;
@@ -14,13 +13,19 @@ import com.couponproject.exception.CompanyAlreadyExistsException;
 import com.couponproject.exception.CompanyCouponDoesNotExistsException;
 import com.couponproject.exception.CompanyDoesNotExistException;
 import com.couponproject.exception.CouponSystemException;
-import com.couponproject.exception.CustomerAlreadyExistsException;
 import com.couponproject.exception.EmailAlreadyExistsException;
 import com.couponproject.exception.IllegalPasswordException;
-import com.couponproject.gui.GuiUtil;
 import com.couponproject.util.Util;
 
 //This class implements the CompanyDAO interface with mySQL
+/**
+ * @{inheritDoc}
+ * 
+ * This Class implements the CoompanyDAO interface. The implementation is with SQL DB. 
+ * 
+ * @author Avi Huly and Orit Blum
+ * @version 1.0
+ */
 public class CompanyDBDAO implements CompanyDAO{
 	// *********
 	// Attribute
@@ -46,6 +51,7 @@ public class CompanyDBDAO implements CompanyDAO{
 	}
 	
 	//a method that gets Company instance that should be of a new company and adds it to the company table in the db
+	@Override
 	public void createCompany(Company company) throws CouponSystemException, IllegalPasswordException, CompanyAlreadyExistsException, EmailAlreadyExistsException {
 		if(!Util.passwordvalidation(company.getPassword())){
 			throw new IllegalPasswordException(
@@ -77,7 +83,6 @@ public class CompanyDBDAO implements CompanyDAO{
 				// Execute
 				createStmt.executeUpdate();
 
-
 			} catch (PropertyVetoException | SQLException | IOException e) {
 				throw new CouponSystemException("CouponSystemException", e);
 			}
@@ -86,6 +91,7 @@ public class CompanyDBDAO implements CompanyDAO{
 
 	
 	//a method that gets an instance of an existing (!!!) company and removes it from the company table in the db
+	@Override
 	public void removeCompany(Company company) throws CouponSystemException, CompanyDoesNotExistException {
 		if (!Util.isCompany(company)){
 			throw new CompanyDoesNotExistException(
@@ -113,9 +119,9 @@ public class CompanyDBDAO implements CompanyDAO{
 		}
 	}
 
-	@Override
 	//a method that gets a company that exists (!!!) in the company table in the updates details in the db
 	//TODO: the instance should include all the details from the existing line in db beside what that was changed
+	@Override
 	public void updateCompany(Company company) throws CouponSystemException, IllegalPasswordException, CompanyAlreadyExistsException, EmailAlreadyExistsException {
 		
 		if(!Util.passwordvalidation(company.getPassword())){
@@ -143,8 +149,7 @@ public class CompanyDBDAO implements CompanyDAO{
 				updateStmt.setString(1, company.getEmail());	
 				updateStmt.setString(2, company.getPassword());
 				updateStmt.setString(3, company.getCompName());
-				
-										
+											
 				// Execute
 				updateStmt.executeUpdate();
 
@@ -158,8 +163,8 @@ public class CompanyDBDAO implements CompanyDAO{
 		}
 	}
 	
-	@Override
 	//a method that gets a company's ID and coupon's ID and update the company_coupon table in the DB
+	@Override
 	public void addCompanyCoupon(long compId, long couponId) throws CouponSystemException {
 		
 		// getting a connection to DB from  pool
@@ -184,8 +189,8 @@ public class CompanyDBDAO implements CompanyDAO{
 				
 	}
 
-	@Override
 	//a method that gets a company's ID and coupon's ID and removes it from the company_coupon table in the DB
+	@Override
 	public void removeCompanyCoupon(long compId, long couponId) throws CouponSystemException, CompanyCouponDoesNotExistsException {
 		if(!Util.isCompanyCoupon(couponId, compId)){
 			throw new CompanyCouponDoesNotExistsException(
@@ -247,49 +252,47 @@ public class CompanyDBDAO implements CompanyDAO{
 		} catch (PropertyVetoException | SQLException | IOException e) {
 			
 			throw new CouponSystemException("CouponSystemException", e);
-		}
-				
+		}	
 	}
 	
 	// a method that gets a company's ID, looks for the line in company table in the db with that ID
-		// creates a company instance with the details taken from the db and returns it 
-		@Override
-		public Company getCompany(long id) throws CouponSystemException {
-			
-			// getting a connection to DB from  pool
-			try (Connection myCon = ConnectionPool.getInstance().getConnection()){
-				
-				// make prepared statement
-				PreparedStatement selectStmt = myCon.prepareStatement(
-						"select * from company "
-						+ "where ID = ?");
-						
-				// Value
-				selectStmt.setLong(1, id);
-				
-				// Execute and get a resultSet
-				ResultSet myRs = selectStmt.executeQuery();
-
-				// Processing resultSet into a Company(bean) instance
-				myRs.next();
-				String compName = myRs.getString("COMP_NAME");
-				String password = myRs.getString("PASSWORD");
-				String email = myRs.getString("EMAIL");
-				
-				Company comp = new Company(id, compName, password, email);	
+	// creates a company instance with the details taken from the db and returns it 
+	@Override
+	public Company getCompany(long id) throws CouponSystemException {
 		
-				//return company
-				return comp;
+		// getting a connection to DB from  pool
+		try (Connection myCon = ConnectionPool.getInstance().getConnection()){
 				
-			} catch (PropertyVetoException | SQLException | IOException e) {
-				throw new CouponSystemException("CouponSystemException", e);
-			}
-					
+			// make prepared statement
+			PreparedStatement selectStmt = myCon.prepareStatement(
+					"select * from company "
+					+ "where ID = ?");
+						
+			// Value
+			selectStmt.setLong(1, id);
+				
+			// Execute and get a resultSet
+			ResultSet myRs = selectStmt.executeQuery();
+
+			// Processing resultSet into a Company(bean) instance
+			myRs.next();
+			String compName = myRs.getString("COMP_NAME");
+			String password = myRs.getString("PASSWORD");
+			String email = myRs.getString("EMAIL");
+			
+			Company comp = new Company(id, compName, password, email);	
+	
+			//return company
+			return comp;
+				
+		} catch (PropertyVetoException | SQLException | IOException e) {
+			throw new CouponSystemException("CouponSystemException", e);
 		}
+	}
 	
 	
 	
-	// a method that gets a collection of all the companies in the company table on the db
+	// a method that returns a collection of all the companies in the company table on the db
 	@Override
 	public Collection<Company> getAllCompanies() throws CouponSystemException {
 
@@ -325,10 +328,8 @@ public class CompanyDBDAO implements CompanyDAO{
 		}
 	}
 
-	
+	//a method that returns a collection of all the coupons that belongs to a company
 	@Override
-	//a method that get a collection of all the coupons that belongs to a company
-	//in the instruction the method does not get company, but I changed it
 	public Collection<Coupon> getCoupons(long id) throws CouponSystemException {
 		try (Connection myCon = ConnectionPool.getInstance().getConnection()){
 			// getting a connection to DB from  pool
@@ -376,9 +377,9 @@ public class CompanyDBDAO implements CompanyDAO{
 			throw new CouponSystemException("CouponSystemException", e);
 		}
 	}
-		
-		
-	//a method that gets company name and password and returns whether they correct
+				
+	// This method should take company's name and password as argument 
+	// and return a boolean indicating a successful login or not
 	//TODO: exception for compName that does not exists here or when the name is entered by the user? 
 	@Override
 	public boolean login(String compName, String password) throws CouponSystemException {
@@ -409,6 +410,12 @@ public class CompanyDBDAO implements CompanyDAO{
 	// ****************
 	// UniqueCouponType
 	// *****************
+	/**
+	 * Returns a collection of of all the CouponTaypes of the Coupons owned by a specific Company
+	 * @param company The Company for which the collection of CouponType is returned
+	 * @return Collection of CouponType
+	 * @throws CouponSystemException
+	 */
 	public Collection<CouponType> getUniqueCouponTypes(Company company) throws CouponSystemException {
 		// getting a connection to DB from pool
 		try (Connection myCon = ConnectionPool.getInstance().getConnection()) {

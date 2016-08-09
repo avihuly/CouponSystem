@@ -12,7 +12,7 @@ import com.couponproject.exception.CouponTitleAlreadyExistException;
 //this interface specify's all the functions 
 //of a Coupon in relation to the data base
 /**
- * This interface provides a list of C.R.U.D methods that can be performed on and with a Coupon Bean
+ * This interface provides a list of C.R.U.D methods that can be performed on and with a Coupon Bean 
  * 
  * @author Avi Huly and Orit Blum
  * @version 1.0

@@ -3,7 +3,6 @@ package com.couponproject.dbdao;
 import java.beans.PropertyVetoException;
 import java.io.IOException;
 import java.sql.*;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -14,10 +13,17 @@ import com.couponproject.dao.CouponDAO;
 import com.couponproject.exception.CouponDoesNotExistException;
 import com.couponproject.exception.CouponSystemException;
 import com.couponproject.exception.CouponTitleAlreadyExistException;
-import com.couponproject.exception.CustomerDoesNotExistException;
 import com.couponproject.util.Util;
 
 
+/**
+ * @{inheritDoc}
+ * 
+ * This Class implements the CouponDAO interface. The implementation is with SQL DB. 
+ * 
+ * @author Avi Huly and Orit Blum
+ * @version 1.0
+ */
 public class CouponDBDAO implements CouponDAO{
 	// *********
 	// Attribute
@@ -35,6 +41,7 @@ public class CouponDBDAO implements CouponDAO{
 	// ***************
 
 	// Get instace
+	//TODO: this should be public?
 	public static CouponDBDAO getInstace() {
 		if (instace == null) {
 			return new CouponDBDAO();
@@ -111,6 +118,12 @@ public class CouponDBDAO implements CouponDAO{
 		}
 	}
 	
+	/**
+	 * Removes from the database the link between a given Coupon, by his Coupon ID, to a Customer who purchased this Coupon
+	 * @param couponID The ID of the Coupon to be deleted
+	 * @throws CouponSystemException
+	 */
+	//TODO: should we have this also in the interface - CouponDAO?
 	public void removeCouponCustomerByCouponID(long couponID) throws CouponSystemException{
 		// getting a connection to DB from  pool
 				try (Connection myCon = ConnectionPool.getInstance().getConnection()) {
@@ -122,8 +135,6 @@ public class CouponDBDAO implements CouponDAO{
 					// Values
 					deleteStmt.setLong(1, couponID);
 					
-					System.out.println(deleteStmt);
-					
 					// Execute
 					deleteStmt.executeUpdate();
 					
@@ -133,6 +144,12 @@ public class CouponDBDAO implements CouponDAO{
 				}
 	}
 	
+	/**
+	 * Removes from the database the link between a given Coupon, by his Coupon ID, to the Company who owns this Coupon
+	 * @param couponID The ID of the Coupon to be deleted
+	 * @throws CouponSystemException
+	 */
+	//TODO: should we have this also in the interface - CouponDAO?
 	public void removeCouponCompanyByCouponID(long couponID) throws CouponSystemException{
 		// getting a connection to DB from  pool
 				try (Connection myCon = ConnectionPool.getInstance().getConnection()) {
@@ -152,7 +169,8 @@ public class CouponDBDAO implements CouponDAO{
 					throw new CouponSystemException("CouponSystemException", e);
 				}
 	}
-	
+
+	//TODO: delete??
 	public void emptyCouponCompany() throws CouponSystemException{
 		// getting a connection to DB from  pool
 				try (Connection myCon = ConnectionPool.getInstance().getConnection()) {
@@ -169,6 +187,7 @@ public class CouponDBDAO implements CouponDAO{
 				}
 	}
 	
+	//TODO: delete???
 	public void emptyCustomerCompany() throws CouponSystemException{
 		// getting a connection to DB from  pool
 				try (Connection myCon = ConnectionPool.getInstance().getConnection()) {
@@ -185,6 +204,7 @@ public class CouponDBDAO implements CouponDAO{
 				}
 	}
 	
+	//TODO: delete?
 	public void emptyCouponCustomer() throws CouponSystemException{
 		// getting a connection to DB from  pool
 				try (Connection myCon = ConnectionPool.getInstance().getConnection()) {
@@ -223,8 +243,6 @@ public class CouponDBDAO implements CouponDAO{
 				updateStmt.setDate(1, Date.valueOf(coupon.getEndDate()));
 				updateStmt.setDouble(2, coupon.getPrice());
 				updateStmt.setLong(3, coupon.getId());
-				
-				System.out.println(updateStmt);
 				
 				// Execute
 				updateStmt.executeUpdate();
@@ -274,6 +292,7 @@ public class CouponDBDAO implements CouponDAO{
 			return coupon;
 		
 		} catch (PropertyVetoException | SQLException | IOException e) {
+//			TODO: delete the below?
 //			System.out.println("******************************");
 //			System.out.println("******************************");
 //			e.printStackTrace();
