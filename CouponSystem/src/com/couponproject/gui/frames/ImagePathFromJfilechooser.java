@@ -9,7 +9,7 @@ public class ImagePathFromJfilechooser extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 
-	public ImagePathFromJfilechooser(JLabel imagePath) {
+	public ImagePathFromJfilechooser(JLabel imagePath, JLabel targetPath) {
 		super();
 
 		JFileChooser fileChooser = new JFileChooser();
@@ -21,7 +21,7 @@ public class ImagePathFromJfilechooser extends JFrame {
 		fileChooser.setMultiSelectionEnabled(false);
 		fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		fileChooser.addChoosableFileFilter(
-				new FileNameExtensionFilter("Images     (jpg/png/gif/bmp)", "jpg", "png", "gif", "bmp"));
+				new FileNameExtensionFilter("Images     (jpg/ png/ gif/ bmp)", "jpg", "png", "gif", "bmp"));
 
 		int result = fileChooser.showOpenDialog(null);
 		switch (result) {
@@ -30,6 +30,7 @@ public class ImagePathFromJfilechooser extends JFrame {
 			break;
 		case JFileChooser.APPROVE_OPTION:
 			imagePath.setText(fileChooser.getSelectedFile().getAbsolutePath());
+			targetPath.setText("image/CouponPics/" + fileChooser.getSelectedFile().getName());
 			break;
 		}
 	}

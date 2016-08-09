@@ -62,7 +62,7 @@ public class CompanyMainFrame extends JFrame{
 		// ***********
 		JPanel westPanel = new JPanel();
 		getContentPane().add(westPanel, BorderLayout.WEST);
-		westPanel.setLayout(new GridLayout(10, 1, 0, 0));
+		westPanel.setLayout(new GridLayout(12, 1, 0, 0));
 			
 	
 		// *************************

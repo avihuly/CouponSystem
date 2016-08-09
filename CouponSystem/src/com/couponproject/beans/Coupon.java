@@ -21,7 +21,7 @@ public class Coupon {
 	 * Holds the ID of this Coupon saved in the DB
 	 * @see #id
 	 */
-	private final long id; // TODO: final
+	private long id; // TODO: final
 	/**
 	 * Holds a short description of the Coupon
 	 * @see #title
@@ -274,6 +274,13 @@ public class Coupon {
 	public void setImage(String image) {
 		this.image = image;
 	}
+	
+	// Set coupon id
+	public void setId (long id) {
+		this.id = id;
+	}
+	
+	
 
 	//toString
 	@Override

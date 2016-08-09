@@ -1,22 +1,23 @@
 package com.couponproject.gui.frames;
 
-import java.awt.*;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+
 import java.time.LocalDate;
 import java.time.ZoneId;
 
+import java.awt.*;
 import javax.swing.*;
 
 import org.jdatepicker.impl.JDatePickerImpl;
-
 import com.couponproject.beans.Coupon;
 import com.couponproject.constants.CouponType;
 import com.couponproject.exception.CompanyFacadeException;
 import com.couponproject.exception.CouponTitleAlreadyExistException;
 import com.couponproject.facade.CompanyFacade;
 import com.couponproject.gui.GuiUtil;
-import com.couponproject.gui.Actionlisteners.IntKeyListener;
-import com.couponproject.gui.Actionlisteners.PriceKeyListener;
-import com.couponproject.gui.Actionlisteners.MessegeKeyListener;
+
+import com.couponproject.gui.Actionlisteners.*;
 
 public class NewCouponForm extends JFrame {
 	// **********
@@ -31,6 +32,7 @@ public class NewCouponForm extends JFrame {
 	private JTextArea messegeTxt;
 	private JTextField priceTxt;
 	private JLabel imagePathlbl;
+	private JLabel targetPathlbl = new JLabel();
 
 	// ***********
 	// constructor
@@ -141,9 +143,9 @@ public class NewCouponForm extends JFrame {
 
 		imagePathPanel.add(imagePathlbl, BorderLayout.CENTER);
 		imagePathPanel.add(imagePathBnt, BorderLayout.EAST);
-
+		
 		imagePathBnt.addActionListener(e -> {
-			new ImagePathFromJfilechooser(imagePathlbl);
+			new ImagePathFromJfilechooser(imagePathlbl,targetPathlbl);
 		});
 
 		centerPanelBut.add(typeBox);
@@ -153,7 +155,6 @@ public class NewCouponForm extends JFrame {
 		// ***********
 		// South Panel
 		// ***********
-
 		JPanel southPanel = new JPanel();
 		getContentPane().add(southPanel, BorderLayout.SOUTH);
 		southPanel.setLayout(new BorderLayout(0, 0));
@@ -161,12 +162,16 @@ public class NewCouponForm extends JFrame {
 		// submit button
 		JButton submitBtn = new JButton("Submit");
 		southPanel.add(submitBtn, BorderLayout.WEST);
-
+		
+		// ----------------
+		// Creating coupon
+		// ----------------
 		submitBtn.addActionListener(e -> {
 			// Declaring Coupon variables
 			String title;
 			String messege;
 			String imagePath;
+			String targetPath;
 			CouponType couponType;
 			LocalDate startDate;
 			LocalDate endDate;
@@ -175,52 +180,48 @@ public class NewCouponForm extends JFrame {
 			double price;
 
 			// initializing Coupon variables
-			title = couponTitle.getText();
-			messege = messegeTxt.getText();
-			imagePath = imagePathlbl.getText();
-			couponType = (CouponType) typeBox.getSelectedItem();
-			utilDate = (java.util.Date) startDatePicker.getModel().getValue();
-			startDate = utilDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-			utilDate = (java.util.Date) endDatePicker.getModel().getValue();
-			endDate = utilDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-			amount = Integer.parseInt(amountTxt.getText());
-
 			try {
+				title = couponTitle.getText();
+				messege = messegeTxt.getText();
+				couponType = (CouponType) typeBox.getSelectedItem();
+				utilDate = (java.util.Date) startDatePicker.getModel().getValue();
+				startDate = utilDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+				utilDate = (java.util.Date) endDatePicker.getModel().getValue();
+				endDate = utilDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 				price = Double.parseDouble(priceTxt.getText());
-				Coupon coupon = new Coupon(title, startDate, endDate, amount, couponType, messege, price, imagePath);
+				amount = Integer.parseInt(amountTxt.getText());
+				imagePath = imagePathlbl.getText();
+				targetPath = targetPathlbl.getText();
+				
+				if(imagePath == null) {
+					targetPath = "image/CouponPics/default.png";
+				} 
 
+				// Create the coupon
+				Coupon coupon = new Coupon(title, startDate, endDate, amount, couponType, messege, price, targetPath);
 				companyFacade.createCoupon(coupon);
-
+				
+				if(imagePath != null) {
+					// Copy coupon image
+					FileInputStream in = new FileInputStream(imagePath);
+					FileOutputStream out = new FileOutputStream(targetPath);
+					int bytesRead = 0;
+					byte[] bucket = new byte[256];
+					while ((bytesRead = in.read(bucket)) > -1) {
+						out.write(bucket, 0, bytesRead);
+					}
+					out.close();
+					in.close();
+				}
 			} catch (NumberFormatException priceE) {
 				JOptionPane.showMessageDialog(null, "Iligal price!");
 			} catch (CouponTitleAlreadyExistException titleE) {
-				JOptionPane.showMessageDialog(null, "Title already exist");
+				JOptionPane.showMessageDialog(null, "Coupon title already exist");
 			} catch (CompanyFacadeException facadeE) {
 				JOptionPane.showMessageDialog(null, facadeE.getMessage());
+			} catch (Exception ioE){
+				ioE.printStackTrace();
 			}
-
-			// FileInputStream in;
-			// try {
-			// in = new FileInputStream();
-			//
-			// String targetPath = "image/CouponPics/" + imageName;
-			// System.out.println(targetPath);
-			// FileOutputStream out;
-			//
-			// out = new FileOutputStream(targetPath);
-			//
-			// int bytesRead = 0;
-			// byte[] bucket = new byte[256];
-			//
-			// // Use the bucket to move information from src to dests
-			// while ((bytesRead = in.read(bucket)) > -1) {
-			// out.write(bucket, 0, bytesRead);
-			// }
-			// out.close();
-			// } catch (IOException e) {
-			// System.out.println(e.getMessage());
-			// e.printStackTrace();
-			// }
 		});
 
 		// clear form button

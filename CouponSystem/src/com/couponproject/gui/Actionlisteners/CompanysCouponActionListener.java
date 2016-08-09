@@ -141,10 +141,17 @@ public class CompanysCouponActionListener implements ActionListener{
 			backBnt.addActionListener(backE -> {
 				// clear panel
 				Panel.removeAll();
+				// All Company's Coupons Button - to show all of the company's coupons in a table
 				JButton btnCompCoupons = new JButton("All Company's Coupons");
 				btnCompCoupons.addActionListener(
 						new CompanysCouponActionListener(tableCouponData, Panel, companyFacade));
+				//Add coupon Button - enables the user to add new coupon to the company
+				JButton btnAddCoupon = new JButton("Add New Coupon");
+				//TODO: completing the NewCompanysCouponActionListener class
+				btnAddCoupon.addActionListener(new NewCompanysCouponActionListener(companyFacade));
+				
 				Panel.add(btnCompCoupons);
+				Panel.add(btnAddCoupon);
 				Panel.revalidate();
 				Panel.repaint();
 			});

@@ -18,6 +18,7 @@ import com.couponproject.exception.CustomerDoesNotExistException;
 import com.couponproject.util.Util;
 
 
+
 public class CouponDBDAO implements CouponDAO{
 	// *********
 	// Attribute
@@ -74,6 +75,17 @@ public class CouponDBDAO implements CouponDAO{
 						
 						// Execute
 						createStmt.executeUpdate();
+						
+						// Get and Set coupon Id from DB
+						PreparedStatement getIdSts = myCon.prepareStatement("SELECT ID FROM coupon "
+								+ "WHERE TITLE = ?");
+						// Value & Execute
+						getIdSts.setString(1, coupon.getTitle());
+						ResultSet myRs = getIdSts.executeQuery();
+						
+						// set coupon ID from DB
+						myRs.next();
+						coupon.setId(myRs.getLong("ID"));
 						
 			} catch (PropertyVetoException | SQLException | IOException e) {
 				throw new CouponSystemException(e.getMessage(), e);
