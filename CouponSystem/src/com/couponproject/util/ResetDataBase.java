@@ -19,7 +19,12 @@ import com.couponproject.exception.CustomerAlreadyExistsException;
 import com.couponproject.exception.EmailAlreadyExistsException;
 import com.couponproject.exception.IllegalPasswordException;
 
-
+/**
+ * This class enables the alignment of the Coupon System tables in the data base.
+ * <p>The existing tables are being dropped, new tables are being created and populated</p>
+ * @author Avi Huly and Orit Blum
+ *
+ */
 public class ResetDataBase {
 
 	public static void execute() {
@@ -31,6 +36,9 @@ public class ResetDataBase {
 		customerCouponTableAlignment();
 	}
 
+	/**
+	 * Dropping of the following tables - company table, company_coupon table, customer table, customer_coupon table, coupon table
+	 */
 	private static void drpoAndCreateTables() {
 		try (Connection myCon = ConnectionPool.getInstance().getConnection()){
 			
@@ -87,6 +95,9 @@ public class ResetDataBase {
 		} 
 	}
 
+	/**
+	 * Populating of coupon table
+	 */
 	private static void couponTableAlignment() {
 		// adding new coupons to coupon table from electricity
 		for (int i = 0; i < 10; i++) {
@@ -201,6 +212,9 @@ public class ResetDataBase {
 		}
 	}
 
+	/**
+	 * Populating of company table
+	 */
 	private static void companyTableAlignment() {
 		// adding new companies to company table
 		for (int i = 0; i < 10; i++) {
@@ -218,6 +232,9 @@ public class ResetDataBase {
 		}
 	}
 
+	/**
+	 * populating of customer table
+	 */
 	private static void customerTableAlignment() {
 		// adding new customers to customer table
 		for (int i = 0; i < 10; i++) {
@@ -232,6 +249,9 @@ public class ResetDataBase {
 
 	}
 
+	/**
+	 * Populating of comapny_coupon table
+	 */
 	private static void companyCouponTableAlignment() {
 		// add new information to the company_coupon table
 		try {
@@ -260,6 +280,9 @@ public class ResetDataBase {
 		}
 	}
 
+	/**
+	 * Populating of customer_coupon table
+	 */
 	private static void customerCouponTableAlignment() {
 		// add new information to the company_coupon table
 		try {
