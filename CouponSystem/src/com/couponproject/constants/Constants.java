@@ -1,6 +1,8 @@
 package com.couponproject.constants;
+
 /**
- * this class is used to specify a selection of table index's that are commonly used trout the code.  
+ * this class is used to specify a selection of table index's that are commonly
+ * used trout the code, and
  * 
  * @author Avi Huly and Orit Blum
  * @version 1.0
@@ -13,11 +15,24 @@ public class Constants {
 	public static final int couponTablePriceIndex = 5;
 	public static final int couponTableIDIndex = 6;
 
+	
 	// Customer table index's
 	public static final int CustomerTableIDIndex = 0;
-	
+
+
 	// Company table index's
 	public static final int CompanyTableIDIndex = 0;
-	
-	public static final String UnExpectedErrorMassage = "An unexpected error occurred. please try again later."; 
+
+
+	// Massages
+	public static final String CouponSystemExceptionMassage = "CouponSystemException: ";
+	public static final String UnExpectedErrorMassage = "An unexpected error occurred. please try again later.";
+	public static final String UserNameErrorMassage = "User name already exists in DB.";
+	public static final String EmailAlreadyExistsMassage = "Email already exists in DB.";
+	public static final String PasswordErrorMassage = 
+			"Password must contain:\n" 
+			+ "6-10 characters\n"
+			+ "At lest one upper case letter\n" 
+			+ "At lest one lower case letter\n" 
+			+ "At lest one digit";
 }

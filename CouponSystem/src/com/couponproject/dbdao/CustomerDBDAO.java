@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import com.couponproject.beans.*;
+import com.couponproject.constants.Constants;
 import com.couponproject.constants.CouponTableColumnNames;
 import com.couponproject.constants.CouponType;
 import com.couponproject.constants.CustomerTableColumnNames;
@@ -53,12 +54,7 @@ public class CustomerDBDAO implements CustomerDAO {
 	@Override
 	public void createCustomer(Customer customer) throws CouponSystemException, IllegalPasswordException, CustomerAlreadyExistsException {
 		if(!Util.passwordvalidation(customer.getPassword())){
-			throw new IllegalPasswordException(
-					"Password must contain:\n"
-					+ "6-10 characters\n"
-					+ "At lest one upper case letter\n"
-					+ "At lest one lower case letter\n"
-					+ "At lest one digit");	
+			throw new IllegalPasswordException(Constants.PasswordErrorMassage);	
 		}
 		else if (Util.isCustomerNameExist(customer)){
 			throw new CustomerAlreadyExistsException(
@@ -117,12 +113,7 @@ public class CustomerDBDAO implements CustomerDAO {
 	@Override
 	public void updateCustomer(Customer customer) throws CouponSystemException, IllegalPasswordException, CustomerAlreadyExistsException {
 		if(!Util.passwordvalidation(customer.getPassword())){
-			throw new IllegalPasswordException(
-					"Password must contain:\n"
-					+ "6-10 characters\n"
-					+ "At lest one upper case letter\n"
-					+ "At lest one lower case letter\n"
-					+ "At lest one digit");	
+			throw new IllegalPasswordException(Constants.PasswordErrorMassage);	
 		}
 		else if (Util.isCustomerNameExist(customer)){
 			throw new CustomerAlreadyExistsException(

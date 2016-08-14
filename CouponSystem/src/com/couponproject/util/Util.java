@@ -1,35 +1,38 @@
 package com.couponproject.util;
 
-import java.awt.Container;
-import java.beans.PropertyVetoException;
-import java.io.IOException;
-import java.sql.Connection;
+
+import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.time.LocalDate;
 import java.util.Collection;
-import java.util.Properties;
-
-import javax.swing.JFrame;
-import javax.swing.text.DateFormatter;
-
-import org.jdatepicker.impl.JDatePanelImpl;
-import org.jdatepicker.impl.JDatePickerImpl;
-import org.jdatepicker.impl.UtilDateModel;
-
 import com.couponproject.beans.*;
+import com.couponproject.constants.CouponTableColumnNames;
 import com.couponproject.constants.CouponType;
 import com.couponproject.dbdao.*;
-import com.couponproject.exception.CompanyAlreadyExistsException;
 import com.couponproject.exception.CouponSystemException;
-import com.couponproject.exception.CouponTitleAlreadyExistException;
-import com.couponproject.exception.CustomerAlreadyExistsException;
-import com.couponproject.exception.EmailAlreadyExistsException;
-import com.couponproject.exception.IllegalPasswordException;
+
+
 
 // This calls provides Utilities static method for the Coupon System
 public class Util {
-
+	
+	// resultSetToCoupn 
+	public static Coupon resultSetToCoupn(ResultSet myRs) throws SQLException{
+		return new Coupon(
+				myRs.getLong(CouponTableColumnNames.ID.name()),
+				myRs.getString(CouponTableColumnNames.TITLE.name()), 
+				// converting Date to LocalDate
+				myRs.getDate(CouponTableColumnNames.START_DATE.name()).toLocalDate(),
+				// converting Date to LocalDate
+				myRs.getDate(CouponTableColumnNames.END_DATE.name()).toLocalDate(),
+				myRs.getInt(CouponTableColumnNames.AMOUNT.name()), 
+				CouponType.valueOf(myRs.getString(CouponTableColumnNames.TYPE.name())),
+				myRs.getString(CouponTableColumnNames.MESSAGE.name()), 
+				myRs.getDouble(CouponTableColumnNames.PRICE.name()), 
+				myRs.getString(CouponTableColumnNames.IMAGE.name()));
+	}
+	
+	
+	
 	/*
 	 * Password validation - returns true of password is valid # start-of-string
 	 * (?=.*[0-9]) # a digit must occur at least once (?=.*[a-z]) # a lower case

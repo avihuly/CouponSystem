@@ -19,8 +19,9 @@ import com.couponproject.util.Util;
 
 //This class implements the CompanyDAO interface with mySQL
 /**
+ * @{inheritDoc}
  * 
- * This class implements the CoompanyDAO interface, using mySQL server c3po connection pool. 
+ * This Class implements the CoompanyDAO interface. The implementation is with SQL DB. 
  * 
  * @author Avi Huly and Orit Blum
  * @version 1.0
@@ -29,11 +30,13 @@ public class CompanyDBDAO implements CompanyDAO{
 	// *********
 	// Attribute
 	// *********
-	/**
-	 * Holds the one and only CompanyDBDAO instance
-	 */
-	// TODO: 
 	private static CompanyDBDAO instace = null;
+
+	// ***********
+	// constructor
+	// ***********
+	private CompanyDBDAO(){
+		}
 
 	// ***************
 	// *****Methods***
