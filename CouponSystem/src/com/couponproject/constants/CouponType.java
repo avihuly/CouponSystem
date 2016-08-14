@@ -1,5 +1,11 @@
 package com.couponproject.constants;
-
+/**
+ * This enum specifies the different Coupon types the coupon system can presses.
+ *  
+ * @author Avi Huly and Orit Blum
+ * @version 1.0
+ *
+ */
 public enum CouponType {
 	RESTAURANT, 
 	ELECTRICITY, 
@@ -8,35 +14,5 @@ public enum CouponType {
 	SPORTS, 
 	CAMPING, 
 	TRAVELLING;
-//	
-//	RESTAURANT("RESTAURANT"), 
-//	ELECTRICITY("ELECTRICITY"), 
-//	FOOD("FOOD"), 
-//	HEALTH("HEALTH"), 
-//	SPORTS("SPORTS"), 
-//	CAMPING("CAMPING"), 
-//	TRAVELLING("TRAVELLING");
-
-//	private String type;
-
-//	CouponType(String type) {
-//		this.type = type;
-//	}
-
-//	public String getType() {
-//		return this.type;
-//	}
-
-	// Generating coupType enum from String
-//	public static CouponType fromString(String type) {
-//		if (type != null) {
-//			for (CouponType coupType : CouponType.values()) {
-//				if (type.equalsIgnoreCase(coupType.type)) {
-//					return coupType;
-//				}
-//			}
-//		}
-//		return null;
-//	}
 }
 
