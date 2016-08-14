@@ -31,7 +31,7 @@ public class CouponSystem {
 	/**
 	 * Holds the dailyExportationTask thread
 	 */
-	private Thread dailyExportationTask = new Thread(new DailyCouponExportationTask());
+	private DailyCouponExportationTask dailyExportationTask = new DailyCouponExportationTask();
 	
 	// ***********
 	// constructor
@@ -57,10 +57,13 @@ public class CouponSystem {
 	}
 	
 	/**
-	 * Shut Down of the Coupon System. The connection to the data base is being closed.
+	 * Shut Down of the Coupon System. 
+	 * <p>The dailyExportationTask is being stoped.</p>
+	 * <p>The connection to the data base is being closed.</p>
 	 */
 	public void shutDown(){
 		try {
+			dailyExportationTask.stopTask();
 			ConnectionPool.getInstance().shutDown();
 			// TODO: dailyExportationTask.stopTask();
 		} catch (IOException e) {
