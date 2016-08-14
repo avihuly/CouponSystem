@@ -3,7 +3,6 @@ package com.couponproject.dbdao;
 import java.beans.PropertyVetoException;
 import java.io.IOException;
 import java.sql.*;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -14,15 +13,11 @@ import com.couponproject.dao.CouponDAO;
 import com.couponproject.exception.CouponDoesNotExistException;
 import com.couponproject.exception.CouponSystemException;
 import com.couponproject.exception.CouponTitleAlreadyExistException;
-import com.couponproject.exception.CustomerDoesNotExistException;
 import com.couponproject.util.Util;
 
-
-
 /**
- * @{inheritDoc}
  * 
- * This Class implements the CouponDAO interface. The implementation is with SQL DB. 
+ * This Class implements the CouponDAO interface, using mySQL server c3po connection pool. 
  * 
  * @author Avi Huly and Orit Blum
  * @version 1.0

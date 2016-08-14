@@ -16,17 +16,14 @@ public class Customer {
 	// Instants variables
 	/**
 	 * Holds the ID of this Customer
-	 * @see Customer #id
 	 */
 	private long id;
 	/**
-	 * Holds the Name of this Customer
-	 * @see #custName 
+	 * Holds the Name of this Customer 
 	 */
 	private String custName;
 	/**
-	 * Holds the Password of this Customer
-	 * @see #password 
+	 * Holds the Password of this Customer 
 	 */
 	private String password;
 	

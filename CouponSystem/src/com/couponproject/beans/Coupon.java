@@ -19,32 +19,26 @@ public class Coupon {
 	// Instants variables
 	/**
 	 * Holds the ID of this Coupon
-	 * @see #id
 	 */
 	private long id; // TODO: final
 	/**
 	 * Holds a short description of the Coupon
-	 * @see #title
 	 */
 	private String title;
 	/**
 	 * Holds the date from which this Coupon is valid
-	 * @see #startDate
 	 */
 	private LocalDate startDate;
 	/**
 	 * Holds the date in which this Coupon expires
-	 * @see #endDate
 	 */
 	private LocalDate endDate;
 	/**
 	 * Hold the number of Coupons, whit a specific title available for purchase by Customers
-	 * @see #amount
 	 */
 	private int amount;
 	/**
 	 * Hold the category for which this Coupon belongs to out of a specific list
-	 * @see #type
 	 */
 	private CouponType type;
 	/**
@@ -53,12 +47,10 @@ public class Coupon {
 	private String message;
 	/**
 	 * Holds the price of this Coupon
-	 * @see #price
 	 */
 	private double price;
 	/**
 	 * Holds a String which directs to a location of the Coupon's image
-	 * @see #image
 	 */
 	private String image;
 

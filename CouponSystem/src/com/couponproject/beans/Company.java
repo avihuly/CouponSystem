@@ -15,22 +15,18 @@ public class Company {
 	// Instants variables
 	/**
 	 * Holds the ID of this Company
-	 * @see #id
 	 */
 	private long id;
 	/**
 	 * Holds this Company's name
-	 * @see #compName
 	 */
 	private String compName;
 	/**
 	 * Holds this Company's password for entering the Coupon System 
-	 * @see #password
 	 */
 	private String password;
 	/**
 	 * Hold this Company's e-mail
-	 * @see #email
 	 */
 	private String email;
 

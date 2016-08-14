@@ -19,9 +19,8 @@ import com.couponproject.util.Util;
 
 // implements CustomerDAO with mysql
 /**
- * @{inheritDoc}
  * 
- * This Class implements the CustomerDAO interface. The implementation is with SQL DB.
+ * This Class implements the CustomerDAO interface, using mySQL server c3po connection pool.
  * 
  * @author Avi Huly and Orit Blum
  * @version 1.0
