@@ -18,7 +18,7 @@ public class Coupon {
 
 	// Instants variables
 	/**
-	 * Holds the ID of this Coupon saved in the DB
+	 * Holds the ID of this Coupon
 	 * @see #id
 	 */
 	private long id; // TODO: final
@@ -64,10 +64,13 @@ public class Coupon {
 
 	// Constructors
 	/**
+	 *
 	 * Constructs a Coupon with given ID, Title, StartDate, EndDate, Amount, Type,
 	 * Message, Price and Image location
 	 * 
-	 * @param id
+	 * This constructor souled be used to load a coupon instance FROM the DB. 
+	 *  
+	 * @param id 
 	 * @param title
 	 * @param startDate
 	 * @param endDate
@@ -94,6 +97,8 @@ public class Coupon {
 	 * Constructs a Coupon with given Title, StartDate, EndDate, Amount, Type,
 	 * Message, Price and Image location
 	 * 
+	 * This constructor souled be used to CREATE a new coupon in the DB.
+	 * 
 	 * @param title
 	 * @param startDate
 	 * @param endDate
@@ -113,7 +118,6 @@ public class Coupon {
 		this.message = message;
 		this.price = price;
 		this.image = image;
-		//TODO: check how to get id from DB?
 		this.id=0;
 	}
 
@@ -121,8 +125,7 @@ public class Coupon {
 	//
 	// Methods - getters & setters
 	//
-	
-	// Get ID
+
 	/**
 	 * Returns this Coupon's ID
 	 * @return This Coupon's ID
@@ -131,7 +134,6 @@ public class Coupon {
 		return id;
 	}
 	
-	// Get title
 	/**
 	 * Returns this Coupon's Title
 	 * @return This Coupon's Title
@@ -140,7 +142,6 @@ public class Coupon {
 		return title;
 	}
 
-	// Set title
 	/**
 	 * Sets a new Title for this Coupon
 	 * @param title A new Title
@@ -149,7 +150,6 @@ public class Coupon {
 		this.title = title;
 	}
 
-	// Get start date
 	/**
 	 * Returns this Coupon's StartDate
 	 * @return This Coupon's StartDate
@@ -158,7 +158,6 @@ public class Coupon {
 		return startDate;
 	}
 
-	// Set start date
 	/**
 	 * Sets a new StartDate for this Coupon
 	 * @param startDate A new StartDate
@@ -167,7 +166,6 @@ public class Coupon {
 		this.startDate = startDate;
 	}
 
-	// Get end date
 	/**
 	 * Returns this Coupon's EndDate
 	 * @return This Coupon's EndDate
@@ -176,7 +174,6 @@ public class Coupon {
 		return endDate;
 	}
 
-	// Set end date
 	/**
 	 * Sets a new EndDate for this Coupon
 	 * @param endDate New EndDate
@@ -185,7 +182,6 @@ public class Coupon {
 		this.endDate = endDate;
 	}
 
-	// Get amount
 	/**
 	 * Returns this Coupon's Amount
 	 * @return This Coupon's Amount
@@ -194,7 +190,6 @@ public class Coupon {
 		return amount;
 	}
 
-	// Set amount
 	/**
 	 * Set a new Amount for this Coupon
 	 * @param amount New Amount
@@ -203,7 +198,6 @@ public class Coupon {
 		this.amount = amount;
 	}
 
-	// Get coupon Type
 	/**
 	 * Returns this Coupon's Type
 	 * @return This Coupon's Type
@@ -212,7 +206,7 @@ public class Coupon {
 		return type;
 	}
 
-	// Set coupon Type
+
 	/**
 	 * Set a new CouponType
 	 * @param type New CouponType
@@ -221,7 +215,6 @@ public class Coupon {
 		this.type = type;
 	}
 
-	// Get message
 	/**
 	 * Returns this Coupon's Message
 	 * @return This Coupon's Message
@@ -230,7 +223,6 @@ public class Coupon {
 		return message;
 	}
 
-	// Set message
 	/**
 	 * Sets a new Message for this Coupon
 	 * @param message New Message
@@ -239,7 +231,6 @@ public class Coupon {
 		this.message = message;
 	}
 
-	// Get price
 	/**
 	 * Returns this Coupon's Price
 	 * @return Coupon's Price
@@ -248,7 +239,6 @@ public class Coupon {
 		return price;
 	}
 
-	// Set price
 	/**
 	 * Set a new Price for this Coupon
 	 * @param price New Price
@@ -257,7 +247,6 @@ public class Coupon {
 		this.price = price;
 	}
 
-	// Get image location (string)
 	/**
 	 * Returns this Coupon's image location
 	 * @return Image location
@@ -266,7 +255,6 @@ public class Coupon {
 		return image;
 	}
 
-	// Set image location (string)
 	/**
 	 * Sets a new Image location
 	 * @param image New Image location
@@ -275,13 +263,11 @@ public class Coupon {
 		this.image = image;
 	}
 	
-	// Set coupon id
 	public void setId (long id) {
 		this.id = id;
 	}
 	
 	
-
 	//toString
 	@Override
 	public String toString() {
@@ -290,6 +276,7 @@ public class Coupon {
 				+ image + "]";
 	}
 
+	// HashCode
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -299,6 +286,7 @@ public class Coupon {
 		return result;
 	}
 
+	// Equals
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

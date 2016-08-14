@@ -15,7 +15,7 @@ public class Customer {
 
 	// Instants variables
 	/**
-	 * Holds the ID of this Customer saved in the DB
+	 * Holds the ID of this Customer
 	 * @see Customer #id
 	 */
 	private long id;
@@ -33,6 +33,9 @@ public class Customer {
 	//Constructors
 	/**
 	 * Constructs a Customer with a given ID, Name and Password
+	 * 
+	 * This constructor souled be used to load a customer instance FROM the DB. 
+	 *
 	 * @param id
 	 * @param custName
 	 * @param password
@@ -45,6 +48,9 @@ public class Customer {
 	
 	/**
 	 * Constructs a Customer with a given Name and Password
+	 * 
+	 * This constructor souled be used to CREATE a new customer in the DB.
+	 * 
 	 * @param custName
 	 * @param password
 	 */
@@ -57,7 +63,6 @@ public class Customer {
 	// Methods - getters & setters
 	//
 	
-	// Get ID
 	/**
 	 * Returns this Customer's ID
 	 * @return This Customer's ID
@@ -66,7 +71,6 @@ public class Customer {
 		return id;
 	}
 
-	//Get Customer name
 	/**
 	 * Returns this Customer's Name
 	 * @return This Customer's Name
@@ -75,7 +79,6 @@ public class Customer {
 		return custName;
 	}
 
-	//Get Password
 	/**
 	 * Returns this Customer's Password
 	 * @return This Customer's Password
@@ -84,7 +87,6 @@ public class Customer {
 		return password;
 	}
 
-	//Set ID
 	/**
 	 * Sets a new ID for this Customer
 	 * @param id A new ID
@@ -93,7 +95,6 @@ public class Customer {
 		this.id = id;
 	}
 
-	//Set Customer name
 	/**
 	 * Sets a new Name for this Customer
 	 * @param custName A New Name
@@ -102,7 +103,6 @@ public class Customer {
 		this.custName = custName;
 	}
 
-	//	Set Password
 	/**
 	 * Sets a new Password for this Customer
 	 * @param password A new Password
@@ -120,7 +120,8 @@ public class Customer {
 	public String toString() {
 		return "Customer [id=" + id + ", custName=" + custName + ", password=" + password + "]";
 	}
-
+	
+	// HashCode
 	@Override
 	public int hashCode() {
 		final int prime = 31;

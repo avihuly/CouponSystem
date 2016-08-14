@@ -14,7 +14,7 @@ public class Company {
 
 	// Instants variables
 	/**
-	 * Holds the ID of this Company saved in the DB
+	 * Holds the ID of this Company
 	 * @see #id
 	 */
 	private long id;
@@ -36,11 +36,14 @@ public class Company {
 
 	// Constructors
 	/**
-	 * Construct a Company with a given iD, Name, Password and e-mail
+	 * Construct a Company with a given iD, Name, Password and e-mail.
+	 * 
+	 * This constructor souled be used to load a company instance FROM the DB. 
+	 * 
 	 * @param id
-	 * @param compName
+	 * @param compName 
 	 * @param password
-	 * @param email
+	 * @param email 
 	 */
 	public Company(long id, String compName, String password, String email) {
 		this.id = id;
@@ -51,6 +54,9 @@ public class Company {
 	
 	/**
 	 * Construct a Company with a given Name, Password and e-mail
+	 * 
+	 * This constructor souled be used to CREATE a new company in the DB.
+	 * 
 	 * @param compName
 	 * @param password
 	 * @param email
@@ -61,16 +67,9 @@ public class Company {
 		this.email = email;
 	}
 	
-	/**
-	 * Constructs a Company with no given parameters
-	 */
-	public Company(){};
-
 	//
 	// Methods - getters & setters
 	//
-	
-	//Get ID
 	/**
 	 * Returns this Company's ID
 	 * @return This Company's ID
@@ -79,7 +78,6 @@ public class Company {
 		return id;
 	}
 
-	//Get Company name
 	/**
 	 * Returns this Company's name
 	 * @return This Company's name
@@ -106,45 +104,7 @@ public class Company {
 		return email;
 	}
 
-
-	//Set ID
-	/**
-	 * Sets a new ID for this Company
-	 * @param id A new ID
-	 */
-	public void setId(long id) {
-		this.id = id;
-	}
-
-	//Set Company name
-	/**
-	 * Sets new Company Name
-	 * @param compName A new Company Name
-	 */
-	public void setCompName(String compName) {
-		this.compName = compName;
-	}
-
-	//Set Password
-	/**
-	 * Sets a new Password for this Company
-	 * @param password New Password
-	 */
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	//	Set E-mail
-	/**
-	 * Sets new e-mail address for this Compant
-	 * @param email new e-mail address
-	 */
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
 	//toString
-	//TODO: remove password?
 	@Override
 	public String toString() {
 		return "Company [id=" + id + ", compName=" + compName + ", password=" + password + ", email=" + email + "]";
