@@ -44,7 +44,7 @@ public class CustomerFacade {
 		} catch (CouponSystemException e){
 			// In case of a problem throw new CustomerFacadeException  
 			throw new CustomerFacadeException("CustomerFacadeException - "
-					+ "Constructor error" + e.getMessage(), e);
+					+ "CustomerFacade Error: " + e.getMessage(), e);
 		}
 	}
 	
@@ -72,7 +72,7 @@ public class CustomerFacade {
 		} catch (CouponSystemException e){
 				// In case of a problem throw new CustomerFacadeException  
 				throw new CustomerFacadeException("CustomerFacadeException - "
-						+ "login() Error" + e.getMessage(), e);
+						+ "login() Error: " + e.getMessage(), e);
 			}
 	}
 	
@@ -180,7 +180,7 @@ public class CustomerFacade {
 
 			// In case of a problem throw new CustomerFacadeException
 			throw new CustomerFacadeException("CustomerFacadeException - " 
-					+ "getAllPurchasedCouponsByType() Error:"  + e.getMessage(), e);
+					+ "getAllPurchasedCouponsByType() Error: "  + e.getMessage(), e);
 		}
 	}
 	
@@ -212,7 +212,7 @@ public class CustomerFacade {
 
 			// In case of a problem throw new CustomerFacadeException
 			throw new CustomerFacadeException("CustomerFacadeException - " 
-					+ "getAllPurchasedCouponsByType() Error:" + e.getMessage(), e);
+					+ "getAllPurchasedCouponsByType() Error: " + e.getMessage(), e);
 		}
 	}
 

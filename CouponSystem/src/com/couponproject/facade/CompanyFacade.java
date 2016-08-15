@@ -45,7 +45,7 @@ public class CompanyFacade {
 		} catch (CouponSystemException e) {
 			// In case of a problem throw new CompanyFacadeException
 			throw new CompanyFacadeException("CompanyFacadeException - " 
-					+ "constructor Error", e);
+					+ "constructor Error: " + e.getMessage(), e);
 		}
 	}
 	
@@ -72,7 +72,7 @@ public class CompanyFacade {
 			} catch (CouponSystemException e){
 				// In case of a problem throw new CompanyFacadeException  
 				throw new CompanyFacadeException("CompanyFacadeException - "
-						+ "login() Error", e);
+						+ "login() Error: " + e.getMessage(), e);
 			}
 	}
 	
@@ -89,7 +89,8 @@ public class CompanyFacade {
 			CouponSystem.getInstance().getCouponDBDAO().createCoupon(coupon);
 		} catch (CouponSystemException e) {
 			// In case of a problem throw new CompanyFacadeException  
-			throw new CompanyFacadeException("Create coupon Error", e);
+			throw new CompanyFacadeException("CompanyFacadeException - "
+					+ "createCoupon() Error: " + e.getMessage(), e);
 		}
 		
 		// updating company_coupon table in the DB
@@ -104,7 +105,8 @@ public class CompanyFacade {
 		// Catching couponSystemException
 		catch (CouponSystemException e) {
 			// In case of a problem throw new CompanyFacadeException  
-			throw new CompanyFacadeException("Create coupon Error", e);
+			throw new CompanyFacadeException("CompanyFacadeException - "
+					+ "createCoupon() Error: " + e.getMessage(), e);
 		}
 	}
 	
@@ -128,7 +130,8 @@ public class CompanyFacade {
 		// Catching couponSystemException
 		catch (CouponSystemException e) {
 			// In case of a problem throw new CompanyFacadeException
-			throw new CompanyFacadeException("CompanyFacadeException - " + "removeCoupon Error", e);
+			throw new CompanyFacadeException("CompanyFacadeException - "
+					+ "removeCoupon() Error: " + e.getMessage(), e);
 		}
 		// remove coupon from customer_coupon table
 		try {
@@ -137,7 +140,8 @@ public class CompanyFacade {
 		// Catching couponSystemException
 		catch (CouponSystemException e) {
 			// In case of a problem throw new CompanyFacadeException
-			throw new CompanyFacadeException("CompanyFacadeException - " + "removeCoupon Error", e);
+			throw new CompanyFacadeException("CompanyFacadeException - "
+					+ "removeCoupon() Error: " + e.getMessage(), e);
 		}
 
 		// remove from coupon table in the DB
@@ -147,7 +151,8 @@ public class CompanyFacade {
 		// Catching couponSystemException
 		catch (CouponSystemException e) {
 			// In case of a problem throw new CompanyFacadeException
-			throw new CompanyFacadeException("CompanyFacadeException - " + "removeCoupon Error", e);
+			throw new CompanyFacadeException("CompanyFacadeException - "
+					+ "removeCoupon() Error: " + e.getMessage(), e);
 		}
 	}
 	
@@ -166,7 +171,7 @@ public class CompanyFacade {
 		catch (CouponSystemException e) {
 			// In case of a problem throw new CompanyFacadeException
 			throw new CompanyFacadeException("CompanyFacadeException - "
-					+ "updateCoupon Error", e);
+					+ "updateCoupon() Error: " + e.getMessage(), e);
 		}
 		
 	}
@@ -184,7 +189,8 @@ public class CompanyFacade {
 		// Catching couponSystemException
 		catch (CouponSystemException e) {
 			// In case of a problem throw new CompanyFacadeException
-			throw new CompanyFacadeException(e.getMessage(), e);
+			throw new CompanyFacadeException("CompanyFacadeException - "
+					+ "getCoupon() Error: " + e.getMessage(), e);
 		}
 	}
 	
@@ -214,7 +220,7 @@ public class CompanyFacade {
 		catch (CouponSystemException e) {
 			// In case of a problem throw new CompanyFacadeException
 			throw new CompanyFacadeException("CompanyFacadeException - "
-					+ "getAllCoupons Error", e);
+					+ "getAllCoupons Error: " + e.getMessage(), e);
 		}
 	}
 	
@@ -245,7 +251,7 @@ public class CompanyFacade {
 
 			// In case of a problem throw new CompanyFacadeException
 			throw new CompanyFacadeException("CompanyFacadeException - " 
-					+ "getCouponsByType() Error", e);
+					+ "getCouponsByType() Error: " + e.getMessage(), e);
 		}
 	}
 	
@@ -276,7 +282,7 @@ public class CompanyFacade {
 
 			// In case of a problem throw new CompanyFacadeException
 			throw new CompanyFacadeException("CompanyFacadeException - " 
-					+ "getCouponsByPrice() Error", e);
+					+ "getCouponsByPrice() Error: " + e.getMessage(), e);
 		}
 	}
 	
@@ -307,7 +313,7 @@ public class CompanyFacade {
 
 			// In case of a problem throw new CompanyFacadeException
 			throw new CompanyFacadeException("CompanyFacadeException - " 
-					+ "getCouponsByStartDate() Error", e);
+					+ "getCouponsByStartDate() Error: " + e.getMessage(), e);
 		}
 	}
 	
@@ -338,7 +344,7 @@ public class CompanyFacade {
 
 			// In case of a problem throw new CompanyFacadeException
 			throw new CompanyFacadeException("CompanyFacadeException - " 
-					+ "getCouponsByEndDate() Error", e);
+					+ "getCouponsByEndDate() Error: " + e.getMessage(), e);
 		}
 	}
 

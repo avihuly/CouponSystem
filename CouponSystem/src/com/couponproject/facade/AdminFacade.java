@@ -63,7 +63,7 @@ public class AdminFacade{
 
 			// In case of a problem throw new AdminFacadeException
 			throw new AdminFacadeException("AdminFacadeException - " 
-					+ "createCompany() - Error", e);
+					+ "createCompany() - Error: " + e.getMessage(), e);
 		}
 	}
 
@@ -88,17 +88,15 @@ public class AdminFacade{
 				//deleting from Coupon table
 				CouponSystem.getInstance().getCouponDBDAO().removeCoupon(coupon);
 			}
-					
 			// Invoking the removeCompany method in CompanyDBDAO
 			CouponSystem.getInstance().getCompanyDBDAO().removeCompany(company);
-			 
-
+			
 			// Catching couponSystemException
 		} catch (CouponSystemException e) {
 
 			// In case of a problem throw new AdminFacadeException
 			throw new AdminFacadeException("AdminFacadeException - " 
-					+ "removeCompany() - Error", e);
+					+ "removeCompany() - Error: " + e.getMessage(), e);
 		}
 	}
 
@@ -119,7 +117,7 @@ public class AdminFacade{
 		} catch (CouponSystemException e) {
 			// In case of a problem throw new AdminFacadeException
 			throw new AdminFacadeException("AdminFacadeException - " 
-					+ "updateCompany() - Error", e);
+					+ "updateCompany() - Error: " + e.getMessage(), e);
 		}
 	}
 
@@ -140,7 +138,7 @@ public class AdminFacade{
 
 			// In case of a problem throw new AdminFacadeException
 			throw new AdminFacadeException("AdminFacadeException - " 
-					+ "getCompany() - Error", e);
+					+ "getCompany() - Error: " + e.getMessage(), e);
 		}
 	}
 
@@ -159,7 +157,7 @@ public class AdminFacade{
 
 			// In case of a problem throw new AdminFacadeException
 			throw new AdminFacadeException("AdminFacadeException - " 
-					+ "getAllCompanies() - Error", e);
+					+ "getAllCompanies() - Error: " + e.getMessage(), e);
 		}
 
 	}
@@ -184,7 +182,7 @@ public class AdminFacade{
 
 			// In case of a problem throw new AdminFacadeException
 			throw new AdminFacadeException("AdminFacadeException - " 
-					+ "createCustomer() - Error", e);
+					+ "createCustomer() - Error: " + e.getMessage(), e);
 		}
 	}
 
@@ -212,7 +210,7 @@ public class AdminFacade{
 
 			// In case of a problem throw new AdminFacadeException
 			throw new AdminFacadeException("AdminFacadeException - " 
-					+ "removeCustomer() - Error", e);
+					+ "removeCustomer() - Error: " + e.getMessage(), e);
 		}
 	}
 
@@ -232,7 +230,7 @@ public class AdminFacade{
 		} catch (CouponSystemException e) {
 			// In case of a problem throw new AdminFacadeException
 			throw new AdminFacadeException("AdminFacadeException - " 
-					+ "updateCustomer() - Error", e);
+					+ "updateCustomer() - Error: " + e.getMessage(), e);
 		}
 	}
 
@@ -252,7 +250,7 @@ public class AdminFacade{
 		} catch (CouponSystemException e) {
 			// In case of a problem throw new AdminFacadeException
 			throw new AdminFacadeException("AdminFacadeException - " 
-					+ "getCustomer() - Error", e);
+					+ "getCustomer() - Error: " + e.getMessage(), e);
 		}
 	}
 
@@ -271,7 +269,7 @@ public class AdminFacade{
 
 			// In case of a problem throw new AdminFacadeException
 			throw new AdminFacadeException("AdminFacadeException - " 
-					+ "getAllCustomers() - Error", e);
+					+ "getAllCustomers() - Error: " + e.getMessage(), e);
 		}
 	}
 }
