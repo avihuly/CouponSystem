@@ -6,8 +6,11 @@ import java.sql.*;
 import java.util.*;
 
 import com.couponproject.beans.*;
+import com.couponproject.constants.CompanyTableColumnNames;
+import com.couponproject.constants.Constants;
 import com.couponproject.constants.CouponTableColumnNames;
 import com.couponproject.constants.CouponType;
+import com.couponproject.constants.JoinTablesColumnNames;
 import com.couponproject.dao.CompanyDAO;
 import com.couponproject.exception.CompanyAlreadyExistsException;
 import com.couponproject.exception.CompanyCouponDoesNotExistsException;
@@ -19,9 +22,8 @@ import com.couponproject.util.Util;
 
 //This class implements the CompanyDAO interface with mySQL
 /**
- * @{inheritDoc}
  * 
- * This Class implements the CoompanyDAO interface. The implementation is with SQL DB. 
+ * This Class implements the CoompanyDAO interface, using mySQL server c3po connection pool. 
  * 
  * @author Avi Huly and Orit Blum
  * @version 1.0
@@ -32,17 +34,9 @@ public class CompanyDBDAO implements CompanyDAO{
 	// *********
 	private static CompanyDBDAO instace = null;
 
-	// ***********
-	// constructor
-	// ***********
-	private CompanyDBDAO(){
-		}
-
 	// ***************
 	// *****Methods***
 	// ***************
-
-	// Get instance
 	public static CompanyDBDAO getInstace() {
 		if (instace == null) {
 			return new CompanyDBDAO();
@@ -50,62 +44,54 @@ public class CompanyDBDAO implements CompanyDAO{
 		return instace;
 	}
 	
-	//a method that gets Company instance that should be of a new company and adds it to the company table in the db
+	// A method that gets Company instance that should be of a new company and adds it to the company table in the db
 	@Override
-	public void createCompany(Company company) throws CouponSystemException, IllegalPasswordException, CompanyAlreadyExistsException, EmailAlreadyExistsException {
-		if(!Util.passwordvalidation(company.getPassword())){
-			throw new IllegalPasswordException(
-					"Password must contain:\n"
-					+ "6-10 characters\n"
-					+ "At lest one upper case letter\n"
-					+ "At lest one lower case letter\n"
-					+ "At lest one digit");		
-		}
-		else if (Util.isCompany(company)) {
-			throw new CompanyAlreadyExistsException("User name already exists in DB");
+	public void createCompany(Company company) throws CouponSystemException, IllegalPasswordException,
+			CompanyAlreadyExistsException, EmailAlreadyExistsException {
+		if (!Util.passwordvalidation(company.getPassword())) {
+			throw new IllegalPasswordException(Constants.PasswordErrorMassage);
+		} else if (Util.isCompany(company)) {
+			throw new CompanyAlreadyExistsException(Constants.UserNameErrorMassage);
 		} else if (Util.isEmailExist(company)) {
-			throw new EmailAlreadyExistsException("Email already exists in DB");
+			throw new EmailAlreadyExistsException(Constants.EmailAlreadyExistsMassage);
 		} else {
 			// getting a connection to DB from pool
 			try (Connection myCon = ConnectionPool.getInstance().getConnection()){
-							
 				// Insert prepared statement
 				PreparedStatement createStmt = myCon.prepareStatement(
-						"insert into "
-						+ "company (COMP_NAME, PASSWORD, EMAIL) "
-						+ "values (?,?,?);"); //id will be assign in the DB
-				
+						"insert into company (" 
+							+ CompanyTableColumnNames.COMP_NAME + ","
+							+ CompanyTableColumnNames.PASSWORD + "," 
+							+ CompanyTableColumnNames.EMAIL
+							+ ") values (?,?,?);"); // id will be assign in the DB
 				// Values 
 				createStmt.setString(1, company.getCompName());
 				createStmt.setString(2, company.getPassword());
 				createStmt.setString(3, company.getEmail());
 				
 				// Execute
-				createStmt.executeUpdate();
-
-				// Verify successful coupon creation 
+				createStmt.executeUpdate(); 
 			} catch (PropertyVetoException | SQLException | IOException e) {
-				throw new CouponSystemException("CouponSystemException", e);
+				throw new CouponSystemException(Constants.CouponSystemExceptionMassage + e.getMessage(), e);
 			}
 		}
 	}
 
 	
-	//a method that gets an instance of an existing (!!!) company and removes it from the company table in the db
+	// A method that gets an instance of an existing company and removes it from the company table in the db
 	@Override
 	public void removeCompany(Company company) throws CouponSystemException, CompanyDoesNotExistException {
 		if (!Util.isCompany(company)){
-			throw new CompanyDoesNotExistException(
-					"Company does not exist exception");
+			throw new CompanyDoesNotExistException("Company does not exist in DB");
 		} else {
 			// getting a connection to DB from  pool
 			try (Connection myCon = ConnectionPool.getInstance().getConnection()) {
-				
 				// Delete prepared statement
 				PreparedStatement removeStmt = myCon.prepareStatement(
-						"delete from company "
-						+ "where ID = ? and COMP_NAME = ? and PASSWORD = ?");
-
+						"delete from company where" 
+						+ CompanyTableColumnNames.ID + "= ? and " 
+						+ CompanyTableColumnNames.COMP_NAME + "= ? and "
+						+ CompanyTableColumnNames.PASSWORD + "= ?");
 				// Values
 				removeStmt.setLong(1, company.getId());
 				removeStmt.setString(2, company.getCompName());
@@ -113,130 +99,105 @@ public class CompanyDBDAO implements CompanyDAO{
 				
 				// Execute
 				removeStmt.executeUpdate();
-				
 			} catch (PropertyVetoException | SQLException | IOException e) {
-				throw new CouponSystemException("CouponSystemException", e);
+				throw new CouponSystemException(Constants.CouponSystemExceptionMassage + e.getMessage(), e);
 			}
 		}
 	}
 
-	//a method that gets a company that exists (!!!) in the company table in the updates details in the db
-	//TODO: the instance should include all the details from the existing line in db beside what that was changed
+	// A method that gets a company that exists in DB and updates its details 
 	@Override
-	public void updateCompany(Company company) throws CouponSystemException, IllegalPasswordException, CompanyAlreadyExistsException, EmailAlreadyExistsException {
-		
-		if(!Util.passwordvalidation(company.getPassword())){
-			throw new IllegalPasswordException(
-					"Password must contain:\n"
-					+ "6-10 characters\n"
-					+ "At lest one upper case letter\n"
-					+ "At lest one lower case letter\n"
-					+ "At lest one digit");	
-		} else if (Util.isCompany(company)){
-			throw new CompanyAlreadyExistsException("User name already exists in DB");	
+	public void updateCompany(Company company) throws CouponSystemException, IllegalPasswordException,
+			CompanyAlreadyExistsException, EmailAlreadyExistsException {
+		if (!Util.passwordvalidation(company.getPassword())) {
+			throw new IllegalPasswordException(Constants.PasswordErrorMassage);
+		} else if (Util.isCompany(company)) {
+			throw new CompanyAlreadyExistsException(Constants.UserNameErrorMassage);
 		} else if (Util.isEmailExist(company)) {
-			throw new EmailAlreadyExistsException("Email already exists in DB");
+			throw new EmailAlreadyExistsException(Constants.EmailAlreadyExistsMassage);
 		} else {
 			// getting a connection to DB from  pool
 			try (Connection myCon = ConnectionPool.getInstance().getConnection()) {
-				
 				// Update prepared statement
 				PreparedStatement updateStmt = myCon.prepareStatement(
-								"update company " 
-								+ "set EMAIL = ?, PASSWORD = ? "
-								+ "where COMP_NAME = ?");
-
+						"update company set " 
+						+ CompanyTableColumnNames.EMAIL + "= ?, "
+						+ CompanyTableColumnNames.PASSWORD + "= ? "
+						+ "where " + CompanyTableColumnNames.COMP_NAME + "= ?");
 				// Values
 				updateStmt.setString(1, company.getEmail());	
 				updateStmt.setString(2, company.getPassword());
-				updateStmt.setString(3, company.getCompName());
-											
+				updateStmt.setString(3, company.getCompName());				
 				// Execute
 				updateStmt.executeUpdate();
-
-				//close connection
-				myCon.close();
-				
 			} catch (PropertyVetoException | SQLException | IOException e) {
 				e.printStackTrace();
-				throw new CouponSystemException("CouponSystemException", e);
+				throw new CouponSystemException(Constants.CouponSystemExceptionMassage + e.getMessage(), e);
 			}
 		}
 	}
 	
-	//a method that gets a company's ID and coupon's ID and update the company_coupon table in the DB
+	// A method that gets a company's ID and coupon's ID and update the company_coupon table in the DB
 	@Override
 	public void addCompanyCoupon(long compId, long couponId) throws CouponSystemException {
-		
 		// getting a connection to DB from  pool
 		try (Connection myCon = ConnectionPool.getInstance().getConnection()) {
-			
 			// Update prepared statement
-			PreparedStatement updateStmt = myCon.prepareStatement( 	"insert into "
-							+ "company_coupon (COMP_ID, COUPON_ID) "
-							+ "values (?,?);");
-
+			PreparedStatement updateStmt = myCon.prepareStatement( 	
+					"insert into company_coupon ("
+					+ JoinTablesColumnNames.COMP_ID + ","
+					+ JoinTablesColumnNames.COUPON_ID + ") values (?,?);");
 			// Values
 			updateStmt.setLong(1, compId);	
 			updateStmt.setLong(2, couponId);
-					
 			// Execute
 			updateStmt.executeUpdate();
-			
 		} catch (PropertyVetoException | SQLException | IOException e) {
-			e.printStackTrace();
-			throw new CouponSystemException("CouponSystemException", e);
+			throw new CouponSystemException(Constants.CouponSystemExceptionMassage + e.getMessage(), e);
 		}
-				
 	}
 
-	//a method that gets a company's ID and coupon's ID and removes it from the company_coupon table in the DB
+	// A method that gets a company's ID and coupon's ID and removes it from the company_coupon table in the DB
 	@Override
-	public void removeCompanyCoupon(long compId, long couponId) throws CouponSystemException, CompanyCouponDoesNotExistsException {
-		if(!Util.isCompanyCoupon(couponId, compId)){
-			throw new CompanyCouponDoesNotExistsException(
-					"No such coupons for this company");
+	public void removeCompanyCoupon(long compId, long couponId)
+			throws CouponSystemException, CompanyCouponDoesNotExistsException {
+		if (!Util.isCompanyCoupon(couponId, compId)) {
+			throw new CompanyCouponDoesNotExistsException("No such coupons for this company");
 		} else {
 			// getting a connection to DB from  pool
 			try (Connection myCon = ConnectionPool.getInstance().getConnection()) {
-				
 				// Update prepared statement
-				PreparedStatement deleteStmt = myCon.prepareStatement( 	"delete from company_coupon "
-						+ "where COMP_ID = ? and COUPON_ID = ? ");
-
+				PreparedStatement deleteStmt = myCon.prepareStatement( 	
+						"delete from company_coupon where "
+						+ JoinTablesColumnNames.COMP_ID + "= ? and " 
+						+ JoinTablesColumnNames.COUPON_ID + "= ? ");
 				// Values
 				deleteStmt.setLong(1, compId);	
 				deleteStmt.setLong(2, couponId);
-				
 										
 				// Execute
 				deleteStmt.executeUpdate();
-
-				
 			} catch (PropertyVetoException | SQLException | IOException e) {
-				throw new CouponSystemException("CouponSystemException", e);
+				throw new CouponSystemException(Constants.CouponSystemExceptionMassage + e.getMessage(), e);
 			}
 		}				
 	}
 	
 	
-	// a method that gets a company's name and password, looks for the line in company table in the db with that name and password
+	// A method that gets a company's name and password, looks for the line in company table in the db with that name and password
 	// creates a company instance with the details taken from the db and returns it 
 	@Override
 	public Company getCompany(String compName, String password) throws CouponSystemException {
-		
 		// getting a connection to DB from  pool
 		try (Connection myCon = ConnectionPool.getInstance().getConnection()){
-			
 			// make prepared statement
 			PreparedStatement selectStmt = myCon.prepareStatement(
-					"select * from company "
-					+ "where COMP_NAME = ? and PASSWORD = ?");
-					
+					"select * from company where "
+					+ CompanyTableColumnNames.COMP_NAME + " = ? and "
+					+ CompanyTableColumnNames.PASSWORD + "= ?");
 			// Values
 			selectStmt.setString(1, compName);
 			selectStmt.setString(2, password);
-			
 			// Execute and get a resultSet
 			ResultSet myRs = selectStmt.executeQuery();
 
@@ -252,7 +213,7 @@ public class CompanyDBDAO implements CompanyDAO{
 			
 		} catch (PropertyVetoException | SQLException | IOException e) {
 			
-			throw new CouponSystemException("CouponSystemException", e);
+			throw new CouponSystemException(Constants.CouponSystemExceptionMassage + e.getMessage(), e);
 		}	
 	}
 	
@@ -287,7 +248,7 @@ public class CompanyDBDAO implements CompanyDAO{
 			return comp;
 				
 		} catch (PropertyVetoException | SQLException | IOException e) {
-			throw new CouponSystemException("CouponSystemException", e);
+			throw new CouponSystemException(Constants.CouponSystemExceptionMassage + e.getMessage(), e);
 		}
 	}
 	
@@ -325,7 +286,7 @@ public class CompanyDBDAO implements CompanyDAO{
 			return companies;	
 			
 		} catch (PropertyVetoException | SQLException | IOException e) {
-			throw new CouponSystemException("CouponSystemException", e);
+			throw new CouponSystemException(Constants.CouponSystemExceptionMassage + e.getMessage(), e);
 		}
 	}
 
@@ -375,7 +336,7 @@ public class CompanyDBDAO implements CompanyDAO{
 			return coupons;
 	
 		} catch (PropertyVetoException | SQLException | IOException e) {
-			throw new CouponSystemException("CouponSystemException", e);
+			throw new CouponSystemException(Constants.CouponSystemExceptionMassage + e.getMessage(), e);
 		}
 	}
 				
@@ -404,7 +365,7 @@ public class CompanyDBDAO implements CompanyDAO{
 			return myRs.next();
 
 		} catch (PropertyVetoException | SQLException | IOException e) {
-			throw new CouponSystemException("CouponSystemException", e);
+			throw new CouponSystemException(Constants.CouponSystemExceptionMassage + e.getMessage(), e);
 		}
 	}
 	
@@ -448,7 +409,7 @@ public class CompanyDBDAO implements CompanyDAO{
 			return couponsTypes;
 
 		} catch (PropertyVetoException | SQLException | IOException e) {
-			throw new CouponSystemException("CouponSystemException", e);
+			throw new CouponSystemException(Constants.CouponSystemExceptionMassage + e.getMessage(), e);
 		}
 	}
 	
