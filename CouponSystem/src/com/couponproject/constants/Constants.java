@@ -1,7 +1,5 @@
 package com.couponproject.constants;
 
-import com.couponproject.exception.CouponTitleAlreadyExistException;
-
 /**
  * This class is used to specify a selection of table index's and String's 
  * that are commonly used trout the code 

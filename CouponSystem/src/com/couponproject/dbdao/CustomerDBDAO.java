@@ -256,8 +256,11 @@ public class CustomerDBDAO implements CustomerDAO {
 			selectStmt.setLong(1, coupId);
 			// Execute and get a resultSet
 			selectStmt.executeQuery();
-//	TODO: implement in a different place
-//			// 
+
+			//	TODO: implement in a different place
+			// יש בעיה שזה יהיה פה בגלל הפונקציה שמאפסת את מסד הנתונים בהתחלה
+//			// אני חושב שצריך לכתוב פונקיה נפרד שרק מורידה באחד ולעשות בא שימוש בפסד
+			
 //			// Subtract 1 coupon from coupon amount 
 //			int coupAmount = myRs.getInt(CouponTableColumnNames.AMOUNT.name());
 //			// remove 1 from the amount of the coupon
@@ -277,7 +280,7 @@ public class CustomerDBDAO implements CustomerDAO {
 	
 	@Override
 	public void removeCustomerCoupon(long custId, long couponId) {
-		// TODO Auto-generated method stub		
+		// TODO AVI: "i think we dont need that"
 	}
 
 	// ****************

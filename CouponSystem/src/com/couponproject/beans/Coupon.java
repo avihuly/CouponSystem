@@ -20,7 +20,7 @@ public class Coupon {
 	/**
 	 * Holds the ID of this Coupon
 	 */
-	private long id; // TODO: final
+	private long id;
 	/**
 	 * Holds a short description of the Coupon
 	 */
