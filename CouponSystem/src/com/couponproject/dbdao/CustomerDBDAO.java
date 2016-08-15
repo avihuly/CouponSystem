@@ -335,6 +335,11 @@ public class CustomerDBDAO implements CustomerDAO {
 			throw new CouponSystemException(e.getMessage(), e);
 		}
 	}
+	
+	@Override
+	public void removeCustomerCoupon(long custId, long couponId) {
+		// TODO Auto-generated method stub		
+	}
 
 	// ****************
 	// UniqueCouponType
@@ -386,6 +391,7 @@ public class CustomerDBDAO implements CustomerDAO {
 	// ***************
 	// private methods
 	// ***************
+	//TODO: we have it also in the util
 	private Coupon resultSetToCoupn(ResultSet myRs) throws SQLException{
 		return new Coupon(
 				myRs.getLong("ID"),

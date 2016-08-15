@@ -192,7 +192,8 @@ public class CompanyDBDAO implements CompanyDAO{
 
 	//a method that gets a company's ID and coupon's ID and removes it from the company_coupon table in the DB
 	@Override
-	public void removeCompanyCoupon(long compId, long couponId) throws CouponSystemException, CompanyCouponDoesNotExistsException {
+	public void removeCompanyCoupon(long compId, long couponId) throws CouponSystemException, 
+		CompanyCouponDoesNotExistsException {
 		if(!Util.isCompanyCoupon(couponId, compId)){
 			throw new CompanyCouponDoesNotExistsException(
 					"No such coupons for this company");
@@ -274,7 +275,8 @@ public class CompanyDBDAO implements CompanyDAO{
 				
 			// Execute and get a resultSet
 			ResultSet myRs = selectStmt.executeQuery();
-
+			//TODO: check if result set not empty
+			
 			// Processing resultSet into a Company(bean) instance
 			myRs.next();
 			String compName = myRs.getString("COMP_NAME");

@@ -24,18 +24,10 @@ import com.couponproject.exception.IllegalPasswordException;
  */
 public class AdminFacade{
 
-	// ***********
-	// constructor
-	// ***********
-	/**
-	 * Construct the AdminFacade
-	 */
-	public AdminFacade() {}
-
 	// ***************
 	// *****Methods***
 	// ***************
-	// Login
+
 	/**
 	 * Returns AdminFacade instance upon a successful login and null if login fails
 	 * @param name Admin's User Name
@@ -70,7 +62,7 @@ public class AdminFacade{
 
 			// In case of a problem throw new AdminFacadeException
 			throw new AdminFacadeException("AdminFacadeException - " 
-					+ "createCompany() - Error");
+					+ "createCompany() - Error", e);
 		}
 	}
 
@@ -88,12 +80,12 @@ public class AdminFacade{
 		try {
 			// Deleting all company's coupons by invoking the getCoupons method in **CustomerDBDAO**
 			for (Coupon coupon : CompanyDBDAO.getInstace().getCoupons(company.getId())) {
-				//deleting from Coupon table
-				CouponDBDAO.getInstace().removeCoupon(coupon);
 				//deleting from Company_Coupon table
 				CompanyDBDAO.getInstace().removeCompanyCoupon(company.getId(), coupon.getId());
 				//deleting from Cust_Coupon table
 				CouponDBDAO.getInstace().removeCouponCustomerByCouponID(coupon.getId());
+				//deleting from Coupon table
+				CouponDBDAO.getInstace().removeCoupon(coupon);
 			}
 					
 			// Invoking the removeCompany method in CompanyDBDAO
@@ -105,7 +97,7 @@ public class AdminFacade{
 
 			// In case of a problem throw new AdminFacadeException
 			throw new AdminFacadeException("AdminFacadeException - " 
-					+ "removeCompany() - Error");
+					+ "removeCompany() - Error", e);
 		}
 	}
 
@@ -126,7 +118,7 @@ public class AdminFacade{
 		} catch (CouponSystemException e) {
 			// In case of a problem throw new AdminFacadeException
 			throw new AdminFacadeException("AdminFacadeException - " 
-					+ "updateCompany() - Error");
+					+ "updateCompany() - Error", e);
 		}
 	}
 
@@ -147,7 +139,7 @@ public class AdminFacade{
 
 			// In case of a problem throw new AdminFacadeException
 			throw new AdminFacadeException("AdminFacadeException - " 
-					+ "getCompany() - Error");
+					+ "getCompany() - Error", e);
 		}
 	}
 
@@ -166,7 +158,7 @@ public class AdminFacade{
 
 			// In case of a problem throw new AdminFacadeException
 			throw new AdminFacadeException("AdminFacadeException - " 
-					+ "getAllCompanies() - Error");
+					+ "getAllCompanies() - Error", e);
 		}
 
 	}
@@ -191,7 +183,7 @@ public class AdminFacade{
 
 			// In case of a problem throw new AdminFacadeException
 			throw new AdminFacadeException("AdminFacadeException - " 
-					+ "createCustomer() - Error");
+					+ "createCustomer() - Error", e);
 		}
 	}
 
@@ -205,12 +197,10 @@ public class AdminFacade{
 	 * @throws CustomerDoesNotExistException
 	 */
 	public void removeCustomer(Customer customer) throws AdminFacadeException, CouponDoesNotExistException, CustomerDoesNotExistException {
-		// TODO check if Customer exist
 		try {
 			// Deleting all customer's coupons by invoking the getCoupons method in CustomerDBDAO
-			for (Coupon coupon : CustomerDBDAO.getInstace().getCoupons(customer.getId())) {
-				//TODO: this is a wrong? should remove from customer_coupon table and not from coupon table 
-				CouponDBDAO.getInstace().removeCoupon(coupon);
+			for (Coupon coupon : CustomerDBDAO.getInstace().getCoupons(customer.getId())) { 
+				CouponDBDAO.getInstace().removeCouponCustomerByCouponID(coupon.getId());
 			}
 			
 			// Invoking the removeCustomer method in CustomerDBDAO
@@ -221,7 +211,7 @@ public class AdminFacade{
 
 			// In case of a problem throw new AdminFacadeException
 			throw new AdminFacadeException("AdminFacadeException - " 
-					+ "removeCustomer() - Error");
+					+ "removeCustomer() - Error", e);
 		}
 	}
 
@@ -233,7 +223,6 @@ public class AdminFacade{
 	 * @throws CustomerAlreadyExistsException
 	 */
 	public void updateCustomer(Customer customer) throws AdminFacadeException, IllegalPasswordException, CustomerAlreadyExistsException {
-		// TODO check if Customer exist
 		try {
 			// Invoking the updateCustomer method in CustomerDBDAO
 			CustomerDBDAO.getInstace().updateCustomer(customer);
@@ -242,7 +231,7 @@ public class AdminFacade{
 		} catch (CouponSystemException e) {
 			// In case of a problem throw new AdminFacadeException
 			throw new AdminFacadeException("AdminFacadeException - " 
-					+ "updateCustomer() - Error");
+					+ "updateCustomer() - Error", e);
 		}
 	}
 
@@ -262,7 +251,7 @@ public class AdminFacade{
 		} catch (CouponSystemException e) {
 			// In case of a problem throw new AdminFacadeException
 			throw new AdminFacadeException("AdminFacadeException - " 
-					+ "getCustomer() - Error");
+					+ "getCustomer() - Error", e);
 		}
 	}
 
@@ -272,7 +261,6 @@ public class AdminFacade{
 	 * @throws AdminFacadeException
 	 */
 	public Collection<Customer> getAllCustomers() throws AdminFacadeException {
-		// TODO check if Customer exist
 		try {
 			// Invoking the getAllCustomers method in CustomerDBDAO
 			return CustomerDBDAO.getInstace().getAllCustomer();
@@ -282,7 +270,7 @@ public class AdminFacade{
 
 			// In case of a problem throw new AdminFacadeException
 			throw new AdminFacadeException("AdminFacadeException - " 
-					+ "getAllCustomers() - Error");
+					+ "getAllCustomers() - Error", e);
 		}
 	}
 }

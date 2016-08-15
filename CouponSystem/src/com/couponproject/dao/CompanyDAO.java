@@ -80,8 +80,6 @@ public interface CompanyDAO {
 	 */
 	public Collection<Coupon> getCoupons(long id) throws CouponSystemException;
 
-	// The login method gets String compName and String password and returns
-	// whether password fits compName (true) or not (false)
 	/**
 	 * Returns a boolean indicating a successful login or not based on company's given
 	 *  name and password as argument
@@ -93,9 +91,6 @@ public interface CompanyDAO {
 	 */
 	public boolean login(String compName, String password) throws CouponSystemException;
 
-	// This method gets a company name and password and return an instance of
-	// company with the related information in the company
-	// table in the DB
 	/**
 	 * Returns an instance of a Bean Company based on a giver Company's Name and Password
 	 * 
