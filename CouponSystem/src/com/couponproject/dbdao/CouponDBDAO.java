@@ -202,8 +202,6 @@ public class CouponDBDAO implements CouponDAO{
 				updateStmt.setDouble(2, coupon.getPrice());
 				updateStmt.setLong(3, coupon.getId());
 				
-				System.out.println(updateStmt);
-				
 				// Execute
 				updateStmt.executeUpdate();
 			
