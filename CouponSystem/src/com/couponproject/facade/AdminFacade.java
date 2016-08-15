@@ -14,6 +14,7 @@ import com.couponproject.exception.CustomerAlreadyExistsException;
 import com.couponproject.exception.CustomerDoesNotExistException;
 import com.couponproject.exception.EmailAlreadyExistsException;
 import com.couponproject.exception.IllegalPasswordException;
+import com.couponproject.system.CouponSystem;
 
 /**
  * This Class represents the Admin client of the Coupon System. 
@@ -55,7 +56,7 @@ public class AdminFacade{
 	public void createCompany(Company company) throws AdminFacadeException, IllegalPasswordException, CompanyAlreadyExistsException, EmailAlreadyExistsException {
 		try {
 			// Invoking the createCompany method in CompanyDBDAO
-			CompanyDBDAO.getInstace().createCompany(company);
+			CouponSystem.getInstance().getCompanyDBDAO().createCompany(company);
 
 			// Catching couponSystemException
 		} catch (CouponSystemException e) {
@@ -79,17 +80,17 @@ public class AdminFacade{
 	public void removeCompany(Company company) throws AdminFacadeException, CouponDoesNotExistException, CompanyDoesNotExistException, CompanyCouponDoesNotExistsException {
 		try {
 			// Deleting all company's coupons by invoking the getCoupons method in **CustomerDBDAO**
-			for (Coupon coupon : CompanyDBDAO.getInstace().getCoupons(company.getId())) {
+			for (Coupon coupon : CouponSystem.getInstance().getCompanyDBDAO().getCoupons(company.getId())) {
 				//deleting from Company_Coupon table
-				CompanyDBDAO.getInstace().removeCompanyCoupon(company.getId(), coupon.getId());
+				CouponSystem.getInstance().getCompanyDBDAO().removeCompanyCoupon(company.getId(), coupon.getId());
 				//deleting from Cust_Coupon table
-				CouponDBDAO.getInstace().removeCouponCustomerByCouponID(coupon.getId());
+				CouponSystem.getInstance().getCouponDBDAO().removeCouponCustomerByCouponID(coupon.getId());
 				//deleting from Coupon table
-				CouponDBDAO.getInstace().removeCoupon(coupon);
+				CouponSystem.getInstance().getCouponDBDAO().removeCoupon(coupon);
 			}
 					
 			// Invoking the removeCompany method in CompanyDBDAO
-			CompanyDBDAO.getInstace().removeCompany(company);
+			CouponSystem.getInstance().getCompanyDBDAO().removeCompany(company);
 			 
 
 			// Catching couponSystemException
@@ -112,7 +113,7 @@ public class AdminFacade{
 	public void updateCompany(Company company) throws AdminFacadeException, IllegalPasswordException, CompanyAlreadyExistsException, EmailAlreadyExistsException {
 		try {
 			// Invoking the updateCompany method in CompanyDBDAO
-			CompanyDBDAO.getInstace().updateCompany(company);
+			CouponSystem.getInstance().getCompanyDBDAO().updateCompany(company);
 
 			// Catching couponSystemException
 		} catch (CouponSystemException e) {
@@ -132,7 +133,7 @@ public class AdminFacade{
 		// TODO check if Company exist (isCompany)
 		try {
 			// Invoking the getCompany method in CompanyDBDAO
-			return CompanyDBDAO.getInstace().getCompany(id);
+			return CouponSystem.getInstance().getCompanyDBDAO().getCompany(id);
 
 			// Catching couponSystemException
 		} catch (CouponSystemException e) {
@@ -151,7 +152,7 @@ public class AdminFacade{
 	public Collection<Company> getAllCompanies() throws AdminFacadeException {
 		try {
 			// Invoking the getAllCompanies method in CompanyDBDAO
-			return CompanyDBDAO.getInstace().getAllCompanies();
+			return CouponSystem.getInstance().getCompanyDBDAO().getAllCompanies();
 
 			// Catching couponSystemException
 		} catch (CouponSystemException e) {
@@ -176,7 +177,7 @@ public class AdminFacade{
 	public void createCustomer(Customer customer) throws AdminFacadeException, IllegalPasswordException, CustomerAlreadyExistsException {
 		try {
 			// Invoking the createCompany method in CustomerDBDAO
-			CustomerDBDAO.getInstace().createCustomer(customer);
+			CouponSystem.getInstance().getCustomerDBDAO().createCustomer(customer);
 
 			// Catching couponSystemException
 		} catch (CouponSystemException e) {
@@ -199,12 +200,12 @@ public class AdminFacade{
 	public void removeCustomer(Customer customer) throws AdminFacadeException, CouponDoesNotExistException, CustomerDoesNotExistException {
 		try {
 			// Deleting all customer's coupons by invoking the getCoupons method in CustomerDBDAO
-			for (Coupon coupon : CustomerDBDAO.getInstace().getCoupons(customer.getId())) { 
-				CouponDBDAO.getInstace().removeCouponCustomerByCouponID(coupon.getId());
+			for (Coupon coupon : CouponSystem.getInstance().getCustomerDBDAO().getCoupons(customer.getId())) { 
+				CouponSystem.getInstance().getCouponDBDAO().removeCouponCustomerByCouponID(coupon.getId());
 			}
 			
 			// Invoking the removeCustomer method in CustomerDBDAO
-			CustomerDBDAO.getInstace().removeCustomer(customer);
+			CouponSystem.getInstance().getCustomerDBDAO().removeCustomer(customer);
 			
 			// Catching couponSystemException
 		} catch (CouponSystemException e) {
@@ -225,7 +226,7 @@ public class AdminFacade{
 	public void updateCustomer(Customer customer) throws AdminFacadeException, IllegalPasswordException, CustomerAlreadyExistsException {
 		try {
 			// Invoking the updateCustomer method in CustomerDBDAO
-			CustomerDBDAO.getInstace().updateCustomer(customer);
+			CouponSystem.getInstance().getCustomerDBDAO().updateCustomer(customer);
 
 			// Catching couponSystemException
 		} catch (CouponSystemException e) {
@@ -245,7 +246,7 @@ public class AdminFacade{
 		// TODO check if Customer exist
 		try {
 			// Invoking the getCostomer method in CustomerDBDAO
-			return CustomerDBDAO.getInstace().getCustomer(id);
+			return CouponSystem.getInstance().getCustomerDBDAO().getCustomer(id);
 
 			// Catching couponSystemException
 		} catch (CouponSystemException e) {
@@ -263,7 +264,7 @@ public class AdminFacade{
 	public Collection<Customer> getAllCustomers() throws AdminFacadeException {
 		try {
 			// Invoking the getAllCustomers method in CustomerDBDAO
-			return CustomerDBDAO.getInstace().getAllCustomer();
+			return CouponSystem.getInstance().getCustomerDBDAO().getAllCustomer();
 
 			// Catching couponSystemException
 		} catch (CouponSystemException e) {

@@ -1,15 +1,13 @@
 package com.couponproject.util;
 
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
 import com.couponproject.beans.*;
-import com.couponproject.constants.CompanyTableColumnNames;
-import com.couponproject.constants.CouponTableColumnNames;
-import com.couponproject.constants.CouponType;
+import com.couponproject.constants.*;
 import com.couponproject.dbdao.*;
 import com.couponproject.exception.CouponSystemException;
+import com.couponproject.system.CouponSystem;
 
 /**
  * This calls provides Utilities static method for the Coupon System
@@ -46,10 +44,11 @@ public class Util {
 	 * @throws SQLException
 	 */
 	public static Company resultSetToCompany(ResultSet myRs) throws SQLException{
-		return new Company(myRs.getLong(CompanyTableColumnNames.ID.name()),
-							myRs.getString(CompanyTableColumnNames.COMP_NAME.name()), 
-							myRs.getString(CompanyTableColumnNames.PASSWORD.name()), 
-							myRs.getString(CompanyTableColumnNames.EMAIL.name()));	
+		return new Company(
+				myRs.getLong(CompanyTableColumnNames.ID.name()),
+				myRs.getString(CompanyTableColumnNames.COMP_NAME.name()), 
+				myRs.getString(CompanyTableColumnNames.PASSWORD.name()), 
+				myRs.getString(CompanyTableColumnNames.EMAIL.name()));	
 	}
 	
 	/**
@@ -59,9 +58,10 @@ public class Util {
 	 * @throws SQLException
 	 */
 	public static Customer resultSetToCustomer(ResultSet myRs) throws SQLException{
-		return new Customer(myRs.getLong("ID"), 
-				myRs.getString("CUST_NAME"),
-				myRs.getString("PASSWORD"));
+		return new Customer(
+				myRs.getLong(CustomerTableColumnNames.ID.name()), 
+				myRs.getString(CustomerTableColumnNames.CUST_NAME.name()),
+				myRs.getString(CustomerTableColumnNames.PASSWORD.name()));
 	}
 	
 	/**
@@ -87,7 +87,7 @@ public class Util {
 	 */
 	public static boolean isCustomer(Customer customer) {
 		try {
-			Customer dbCustomer = CustomerDBDAO.getInstace().getCustomer(customer.getCustName(),
+			Customer dbCustomer = CouponSystem.getInstance().getCustomerDBDAO().getCustomer(customer.getCustName(),
 					customer.getPassword());
 
 			if (customer.getCustName().equals(dbCustomer.getCustName())) {
@@ -108,7 +108,7 @@ public class Util {
 	public static boolean isCustomerNameExist(Customer customer) {
 		boolean result = false;
 		try {
-			for (Customer dbCustomer : CustomerDBDAO.getInstace().getAllCustomer()) {
+			for (Customer dbCustomer : CouponSystem.getInstance().getCustomerDBDAO().getAllCustomer()) {
 				if ((customer.getCustName().equals(dbCustomer.getCustName()))
 						&& (customer.getId() != dbCustomer.getId())) {
 					result = true;
@@ -127,7 +127,7 @@ public class Util {
 	 */
 	public static boolean isCompany(Company company) {
 		try {
-			Company dbCompany = CompanyDBDAO.getInstace().getCompany(company.getCompName(), company.getPassword());
+			Company dbCompany = CouponSystem.getInstance().getCompanyDBDAO().getCompany(company.getCompName(), company.getPassword());
 
 			if (company.getCompName().equals(dbCompany.getCompName())) {
 				return true;
@@ -146,7 +146,7 @@ public class Util {
 	 */
 	public static boolean isEmailExist(Company company) {
 		try {
-			for (Company dbCompany : CompanyDBDAO.getInstace().getAllCompanies()) {
+			for (Company dbCompany : CouponSystem.getInstance().getCompanyDBDAO().getAllCompanies()) {
 				if ((company.getEmail().equals(dbCompany.getEmail()))
 						&& (company.getId() != dbCompany.getId())) {
 					return true;
@@ -166,14 +166,13 @@ public class Util {
 	 */
 	public static boolean isCouponNameExist(Coupon coupon) {
 		try {
-			for (Coupon dbCoupon : CouponDBDAO.getInstace().getAllCoupons()) {
+			for (Coupon dbCoupon : CouponSystem.getInstance().getCouponDBDAO().getAllCoupons()) {
 				if (coupon.getTitle().equals(dbCoupon.getTitle())){
 					return coupon.getId() != dbCoupon.getId();
 				}
 			}
 			return false;
 		} catch (CouponSystemException e) {
-			// TODO: what if there is a problem with the connection
 			return true;
 		}
 	}
@@ -185,14 +184,13 @@ public class Util {
 	 */
 	public static boolean isCoupon(Coupon coupon) {
 		try {
-			for (Coupon dbCoupon : CouponDBDAO.getInstace().getAllCoupons()) {
+			for (Coupon dbCoupon : CouponSystem.getInstance().getCouponDBDAO().getAllCoupons()) {
 				if (coupon.getTitle().equals(dbCoupon.getTitle())) {
 					return true;
 				}
 			}
 			return false;
 		} catch (CouponSystemException e) {
-			// TODO: what if there is a problem with the connection
 			return true;
 		}
 	}
@@ -206,7 +204,7 @@ public class Util {
 	public static boolean isPurchased(Coupon coupon, Customer customer) {
 		try {
 			// Get all customers coupons
-			Collection<Coupon> purchasedCoupons = CustomerDBDAO.getInstace().getCoupons(customer.getId());
+			Collection<Coupon> purchasedCoupons = CouponSystem.getInstance().getCustomerDBDAO().getCoupons(customer.getId());
 			// Iterating and checking if coupon already Purchased
 			boolean result = false;
 			for (Coupon Coupon : purchasedCoupons) {
@@ -229,7 +227,7 @@ public class Util {
 	public static boolean isCompanyCoupon(long couponID, long companyID) {
 		try {
 			// Get all company's coupon
-			Collection<Coupon> companysCoupons = CompanyDBDAO.getInstace().getCoupons(companyID);
+			Collection<Coupon> companysCoupons = CouponSystem.getInstance().getCompanyDBDAO().getCoupons(companyID);
 			// Iterating and checking if coupon exist for company
 			boolean result = false;
 			for (Coupon companysCoupon : companysCoupons) {

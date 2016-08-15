@@ -18,6 +18,7 @@ import com.couponproject.exception.CouponTitleAlreadyExistException;
 import com.couponproject.exception.CustomerAlreadyExistsException;
 import com.couponproject.exception.EmailAlreadyExistsException;
 import com.couponproject.exception.IllegalPasswordException;
+import com.couponproject.system.CouponSystem;
 
 /**
  * This class enables the alignment of the Coupon System tables in the data base.
@@ -106,13 +107,14 @@ public class ResetDataBase {
 					"title" + ("ELECTRICITY " + i + 1),
 					LocalDate.now(),
 					LocalDate.of(2017, 11, 23), 
-					((int) Math.random() * 102), CouponType.ELECTRICITY,
+					((int) Math.random() * 102), 
+					CouponType.ELECTRICITY,
 					"message" + (i + 1),
 					((int)(Math.random() * 10) + 20.99),
 					"image/CouponPics/ELECTRICITY.jpg");
 				// converting coupon object into a sql query and running it
 				try {
-					CouponDBDAO.getInstace().createCoupon(coupon);
+					CouponSystem.getInstance().getCouponDBDAO().createCoupon(coupon);
 				} catch (CouponTitleAlreadyExistException e) {
 					e.printStackTrace();
 			} catch (CouponSystemException e) {
@@ -134,7 +136,7 @@ public class ResetDataBase {
 				// This is the hart of the test
 				// converting coupon object into a sql query and running it
 				try {
-					CouponDBDAO.getInstace().createCoupon(coupon);
+					CouponSystem.getInstance().getCouponDBDAO().createCoupon(coupon);
 				} catch (CouponTitleAlreadyExistException e) {
 					e.printStackTrace();
 				}
@@ -158,7 +160,7 @@ public class ResetDataBase {
 				// This is the hart of the test
 				// converting coupon object into a sql query and running it
 				try {
-					CouponDBDAO.getInstace().createCoupon(coupon);
+					CouponSystem.getInstance().getCouponDBDAO().createCoupon(coupon);
 				} catch (CouponTitleAlreadyExistException e) {
 					e.printStackTrace();
 				}
@@ -180,7 +182,7 @@ public class ResetDataBase {
 				// This is the hart of the test
 				// converting coupon object into a sql query and running it
 				try {
-					CouponDBDAO.getInstace().createCoupon(coupon);
+					CouponSystem.getInstance().getCouponDBDAO().createCoupon(coupon);
 				} catch (CouponTitleAlreadyExistException e) {
 					e.printStackTrace();
 				}
@@ -202,7 +204,7 @@ public class ResetDataBase {
 				// This is the hart of the test
 				// converting coupon object into a sql query and running it
 				try {
-					CouponDBDAO.getInstace().createCoupon(coupon);
+					CouponSystem.getInstance().getCouponDBDAO().createCoupon(coupon);
 				} catch (CouponTitleAlreadyExistException e) {
 					e.printStackTrace();
 				}
@@ -224,7 +226,7 @@ public class ResetDataBase {
 			try {
 				// This is the hart of the test
 				// converting company object into a sql query and running it
-				CompanyDBDAO.getInstace().createCompany(company);
+				CouponSystem.getInstance().getCompanyDBDAO().createCompany(company);
 
 			} catch (CouponSystemException | IllegalPasswordException | CompanyAlreadyExistsException | EmailAlreadyExistsException e) {
 				e.printStackTrace();
@@ -241,7 +243,7 @@ public class ResetDataBase {
 			// Customer instance
 			Customer customer = new Customer("customer " + (i + 99), "AaBbC" + (i + 99));
 			try {
-				CustomerDBDAO.getInstace().createCustomer(customer);
+				CouponSystem.getInstance().getCustomerDBDAO().createCustomer(customer);
 			} catch (CouponSystemException | CustomerAlreadyExistsException | IllegalPasswordException e) {
 				e.printStackTrace();
 			}
@@ -255,7 +257,7 @@ public class ResetDataBase {
 	private static void companyCouponTableAlignment() {
 		// add new information to the company_coupon table
 		try {
-			Collection<Company> companies = CompanyDBDAO.getInstace().getAllCompanies();
+			Collection<Company> companies = CouponSystem.getInstance().getCompanyDBDAO().getAllCompanies();
 			int numOfCompanies = companies.size();
 			int outerCounter = 0;
 			long firstCompanyID = 0;
@@ -265,10 +267,10 @@ public class ResetDataBase {
 			}
 			;
 			long companyID = firstCompanyID;
-			Collection<Coupon> coupons = CouponDBDAO.getInstace().getAllCoupons();
+			Collection<Coupon> coupons = CouponSystem.getInstance().getCouponDBDAO().getAllCoupons();
 			for (Coupon coupon : coupons) {
 				int inerCounter = 0;
-				CompanyDBDAO.getInstace().addCompanyCoupon(companyID, coupon.getId());
+				CouponSystem.getInstance().getCompanyDBDAO().addCompanyCoupon(companyID, coupon.getId());
 				inerCounter++;
 				if (inerCounter > 6 && outerCounter < numOfCompanies) {
 					companyID++;
@@ -286,7 +288,7 @@ public class ResetDataBase {
 	private static void customerCouponTableAlignment() {
 		// add new information to the company_coupon table
 		try {
-			Collection<Customer> customers = CustomerDBDAO.getInstace().getAllCustomer();
+			Collection<Customer> customers = CouponSystem.getInstance().getCustomerDBDAO().getAllCustomer();
 			int numOfCompanies = customers.size();
 			int outerCounter = 0;
 			long firstCustomerID = 0;
@@ -296,10 +298,10 @@ public class ResetDataBase {
 			}
 			;
 			long customerID = firstCustomerID;
-			Collection<Coupon> coupons = CouponDBDAO.getInstace().getAllCoupons();
+			Collection<Coupon> coupons = CouponSystem.getInstance().getCouponDBDAO().getAllCoupons();
 			for (Coupon coupon : coupons) {
 				int inerCounter = 0;
-				CustomerDBDAO.getInstace().addCouponToCustomer(customerID, coupon.getId());
+				CouponSystem.getInstance().getCustomerDBDAO().addCouponToCustomer(customerID, coupon.getId());
 				inerCounter++;
 				if (inerCounter > 6 && outerCounter < numOfCompanies) {
 					customerID++;

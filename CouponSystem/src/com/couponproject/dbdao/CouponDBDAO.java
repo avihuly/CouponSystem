@@ -19,25 +19,10 @@ import com.couponproject.util.Util;
  * @version 1.0
  */
 public class CouponDBDAO implements CouponDAO{
-	// *********
-	// Attribute
-	// *********
-	private static CouponDBDAO instace = null;
-
+	
 	// ***************
 	// *****Methods***
 	// ***************
-	/**
-	 * Returns the single instance of CouponDBDAO
-	 * @return single instance of CouponDBDAO
-	 */
-	public static CouponDBDAO getInstace() {
-		if (instace == null) {
-			return new CouponDBDAO();
-		}
-		return instace;
-	}
-	
 	// Takes Coupon as argument and adds it to the coupon table in the DB
 	@Override
 	public void createCoupon(Coupon coupon) throws CouponSystemException, CouponTitleAlreadyExistException {

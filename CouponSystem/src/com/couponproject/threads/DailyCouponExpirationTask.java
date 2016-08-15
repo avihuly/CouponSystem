@@ -6,6 +6,7 @@ import com.couponproject.beans.Coupon;
 import com.couponproject.dbdao.CouponDBDAO;
 import com.couponproject.exception.CouponDoesNotExistException;
 import com.couponproject.exception.CouponSystemException;
+import com.couponproject.system.CouponSystem;
 
 /**
  * This is the DailyCouponExportationTask thread. It runs every 24 hours and deletes all expired coupons from the DB.
@@ -30,16 +31,16 @@ public class DailyCouponExpirationTask extends Thread {
 		while (!quit) {
 			try {
 				// get all coupons from DB
-				for (Coupon coupon : CouponDBDAO.getInstace().getAllCoupons()) {
+				for (Coupon coupon : CouponSystem.getInstance().getCouponDBDAO().getAllCoupons()) {
 
 					// check if coupon end date as past
 					if (LocalDate.now().isAfter(coupon.getEndDate())) {
 						//delete coupon from company_coupon table
-						CouponDBDAO.getInstace().removeCouponCompanyByCouponID(coupon.getId());
+						CouponSystem.getInstance().getCouponDBDAO().removeCouponCompanyByCouponID(coupon.getId());
 						//delete coupon from customer_coupon table
-						CouponDBDAO.getInstace().removeCouponCustomerByCouponID(coupon.getId());
+						CouponSystem.getInstance().getCouponDBDAO().removeCouponCustomerByCouponID(coupon.getId());
 						//delete the coupon from coupon table
-						CouponDBDAO.getInstace().removeCoupon(coupon);
+						CouponSystem.getInstance().getCouponDBDAO().removeCoupon(coupon);
 						//TODO: remove from company_coupon and customer_coupon
 					}
 				}

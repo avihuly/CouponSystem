@@ -7,7 +7,7 @@ import java.util.HashSet;
 import com.couponproject.beans.*;
 import com.couponproject.constants.CouponType;
 import com.couponproject.exception.*;
-
+import com.couponproject.system.CouponSystem;
 import com.couponproject.dbdao.CompanyDBDAO;
 import com.couponproject.dbdao.CouponDBDAO;
 
@@ -40,7 +40,7 @@ public class CompanyFacade {
 	 */
 	public CompanyFacade(String name, String password) throws CompanyFacadeException {
 		try {
-			company = CompanyDBDAO.getInstace().getCompany(name, password);
+			company = CouponSystem.getInstance().getCompanyDBDAO().getCompany(name, password);
 			// Catching couponSystemException
 		} catch (CouponSystemException e) {
 			// In case of a problem throw new CompanyFacadeException
@@ -64,7 +64,7 @@ public class CompanyFacade {
 		try {
 			// Invoking the login method in CustomerDBDAO
 			// if true - return new CustomerFacade instance with a specific Company
-			if (CompanyDBDAO.getInstace().login(name, password)) {
+			if (CouponSystem.getInstance().getCompanyDBDAO().login(name, password)) {
 				return new CompanyFacade(name, password);
 			}
 			return null;
@@ -86,7 +86,7 @@ public class CompanyFacade {
 	public void createCoupon(Coupon coupon) throws CompanyFacadeException, CouponTitleAlreadyExistException{
 		//adding the coupon to the coupon table in the DB
 		try {
-			CouponDBDAO.getInstace().createCoupon(coupon);
+			CouponSystem.getInstance().getCouponDBDAO().createCoupon(coupon);
 		} catch (CouponSystemException e) {
 			// In case of a problem throw new CompanyFacadeException  
 			throw new CompanyFacadeException("Create coupon Error", e);
@@ -99,7 +99,7 @@ public class CompanyFacade {
 		
 		
 		try {
-			CompanyDBDAO.getInstace().addCompanyCoupon(compId, couponId);
+			CouponSystem.getInstance().getCompanyDBDAO().addCompanyCoupon(compId, couponId);
 		} 
 		// Catching couponSystemException
 		catch (CouponSystemException e) {
@@ -123,7 +123,7 @@ public class CompanyFacade {
 		long couponId = coupon.getId();
 		long compId = company.getId();
 		try {
-			CompanyDBDAO.getInstace().removeCompanyCoupon(compId, couponId);
+			CouponSystem.getInstance().getCompanyDBDAO().removeCompanyCoupon(compId, couponId);
 		}
 		// Catching couponSystemException
 		catch (CouponSystemException e) {
@@ -132,7 +132,7 @@ public class CompanyFacade {
 		}
 		// remove coupon from customer_coupon table
 		try {
-			CouponDBDAO.getInstace().removeCouponCustomerByCouponID(couponId);
+			CouponSystem.getInstance().getCouponDBDAO().removeCouponCustomerByCouponID(couponId);
 		}
 		// Catching couponSystemException
 		catch (CouponSystemException e) {
@@ -142,7 +142,7 @@ public class CompanyFacade {
 
 		// remove from coupon table in the DB
 		try {
-			CouponDBDAO.getInstace().removeCoupon(coupon);
+			CouponSystem.getInstance().getCouponDBDAO().removeCoupon(coupon);
 		}
 		// Catching couponSystemException
 		catch (CouponSystemException e) {
@@ -160,7 +160,7 @@ public class CompanyFacade {
 	public void updateCoupon(Coupon coupon) throws CompanyFacadeException, CouponTitleAlreadyExistException{
 		try {
 			//updating the coupon
-			CouponDBDAO.getInstace().updateCoupon(coupon);
+			CouponSystem.getInstance().getCouponDBDAO().updateCoupon(coupon);
 		} 
 		// Catching couponSystemException
 		catch (CouponSystemException e) {
@@ -179,7 +179,7 @@ public class CompanyFacade {
 	 */
 	public Coupon getCoupon(long id) throws CompanyFacadeException{
 		try {
-			return CouponDBDAO.getInstace().getCoupon(id);
+			return CouponSystem.getInstance().getCouponDBDAO().getCoupon(id);
 		} 
 		// Catching couponSystemException
 		catch (CouponSystemException e) {
@@ -197,7 +197,7 @@ public class CompanyFacade {
 	 * @throws CouponSystemException
 	 */
 	public Collection<CouponType> getUniqueCouponTypes() throws CouponSystemException{
-		return CompanyDBDAO.getInstace().getUniqueCouponTypes(company);
+		return CouponSystem.getInstance().getCompanyDBDAO().getUniqueCouponTypes(company);
 	} 
 	
 	/**
@@ -208,7 +208,7 @@ public class CompanyFacade {
 	public Collection<Coupon> getAllCoupons() throws CompanyFacadeException{
 	
 		try {
-			return CompanyDBDAO.getInstace().getCoupons(company.getId());
+			return CouponSystem.getInstance().getCompanyDBDAO().getCoupons(company.getId());
 		} 
 		// Catching couponSystemException
 		catch (CouponSystemException e) {
@@ -227,7 +227,7 @@ public class CompanyFacade {
 	public Collection<Coupon> getCouponByType(CouponType type) throws CompanyFacadeException{
 		try {
 			// Invoking the getCoupons method in CompanyDBDAO
-			Collection<Coupon> coupons = CompanyDBDAO.getInstace().getCoupons(company.getId());
+			Collection<Coupon> coupons = CouponSystem.getInstance().getCompanyDBDAO().getCoupons(company.getId());
 			Collection<Coupon> couponsByType = new HashSet<>();
 			// Iterating coupons collection and 
 			// removing coupons that not match relevant type
@@ -258,7 +258,7 @@ public class CompanyFacade {
 	public Collection<Coupon> getCouponByPrice(double price) throws CompanyFacadeException{
 		try {
 			// Invoking the getCoupons method in CompanyDBDAO
-			Collection<Coupon> coupons = CompanyDBDAO.getInstace().getCoupons(company.getId());
+			Collection<Coupon> coupons = CouponSystem.getInstance().getCompanyDBDAO().getCoupons(company.getId());
 
 			// Iterating coupons collection and 
 			// removing coupons that above the specified price
@@ -289,7 +289,7 @@ public class CompanyFacade {
 	public Collection<Coupon> getCouponByStartDate(LocalDate date) throws CompanyFacadeException{
 		try {
 			// Invoking the getCoupons method in CompanyDBDAO
-			Collection<Coupon> coupons = CompanyDBDAO.getInstace().getCoupons(company.getId());
+			Collection<Coupon> coupons = CouponSystem.getInstance().getCompanyDBDAO().getCoupons(company.getId());
 
 			// Iterating coupons collection and 
 			// removing coupons that start before specified date
@@ -320,7 +320,7 @@ public class CompanyFacade {
 	public Collection<Coupon> getCouponByEndDate(LocalDate date) throws CompanyFacadeException{
 		try {
 			// Invoking the getCoupons method in CompanyDBDAO
-			Collection<Coupon> coupons = CompanyDBDAO.getInstace().getCoupons(company.getId());
+			Collection<Coupon> coupons = CouponSystem.getInstance().getCompanyDBDAO().getCoupons(company.getId());
 
 			// Iterating coupons collection and 
 			// removing coupons that start before specified date

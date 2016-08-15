@@ -7,10 +7,8 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.SQLException;
-
-import com.couponproject.dbdao.ConnectionPool;
+import com.couponproject.dbdao.*;
 import com.couponproject.exception.CompanyFacadeException;
-import com.couponproject.exception.CustomerAlreadyExistsException;
 import com.couponproject.exception.FacadeException;
 import com.couponproject.threads.DailyCouponExpirationTask;
 
@@ -29,7 +27,18 @@ public class CouponSystem {
 	 * Holds the CouponSystem single instance
 	 */
 	private static CouponSystem instance = new CouponSystem();
-	
+	/**
+	 * Holds the single CompanyDBDAO instance  
+	 */
+	private CompanyDBDAO companyDbdao = new CompanyDBDAO();
+	/**
+	 * Holds the single CustomerDBDAO instance  
+	 */
+	private CustomerDBDAO customerDbdao = new CustomerDBDAO();
+	/**
+	 * Holds the single CouponDBDAO instance  
+	 */
+	private CouponDBDAO couponDbdao = new CouponDBDAO();
 	/**
 	 * Holds the dailyExportationTask thread
 	 */
@@ -49,7 +58,6 @@ public class CouponSystem {
 	//***************
 	//*****Methods***
 	//***************
-	
 	/**
 	 * Returns the CouponSystem single instance
 	 * @return CouponSystem instance
@@ -58,6 +66,30 @@ public class CouponSystem {
 		return instance;
 	}
 	
+	/**
+	 * Returns the single CompanyDBDAO instance
+	 * @return CompanyDBDAO instance
+	 */
+	public CompanyDBDAO getCompanyDBDAO(){
+		return companyDbdao;
+	}
+	
+	/**
+	 * Returns the single CustomerDBDAO instance
+	 * @return CustomerDBDAO instance
+	 */
+	public CustomerDBDAO getCustomerDBDAO(){
+		return customerDbdao;
+	}
+	
+	/**
+	 * Returns the single CouponDBDAO instance
+	 * @return CouponDBDAO instance
+	 */
+	public CouponDBDAO getCouponDBDAO(){
+		return couponDbdao;
+	}
+
 	/**
 	 * Shut Down of the Coupon System. 
 	 * <p>The dailyExpirationTask is being stopped.</p>
@@ -89,32 +121,29 @@ public class CouponSystem {
 		try {
 			return CustomerFacade.login(name, password);
 		} catch (FacadeException e) {
-			
+			return null; 	
 		}
-		return null; 
 	}
 	
 	/**
 	 * Returns CompanyFacade following successful login of Company type client or null for unsuccessful login.
 	 * @param name Company's User Name
 	 * @param password Company's Password
-	 * @return CompanyFacade instance
+	 * @return CompanyFacade instance or null
 	 */
 	public CompanyFacade loginAsCompany(String name, String password){
 		try {
 			return CompanyFacade.login(name, password);
 		} catch (CompanyFacadeException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null; 
+			return null;
+		} 
 	}
 	
 	/**
 	 * Returns AdminFacade following successful login of Admin type client or null for unsuccessful login.
 	 * @param name Admin's User Name
 	 * @param password Admin's Password
-	 * @return AdminFacade instance
+	 * @return AdminFacade instance or null
 	 */
 	public AdminFacade loginAsAdmin(String name, String password){
 			return AdminFacade.login(name, password);

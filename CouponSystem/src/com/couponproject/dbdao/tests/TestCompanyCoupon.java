@@ -2,6 +2,7 @@ package com.couponproject.dbdao.tests;
 
 import com.couponproject.dbdao.CompanyDBDAO;
 import com.couponproject.exception.CouponSystemException;
+import com.couponproject.system.CouponSystem;
 
 public class TestCompanyCoupon {
 
@@ -14,7 +15,7 @@ public class TestCompanyCoupon {
 			try {
 				// This is the hart of the test
 				// converting costumer object into a sql query and running it
-				CompanyDBDAO.getInstace().addCompanyCoupon(1002, 3000+i);
+				CouponSystem.getInstance().getCompanyDBDAO().addCompanyCoupon(1002, 3000+i);
 			} catch (CouponSystemException e) {
 				System.out.println(e.getMessage());
 				}

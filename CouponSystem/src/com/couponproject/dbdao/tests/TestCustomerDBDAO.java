@@ -2,11 +2,11 @@ package com.couponproject.dbdao.tests;
 
 import com.couponproject.beans.Coupon;
 import com.couponproject.beans.Customer;
-import com.couponproject.dbdao.CustomerDBDAO;
 import com.couponproject.exception.CouponSystemException;
 import com.couponproject.exception.CustomerAlreadyExistsException;
 import com.couponproject.exception.CustomerDoesNotExistException;
 import com.couponproject.exception.IllegalPasswordException;
+import com.couponproject.system.CouponSystem;
 
 // The main method of this class 
 // contains a test program for all the methods in CustomerDBDAO calls
@@ -14,37 +14,37 @@ public class TestCustomerDBDAO {
 
 	// Main
 	public static void main(String[] args) {
-		// Each method in CustomerDBDAO is being teased in a separate private method
+		// Each method in CustomerDBDAO is being teased in a separate private
+		// method
 
-		 createCustomerTest();
-		 //removeCustomerTest();
-		 //updateCustomerTest();
-		 //getCustomerTest();
-		 //getAllCustomerTest();
-		 //getCouponsTest();
-		 //loginTest();
+		createCustomerTest();
+		// removeCustomerTest();
+		// updateCustomerTest();
+		// getCustomerTest();
+		// getAllCustomerTest();
+		// getCouponsTest();
+		// loginTest();
 	}
 
-	//*******
-	//Methods
-	//*******
-	
+	// *******
+	// Methods
+	// *******
+
 	// Testing getCustomerTest()
 	private static void getCustomerTest() {
-		
+
 		try {
-			System.out.println(CustomerDBDAO.getInstace().getCustomer(99488));
+			System.out.println(CouponSystem.getInstance().getCustomerDBDAO().getCustomer(99488));
 		} catch (CouponSystemException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	// Testing login()
 	private static void loginTest() {
 		try {
-			if (CustomerDBDAO.getInstace().login("customer 115", "password 116")) {
+			if (CouponSystem.getInstance().getCustomerDBDAO().login("customer 115", "password 116")) {
 				System.out.println("Successful LOGIN");
 			} else {
 				System.out.println("unSuccessful Login");
@@ -60,7 +60,7 @@ public class TestCustomerDBDAO {
 	private static void getAllCustomerTest() {
 		try {
 			// This is the hart of the test
-			for (Customer customer : CustomerDBDAO.getInstace().getAllCustomer()) {
+			for (Customer customer : CouponSystem.getInstance().getCustomerDBDAO().getAllCustomer()) {
 				System.out.println(customer);
 			}
 		} catch (CouponSystemException e) {
@@ -78,12 +78,12 @@ public class TestCustomerDBDAO {
 			try {
 				// This is the hart of the test
 				// converting costumer object into a sql query and running it
-				CustomerDBDAO.getInstace().createCustomer(customer);
-			} catch (CouponSystemException|CustomerAlreadyExistsException|IllegalPasswordException e) {
+				CouponSystem.getInstance().getCustomerDBDAO().createCustomer(customer);
+			} catch (CouponSystemException | CustomerAlreadyExistsException | IllegalPasswordException e) {
 				System.out.println(e.getMessage());
-				}	
 			}
 		}
+	}
 
 	// Testing removeCustomer()
 	private static void removeCustomerTest() {
@@ -94,7 +94,7 @@ public class TestCustomerDBDAO {
 			try {
 				// This is the hart of the test
 				// converting costumer object into a sql query and urning it
-				CustomerDBDAO.getInstace().removeCustomer(customer);
+				CouponSystem.getInstance().getCustomerDBDAO().removeCustomer(customer);
 			} catch (CouponSystemException | CustomerDoesNotExistException e) {
 				System.out.println("removeCustomerTest Error");
 				e.printStackTrace();
@@ -106,14 +106,14 @@ public class TestCustomerDBDAO {
 	private static void getCouponsTest() {
 		try {
 			// This is the hart of the test
-			for(Coupon coupon:CustomerDBDAO.getInstace().getCoupons(108)){
+			for (Coupon coupon : CouponSystem.getInstance().getCustomerDBDAO().getCoupons(108)) {
 				System.out.println(coupon);
 			}
 		} catch (CouponSystemException e) {
 			System.out.println("getCouponsTest Error");
 			e.printStackTrace();
 		}
-		
+
 	}
 
 }

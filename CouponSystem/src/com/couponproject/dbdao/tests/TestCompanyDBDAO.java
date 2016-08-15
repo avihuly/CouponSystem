@@ -6,6 +6,7 @@ import com.couponproject.exception.CompanyAlreadyExistsException;
 import com.couponproject.exception.CouponSystemException;
 import com.couponproject.exception.EmailAlreadyExistsException;
 import com.couponproject.exception.IllegalPasswordException;
+import com.couponproject.system.CouponSystem;
 
 public class TestCompanyDBDAO {	
 		public static void main(String[] args) {
@@ -19,7 +20,7 @@ public class TestCompanyDBDAO {
 				try {
 					// This is the hart of the test
 					// converting company object into a sql query and running it
-					CompanyDBDAO.getInstace().createCompany(company);
+					CouponSystem.getInstance().getCompanyDBDAO().createCompany(company);
 				
 				} catch (CouponSystemException | IllegalPasswordException | CompanyAlreadyExistsException e) {
 					System.out.println("createCustomerTest Error");

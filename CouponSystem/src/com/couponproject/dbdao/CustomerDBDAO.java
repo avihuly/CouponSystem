@@ -19,21 +19,9 @@ import com.couponproject.util.Util;
  * @version 1.0
  */
 public class CustomerDBDAO implements CustomerDAO {
-	// *********
-	// Attribute
-	// *********
-	private static CustomerDBDAO instace = null;
-	
 	// ***************
 	// *****Methods***
-	// ***************
-	public static CustomerDBDAO getInstace(){
-		if (instace == null){
-			return new CustomerDBDAO();
-		}
-		return instace;
-	}
-	
+	// ***************	
 	// Takes Customer as argument and adds it to the customer table in the DB
 	@Override
 	public void createCustomer(Customer customer)
@@ -200,7 +188,7 @@ public class CustomerDBDAO implements CustomerDAO {
 					+ "JOIN customer_coupon "
 					+ "ON coupon." + CouponTableColumnNames.ID 
 					+ "= customer_coupon." + JoinTablesColumnNames.COUPON_ID  
-					+ "WHERE customer_coupon."+ JoinTablesColumnNames.CUST_ID + "= ?");
+					+ " WHERE customer_coupon."+ JoinTablesColumnNames.CUST_ID + "= ?");
 			// Value
 			selectStmt.setLong(1, id);
 			// Execute and get a resultSet
@@ -267,21 +255,21 @@ public class CustomerDBDAO implements CustomerDAO {
 			// Value
 			selectStmt.setLong(1, coupId);
 			// Execute and get a resultSet
-			ResultSet myRs = selectStmt.executeQuery();
-			
-			// 
-			// Subtract 1 coupon from coupon amount 
-			int coupAmount = myRs.getInt(CouponTableColumnNames.AMOUNT.name());
-			// remove 1 from the amount of the coupon
-			PreparedStatement updateStmt = myCon.prepareStatement(
-					"update coupon set "
-					+ CouponTableColumnNames.AMOUNT + "= ? where " 
-					+ CouponTableColumnNames.ID + "= ?");
-			// Values
-			updateStmt.setDouble(2, coupAmount--);
-			updateStmt.setLong(3, coupId);
-			// Execute
-			updateStmt.executeUpdate();
+			selectStmt.executeQuery();
+//	TODO: implement in a different place
+//			// 
+//			// Subtract 1 coupon from coupon amount 
+//			int coupAmount = myRs.getInt(CouponTableColumnNames.AMOUNT.name());
+//			// remove 1 from the amount of the coupon
+//			PreparedStatement updateStmt = myCon.prepareStatement(
+//					"update coupon set "
+//					+ CouponTableColumnNames.AMOUNT + "= ? where " 
+//					+ CouponTableColumnNames.ID + "= ?");
+//			// Values
+//			updateStmt.setDouble(2, coupAmount--);
+//			updateStmt.setLong(3, coupId);
+//			// Execute
+//			updateStmt.executeUpdate();
 		} catch (PropertyVetoException | SQLException | IOException e) {
 			throw new CouponSystemException(Constants.CouponSystemExceptionMassage + e.getMessage(), e);
 		}

@@ -12,6 +12,7 @@ import com.couponproject.exception.CouponSystemException;
 import com.couponproject.facade.CustomerFacade;
 import com.couponproject.gui.GuiUtil;
 import com.couponproject.gui.frames.CustomerMainFrame;
+import com.couponproject.system.CouponSystem;
 
 public class AllCouponsActionListener implements ActionListener {
 	// **********
@@ -39,7 +40,7 @@ public class AllCouponsActionListener implements ActionListener {
 		// Step 1 - load all Coupons to table
 		// ----------------------------------
 		try {
-			GuiUtil.CouponsToTable(tableCouponData, CouponDBDAO.getInstace().getAllCoupons());
+			GuiUtil.CouponsToTable(tableCouponData, CouponSystem.getInstance().getCouponDBDAO().getAllCoupons());
 		} catch (CouponSystemException e1) {
 			e1.printStackTrace();
 		}
@@ -62,7 +63,7 @@ public class AllCouponsActionListener implements ActionListener {
 			tempBnt.addActionListener(typeE -> {
 				try {
 					GuiUtil.CouponsToTable(tableCouponData,
-							CouponDBDAO.getInstace().getCouponsByType(CouponType.valueOf(tempBnt.getText())));
+							CouponSystem.getInstance().getCouponDBDAO().getCouponsByType(CouponType.valueOf(tempBnt.getText())));
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -78,7 +79,7 @@ public class AllCouponsActionListener implements ActionListener {
 		allkBnt.addActionListener(allE -> {
 		
 			try {
-				GuiUtil.CouponsToTable(tableCouponData, CouponDBDAO.getInstace().getAllCoupons());
+				GuiUtil.CouponsToTable(tableCouponData, CouponSystem.getInstance().getCouponDBDAO().getAllCoupons());
 			} catch (Exception e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();

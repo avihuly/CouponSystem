@@ -18,21 +18,9 @@ import com.couponproject.dao.CompanyDAO;
  * @version 1.0
  */
 public class CompanyDBDAO implements CompanyDAO{
-	// *********
-	// Attribute
-	// *********
-	private static CompanyDBDAO instace = null;
-
 	// ***************
 	// *****Methods***
 	// ***************
-	public static CompanyDBDAO getInstace() {
-		if (instace == null) {
-			return new CompanyDBDAO();
-		}
-		return instace;
-	}
-	
 	// A method that gets Company instance that should be of a new company and adds it to the company table in the db
 	@Override
 	public void createCompany(Company company) throws CouponSystemException, IllegalPasswordException,
