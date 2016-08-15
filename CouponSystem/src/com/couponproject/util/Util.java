@@ -10,12 +10,19 @@ import com.couponproject.constants.CouponType;
 import com.couponproject.dbdao.*;
 import com.couponproject.exception.CouponSystemException;
 
-
-
-// This calls provides Utilities static method for the Coupon System
+/**
+ * This calls provides Utilities static method for the Coupon System
+ * @author Avi Huly and Orit Blum
+ * @version 1.0
+ */
 public class Util {
 	
-	// resultSetToCoupn 
+	/**
+	 * Returns a Coupon instance based on a coupon stored in the data base	
+	 * @param myRs Result set received from the sql database following a select query 
+	 * @return Coupon instance
+	 * @throws SQLException
+	 */
 	public static Coupon resultSetToCoupn(ResultSet myRs) throws SQLException{
 		return new Coupon(
 				myRs.getLong(CouponTableColumnNames.ID.name()),
@@ -32,20 +39,27 @@ public class Util {
 	}
 	
 	
-	
-	/*
-	 * Password validation - returns true of password is valid # start-of-string
+	/**
+	 * Returns true is an entered password is valid and false if the password is not valid
+	 * <p># start-of-string
 	 * (?=.*[0-9]) # a digit must occur at least once (?=.*[a-z]) # a lower case
 	 * letter must occur at least once (?=.*[A-Z]) # an upper case letter must
 	 * occur at least once (?=\S+$) # no whitespace allowed in the entire string
-	 * .{8,} # anything, at least eight places though $ # end-of-string
+	 * .{8,} # anything, at least eight places though $ # end-of-string</p>
+	 * @param password String password entered by the user
+	 * @return true is an entered password is valid and false if the password is not valid
 	 */
 	public static boolean passwordvalidation(String password) {
 		String pattern = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{6,10}";
 		return password.matches(pattern);
 	}
 
-	// Returns true if Customer exist in DB
+
+	/**
+	 * Returns true if customer exist in the database, otherwise returns false
+	 * @param customer Customer instance
+	 * @return true if Customer exist in the database, otherwise returns false
+	 */
 	public static boolean isCustomer(Customer customer) {
 		try {
 			Customer dbCustomer = CustomerDBDAO.getInstace().getCustomer(customer.getCustName(),
@@ -61,7 +75,11 @@ public class Util {
 		}
 	}
 
-	// Returns true if Customer name exist in DB
+	/**
+	 * Returns true if customer name exist in the database, otherwise returns false
+	 * @param customer Customer instance
+	 * @return true if Customer name exist in the database, otherwise returns false 
+	 */
 	public static boolean isCustomerNameExist(Customer customer) {
 		boolean result = false;
 		try {
@@ -77,7 +95,11 @@ public class Util {
 		}
 	}
 
-	// Returns true if Company name of id already exist in DB
+	/**
+	 * Returns true if company name or id already exist in the database, otherwise returns false 
+	 * @param company Company instance
+	 * @return true if Company name or id already exist in the database, otherwise returns false
+	 */
 	public static boolean isCompany(Company company) {
 		try {
 			Company dbCompany = CompanyDBDAO.getInstace().getCompany(company.getCompName(), company.getPassword());
@@ -92,7 +114,11 @@ public class Util {
 		}
 	}
 	
-	// Returns true if Customer name exist in DB
+	/**
+	 * Returns true if company's e-mail exist in the database, otherwise returns false
+	 * @param company Company instance
+	 * @return true if Company's e-mail exist in the database, otherwise returns false
+	 */
 	public static boolean isEmailExist(Company company) {
 		try {
 			for (Company dbCompany : CompanyDBDAO.getInstace().getAllCompanies()) {
@@ -108,7 +134,11 @@ public class Util {
 		}
 	}
 	
-	// Returns true if argument coupon name or ID already exist in DB
+	/**
+	 * Returns true if coupon title or id already exist in the database, otherwise returns false
+	 * @param coupon Coupon instance
+	 * @return true if Coupon title or id already exist in the database, otherwise returns false
+	 */
 	public static boolean isCouponNameExist(Coupon coupon) {
 		try {
 			for (Coupon dbCoupon : CouponDBDAO.getInstace().getAllCoupons()) {
@@ -123,7 +153,11 @@ public class Util {
 		}
 	}
 	
-	// Returns true if argument coupon name or ID already exist in DB
+	/**
+	 * Returns true if coupon title already exist in the database, otherwise returns false
+	 * @param coupon Coupon instance
+	 * @return true if Coupon title already exist in the database, otherwise returns false
+	 */
 	public static boolean isCoupon(Coupon coupon) {
 		try {
 			for (Coupon dbCoupon : CouponDBDAO.getInstace().getAllCoupons()) {
@@ -138,6 +172,12 @@ public class Util {
 		}
 	}
 
+	/**
+	 * Returns true if coupon already purchased by this customer, otherwise returns false
+	 * @param coupon Coupon instance
+	 * @param customer Customer instance
+	 * @return true if Coupon already purchased by this customer, otherwise returns false
+	 */
 	public static boolean isPurchased(Coupon coupon, Customer customer) {
 		try {
 			// Get all customers coupons
@@ -155,6 +195,12 @@ public class Util {
 		}
 	}
 
+	/**
+	 * Returns true if Coupon is owned by this Company, otherwise returns false
+	 * @param couponID This coupon's ID
+	 * @param companyID This company's ID
+	 * @return true if Coupon is owned by this Company, otherwise returns false
+	 */
 	public static boolean isCompanyCoupon(long couponID, long companyID) {
 		try {
 			// Get all company's coupon

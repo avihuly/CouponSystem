@@ -12,7 +12,7 @@ import com.couponproject.exception.CouponSystemException;
  * @author Avi Huly and Orit Blum
  * @version 1.0
  */
-public class DailyCouponExportationTask extends Thread {
+public class DailyCouponExpirationTask extends Thread {
 	
 	// Quit boolean 
 	/**
@@ -34,6 +34,11 @@ public class DailyCouponExportationTask extends Thread {
 
 					// check if coupon end date as past
 					if (LocalDate.now().isAfter(coupon.getEndDate())) {
+						//delete coupon from company_coupon table
+						CouponDBDAO.getInstace().removeCouponCompanyByCouponID(coupon.getId());
+						//delete coupon from customer_coupon table
+						CouponDBDAO.getInstace().removeCouponCustomerByCouponID(coupon.getId());
+						//delete the coupon from coupon table
 						CouponDBDAO.getInstace().removeCoupon(coupon);
 						//TODO: remove from company_coupon and customer_coupon
 					}

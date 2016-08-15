@@ -235,7 +235,8 @@ public class CompanyDBDAO implements CompanyDAO{
 				
 			// Execute and get a resultSet
 			ResultSet myRs = selectStmt.executeQuery();
-
+			//TODO: check if result set not empty
+			
 			// Processing resultSet into a Company(bean) instance
 			myRs.next();
 			String compName = myRs.getString("COMP_NAME");

@@ -21,6 +21,9 @@ public class CustomerFacade {
 	// **********
 	// Attribute
 	// **********
+	/**
+	 * Holds the Customer instance with the details of the Logged in customer 
+	 */
 	private Customer customer;
 	
 	// ***********
@@ -34,7 +37,6 @@ public class CustomerFacade {
 	 * @param password Customer's Password
 	 * @throws CustomerFacadeException
 	 */
-	// constructor loading customer after login
 	public CustomerFacade(String name, String password) throws CustomerFacadeException {
 		try {
 			customer = CustomerDBDAO.getInstace().getCustomer(name, password);
@@ -50,9 +52,6 @@ public class CustomerFacade {
 	//*****Methods***
 	//***************
 	
-	// -----
-	// Login
-	// -----
 	/**
 	 * Returns CustomerFacade instance upon a successful login and null if login fails
 	 * @param name Customer's User Name

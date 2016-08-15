@@ -10,7 +10,7 @@ import com.couponproject.dbdao.ConnectionPool;
 import com.couponproject.exception.CompanyFacadeException;
 import com.couponproject.exception.CustomerAlreadyExistsException;
 import com.couponproject.exception.FacadeException;
-import com.couponproject.threads.DailyCouponExportationTask;
+import com.couponproject.threads.DailyCouponExpirationTask;
 
 /**
  * This class is the entrance point of the different clients to the coupon system.
@@ -31,7 +31,7 @@ public class CouponSystem {
 	/**
 	 * Holds the dailyExportationTask thread
 	 */
-	private DailyCouponExportationTask dailyExportationTask = new DailyCouponExportationTask();
+	private DailyCouponExpirationTask dailyExportationTask = new DailyCouponExpirationTask();
 	
 	// ***********
 	// constructor
@@ -58,14 +58,13 @@ public class CouponSystem {
 	
 	/**
 	 * Shut Down of the Coupon System. 
-	 * <p>The dailyExportationTask is being stoped.</p>
+	 * <p>The dailyExpirationTask is being stopped.</p>
 	 * <p>The connection to the data base is being closed.</p>
 	 */
 	public void shutDown(){
 		try {
 			dailyExportationTask.stopTask();
 			ConnectionPool.getInstance().shutDown();
-			// TODO: dailyExportationTask.stopTask();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

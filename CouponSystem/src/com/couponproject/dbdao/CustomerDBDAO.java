@@ -318,7 +318,7 @@ public class CustomerDBDAO implements CustomerDAO {
 		// getting a connection to DB from  pool
 		try (Connection myCon = ConnectionPool.getInstance().getConnection()) {
 
-			// Insert prepared statement
+			// Insert prepared statement to add custpmer and coupon the customer_coupon table
 			PreparedStatement insertStmt = myCon.prepareStatement(					
 					"insert into "
 					+ "customer_coupon (CUST_ID, COUPON_ID) "
@@ -330,10 +330,36 @@ public class CustomerDBDAO implements CustomerDAO {
 
 			// Execute
 			insertStmt.executeUpdate();
-
+			
+			// Select prepared statement to get coupon's amount before purchase
+			PreparedStatement selectStmt = myCon.prepareStatement(
+					"select * from coupon "
+							+ "where ID = ?");
+			//Value 
+			selectStmt.setLong(1, coupId);
+			// Execute and get a resultSet
+			ResultSet myRs = selectStmt.executeQuery();
+			int coupAmount = myRs.getInt("AMOUNT");
+			
+			// Update prepared statement to remove 1 from the amount of the coupon
+			PreparedStatement updateStmt = myCon.prepareStatement(
+					"update coupon "
+					+ "set amount = ? "
+					+ "where ID = ?");
+			//Values
+			updateStmt.setDouble(2, coupAmount--);
+			updateStmt.setLong(3, coupId);
+			// Execute
+			updateStmt.executeUpdate();
+			
 		} catch (PropertyVetoException | SQLException | IOException e) {
 			throw new CouponSystemException(e.getMessage(), e);
 		}
+	}
+	
+	@Override
+	public void removeCustomerCoupon(long custId, long couponId) {
+		// TODO Auto-generated method stub		
 	}
 
 	// ****************
@@ -386,6 +412,7 @@ public class CustomerDBDAO implements CustomerDAO {
 	// ***************
 	// private methods
 	// ***************
+	//TODO: we have it also in the util
 	private Coupon resultSetToCoupn(ResultSet myRs) throws SQLException{
 		return new Coupon(
 				myRs.getLong("ID"),

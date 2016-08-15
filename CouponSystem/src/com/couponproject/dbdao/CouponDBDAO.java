@@ -38,8 +38,10 @@ public class CouponDBDAO implements CouponDAO{
 	// *****Methods***
 	// ***************
 
-	// Get instace
-	//TODO: this should be public?
+	/**
+	 * Returns the single instance of CouponDBDAO
+	 * @return single instance of CouponDBDAO
+	 */
 	public static CouponDBDAO getInstace() {
 		if (instace == null) {
 			return new CouponDBDAO();
@@ -202,8 +204,6 @@ public class CouponDBDAO implements CouponDAO{
 				updateStmt.setDouble(2, coupon.getPrice());
 				updateStmt.setLong(3, coupon.getId());
 				
-				System.out.println(updateStmt);
-				
 				// Execute
 				updateStmt.executeUpdate();
 			
@@ -252,11 +252,7 @@ public class CouponDBDAO implements CouponDAO{
 			return coupon;
 		
 		} catch (PropertyVetoException | SQLException | IOException e) {
-//			System.out.println("******************************");
-//			System.out.println("******************************");
-//			e.printStackTrace();
-//			System.out.println("******************************");
-//			System.out.println("******************************");
+
 			throw new CouponSystemException(e.getMessage(), e);
 		}
 	}
