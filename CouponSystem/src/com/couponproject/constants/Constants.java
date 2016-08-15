@@ -1,5 +1,7 @@
 package com.couponproject.constants;
 
+import com.couponproject.exception.CouponTitleAlreadyExistException;
+
 /**
  * this class is used to specify a selection of table index's that are commonly
  * used trout the code, and
@@ -26,6 +28,7 @@ public class Constants {
 
 	// Massages
 	public static final String CouponSystemExceptionMassage = "CouponSystemException: ";
+	public static final String CouponTitleAlreadyMassage = "Coupon title already exist in DB";
 	public static final String UnExpectedErrorMassage = "An unexpected error occurred. please try again later.";
 	public static final String UserNameErrorMassage = "User name already exists in DB.";
 	public static final String EmailAlreadyExistsMassage = "Email already exists in DB.";

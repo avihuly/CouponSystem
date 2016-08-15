@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
 import com.couponproject.beans.*;
+import com.couponproject.constants.CompanyTableColumnNames;
 import com.couponproject.constants.CouponTableColumnNames;
 import com.couponproject.constants.CouponType;
 import com.couponproject.dbdao.*;
@@ -45,10 +46,10 @@ public class Util {
 	 * @throws SQLException
 	 */
 	public static Company resultSetToCompany(ResultSet myRs) throws SQLException{
-		return new Company(myRs.getLong("ID"),
-							myRs.getString("COMP_NAME"), 
-							myRs.getString("PASSWORD"), 
-							myRs.getString("EMAIL"));	
+		return new Company(myRs.getLong(CompanyTableColumnNames.ID.name()),
+							myRs.getString(CompanyTableColumnNames.COMP_NAME.name()), 
+							myRs.getString(CompanyTableColumnNames.PASSWORD.name()), 
+							myRs.getString(CompanyTableColumnNames.EMAIL.name()));	
 	}
 	
 	
