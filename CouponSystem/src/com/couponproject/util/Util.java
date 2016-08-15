@@ -18,7 +18,7 @@ import com.couponproject.exception.CouponSystemException;
 public class Util {
 	
 	/**
-	 * Returns a Coupon instance based on a coupon stored in the data base	
+	 * Returns a Coupon instance based on a result set from data base
 	 * @param myRs Result set received from the sql database following a select query 
 	 * @return Coupon instance
 	 * @throws SQLException
@@ -36,6 +36,19 @@ public class Util {
 				myRs.getString(CouponTableColumnNames.MESSAGE.name()), 
 				myRs.getDouble(CouponTableColumnNames.PRICE.name()), 
 				myRs.getString(CouponTableColumnNames.IMAGE.name()));
+	}
+	
+	/**
+	 * Returns a Company instance based on a result set from data base	
+	 * @param myRs Result set received from the sql database following a select query 
+	 * @return Coupon instance
+	 * @throws SQLException
+	 */
+	public static Company resultSetToCompany(ResultSet myRs) throws SQLException{
+		return new Company(myRs.getLong("ID"),
+							myRs.getString("COMP_NAME"), 
+							myRs.getString("PASSWORD"), 
+							myRs.getString("EMAIL"));	
 	}
 	
 	

@@ -4,21 +4,11 @@ import java.beans.PropertyVetoException;
 import java.io.IOException;
 import java.sql.*;
 import java.util.*;
-
 import com.couponproject.beans.*;
-import com.couponproject.constants.CompanyTableColumnNames;
-import com.couponproject.constants.Constants;
-import com.couponproject.constants.CouponTableColumnNames;
-import com.couponproject.constants.CouponType;
-import com.couponproject.constants.JoinTablesColumnNames;
-import com.couponproject.dao.CompanyDAO;
-import com.couponproject.exception.CompanyAlreadyExistsException;
-import com.couponproject.exception.CompanyCouponDoesNotExistsException;
-import com.couponproject.exception.CompanyDoesNotExistException;
-import com.couponproject.exception.CouponSystemException;
-import com.couponproject.exception.EmailAlreadyExistsException;
-import com.couponproject.exception.IllegalPasswordException;
+import com.couponproject.constants.*;
+import com.couponproject.exception.*;
 import com.couponproject.util.Util;
+import com.couponproject.dao.CompanyDAO;
 
 //This class implements the CompanyDAO interface with mySQL
 /**
@@ -68,7 +58,6 @@ public class CompanyDBDAO implements CompanyDAO{
 				createStmt.setString(1, company.getCompName());
 				createStmt.setString(2, company.getPassword());
 				createStmt.setString(3, company.getEmail());
-				
 				// Execute
 				createStmt.executeUpdate(); 
 			} catch (PropertyVetoException | SQLException | IOException e) {
@@ -96,7 +85,6 @@ public class CompanyDBDAO implements CompanyDAO{
 				removeStmt.setLong(1, company.getId());
 				removeStmt.setString(2, company.getCompName());
 				removeStmt.setString(3, company.getPassword());
-				
 				// Execute
 				removeStmt.executeUpdate();
 			} catch (PropertyVetoException | SQLException | IOException e) {
@@ -183,7 +171,6 @@ public class CompanyDBDAO implements CompanyDAO{
 		}				
 	}
 	
-	
 	// A method that gets a company's name and password, looks for the line in company table in the db with that name and password
 	// creates a company instance with the details taken from the db and returns it 
 	@Override
@@ -200,92 +187,55 @@ public class CompanyDBDAO implements CompanyDAO{
 			selectStmt.setString(2, password);
 			// Execute and get a resultSet
 			ResultSet myRs = selectStmt.executeQuery();
-
-			// Processing resultSet into a Company(bean) instance
 			myRs.next();
-			Company comp = new Company(myRs.getLong("ID"),
-					myRs.getString("COMP_NAME"), 
-					myRs.getString("PASSWORD"), 
-					myRs.getString("EMAIL"));	
-	
+			
 			//return company
-			return comp;
-			
+			return Util.resultSetToCompany(myRs);
 		} catch (PropertyVetoException | SQLException | IOException e) {
-			
 			throw new CouponSystemException(Constants.CouponSystemExceptionMassage + e.getMessage(), e);
 		}	
 	}
 	
-	// a method that gets a company's ID, looks for the line in company table in the db with that ID
+	// A method that gets a company's ID, looks for the line in company table in the db with that ID
 	// creates a company instance with the details taken from the db and returns it 
 	@Override
 	public Company getCompany(long id) throws CouponSystemException {
-		
 		// getting a connection to DB from  pool
 		try (Connection myCon = ConnectionPool.getInstance().getConnection()){
-				
 			// make prepared statement
 			PreparedStatement selectStmt = myCon.prepareStatement(
-					"select * from company "
-					+ "where ID = ?");
-						
+					"select * from company where "
+					+ CompanyTableColumnNames.ID +"= ?");	
 			// Value
 			selectStmt.setLong(1, id);
-				
 			// Execute and get a resultSet
 			ResultSet myRs = selectStmt.executeQuery();
-			//TODO: check if result set not empty
-			
-			// Processing resultSet into a Company(bean) instance
-			myRs.next();
-			String compName = myRs.getString("COMP_NAME");
-			String password = myRs.getString("PASSWORD");
-			String email = myRs.getString("EMAIL");
-			
-			Company comp = new Company(id, compName, password, email);	
-	
+			myRs.next();	
 			//return company
-			return comp;
-				
+			return Util.resultSetToCompany(myRs);
 		} catch (PropertyVetoException | SQLException | IOException e) {
 			throw new CouponSystemException(Constants.CouponSystemExceptionMassage + e.getMessage(), e);
 		}
 	}
 	
-	
-	
-	// a method that returns a collection of all the companies in the company table on the db
+	// A method that returns a collection of all the companies in the DB company table 
 	@Override
 	public Collection<Company> getAllCompanies() throws CouponSystemException {
-
 		// getting a connection to DB from  pool
 		try (Connection myCon = ConnectionPool.getInstance().getConnection()){
-						
 			//declaring a collection of companies
 			List<Company> companies = new ArrayList<>();
-			
 			//prepared statement
-			PreparedStatement selectStmt = myCon.prepareStatement(
-					"select * from company ");
-			
+			PreparedStatement selectStmt = myCon.prepareStatement("select * from company");
 			// Execute and get a resultSet 
 			ResultSet myRs = selectStmt.executeQuery();
-			
 			// Processing resultSet into a List of Company
 			// each iteration is converted into a Company instance and added to the list
 			while(myRs.next()){
-				Company company = new Company(
-						myRs.getLong("ID"),
-						myRs.getString("COMP_NAME"),
-						myRs.getString("PASSWORD"),
-						myRs.getString("EMAIL"));
-				companies.add(company);
+				companies.add(Util.resultSetToCompany(myRs));
 			}
-			
 			//return List<Company>
 			return companies;	
-			
 		} catch (PropertyVetoException | SQLException | IOException e) {
 			throw new CouponSystemException(Constants.CouponSystemExceptionMassage + e.getMessage(), e);
 		}
@@ -300,71 +250,44 @@ public class CompanyDBDAO implements CompanyDAO{
 			PreparedStatement selectStmt = myCon.prepareStatement(
 					"SELECT * FROM coupon "
 					+ "JOIN company_coupon "
-					+ "ON coupon.ID = company_coupon.COUPON_ID "
-					+ "WHERE company_coupon.COMP_ID = ?");
-			
+					+ "ON coupon.ID = company_coupon." + JoinTablesColumnNames.COUPON_ID
+					+ " WHERE company_coupon." + JoinTablesColumnNames.COMP_ID + "= ?");
 			// Value 
 			selectStmt.setLong(1, id);
-			
 			// Execute and get a resultSet
 			ResultSet myRs = selectStmt.executeQuery();
-			
 			// Processing resultSet into a Collection of Coupon
-			// ---------------------------------------------------
-			// Declaring a set of 'Coupon's
 			Collection<Coupon> coupons = new ArrayList<>();
-
 			// Iterating the resultSet -
 			// each iteration is converted into a Coupon instance and added to the List
 			while (myRs.next()) {
-				// Generating Coupon
-				Coupon coupon = new Coupon(
-						myRs.getLong("ID"),
-						myRs.getString("TITLE"), 
-						// converting Date to LocalDate
-						myRs.getDate("START_DATE").toLocalDate(),
-						// converting Date to LocalDate
-						myRs.getDate("END_DATE").toLocalDate(),
-						myRs.getInt("AMOUNT"), 
-						CouponType.valueOf(myRs.getString("TYPE")),
-						myRs.getString("MESSAGE"), 
-						myRs.getDouble("PRICE"), 
-						myRs.getString("IMAGE"));
-				// Adding to set
-				coupons.add(coupon);
+				coupons.add(Util.resultSetToCoupn(myRs));
 			}
 			// Return coupon
 			return coupons;
-	
 		} catch (PropertyVetoException | SQLException | IOException e) {
 			throw new CouponSystemException(Constants.CouponSystemExceptionMassage + e.getMessage(), e);
 		}
 	}
 				
 	// This method should take company's name and password as argument 
-	// and return a boolean indicating a successful login or not
-	//TODO: exception for compName that does not exists here or when the name is entered by the user? 
+	// and return a boolean indicating a successful login or not 
 	@Override
 	public boolean login(String compName, String password) throws CouponSystemException {
-
 		// getting a connection to DB from pool
 		try (Connection myCon = ConnectionPool.getInstance().getConnection()){
-			
 			// Select prepared statement
 			PreparedStatement loginStmt = myCon.prepareStatement(
-					"select * from company "
-							+ "where COMP_NAME = ? and PASSWORD = ?");
-					
+					"select * from company where "
+					+ CompanyTableColumnNames.COMP_NAME + "= ? and "
+					+ CompanyTableColumnNames.PASSWORD + "= ?");
 			//Values
 			loginStmt.setString(1, compName);
-			loginStmt.setString(2, password);
-					
+			loginStmt.setString(2, password);	
 			// Execute and get a resultSet
 			ResultSet myRs = loginStmt.executeQuery();
-			
 			// Return true if there is a match
 			return myRs.next();
-
 		} catch (PropertyVetoException | SQLException | IOException e) {
 			throw new CouponSystemException(Constants.CouponSystemExceptionMassage + e.getMessage(), e);
 		}
@@ -372,7 +295,7 @@ public class CompanyDBDAO implements CompanyDAO{
 	
 	// ****************
 	// UniqueCouponType
-	// *****************
+	// ****************
 	/**
 	 * Returns a collection of of all the CouponTaypes of the Coupons owned by a specific Company
 	 * @param company The Company for which the collection of CouponType is returned
@@ -382,33 +305,26 @@ public class CompanyDBDAO implements CompanyDAO{
 	public Collection<CouponType> getUniqueCouponTypes(Company company) throws CouponSystemException {
 		// getting a connection to DB from pool
 		try (Connection myCon = ConnectionPool.getInstance().getConnection()) {
-
 			// Select prepared statement
-			PreparedStatement selectStmt = myCon
-					.prepareStatement("SELECT DISTINCT " + CouponTableColumnNames.TYPE 
-							+ " FROM coupon JOIN company_coupon "
-							+ "ON coupon.ID = company_coupon.COUPON_ID "
-							+ "WHERE company_coupon.COMP_ID = ?");
-
+			PreparedStatement selectStmt = myCon.prepareStatement(
+					"SELECT DISTINCT " + CouponTableColumnNames.TYPE 
+						+ " FROM coupon JOIN company_coupon "
+						+ "ON coupon.ID = company_coupon." + JoinTablesColumnNames.COUPON_ID
+						+ " WHERE company_coupon." + JoinTablesColumnNames.COMP_ID + "= ?");
 			//Values
 			selectStmt.setLong(1, company.getId());		
-			
 			// Execute and get a resultSet
 			ResultSet myRs = selectStmt.executeQuery();
-
 			// Processing resultSet into a Collection of CouponType
 			Collection<CouponType> couponsTypes = new ArrayList<>();
-
 			// Iterating the resultSet
 			while (myRs.next()) {
 				// Generating Coupons type and adding it to the List
 				CouponType couponType = CouponType.valueOf(myRs.getString(CouponTableColumnNames.TYPE.name()));
 				couponsTypes.add(couponType);
 			}
-
 			// Return List of coupon
 			return couponsTypes;
-
 		} catch (PropertyVetoException | SQLException | IOException e) {
 			throw new CouponSystemException(Constants.CouponSystemExceptionMassage + e.getMessage(), e);
 		}
