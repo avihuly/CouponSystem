@@ -3,6 +3,8 @@ package com.couponproject.system;
 import com.couponproject.facade.*;
 
 import java.beans.PropertyVetoException;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.SQLException;
 
@@ -65,18 +67,14 @@ public class CouponSystem {
 		try {
 			dailyExportationTask.stopTask();
 			ConnectionPool.getInstance().shutDown();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (PropertyVetoException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		} catch (IOException | SQLException | PropertyVetoException e) {
+			try (FileWriter fstream = new FileWriter("/logs/DailyCouponExpirationTaskLOG.txt");){
+				BufferedWriter out = new BufferedWriter(fstream);
+				out.write(e.toString());
+				out.close();
+			} catch (IOException e1) {}
+		} 
 	}
-	
 	
 	// ******************
 	// ****Login Methods*
@@ -91,8 +89,7 @@ public class CouponSystem {
 		try {
 			return CustomerFacade.login(name, password);
 		} catch (FacadeException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			
 		}
 		return null; 
 	}
