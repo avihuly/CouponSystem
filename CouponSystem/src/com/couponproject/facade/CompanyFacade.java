@@ -11,7 +11,6 @@ import com.couponproject.exception.*;
 import com.couponproject.dbdao.CompanyDBDAO;
 import com.couponproject.dbdao.CouponDBDAO;
 
-//TODO: limits cheking!!!
 /**
  * This Class represents the Company client of the Coupon System. 
  * <p>This class includes all the operations Company can perform in the system</P>
@@ -23,13 +22,15 @@ public class CompanyFacade {
 	// **********
 	// Attributes
 	// **********
+	/**
+	 * Holds the Company instance with the details of the Logged in company 
+	 */
 	private Company company;
 	
 	// ***********
 	// constructor
 	// ***********
 	
-	// constructor loading company after login
 	/**
 	 * Construct CompanyFacade based on given name and password.
 	 * <p>A Company instance of the logged in company is created.</p>
@@ -52,7 +53,6 @@ public class CompanyFacade {
 	//*****Methods***
 	//***************
 	
-	// Login
 	/**
 	 * Returns CompanyFacade instance upon a successful login and null if login fails
 	 * @param name Comapny's User Name
@@ -76,8 +76,6 @@ public class CompanyFacade {
 			}
 	}
 	
-	//A method that gets coupon instance and add the coupon to the coupon table in the DB and adds coupon's and company's
-	//ID to company_coupon table in the DB
 	/**
 	 * Creates new Coupon in the DB based on a given Coupon instance
 	 * The Coupon is added to the coupon table and the company_coupon table
@@ -119,9 +117,6 @@ public class CompanyFacade {
 	 * @throws CouponDoesNotExistException
 	 * @throws CompanyCouponDoesNotExistsException
 	 */
-	// A methods that gets a coupon instance and removes it from the coupon
-	// table and company_coupon table in the DB
-	// TODO: check if the coupon exists before removing
 	public void removeCoupon(Coupon coupon)
 			throws CompanyFacadeException, CouponDoesNotExistException, CompanyCouponDoesNotExistsException {
 		// remove from company_coupon table
@@ -162,9 +157,7 @@ public class CompanyFacade {
 	 * @throws CompanyFacadeException
 	 * @throws CouponTitleAlreadyExistException
 	 */
-	//A method that update coupon details - EndDate and Price
 	public void updateCoupon(Coupon coupon) throws CompanyFacadeException, CouponTitleAlreadyExistException{
-		//TODO: check if coupon exists
 		try {
 			//updating the coupon
 			CouponDBDAO.getInstace().updateCoupon(coupon);
@@ -184,7 +177,6 @@ public class CompanyFacade {
 	 * @return Coupon Instance
 	 * @throws CompanyFacadeException
 	 */
-	//A method that gets coupon's ID and returns that coupon's instance
 	public Coupon getCoupon(long id) throws CompanyFacadeException{
 		try {
 			return CouponDBDAO.getInstace().getCoupon(id);
@@ -213,7 +205,6 @@ public class CompanyFacade {
 	 * @return Collection of Coupon
 	 * @throws CompanyFacadeException
 	 */
-	//A method that returns a list of all the Coupons of the company
 	public Collection<Coupon> getAllCoupons() throws CompanyFacadeException{
 	
 		try {
@@ -233,7 +224,6 @@ public class CompanyFacade {
 	 * @return Collection of Coupon
 	 * @throws CompanyFacadeException
 	 */
-	//A method that returns all of the company's coupons with a specific type
 	public Collection<Coupon> getCouponByType(CouponType type) throws CompanyFacadeException{
 		try {
 			// Invoking the getCoupons method in CompanyDBDAO
@@ -265,7 +255,6 @@ public class CompanyFacade {
 	 * @return Collection on Coupon
 	 * @throws CompanyFacadeException
 	 */
-	//A method that returns all of the company's coupons up to a specific price
 	public Collection<Coupon> getCouponByPrice(double price) throws CompanyFacadeException{
 		try {
 			// Invoking the getCoupons method in CompanyDBDAO
@@ -297,7 +286,6 @@ public class CompanyFacade {
 	 * @return Collection of Coupon
 	 * @throws CompanyFacadeException
 	 */
-	//A method that returns all of the company's coupons after a specific start date
 	public Collection<Coupon> getCouponByStartDate(LocalDate date) throws CompanyFacadeException{
 		try {
 			// Invoking the getCoupons method in CompanyDBDAO
@@ -329,7 +317,6 @@ public class CompanyFacade {
 	 * @return Collection of Coupon
 	 * @throws CompanyFacadeException
 	 */
-	//A method that returns all of the company's coupons that expire before a specific end date
 	public Collection<Coupon> getCouponByEndDate(LocalDate date) throws CompanyFacadeException{
 		try {
 			// Invoking the getCoupons method in CompanyDBDAO
