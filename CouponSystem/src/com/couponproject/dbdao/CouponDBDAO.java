@@ -13,7 +13,7 @@ import com.couponproject.util.Util;
 
 /**
  * 
- * This Class implements the CouponDAO interface, using mySQL server c3po connection pool. 
+ * This Class implements the CouponDAO interface, using mySQL server & c3po connection pool. 
  * 
  * @author Avi Huly and Orit Blum
  * @version 1.0

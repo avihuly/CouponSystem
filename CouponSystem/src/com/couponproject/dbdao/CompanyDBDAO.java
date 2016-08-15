@@ -10,10 +10,9 @@ import com.couponproject.exception.*;
 import com.couponproject.util.Util;
 import com.couponproject.dao.CompanyDAO;
 
-//This class implements the CompanyDAO interface with mySQL
 /**
  * 
- * This Class implements the CoompanyDAO interface, using mySQL server c3po connection pool. 
+ * This Class implements the CoompanyDAO interface, using mySQL server & c3po connection pool. 
  * 
  * @author Avi Huly and Orit Blum
  * @version 1.0

@@ -52,6 +52,17 @@ public class Util {
 							myRs.getString(CompanyTableColumnNames.EMAIL.name()));	
 	}
 	
+	/**
+	 * Returns a Customer instance based on a result set from data base	
+	 * @param myRs Result set received from the sql database following a select query 
+	 * @return Coupon instance
+	 * @throws SQLException
+	 */
+	public static Customer resultSetToCustomer(ResultSet myRs) throws SQLException{
+		return new Customer(myRs.getLong("ID"), 
+				myRs.getString("CUST_NAME"),
+				myRs.getString("PASSWORD"));
+	}
 	
 	/**
 	 * Returns true is an entered password is valid and false if the password is not valid
