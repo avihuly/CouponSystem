@@ -8,8 +8,6 @@ import com.couponproject.beans.*;
 import com.couponproject.constants.CouponType;
 import com.couponproject.exception.*;
 import com.couponproject.system.CouponSystem;
-import com.couponproject.dbdao.CompanyDBDAO;
-import com.couponproject.dbdao.CouponDBDAO;
 
 /**
  * This Class represents the Company client of the Coupon System. 
@@ -34,16 +32,14 @@ public class CompanyFacade {
 	/**
 	 * Construct CompanyFacade based on given name and password.
 	 * <p>A Company instance of the logged in company is created.</p>
-	 * @param name Company's User Name
-	 * @param password Company's Password
+	 * @param String name Company's User Name
+	 * @param String password Company's Password
 	 * @throws CompanyFacadeException
 	 */
 	public CompanyFacade(String name, String password) throws CompanyFacadeException {
 		try {
 			company = CouponSystem.getInstance().getCompanyDBDAO().getCompany(name, password);
-			// Catching couponSystemException
 		} catch (CouponSystemException e) {
-			// In case of a problem throw new CompanyFacadeException
 			throw new CompanyFacadeException("CompanyFacadeException - " 
 					+ "constructor Error: " + e.getMessage(), e);
 		}
@@ -52,7 +48,6 @@ public class CompanyFacade {
 	//***************
 	//*****Methods***
 	//***************
-	
 	/**
 	 * Returns CompanyFacade instance upon a successful login and null if login fails
 	 * @param name Comapny's User Name
@@ -68,9 +63,7 @@ public class CompanyFacade {
 				return new CompanyFacade(name, password);
 			}
 			return null;
-			// Catching couponSystemException
 			} catch (CouponSystemException e){
-				// In case of a problem throw new CompanyFacadeException  
 				throw new CompanyFacadeException("CompanyFacadeException - "
 						+ "login() Error: " + e.getMessage(), e);
 			}
@@ -84,29 +77,17 @@ public class CompanyFacade {
 	 * @throws CouponTitleAlreadyExistException
 	 */
 	public void createCoupon(Coupon coupon) throws CompanyFacadeException, CouponTitleAlreadyExistException{
-		//adding the coupon to the coupon table in the DB
+
 		try {
+			// adding the coupon to the coupon table in the DB
 			CouponSystem.getInstance().getCouponDBDAO().createCoupon(coupon);
-		} catch (CouponSystemException e) {
-			// In case of a problem throw new CompanyFacadeException  
-			throw new CompanyFacadeException("CompanyFacadeException - "
-					+ "createCoupon() Error: " + e.getMessage(), e);
-		}
-		
-		// updating company_coupon table in the DB
-		//TODO: receiving the new coupon's id from the db
-		long couponId = coupon.getId();
-		long compId = company.getId();
-		
-		
-		try {
+			// updating company_coupon table in the DB
+			long couponId = coupon.getId();
+			long compId = company.getId();
 			CouponSystem.getInstance().getCompanyDBDAO().addCompanyCoupon(compId, couponId);
-		} 
-		// Catching couponSystemException
-		catch (CouponSystemException e) {
-			// In case of a problem throw new CompanyFacadeException  
-			throw new CompanyFacadeException("CompanyFacadeException - "
-					+ "createCoupon() Error: " + e.getMessage(), e);
+		} catch (CouponSystemException e) {
+			throw new CompanyFacadeException("CompanyFacadeException - " 
+					+ "createCoupon() Error: " + e.getMessage(),e);
 		}
 	}
 	
@@ -121,37 +102,17 @@ public class CompanyFacade {
 	 */
 	public void removeCoupon(Coupon coupon)
 			throws CompanyFacadeException, CouponDoesNotExistException, CompanyCouponDoesNotExistsException {
-		// remove from company_coupon table
-		long couponId = coupon.getId();
-		long compId = company.getId();
 		try {
+			long couponId = coupon.getId();
+			long compId = company.getId();
+			// remove coupon from company_coupon table
 			CouponSystem.getInstance().getCompanyDBDAO().removeCompanyCoupon(compId, couponId);
-		}
-		// Catching couponSystemException
-		catch (CouponSystemException e) {
-			// In case of a problem throw new CompanyFacadeException
-			throw new CompanyFacadeException("CompanyFacadeException - "
-					+ "removeCoupon() Error: " + e.getMessage(), e);
-		}
-		// remove coupon from customer_coupon table
-		try {
+			// remove coupon from customer_coupon table
 			CouponSystem.getInstance().getCouponDBDAO().removeCouponCustomerByCouponID(couponId);
-		}
-		// Catching couponSystemException
-		catch (CouponSystemException e) {
-			// In case of a problem throw new CompanyFacadeException
-			throw new CompanyFacadeException("CompanyFacadeException - "
-					+ "removeCoupon() Error: " + e.getMessage(), e);
-		}
-
-		// remove from coupon table in the DB
-		try {
+			// remove coupon from Coupon table in the DB
 			CouponSystem.getInstance().getCouponDBDAO().removeCoupon(coupon);
-		}
-		// Catching couponSystemException
-		catch (CouponSystemException e) {
-			// In case of a problem throw new CompanyFacadeException
-			throw new CompanyFacadeException("CompanyFacadeException - "
+		} catch (CouponSystemException e) {
+			throw new CompanyFacadeException("CompanyFacadeException - " 
 					+ "removeCoupon() Error: " + e.getMessage(), e);
 		}
 	}
@@ -164,16 +125,13 @@ public class CompanyFacade {
 	 */
 	public void updateCoupon(Coupon coupon) throws CompanyFacadeException, CouponTitleAlreadyExistException{
 		try {
-			//updating the coupon
+			// Updating the coupon
 			CouponSystem.getInstance().getCouponDBDAO().updateCoupon(coupon);
 		} 
-		// Catching couponSystemException
 		catch (CouponSystemException e) {
-			// In case of a problem throw new CompanyFacadeException
 			throw new CompanyFacadeException("CompanyFacadeException - "
 					+ "updateCoupon() Error: " + e.getMessage(), e);
 		}
-		
 	}
 	
 	/**
@@ -186,9 +144,7 @@ public class CompanyFacade {
 		try {
 			return CouponSystem.getInstance().getCouponDBDAO().getCoupon(id);
 		} 
-		// Catching couponSystemException
 		catch (CouponSystemException e) {
-			// In case of a problem throw new CompanyFacadeException
 			throw new CompanyFacadeException("CompanyFacadeException - "
 					+ "getCoupon() Error: " + e.getMessage(), e);
 		}
@@ -212,13 +168,8 @@ public class CompanyFacade {
 	 * @throws CompanyFacadeException
 	 */
 	public Collection<Coupon> getAllCoupons() throws CompanyFacadeException{
-	
-		try {
-			return CouponSystem.getInstance().getCompanyDBDAO().getCoupons(company.getId());
-		} 
-		// Catching couponSystemException
+		try { return CouponSystem.getInstance().getCompanyDBDAO().getCoupons(company.getId()); } 
 		catch (CouponSystemException e) {
-			// In case of a problem throw new CompanyFacadeException
 			throw new CompanyFacadeException("CompanyFacadeException - "
 					+ "getAllCoupons Error: " + e.getMessage(), e);
 		}
@@ -235,21 +186,15 @@ public class CompanyFacade {
 			// Invoking the getCoupons method in CompanyDBDAO
 			Collection<Coupon> coupons = CouponSystem.getInstance().getCompanyDBDAO().getCoupons(company.getId());
 			Collection<Coupon> couponsByType = new HashSet<>();
-			// Iterating coupons collection and 
-			// removing coupons that not match relevant type
+			// Iterating coupons collection and removing coupons that not match relevant type
 			for (Coupon coupon : coupons) {
 				if (coupon.getType() == type){
 					couponsByType.add(coupon);
 				}
 			}
-			
 			//return couponsByType collection
 			return couponsByType;
-
-		// Catching couponSystemException
 		} catch (CouponSystemException e) {
-
-			// In case of a problem throw new CompanyFacadeException
 			throw new CompanyFacadeException("CompanyFacadeException - " 
 					+ "getCouponsByType() Error: " + e.getMessage(), e);
 		}
@@ -265,22 +210,15 @@ public class CompanyFacade {
 		try {
 			// Invoking the getCoupons method in CompanyDBDAO
 			Collection<Coupon> coupons = CouponSystem.getInstance().getCompanyDBDAO().getCoupons(company.getId());
-
-			// Iterating coupons collection and 
-			// removing coupons that above the specified price
+			// Iterating coupons collection and removing coupons that above the specified price
 			for (Coupon coupon : coupons) {
 				if (coupon.getPrice() > price){
 					coupons.remove(coupon);
 				}
 			}
-			
 			//return couponsByPrice collection
 			return coupons;
-
-		// Catching couponSystemException
 		} catch (CouponSystemException e) {
-
-			// In case of a problem throw new CompanyFacadeException
 			throw new CompanyFacadeException("CompanyFacadeException - " 
 					+ "getCouponsByPrice() Error: " + e.getMessage(), e);
 		}
@@ -296,22 +234,15 @@ public class CompanyFacade {
 		try {
 			// Invoking the getCoupons method in CompanyDBDAO
 			Collection<Coupon> coupons = CouponSystem.getInstance().getCompanyDBDAO().getCoupons(company.getId());
-
-			// Iterating coupons collection and 
-			// removing coupons that start before specified date
+			// Iterating coupons collection and removing coupons that start before specified date
 			for (Coupon coupon : coupons) {
 				if (coupon.getStartDate().isBefore(date)){
 					coupons.remove(coupon);
 				}
 			}
-			
 			//return couponsByStartDate collection
 			return coupons;
-
-		// Catching couponSystemException
 		} catch (CouponSystemException e) {
-
-			// In case of a problem throw new CompanyFacadeException
 			throw new CompanyFacadeException("CompanyFacadeException - " 
 					+ "getCouponsByStartDate() Error: " + e.getMessage(), e);
 		}
@@ -327,22 +258,15 @@ public class CompanyFacade {
 		try {
 			// Invoking the getCoupons method in CompanyDBDAO
 			Collection<Coupon> coupons = CouponSystem.getInstance().getCompanyDBDAO().getCoupons(company.getId());
-
-			// Iterating coupons collection and 
-			// removing coupons that start before specified date
+			// Iterating coupons collection and removing coupons that start before specified date
 			for (Coupon coupon : coupons) {
 				if (coupon.getEndDate().isAfter(date)){
 					coupons.remove(coupon);
 				}
 			}
-			
 			//return couponsByEndDate collection
 			return coupons;
-
-		// Catching couponSystemException
 		} catch (CouponSystemException e) {
-
-			// In case of a problem throw new CompanyFacadeException
 			throw new CompanyFacadeException("CompanyFacadeException - " 
 					+ "getCouponsByEndDate() Error: " + e.getMessage(), e);
 		}

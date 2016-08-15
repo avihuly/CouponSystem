@@ -1,9 +1,10 @@
 package com.couponproject.threads;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.time.LocalDate;
-
 import com.couponproject.beans.Coupon;
-import com.couponproject.dbdao.CouponDBDAO;
 import com.couponproject.exception.CouponDoesNotExistException;
 import com.couponproject.exception.CouponSystemException;
 import com.couponproject.system.CouponSystem;
@@ -47,8 +48,11 @@ public class DailyCouponExpirationTask extends Thread {
 				// Sleep for 24 Hours
 				Thread.sleep(1000 * 60 * 60 * 24);
 			} catch (CouponSystemException | InterruptedException | CouponDoesNotExistException e) {
-				// TODO what souled happen here??!!?!?!
-				e.printStackTrace();
+				try (FileWriter fstream = new FileWriter("/logs/DailyCouponExpirationTaskLOG.txt");){
+					BufferedWriter out = new BufferedWriter(fstream);
+					out.write(e.toString());
+					out.close();
+				} catch (IOException e1) {}
 			}
 		}
 	}

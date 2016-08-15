@@ -19,7 +19,6 @@ import com.couponproject.threads.DailyCouponExpirationTask;
  * @version 1.0
  */
 public class CouponSystem {
-	
 	// **********
 	// Attributes
 	// **********
@@ -43,6 +42,7 @@ public class CouponSystem {
 	 * Holds the dailyExportationTask thread
 	 */
 	private DailyCouponExpirationTask dailyExportationTask = new DailyCouponExpirationTask();
+	
 	
 	// ***********
 	// constructor

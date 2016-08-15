@@ -1,36 +1,22 @@
 package com.couponproject.facade;
 
 import java.util.Collection;
-
 import com.couponproject.beans.*;
-import com.couponproject.dbdao.*;
-import com.couponproject.exception.AdminFacadeException;
-import com.couponproject.exception.CompanyAlreadyExistsException;
-import com.couponproject.exception.CompanyCouponDoesNotExistsException;
-import com.couponproject.exception.CompanyDoesNotExistException;
-import com.couponproject.exception.CouponDoesNotExistException;
-import com.couponproject.exception.CouponSystemException;
-import com.couponproject.exception.CustomerAlreadyExistsException;
-import com.couponproject.exception.CustomerDoesNotExistException;
-import com.couponproject.exception.EmailAlreadyExistsException;
-import com.couponproject.exception.IllegalPasswordException;
+import com.couponproject.exception.*;
 import com.couponproject.system.CouponSystem;
 
 /**
  * This Class represents the Admin client of the Coupon System. 
- * <p>This class includes all the operations Admin can perform in the system</P>
- * 
+ * <p>This class includes methods for all the operations Admin can perform in the system</P>
  * @author Avi Huly and Orit Blum
  * @version 1.0
  */
 public class AdminFacade{
-
 	// ***************
 	// *****Methods***
 	// ***************
-
 	/**
-	 * Returns AdminFacade instance upon a successful login and null if login fails
+	 * Returns AdminFacade instance upon a successful login or null if login fails
 	 * @param name Admin's User Name
 	 * @param password Admin's Password
 	 * @return AdminFacade instance
@@ -46,7 +32,7 @@ public class AdminFacade{
 	// Company methods
 	// ***************
 	/**
-	 * Creates new Company in the DB based on a given Company instance
+	 * Creates new Company in the DB based from a given Company instance
 	 * @param company Company instance
 	 * @throws AdminFacadeException
 	 * @throws IllegalPasswordException
@@ -57,11 +43,7 @@ public class AdminFacade{
 		try {
 			// Invoking the createCompany method in CompanyDBDAO
 			CouponSystem.getInstance().getCompanyDBDAO().createCompany(company);
-
-			// Catching couponSystemException
 		} catch (CouponSystemException e) {
-
-			// In case of a problem throw new AdminFacadeException
 			throw new AdminFacadeException("AdminFacadeException - " 
 					+ "createCompany() - Error: " + e.getMessage(), e);
 		}
@@ -79,22 +61,17 @@ public class AdminFacade{
 	 */
 	public void removeCompany(Company company) throws AdminFacadeException, CouponDoesNotExistException, CompanyDoesNotExistException, CompanyCouponDoesNotExistsException {
 		try {
-			// Deleting all company's coupons by invoking the getCoupons method in **CustomerDBDAO**
 			for (Coupon coupon : CouponSystem.getInstance().getCompanyDBDAO().getCoupons(company.getId())) {
-				//deleting from Company_Coupon table
+				// Deleting coupons from Company_Coupon table
 				CouponSystem.getInstance().getCompanyDBDAO().removeCompanyCoupon(company.getId(), coupon.getId());
-				//deleting from Cust_Coupon table
+				// Deleting coupons from Cust_Coupon table
 				CouponSystem.getInstance().getCouponDBDAO().removeCouponCustomerByCouponID(coupon.getId());
-				//deleting from Coupon table
+				// Deleting coupons from Coupon table
 				CouponSystem.getInstance().getCouponDBDAO().removeCoupon(coupon);
 			}
-			// Invoking the removeCompany method in CompanyDBDAO
+			// Deleting company from Company table
 			CouponSystem.getInstance().getCompanyDBDAO().removeCompany(company);
-			
-			// Catching couponSystemException
 		} catch (CouponSystemException e) {
-
-			// In case of a problem throw new AdminFacadeException
 			throw new AdminFacadeException("AdminFacadeException - " 
 					+ "removeCompany() - Error: " + e.getMessage(), e);
 		}
@@ -112,10 +89,7 @@ public class AdminFacade{
 		try {
 			// Invoking the updateCompany method in CompanyDBDAO
 			CouponSystem.getInstance().getCompanyDBDAO().updateCompany(company);
-
-			// Catching couponSystemException
 		} catch (CouponSystemException e) {
-			// In case of a problem throw new AdminFacadeException
 			throw new AdminFacadeException("AdminFacadeException - " 
 					+ "updateCompany() - Error: " + e.getMessage(), e);
 		}
@@ -128,15 +102,10 @@ public class AdminFacade{
 	 * @throws AdminFacadeException
 	 */
 	public Company getCompany(long id) throws AdminFacadeException {
-		// TODO check if Company exist (isCompany)
 		try {
 			// Invoking the getCompany method in CompanyDBDAO
 			return CouponSystem.getInstance().getCompanyDBDAO().getCompany(id);
-
-			// Catching couponSystemException
 		} catch (CouponSystemException e) {
-
-			// In case of a problem throw new AdminFacadeException
 			throw new AdminFacadeException("AdminFacadeException - " 
 					+ "getCompany() - Error: " + e.getMessage(), e);
 		}
@@ -151,15 +120,10 @@ public class AdminFacade{
 		try {
 			// Invoking the getAllCompanies method in CompanyDBDAO
 			return CouponSystem.getInstance().getCompanyDBDAO().getAllCompanies();
-
-			// Catching couponSystemException
 		} catch (CouponSystemException e) {
-
-			// In case of a problem throw new AdminFacadeException
 			throw new AdminFacadeException("AdminFacadeException - " 
 					+ "getAllCompanies() - Error: " + e.getMessage(), e);
 		}
-
 	}
 	
 	// ***************
@@ -176,11 +140,7 @@ public class AdminFacade{
 		try {
 			// Invoking the createCompany method in CustomerDBDAO
 			CouponSystem.getInstance().getCustomerDBDAO().createCustomer(customer);
-
-			// Catching couponSystemException
 		} catch (CouponSystemException e) {
-
-			// In case of a problem throw new AdminFacadeException
 			throw new AdminFacadeException("AdminFacadeException - " 
 					+ "createCustomer() - Error: " + e.getMessage(), e);
 		}
@@ -189,7 +149,6 @@ public class AdminFacade{
 	/**
 	 * Removes an existing Customer from the DB based on a given Customer instance.
 	 * <p>All of this Customer's purchased Coupons are deleted from the DB from customer_coupon table</p>
-	 * 
 	 * @param customer Customer instance
 	 * @throws AdminFacadeException
 	 * @throws CouponDoesNotExistException
@@ -197,18 +156,13 @@ public class AdminFacade{
 	 */
 	public void removeCustomer(Customer customer) throws AdminFacadeException, CouponDoesNotExistException, CustomerDoesNotExistException {
 		try {
-			// Deleting all customer's coupons by invoking the getCoupons method in CustomerDBDAO
+			// Deleting all customer's coupons
 			for (Coupon coupon : CouponSystem.getInstance().getCustomerDBDAO().getCoupons(customer.getId())) { 
 				CouponSystem.getInstance().getCouponDBDAO().removeCouponCustomerByCouponID(coupon.getId());
 			}
-			
-			// Invoking the removeCustomer method in CustomerDBDAO
+			// Deleting customer from DB
 			CouponSystem.getInstance().getCustomerDBDAO().removeCustomer(customer);
-			
-			// Catching couponSystemException
 		} catch (CouponSystemException e) {
-
-			// In case of a problem throw new AdminFacadeException
 			throw new AdminFacadeException("AdminFacadeException - " 
 					+ "removeCustomer() - Error: " + e.getMessage(), e);
 		}
@@ -225,10 +179,7 @@ public class AdminFacade{
 		try {
 			// Invoking the updateCustomer method in CustomerDBDAO
 			CouponSystem.getInstance().getCustomerDBDAO().updateCustomer(customer);
-
-			// Catching couponSystemException
 		} catch (CouponSystemException e) {
-			// In case of a problem throw new AdminFacadeException
 			throw new AdminFacadeException("AdminFacadeException - " 
 					+ "updateCustomer() - Error: " + e.getMessage(), e);
 		}
@@ -241,14 +192,10 @@ public class AdminFacade{
 	 * @throws AdminFacadeException
 	 */
 	public Customer getCustomer(long id) throws AdminFacadeException {
-		// TODO check if Customer exist
 		try {
 			// Invoking the getCostomer method in CustomerDBDAO
 			return CouponSystem.getInstance().getCustomerDBDAO().getCustomer(id);
-
-			// Catching couponSystemException
 		} catch (CouponSystemException e) {
-			// In case of a problem throw new AdminFacadeException
 			throw new AdminFacadeException("AdminFacadeException - " 
 					+ "getCustomer() - Error: " + e.getMessage(), e);
 		}
@@ -263,11 +210,7 @@ public class AdminFacade{
 		try {
 			// Invoking the getAllCustomers method in CustomerDBDAO
 			return CouponSystem.getInstance().getCustomerDBDAO().getAllCustomer();
-
-			// Catching couponSystemException
 		} catch (CouponSystemException e) {
-
-			// In case of a problem throw new AdminFacadeException
 			throw new AdminFacadeException("AdminFacadeException - " 
 					+ "getAllCustomers() - Error: " + e.getMessage(), e);
 		}

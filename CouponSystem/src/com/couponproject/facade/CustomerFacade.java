@@ -6,7 +6,6 @@ import java.util.HashSet;
 
 import com.couponproject.beans.*;
 import com.couponproject.constants.CouponType;
-import com.couponproject.dbdao.*;
 import com.couponproject.exception.*;
 import com.couponproject.system.CouponSystem;
 import com.couponproject.util.Util;
@@ -30,7 +29,6 @@ public class CustomerFacade {
 	// ***********
 	// constructor
 	// ***********
-	
 	/**
 	 * Construct CustomerFacade based on given name and password.
 	 * <p>A Customer instance of the logged in customer is created.</p>
@@ -42,7 +40,6 @@ public class CustomerFacade {
 		try {
 			customer = CouponSystem.getInstance().getCustomerDBDAO().getCustomer(name, password);
 		} catch (CouponSystemException e){
-			// In case of a problem throw new CustomerFacadeException  
 			throw new CustomerFacadeException("CustomerFacadeException - "
 					+ "CustomerFacade Error: " + e.getMessage(), e);
 		}
@@ -52,7 +49,6 @@ public class CustomerFacade {
 	//***************
 	//*****Methods***
 	//***************
-	
 	/**
 	 * Returns CustomerFacade instance upon a successful login and null if login fails
 	 * @param name Customer's User Name
@@ -67,7 +63,6 @@ public class CustomerFacade {
 			if (CouponSystem.getInstance().getCustomerDBDAO().login(name, password)) {
 				return new CustomerFacade(name, password);
 			} 
-			
 			return null;
 		} catch (CouponSystemException e){
 				// In case of a problem throw new CustomerFacadeException  
@@ -101,26 +96,19 @@ public class CustomerFacade {
 	 */
 	public void purchaseCoupon(long id)
 			throws CouponAlreadyPurchasedException, OutOfStockException, OutOfDateException, CouponSystemException {
-
 		Coupon coupon = CouponSystem.getInstance().getCouponDBDAO().getCoupon(id);
-
+		// 
 		if (LocalDate.now().isAfter(coupon.getEndDate())) {
 			throw new OutOfDateException("Coupon is out of date");
-		}
-		if (coupon.getAmount() == 0) {
+		} else if (coupon.getAmount() == 0) {
 			throw new OutOfStockException("Coupon is out of stock");
-		}
-		if (Util.isPurchased(coupon, customer)) {
+		} else if (Util.isPurchased(coupon, customer)) {
 			throw new CouponAlreadyPurchasedException("Coupon already purchased");
 		} else {
-		
 			try {
 				// Invoking the addCouponToCustomer method in CustomerDBDAO
 				CouponSystem.getInstance().getCustomerDBDAO().addCouponToCustomer(customer.getId(), coupon.getId());
-
-				// Catching couponSystemException
 			} catch (CouponSystemException e) {
-				// In case of a problem throw new CustomerFacadeException
 				throw new CustomerFacadeException("CustomerFacadeException - "
 						+ "purchaseCoupon() Error: " + e.getMessage(), e);
 			}
@@ -137,13 +125,9 @@ public class CustomerFacade {
 	 */
 	public Collection<Coupon> getAllPurchasedCoupons() throws CustomerFacadeException{
 		try {
-			// Invoking (and return the result of) 
-			// the getCoupons method in CustomerDBDAO
+			// Invoking (and return the result of) the getCoupons method in CustomerDBDAO
 			return CouponSystem.getInstance().getCustomerDBDAO().getCoupons(customer.getId());
-		
-		// Catching couponSystemException
-		} catch (CouponSystemException e){
-			// In case of a problem throw new CustomerFacadeException  
+		} catch (CouponSystemException e){  
 			throw new CustomerFacadeException("CustomerFacadeException - "
 					+ "getAllPurchasedCoupons() Error: " + e.getMessage(), e);
 		}
@@ -160,25 +144,18 @@ public class CustomerFacade {
 	 */
 	public Collection<Coupon> getAllPurchasedCouponsByType(CouponType type) throws CustomerFacadeException {
 		try {
-			// Invoking the getCoupons method in CustomerDBDAO
+			// Invoking the getCoupons method in CustomerDBDAO and saving result coupons
 			Collection<Coupon> coupons = CouponSystem.getInstance().getCustomerDBDAO().getCoupons(customer.getId());
 			Collection<Coupon> couponsByType = new HashSet<>(); 
-			// Iterating coupons collection and 
-			// removing coupons that not match relevant type
-			
+			// Iterating coupons collection and removing coupons that not match relevant type
 			for (Coupon coupon : coupons) {
 				if (coupon.getType() == type){
 					couponsByType.add(coupon);
 				}
 			}
-			
 			//return couponsByType collection
 			return couponsByType;
-
-		// Catching couponSystemException
 		} catch (CouponSystemException e) {
-
-			// In case of a problem throw new CustomerFacadeException
 			throw new CustomerFacadeException("CustomerFacadeException - " 
 					+ "getAllPurchasedCouponsByType() Error: "  + e.getMessage(), e);
 		}
@@ -192,25 +169,18 @@ public class CustomerFacade {
 	 */
 	public Collection<Coupon> getAllPurchasedCouponsByPrice(Double price) throws CustomerFacadeException {
 		try {
-			// Invoking the getCoupons method in CustomerDBDAO
+			// Invoking the getCoupons method in CustomerDBDAO and saving result coupons
 			Collection<Coupon> coupons = CouponSystem.getInstance().getCustomerDBDAO().getCoupons(customer.getId());
 			Collection<Coupon> inRangCoupons = new HashSet<>();
-			
-			// Iterating coupons collection and 
-			// removing coupons that not match relevant price
+			// Iterating coupons collection and removing coupons that not match relevant price
 			for (Coupon coupon : coupons) {
 				if (coupon.getPrice() <= price){
 					inRangCoupons.add(coupon);
 				}
 			}
-			
 			//return couponsByType collection
 			return inRangCoupons;
-
-		// Catching couponSystemException
 		} catch (CouponSystemException e) {
-
-			// In case of a problem throw new CustomerFacadeException
 			throw new CustomerFacadeException("CustomerFacadeException - " 
 					+ "getAllPurchasedCouponsByType() Error: " + e.getMessage(), e);
 		}
