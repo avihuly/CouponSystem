@@ -12,7 +12,7 @@ import com.couponproject.exception.CouponSystemException;
  * @author Avi Huly and Orit Blum
  * @version 1.0
  */
-public class DailyCouponExportationTask extends Thread {
+public class DailyCouponExpirationTask extends Thread {
 	
 	// Quit boolean 
 	/**
