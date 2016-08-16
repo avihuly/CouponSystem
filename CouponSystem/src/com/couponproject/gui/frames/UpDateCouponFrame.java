@@ -37,7 +37,7 @@ public class UpDateCouponFrame extends TemplateFrame {
 	
 	public UpDateCouponFrame(CompanyFacade companyFacade, JTable tableCouponData) {
 		// frame properties
-		super("Coupon - Coupon Update", 400, 500);
+		super("Coupon - Coupon Update", 400, 600);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setResizable(false);
 		
