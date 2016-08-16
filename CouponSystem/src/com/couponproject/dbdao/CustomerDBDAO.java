@@ -5,8 +5,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import javax.naming.spi.DirStateFactory.Result;
-
 import java.sql.*;
 import com.couponproject.beans.*;
 import com.couponproject.constants.*;
