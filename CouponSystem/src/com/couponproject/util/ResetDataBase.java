@@ -195,7 +195,7 @@ public class ResetDataBase {
 			// Coupon instance
 			Coupon coupon = new Coupon("title" + ("SPORTS " + i + 1), 
 					LocalDate.now(), 
-					LocalDate.of(2017, 11, 15),
+					LocalDate.of(2015, 11, 15),
 					50, 
 					CouponType.SPORTS, "message" + (i + 1), 
 					((int)(Math.random() * 20) + 20.99),
