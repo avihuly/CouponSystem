@@ -256,32 +256,24 @@ public class CustomerDBDAO implements CustomerDAO {
 		}
 	}
 	
-	public void removeOneFromAmount(long coupId) throws SQLException, IOException, PropertyVetoException{
-		try (Connection myCon = ConnectionPool.getInstance().getConnection()){
-			// Select prepared statement to get coupon's amount before purchase
-			PreparedStatement selectStmt = myCon.prepareStatement("select * from coupon " + "where ID = ?");
-			// Value
-			selectStmt.setLong(1, coupId);
-			// Execute and get a resultSet
-			ResultSet myRs = selectStmt.executeQuery();
-			// Subtract 1 coupon from coupon amount 
-			int coupAmount = myRs.getInt(CouponTableColumnNames.AMOUNT.name());
+	public void removeOneFromAmount(Coupon coupon) throws CouponSystemException {
+		try (Connection myCon = ConnectionPool.getInstance().getConnection()) {
 			// remove 1 from the amount of the coupon
 			PreparedStatement updateStmt = myCon.prepareStatement(
 					"update coupon set "
 					+ CouponTableColumnNames.AMOUNT + "= ? where " 
 					+ CouponTableColumnNames.ID + "= ?");
 			// Values
-			updateStmt.setDouble(2, coupAmount--);
-			updateStmt.setLong(3, coupId);
+			updateStmt.setDouble(1, coupon.getAmount()-1);
+			updateStmt.setLong(2, coupon.getId());
 			// Execute
 			updateStmt.executeUpdate();
+		} catch (PropertyVetoException | SQLException | IOException e) {
+			System.out.println("******************************");
+			e.printStackTrace();
+			System.out.println("*********------------*********************");
+			throw new CouponSystemException(Constants.CouponSystemExceptionMassage + e.getMessage(), e);
 		}
-	}
-	
-	@Override
-	public void removeCustomerCoupon(long custId, long couponId) {
-		// TODO AVI: "i think we dont need that"
 	}
 
 	// ****************

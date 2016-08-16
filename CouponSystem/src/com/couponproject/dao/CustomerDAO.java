@@ -100,11 +100,4 @@ public interface CustomerDAO {
 	 */
 	public boolean login(String custNmae, String password) throws CouponSystemException;
 	
-	/**
-	 * Removes a line from the joined custome_coupon table based on a given Customer's and Coupon's IDs
-	 * @param custId This Customer's ID
-	 * @param couponId This Coupon's ID
-	 */
-	void removeCustomerCoupon(long custId, long couponId);
-	
 }

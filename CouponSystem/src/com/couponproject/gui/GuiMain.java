@@ -6,7 +6,7 @@ import com.couponproject.util.ResetDataBase;
 public class GuiMain {
 	public static void main(String[] args) {
 		
-		ResetDataBase.execute();
+		// ResetDataBase.execute();
 		
 		LoginFrame loginFrame = new LoginFrame();
 		loginFrame.setVisible(true);

@@ -79,7 +79,7 @@ public class LoginActionlistener implements ActionListener {
 			// login message
 			JOptionPane.showMessageDialog(null, "Login!!!");
 			// loading Admin main Frame
-			AdminMainFrame adminMainFrame = new AdminMainFrame(adminFacade);
+			new AdminMainFrame(adminFacade);
 		} else {
 			JOptionPane.showMessageDialog(null, "!!!!!NOT LOGED IN!!!");
 		}
@@ -116,8 +116,7 @@ public class LoginActionlistener implements ActionListener {
 			// login message
 			JOptionPane.showMessageDialog(null, "Login!!!");
 			// loading Customer main Frame
-			CustomerMainFrame customerMainFrame = new CustomerMainFrame(customerFacade);
-
+			new CustomerMainFrame(customerFacade);
 		} else {
 			JOptionPane.showMessageDialog(null, "!!!!!NOT LOGED IN!!!");
 		}

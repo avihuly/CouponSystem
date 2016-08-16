@@ -107,7 +107,7 @@ public class ResetDataBase {
 					"title" + ("ELECTRICITY " + i + 1),
 					LocalDate.now(),
 					LocalDate.of(2017, 11, 23), 
-					((int) Math.random() * 102), 
+					50, 
 					CouponType.ELECTRICITY,
 					"message" + (i + 1),
 					((int)(Math.random() * 10) + 20.99),
@@ -128,7 +128,7 @@ public class ResetDataBase {
 					"title" + ("CAMPING " + i + 1), 
 					LocalDate.now(), 
 					LocalDate.of(2017, 11, 15),
-					((int) Math.random() * 102), 
+					50, 
 					CouponType.CAMPING, "message" + (i + 1), 
 					((int)(Math.random() * 10) + 20.99),
 					"image/CouponPics/CAMPING.png");
@@ -152,7 +152,7 @@ public class ResetDataBase {
 					"title" + ("FOOD " + i + 1),
 					LocalDate.now(), 
 					LocalDate.of(2017, 11, 15),
-					((int) Math.random() * 102), 
+					50, 
 					CouponType.FOOD, "message" + (i + 1), 
 					((int)(Math.random() * 10) + 20.99),
 					"image/CouponPics/FOOD.jpg");
@@ -174,7 +174,7 @@ public class ResetDataBase {
 			Coupon coupon = new Coupon("title" + ("HEALTH " + i + 1),
 					LocalDate.now(), 
 					LocalDate.of(2017, 11, 15),
-					((int) Math.random() * 102), 
+					50, 
 					CouponType.HEALTH, "message" + (i + 1), 
 					((int)(Math.random() * 10) + 20.99),
 					"image/CouponPics/HEALTH.png");
@@ -196,7 +196,7 @@ public class ResetDataBase {
 			Coupon coupon = new Coupon("title" + ("SPORTS " + i + 1), 
 					LocalDate.now(), 
 					LocalDate.of(2017, 11, 15),
-					((int) Math.random() * 102), 
+					50, 
 					CouponType.SPORTS, "message" + (i + 1), 
 					((int)(Math.random() * 20) + 20.99),
 					"image/CouponPics/SPORTS.jpg");

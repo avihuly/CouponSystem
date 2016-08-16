@@ -1,8 +1,5 @@
 package com.couponproject.facade;
 
-import java.beans.PropertyVetoException;
-import java.io.IOException;
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.HashSet;
@@ -112,8 +109,8 @@ public class CustomerFacade {
 				// Invoking the addCouponToCustomer method in CustomerDBDAO
 				CouponSystem.getInstance().getCustomerDBDAO().addCouponToCustomer(customer.getId(), coupon.getId());
 				// Invoking the removeOneFromAmount method in CustomerDBDAO
-				CouponSystem.getInstance().getCustomerDBDAO().removeOneFromAmount(coupon.getId());
-			} catch (CouponSystemException | SQLException | IOException | PropertyVetoException e) {
+				CouponSystem.getInstance().getCustomerDBDAO().removeOneFromAmount(coupon);
+			} catch (CouponSystemException e) {
 				throw new CustomerFacadeException("CustomerFacadeException - "
 						+ "purchaseCoupon() Error: " + e.getMessage(), e);
 			}

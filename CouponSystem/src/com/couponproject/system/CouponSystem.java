@@ -25,7 +25,7 @@ public class CouponSystem {
 	/**
 	 * Holds the CouponSystem single instance
 	 */
-	private static CouponSystem instance = new CouponSystem();
+	private static CouponSystem instance;
 	/**
 	 * Holds the single CompanyDBDAO instance  
 	 */
@@ -63,6 +63,9 @@ public class CouponSystem {
 	 * @return CouponSystem instance
 	 */
 	public static CouponSystem getInstance(){
+		if (instance == null){
+			instance = new CouponSystem();
+		}
 		return instance;
 	}
 	
