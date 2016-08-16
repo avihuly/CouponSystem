@@ -42,7 +42,6 @@ public class DailyCouponExpirationTask extends Thread {
 						CouponSystem.getInstance().getCouponDBDAO().removeCouponCustomerByCouponID(coupon.getId());
 						//delete the coupon from coupon table
 						CouponSystem.getInstance().getCouponDBDAO().removeCoupon(coupon);
-						//TODO: remove from company_coupon and customer_coupon
 					}
 				}
 				// Sleep for 24 Hours

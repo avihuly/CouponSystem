@@ -4,6 +4,9 @@ import java.beans.PropertyVetoException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+
+import javax.naming.spi.DirStateFactory.Result;
+
 import java.sql.*;
 import com.couponproject.beans.*;
 import com.couponproject.constants.*;
@@ -250,31 +253,31 @@ public class CustomerDBDAO implements CustomerDAO {
 			insertStmt.setLong(2, coupId);
 			// Execute
 			insertStmt.executeUpdate();
+				} catch (PropertyVetoException | SQLException | IOException e) {
+			throw new CouponSystemException(Constants.CouponSystemExceptionMassage + e.getMessage(), e);
+		}
+	}
+	
+	public void removeOneFromAmount(long coupId) throws SQLException, IOException, PropertyVetoException{
+		try (Connection myCon = ConnectionPool.getInstance().getConnection()){
 			// Select prepared statement to get coupon's amount before purchase
 			PreparedStatement selectStmt = myCon.prepareStatement("select * from coupon " + "where ID = ?");
 			// Value
 			selectStmt.setLong(1, coupId);
 			// Execute and get a resultSet
-			selectStmt.executeQuery();
-
-			//	TODO: implement in a different place
-			// יש בעיה שזה יהיה פה בגלל הפונקציה שמאפסת את מסד הנתונים בהתחלה
-//			// אני חושב שצריך לכתוב פונקיה נפרד שרק מורידה באחד ולעשות בא שימוש בפסד
-			
-//			// Subtract 1 coupon from coupon amount 
-//			int coupAmount = myRs.getInt(CouponTableColumnNames.AMOUNT.name());
-//			// remove 1 from the amount of the coupon
-//			PreparedStatement updateStmt = myCon.prepareStatement(
-//					"update coupon set "
-//					+ CouponTableColumnNames.AMOUNT + "= ? where " 
-//					+ CouponTableColumnNames.ID + "= ?");
-//			// Values
-//			updateStmt.setDouble(2, coupAmount--);
-//			updateStmt.setLong(3, coupId);
-//			// Execute
-//			updateStmt.executeUpdate();
-		} catch (PropertyVetoException | SQLException | IOException e) {
-			throw new CouponSystemException(Constants.CouponSystemExceptionMassage + e.getMessage(), e);
+			ResultSet myRs = selectStmt.executeQuery();
+			// Subtract 1 coupon from coupon amount 
+			int coupAmount = myRs.getInt(CouponTableColumnNames.AMOUNT.name());
+			// remove 1 from the amount of the coupon
+			PreparedStatement updateStmt = myCon.prepareStatement(
+					"update coupon set "
+					+ CouponTableColumnNames.AMOUNT + "= ? where " 
+					+ CouponTableColumnNames.ID + "= ?");
+			// Values
+			updateStmt.setDouble(2, coupAmount--);
+			updateStmt.setLong(3, coupId);
+			// Execute
+			updateStmt.executeUpdate();
 		}
 	}
 	
