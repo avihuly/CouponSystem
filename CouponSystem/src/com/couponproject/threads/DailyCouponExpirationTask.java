@@ -44,7 +44,7 @@ public class DailyCouponExpirationTask extends Thread {
 						// write to log
 						FileWriter fstream = new FileWriter("logs/DailyCouponExpirationTaskLOG.txt",true);
 						BufferedWriter out = new BufferedWriter(fstream);
-						out.write("DELETE: " + coupon.toString()+"\n");
+						out.write(LocalDate.now() +" DELETE: " + coupon.toString()+"\n");
 						out.close();
 					}
 				}

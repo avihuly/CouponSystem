@@ -1,7 +1,6 @@
 package com.couponproject.gui.frames;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.io.File;
@@ -12,10 +11,10 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
 import com.couponproject.constants.ClientType;
-import com.couponproject.gui.GuiUtil;
 import com.couponproject.gui.Actionlisteners.LoginActionlistener;
+import com.couponproject.gui.frames.helpers.TemplateFrame;
 
-public class LoginFrame extends JFrame {
+public class LoginFrame extends TemplateFrame {
 
 	// **********
 	// Attributes
@@ -29,15 +28,9 @@ public class LoginFrame extends JFrame {
 	// ***********
 	public LoginFrame(){
 		// frame properties 
-		super("Coupons");
+		super("Coupons", 313, 286);
 		setResizable(false);
-		setBackground(Color.LIGHT_GRAY);
-		setBounds(100, 100, 313, 286);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		// Set Layout
-		getContentPane().setLayout(new BorderLayout(0, 0));
-		// Set Frame's Icon And MenuBar
-		GuiUtil.setFrameIconAndMenu(this);
 		
 		// ***********
 		// South Panel
@@ -122,13 +115,7 @@ public class LoginFrame extends JFrame {
 		
 		txtPassword = new JPasswordField();
 		CenterPanel.add(txtPassword);
-
-		// ***********
-		// North Panel
-		// ***********
-		GuiUtil.setLogoBySize(this,300,50);
-		
-		
+				
 		// *****************************
 		// LoginBnt & Enter Key - Action
 		// *****************************

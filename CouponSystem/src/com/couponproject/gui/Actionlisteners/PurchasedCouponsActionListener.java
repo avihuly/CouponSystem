@@ -2,21 +2,14 @@ package com.couponproject.gui.Actionlisteners;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
-import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JPanel;
-import javax.swing.JSlider;
-import javax.swing.JTable;
-
+import javax.swing.*;
 import com.couponproject.constants.CouponType;
 import com.couponproject.exception.CouponSystemException;
 import com.couponproject.facade.CustomerFacade;
-import com.couponproject.gui.GuiUtil;
 import com.couponproject.gui.frames.CustomerMainFrame;
+import com.couponproject.gui.frames.helpers.GuiUtil;
 
 public class PurchasedCouponsActionListener implements ActionListener {
 	// **********
@@ -71,7 +64,6 @@ public class PurchasedCouponsActionListener implements ActionListener {
 						GuiUtil.CouponsToTable(tableCouponData,
 								customerFacade.getAllPurchasedCouponsByType(CouponType.valueOf(tempBnt.getText())));
 					} catch (Exception e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 				});
@@ -86,7 +78,6 @@ public class PurchasedCouponsActionListener implements ActionListener {
 				try {
 					GuiUtil.CouponsToTable(tableCouponData, customerFacade.getAllPurchasedCoupons());
 				} catch (Exception e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			});

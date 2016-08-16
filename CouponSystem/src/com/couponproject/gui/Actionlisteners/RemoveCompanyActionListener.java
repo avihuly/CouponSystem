@@ -13,7 +13,7 @@ import com.couponproject.exception.CompanyCouponDoesNotExistsException;
 import com.couponproject.exception.CouponDoesNotExistException;
 import com.couponproject.exception.CompanyDoesNotExistException;
 import com.couponproject.facade.AdminFacade;
-import com.couponproject.gui.GuiUtil;
+import com.couponproject.gui.frames.helpers.GuiUtil;
 
 public class RemoveCompanyActionListener implements ActionListener {
 	// **********
@@ -51,7 +51,6 @@ public class RemoveCompanyActionListener implements ActionListener {
 			}
 
 		} catch (AdminFacadeException | CouponDoesNotExistException | CompanyCouponDoesNotExistsException e1) {
-			// TODO
 			e1.printStackTrace();
 		} catch (CompanyDoesNotExistException e1) {
 			JOptionPane.showMessageDialog(null, "Company does not exist");

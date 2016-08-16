@@ -1,38 +1,26 @@
 package com.couponproject.gui.frames;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.GridLayout;
-import java.awt.Image;
+import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.IOException;
-import java.sql.Date;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.Properties;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
-
-import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
-import org.jdatepicker.impl.UtilDateModel;
-
 import com.couponproject.beans.Coupon;
 import com.couponproject.constants.Constants;
-
 import com.couponproject.exception.CompanyFacadeException;
 import com.couponproject.exception.CouponTitleAlreadyExistException;
 import com.couponproject.facade.CompanyFacade;
-import com.couponproject.gui.GuiUtil;
+import com.couponproject.gui.frames.helpers.GuiUtil;
+import com.couponproject.gui.frames.helpers.TemplateFrame;
 
-public class UpDateCouponFrame extends JFrame {
+public class UpDateCouponFrame extends TemplateFrame {
 	
 	// **********
 	// Attributes
@@ -49,9 +37,7 @@ public class UpDateCouponFrame extends JFrame {
 	
 	public UpDateCouponFrame(CompanyFacade companyFacade, JTable tableCouponData) {
 		// frame properties
-		super("Coupon - Coupon Update");
-		setBackground(Color.LIGHT_GRAY);
-		setBounds(100, 100, 400, 550);
+		super("Coupon - Coupon Update", 400, 500);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setResizable(false);
 		
@@ -63,16 +49,6 @@ public class UpDateCouponFrame extends JFrame {
 				frame.setEnabled(true);		
 			}
 		});
-
-		// set layout
-		getContentPane().setLayout(new BorderLayout(0, 0));
-		// Set Frame's Icon And MenuBar
-		GuiUtil.setFrameIconAndMenu(this);
-
-		// ***********
-		// North Panel
-		// ***********
-		GuiUtil.setLogoBySize(this, 300, 40);
 
 		// selected coupon
 		Coupon coupon;
@@ -95,18 +71,12 @@ public class UpDateCouponFrame extends JFrame {
 			lblStartDate = new JLabel(coupon.getStartDate().toString());
 			CenterPanel.add(lblStartDate);
 			
-			
 			// Creating date Picker 			
 			endDatePicker = GuiUtil.datePickerInitialization();			
-			
 			endDatePicker.getModel().setDay(coupon.getEndDate().getDayOfMonth());
 			endDatePicker.getModel().setMonth(coupon.getEndDate().getMonthValue());
 			endDatePicker.getModel().setYear(coupon.getEndDate().getYear());
 			
-			
-			
-			
-
 			// Adding date Picker to panel			
 			CenterPanel.add(endDatePicker);
 			
@@ -209,10 +179,7 @@ public class UpDateCouponFrame extends JFrame {
 			}	
 			
 			southPanel.add(lblImage, BorderLayout.NORTH);
-			
-	
-			getContentPane().add(southPanel, BorderLayout.SOUTH);
-			
+			getContentPane().add(southPanel, BorderLayout.SOUTH);	
 		} catch (CompanyFacadeException e) {} 
 	}
 }

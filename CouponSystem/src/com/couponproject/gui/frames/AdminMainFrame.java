@@ -7,27 +7,16 @@ import com.couponproject.beans.Company;
 import com.couponproject.beans.Customer;
 import com.couponproject.exception.AdminFacadeException;
 import com.couponproject.facade.AdminFacade;
-import com.couponproject.gui.GuiUtil;
+import com.couponproject.gui.frames.helpers.TemplateFrame;
 
-public class AdminMainFrame extends JFrame {
+public class AdminMainFrame extends TemplateFrame {
 	public AdminMainFrame(AdminFacade adminFacade) {
 		// frame properties
-		super("Coupons (logged as admin)");
-		setBackground(Color.LIGHT_GRAY);
-		setBounds(100, 100, 500, 300);
+		super("Coupons (logged as admin)",500,300);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setResizable(false);
 		setVisible(true);
-		// set layout
-		getContentPane().setLayout(new BorderLayout(0, 0));
-		// Set Frame's Icon And MenuBar
-		GuiUtil.setFrameIconAndMenu(this);
-
-		// ***********
-		// North Panel
-		// ***********
-		GuiUtil.setLogoBySize(this, 400, 40);
-
+		
 		// ***********
 		// South Panel
 		// ***********

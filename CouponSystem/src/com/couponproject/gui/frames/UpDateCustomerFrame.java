@@ -1,24 +1,16 @@
 package com.couponproject.gui.frames;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.GridLayout;
-
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTable;
-import javax.swing.JTextArea;
-
+import javax.swing.*;
 import com.couponproject.beans.Customer;
 import com.couponproject.constants.Constants;
 import com.couponproject.exception.AdminFacadeException;
 import com.couponproject.facade.AdminFacade;
-import com.couponproject.gui.GuiUtil;
 import com.couponproject.gui.Actionlisteners.UpdateCustomerActionListener;
+import com.couponproject.gui.frames.helpers.TemplateFrame;
 
-public class UpDateCustomerFrame extends JFrame {
+public class UpDateCustomerFrame extends TemplateFrame {
 	// **********
 	// Attributes
 	// **********
@@ -30,21 +22,9 @@ public class UpDateCustomerFrame extends JFrame {
 	// ***********
 	public UpDateCustomerFrame(AdminFacade adminFacade, JTable clientsTable) {
 		// frame properties
-		super("Admin - Custimer Update");
-		setBackground(Color.LIGHT_GRAY);
-		setBounds(100, 100, 300, 250);
+		super("Admin - Custimer Update", 300, 250);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setResizable(false);
-
-		// set layout
-		getContentPane().setLayout(new BorderLayout(0, 0));
-		// Set Frame's Icon And MenuBar
-		GuiUtil.setFrameIconAndMenu(this);
-
-		// ***********
-		// North Panel
-		// ***********
-		GuiUtil.setLogoBySize(this, 300, 40);
 
 		// selected customer
 		Customer customer;

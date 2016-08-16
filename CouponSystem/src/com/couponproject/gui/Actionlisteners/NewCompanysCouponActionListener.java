@@ -25,7 +25,6 @@ public class NewCompanysCouponActionListener implements ActionListener {
 	// ***************
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
 		//open a frame with a form
 		NewCouponForm newCouponForm = new NewCouponForm(companyFacade);
 		newCouponForm.setVisible(true);

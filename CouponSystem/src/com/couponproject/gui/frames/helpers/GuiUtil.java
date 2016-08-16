@@ -1,107 +1,19 @@
-package com.couponproject.gui;
+package com.couponproject.gui.frames.helpers;
 
-import java.awt.BorderLayout;
-import java.awt.Container;
-import java.awt.Event;
-import java.awt.GridLayout;
-import java.awt.Image;
+import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.io.File;
-import java.io.IOException;
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Properties;
-
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-
-import org.jdatepicker.impl.JDatePanelImpl;
-import org.jdatepicker.impl.JDatePickerImpl;
-import org.jdatepicker.impl.UtilDateModel;
-
-import com.couponproject.beans.Company;
-import com.couponproject.beans.Coupon;
-import com.couponproject.beans.Customer;
+import org.jdatepicker.impl.*;
+import com.couponproject.beans.*;
 import com.couponproject.constants.Constants;
-import com.couponproject.facade.CustomerFacade;
-import com.couponproject.gui.Actionlisteners.AboutActionListener;
-import com.couponproject.gui.Actionlisteners.AllCouponsActionListener;
 import com.couponproject.gui.Actionlisteners.MessageCellRenderer;
-import com.couponproject.gui.Actionlisteners.PurchasedCouponsActionListener;
-import com.couponproject.gui.frames.DateLabelFormatter;
 
 public class GuiUtil {
-	// ********
-	// Set logo
-	// ********
-	public static void setLogoBySize(JFrame frame, int width, int height) {
-		JPanel northPanel = new JPanel();
-		Image logoImg;
-		try {
-			// getting image refrains
-			File input = new File("image/couponLogo.jpg");
-			logoImg = ImageIO.read(input);
-			// resizing image to fit panel
-			Image logoImgResized = logoImg.getScaledInstance(width, height, Image.SCALE_SMOOTH);
-			// converting image to icon
-			ImageIcon logoIcon = new ImageIcon(logoImgResized);
-			// loading icon to Jlabel
-			JLabel logoLabel = new JLabel("", logoIcon, JLabel.CENTER);
-			// loading Jlabel to panel
-			northPanel.add(logoLabel);
-			// adding to frame's BorderLayout.NORTH
-			frame.getContentPane().add(northPanel, BorderLayout.NORTH);
-		} catch (IOException ie) {
-		}
-	}
-
-	// *****************
-	// Set Icon And Menu
-	// *****************
-	public static void setFrameIconAndMenu(JFrame frame) {
-		// --------
-		// Icon set
-		// --------
-		try {
-			// getting image refrains
-			File input = new File("image/frameIcon.png");
-			Image frameImg = ImageIO.read(input);
-			// loading icon to frame
-			frame.setIconImage(frameImg);
-		} catch (IOException ie) {
-			System.out.println(ie.getMessage());
-		}
-
-		// -------
-		// MenuBar
-		// -------
-		JMenuBar menuBar = new JMenuBar();
-		frame.setJMenuBar(menuBar);
-		// MenuItem - About
-		JMenu mnHelp = new JMenu("Help");
-		menuBar.add(mnHelp);
-
-		// About Icon - "image/about.png"
-		JMenuItem mntmAbout = new JMenuItem("About");
-		mntmAbout.addActionListener(new AboutActionListener());
-		try {
-			// getting image refrains
-			File input = new File("image/about.png");
-			Image aboutImg = ImageIO.read(input);
-			// resizing image to fit panel
-			Image aboutImgResized = aboutImg.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
-			// converting image to icon
-			ImageIcon aboutIcon = new ImageIcon(aboutImgResized);
-			// loading icon to menu item
-			mntmAbout.setIcon(aboutIcon);
-		} catch (IOException ie) {
-		}
-		mnHelp.add(mntmAbout);
-	}
-
 	// ****************
 	// Coupon Table Set
 	// ****************

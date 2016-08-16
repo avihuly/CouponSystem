@@ -5,13 +5,11 @@ import java.awt.event.*;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTable;
-
 import com.couponproject.constants.CouponType;
-import com.couponproject.dbdao.CouponDBDAO;
 import com.couponproject.exception.CouponSystemException;
 import com.couponproject.facade.CustomerFacade;
-import com.couponproject.gui.GuiUtil;
 import com.couponproject.gui.frames.CustomerMainFrame;
+import com.couponproject.gui.frames.helpers.GuiUtil;
 import com.couponproject.system.CouponSystem;
 
 public class AllCouponsActionListener implements ActionListener {

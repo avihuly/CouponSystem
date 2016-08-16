@@ -1,37 +1,21 @@
 package com.couponproject.gui.frames;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.GridLayout;
-
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-
+import javax.swing.*;
 import com.couponproject.beans.Company;
-import com.couponproject.gui.GuiUtil;
+import com.couponproject.gui.frames.helpers.TemplateFrame;
 
-public class InfoCompanyFrame extends JFrame {
+
+public class InfoCompanyFrame extends TemplateFrame {
 	// ***********
 	// constructor
 	// ***********
 	public InfoCompanyFrame(Company company) {
 		// frame properties
-		super("Admin - Company Info");
-		setBackground(Color.LIGHT_GRAY);
-		setBounds(100, 100, 300, 250);
+		super("Admin - Company Info",300,250);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setResizable(false);
-		// set layout
-		getContentPane().setLayout(new BorderLayout(0, 0));
-		// Set Frame's Icon And MenuBar
-		GuiUtil.setFrameIconAndMenu(this);
-
-		// ***********
-		// North Panel
-		// ***********
-		GuiUtil.setLogoBySize(this, 300, 40);
 
 		// **************************
 		// Center Panel - Table panel

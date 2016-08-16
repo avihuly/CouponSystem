@@ -48,7 +48,6 @@ public class CouponTableListSelectionListener implements ListSelectionListener {
 				// loading icon to Jlabel
 				lblCouponPic.setIcon(couponIcon);
 				lblCouponPic.setHorizontalAlignment(SwingConstants.CENTER);
-
 				lblCouponPic.revalidate();
 				lblCouponPic.repaint();
 
@@ -56,5 +55,4 @@ public class CouponTableListSelectionListener implements ListSelectionListener {
 			}
 		}
 	}
-
 }

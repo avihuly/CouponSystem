@@ -4,7 +4,7 @@ import javax.swing.JSlider;
 import javax.swing.JTable;
 
 import com.couponproject.facade.CustomerFacade;
-import com.couponproject.gui.GuiUtil;
+import com.couponproject.gui.frames.helpers.GuiUtil;
 
 public class CouponByPriceSliders extends JSlider {
 	static final int MIN_PRICE = 10;

@@ -14,7 +14,7 @@ import com.couponproject.exception.CompanyAlreadyExistsException;
 import com.couponproject.exception.EmailAlreadyExistsException;
 import com.couponproject.exception.IllegalPasswordException;
 import com.couponproject.facade.AdminFacade;
-import com.couponproject.gui.GuiUtil;
+import com.couponproject.gui.frames.helpers.GuiUtil;
 
 public class UpdateCompanyActionListener implements ActionListener {
 	// **********

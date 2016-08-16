@@ -13,7 +13,7 @@ import com.couponproject.exception.AdminFacadeException;
 import com.couponproject.exception.CustomerAlreadyExistsException;
 import com.couponproject.exception.IllegalPasswordException;
 import com.couponproject.facade.AdminFacade;
-import com.couponproject.gui.GuiUtil;
+import com.couponproject.gui.frames.helpers.GuiUtil;
 
 public class CreateCustomerActionListener implements ActionListener {
 	// **********

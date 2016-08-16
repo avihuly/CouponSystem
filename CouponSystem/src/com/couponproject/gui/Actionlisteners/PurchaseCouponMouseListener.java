@@ -51,7 +51,6 @@ public class PurchaseCouponMouseListener extends MouseAdapter {
 				} catch (CouponAlreadyPurchasedException | OutOfDateException | OutOfStockException e1) {
 					JOptionPane.showMessageDialog(null, e1.getMessage());
 				} catch (CouponSystemException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}

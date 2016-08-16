@@ -1,25 +1,15 @@
 package com.couponproject.gui.frames;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.awt.ScrollPane;
-
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-
+import javax.swing.*;
 import com.couponproject.exception.AdminFacadeException;
 import com.couponproject.facade.AdminFacade;
-import com.couponproject.gui.GuiUtil;
 import com.couponproject.gui.Actionlisteners.RemoveCustomerActionListener;
-import com.couponproject.gui.Actionlisteners.UpdateCustomerActionListener;
+import com.couponproject.gui.frames.helpers.GuiUtil;
+import com.couponproject.gui.frames.helpers.TemplateFrame;
 
-public class AllCustomersFrame extends JFrame {
+public class AllCustomersFrame extends TemplateFrame {
 	// **********
 	// Attributes
 	// **********
@@ -30,21 +20,10 @@ public class AllCustomersFrame extends JFrame {
 	// ***********
 	public AllCustomersFrame(AdminFacade adminFacade) {
 		// frame properties
-		super("Admin - All Custimers");
-		setBackground(Color.LIGHT_GRAY);
-		setBounds(100, 100, 750, 500);
+		super("Admin - All Custimers",750,500);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setResizable(false);
 		setVisible(true);
-		// set layout
-		getContentPane().setLayout(new BorderLayout());
-		// Set Frame's Icon And MenuBar
-		GuiUtil.setFrameIconAndMenu(this);
-
-		// ***********
-		// North Panel
-		// ***********
-		GuiUtil.setLogoBySize(this, 750, 75);
 
 		// **********************
 		// West Panel - bnt panel

@@ -1,20 +1,14 @@
 package com.couponproject.gui.frames;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.GridLayout;
-
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextArea;
-
+import javax.swing.*;
 import com.couponproject.facade.AdminFacade;
-import com.couponproject.gui.GuiUtil;
 import com.couponproject.gui.Actionlisteners.CreateCompanyActionListener;
+import com.couponproject.gui.frames.helpers.TemplateFrame;
 
-public class NewCompanyForme extends JFrame {
+
+public class NewCompanyForme extends TemplateFrame {
 	// **********
 	// Attributes
 	// **********
@@ -28,21 +22,9 @@ public class NewCompanyForme extends JFrame {
 	// ***********
 	public NewCompanyForme(AdminFacade adminFacade) {
 		// frame properties
-		super("Admin - New Company");
-		setBackground(Color.LIGHT_GRAY);
-		setBounds(100, 100, 300, 250);
+		super("Admin - New Company",300,250);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setResizable(false);
-
-		// set layout
-		getContentPane().setLayout(new BorderLayout(0, 0));
-		// Set Frame's Icon And MenuBar
-		GuiUtil.setFrameIconAndMenu(this);
-
-		// ***********
-		// North Panel
-		// ***********
-		GuiUtil.setLogoBySize(this, 300, 40);
 
 		// **********
 		// East Panel

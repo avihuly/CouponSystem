@@ -16,8 +16,8 @@ import com.couponproject.exception.CompanyFacadeException;
 import com.couponproject.exception.CouponDoesNotExistException;
 import com.couponproject.exception.CouponSystemException;
 import com.couponproject.facade.CompanyFacade;
-import com.couponproject.gui.GuiUtil;
 import com.couponproject.gui.frames.UpDateCouponFrame;
+import com.couponproject.gui.frames.helpers.GuiUtil;
 
 //**********************************
 //This class's purpose is to give an action to the All Company's Coupons button
@@ -67,7 +67,6 @@ public class CompanysCouponActionListener implements ActionListener{
 						GuiUtil.CouponsToTable(tableCouponData,
 								companyFacade.getCouponByType(CouponType.valueOf(tempBnt.getText())));
 					} catch (Exception e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 				});
@@ -126,7 +125,6 @@ public class CompanysCouponActionListener implements ActionListener{
 
 					}	
 				} catch (CompanyFacadeException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (CouponDoesNotExistException |CompanyCouponDoesNotExistsException e){
 					JOptionPane.showMessageDialog(null, e.getMessage());
@@ -147,7 +145,6 @@ public class CompanysCouponActionListener implements ActionListener{
 						new CompanysCouponActionListener(tableCouponData, Panel, companyFacade));
 				//Add coupon Button - enables the user to add new coupon to the company
 				JButton btnAddCoupon = new JButton("Add New Coupon");
-				//TODO: completing the NewCompanysCouponActionListener class
 				btnAddCoupon.addActionListener(new NewCompanysCouponActionListener(companyFacade));
 				
 				Panel.add(btnCompCoupons);
@@ -165,7 +162,6 @@ public class CompanysCouponActionListener implements ActionListener{
 			Panel.repaint();
 
 		} catch (CouponSystemException custE) {
-			// TODO Auto-generated catch block
 			custE.printStackTrace();
 		}
 		

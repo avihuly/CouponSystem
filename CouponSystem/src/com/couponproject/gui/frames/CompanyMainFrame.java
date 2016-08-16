@@ -4,25 +4,18 @@ import java.awt.*;
 import javax.swing.*;
 
 import com.couponproject.facade.CompanyFacade;
-import com.couponproject.gui.GuiUtil;
 import com.couponproject.gui.Actionlisteners.CompanysCouponActionListener;
 import com.couponproject.gui.Actionlisteners.NewCompanysCouponActionListener;
+import com.couponproject.gui.frames.helpers.TemplateFrame;
 
-public class CompanyMainFrame extends JFrame{
+public class CompanyMainFrame extends TemplateFrame{
 	private JTable tableCouponData=new JTable();
 	
 	public CompanyMainFrame(CompanyFacade companyFacade){
 		// frame properties
-		super("Coupons (logged as company)");
-		setBackground(Color.LIGHT_GRAY);
-		setBounds(100, 100, 750, 500);
+		super("Coupons (logged as company)",750,500);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
-		
-		// set layout
-		getContentPane().setLayout(new BorderLayout(0, 0));
-		// Set Frame's Icon And MenuBar
-		GuiUtil.setFrameIconAndMenu(this);
 		
 		// ***********
 		// South Panel
@@ -50,12 +43,6 @@ public class CompanyMainFrame extends JFrame{
 		JScrollPane sp = new JScrollPane(tableCouponData);
 		CenterPanel.add(sp, BorderLayout.CENTER);
 		sp.setBorder(BorderFactory.createEmptyBorder());
-	
-		
-		// ***********
-		// North Panel
-		// ***********
-		GuiUtil.setLogoBySize(this, 750, 75);
 		
 		// ***********
 		// West Panel
@@ -74,7 +61,6 @@ public class CompanyMainFrame extends JFrame{
 				new CompanysCouponActionListener(tableCouponData, westPanel, companyFacade));
 		//Add coupon Button - enables the user to add new coupon to the company
 		JButton btnAddCoupon = new JButton("Add New Coupon");
-		//TODO: completing the NewCompanysCouponActionListener class
 		btnAddCoupon.addActionListener(new NewCompanysCouponActionListener(companyFacade));
 		
 		

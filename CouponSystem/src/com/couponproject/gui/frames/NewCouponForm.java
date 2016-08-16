@@ -2,10 +2,8 @@ package com.couponproject.gui.frames;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-
 import java.time.LocalDate;
 import java.time.ZoneId;
-
 import java.awt.*;
 import javax.swing.*;
 
@@ -15,11 +13,12 @@ import com.couponproject.constants.CouponType;
 import com.couponproject.exception.CompanyFacadeException;
 import com.couponproject.exception.CouponTitleAlreadyExistException;
 import com.couponproject.facade.CompanyFacade;
-import com.couponproject.gui.GuiUtil;
-
 import com.couponproject.gui.Actionlisteners.*;
+import com.couponproject.gui.frames.helpers.GuiUtil;
+import com.couponproject.gui.frames.helpers.ImagePathFromJfilechooser;
+import com.couponproject.gui.frames.helpers.TemplateFrame;
 
-public class NewCouponForm extends JFrame {
+public class NewCouponForm extends TemplateFrame {
 	// **********
 	// Attributes
 	// **********
@@ -38,23 +37,10 @@ public class NewCouponForm extends JFrame {
 	// constructor
 	// ***********
 	public NewCouponForm(CompanyFacade companyFacade) {
+		super("New Coupon",400,570);
 		this.companyFacade = companyFacade;
-
-		// frame properties
-		setBackground(Color.LIGHT_GRAY);
-		setBounds(100, 100, 400, 550);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setVisible(true);
-
-		// set layout
-		getContentPane().setLayout(new BorderLayout(0, 0));
-		// Set Frame's Icon And MenuBar
-		GuiUtil.setFrameIconAndMenu(this);
-
-		// ***********
-		// North Panel
-		// ***********
-		GuiUtil.setLogoBySize(this, 400, 40);
 
 		// ***********
 		// West Panel

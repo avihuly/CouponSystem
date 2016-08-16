@@ -1,26 +1,17 @@
 package com.couponproject.gui.Actionlisteners;
 
-import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
-
-import org.omg.PortableServer.ServantRetentionPolicyValue;
-
 import com.couponproject.beans.Customer;
 import com.couponproject.constants.Constants;
 import com.couponproject.exception.AdminFacadeException;
-import com.couponproject.exception.CouponDoesNotExistException;
 import com.couponproject.exception.CustomerAlreadyExistsException;
-import com.couponproject.exception.CustomerDoesNotExistException;
 import com.couponproject.exception.IllegalPasswordException;
 import com.couponproject.facade.AdminFacade;
-import com.couponproject.gui.GuiUtil;
+import com.couponproject.gui.frames.helpers.GuiUtil;
 
 public class UpdateCustomerActionListener implements ActionListener {
 	// **********

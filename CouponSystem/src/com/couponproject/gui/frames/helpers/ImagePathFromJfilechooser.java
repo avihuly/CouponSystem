@@ -1,4 +1,4 @@
-package com.couponproject.gui.frames;
+package com.couponproject.gui.frames.helpers;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;

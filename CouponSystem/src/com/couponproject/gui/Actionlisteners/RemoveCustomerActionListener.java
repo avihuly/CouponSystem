@@ -12,7 +12,7 @@ import com.couponproject.exception.AdminFacadeException;
 import com.couponproject.exception.CouponDoesNotExistException;
 import com.couponproject.exception.CustomerDoesNotExistException;
 import com.couponproject.facade.AdminFacade;
-import com.couponproject.gui.GuiUtil;
+import com.couponproject.gui.frames.helpers.GuiUtil;
 
 public class RemoveCustomerActionListener implements ActionListener {
 	// **********
@@ -50,12 +50,9 @@ public class RemoveCustomerActionListener implements ActionListener {
 			}
 
 		} catch (AdminFacadeException | CouponDoesNotExistException e1) {
-			// TODO
-			e1.printStackTrace();
 		} catch (CustomerDoesNotExistException e1) {
 			JOptionPane.showMessageDialog(null, "Customer does not exist");
 		}
-
 		clientsTable.getParent().revalidate();
 		clientsTable.getParent().repaint();
 	}

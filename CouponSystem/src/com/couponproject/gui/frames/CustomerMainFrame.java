@@ -1,36 +1,21 @@
 package com.couponproject.gui.frames;
 
 import java.awt.*;
-
 import javax.swing.*;
-
-
 import com.couponproject.facade.CustomerFacade;
-import com.couponproject.gui.GuiUtil;
 import com.couponproject.gui.Actionlisteners.AllCouponsActionListener;
 import com.couponproject.gui.Actionlisteners.CouponTableListSelectionListener;
 import com.couponproject.gui.Actionlisteners.PurchasedCouponsActionListener;
+import com.couponproject.gui.frames.helpers.TemplateFrame;
 
-public class CustomerMainFrame extends JFrame {
+public class CustomerMainFrame extends TemplateFrame {
 	private JTable tableCouponData = new JTable();
 
 	public CustomerMainFrame(CustomerFacade customerFacade) {
 		// frame properties
-		super("Coupons (logged as customer)");
-		setBackground(Color.LIGHT_GRAY);
-		setBounds(100, 100, 750, 500);
+		super("Coupons (logged as customer)",750,500);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
-
-		// set layout
-		getContentPane().setLayout(new BorderLayout(0, 0));
-		// Set Frame's Icon And MenuBar
-		GuiUtil.setFrameIconAndMenu(this);
-
-		// ***********
-		// North Panel
-		// ***********
-		GuiUtil.setLogoBySize(this, 750, 75);
 
 		// ***********
 		// South Panel
