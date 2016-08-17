@@ -9,16 +9,22 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 //External connection pool
 public class ConnectionPool {
-
+	private static final String URL = "jdbc:mysql://localhost:3306/coupondb";
+	private static final String USER_NAME = "root";
+	private static final String PASSWORD = "zaq1zaq1zaq1";
+	
 	private static ConnectionPool connectionPool;
 	private ComboPooledDataSource cpds;
 
 	private ConnectionPool() throws IOException, SQLException, PropertyVetoException {
 		cpds = new ComboPooledDataSource();
 		cpds.setDriverClass("com.mysql.jdbc.Driver"); // loads the jdbc driver
-		cpds.setJdbcUrl("jdbc:mysql://localhost:3306/coupondb");
-		cpds.setUser("root");
-		cpds.setPassword("zaq1zaq1zaq1");
+		// Path
+		cpds.setJdbcUrl(URL);
+		// User name
+		cpds.setUser(USER_NAME);
+		// Password
+		cpds.setPassword(PASSWORD);
 
 		// the settings below are optional -- c3p0 can work with defaults
 		cpds.setMinPoolSize(5);
