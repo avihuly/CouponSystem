@@ -178,8 +178,8 @@ public class NewCouponForm extends TemplateFrame {
 				amount = Integer.parseInt(amountTxt.getText());
 				imagePath = imagePathlbl.getText();
 				targetPath = targetPathlbl.getText();
-				
-				if(imagePath == null) {
+			
+				if(imagePath.length() == 0) {
 					targetPath = "image/CouponPics/default.png";
 				} 
 
@@ -187,7 +187,7 @@ public class NewCouponForm extends TemplateFrame {
 				Coupon coupon = new Coupon(title, startDate, endDate, amount, couponType, messege, price, targetPath);
 				companyFacade.createCoupon(coupon);
 				
-				if(imagePath != null) {
+				if(imagePath.length() != 0) {
 					// Copy coupon image
 					FileInputStream in = new FileInputStream(imagePath);
 					FileOutputStream out = new FileOutputStream(targetPath);
@@ -199,6 +199,10 @@ public class NewCouponForm extends TemplateFrame {
 					out.close();
 					in.close();
 				}
+				// Confirm massage 
+				JOptionPane.showMessageDialog(null, "Coupon was successfully");
+				// close newCouponForm frame
+				GuiUtil.disposeFrameByEvent(e);
 			} catch (NumberFormatException priceE) {
 				JOptionPane.showMessageDialog(null, "Iligal price!");
 			} catch (CouponTitleAlreadyExistException titleE) {
