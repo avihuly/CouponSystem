@@ -2,6 +2,8 @@ package com.couponproject.beans;
 
 import java.time.LocalDate;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 import com.couponproject.constants.CouponType;
 
 /**
@@ -11,6 +13,7 @@ import com.couponproject.constants.CouponType;
  * @author Avi Huly and Orit Blum
  * @version 1.0
  */
+@XmlRootElement
 public class Coupon {
 	//
 	// Attributes

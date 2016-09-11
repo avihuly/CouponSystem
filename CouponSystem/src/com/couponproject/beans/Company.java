@@ -1,5 +1,7 @@
 package com.couponproject.beans;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  * Represents a Company in this Coupon System
  * <p>A Company can own Coupons</p>
@@ -7,6 +9,8 @@ package com.couponproject.beans;
  * @author Avi Huly and Orit Blum
  * @version 1.0
  */
+
+@XmlRootElement
 public class Company {
 	//
 	// Attributes

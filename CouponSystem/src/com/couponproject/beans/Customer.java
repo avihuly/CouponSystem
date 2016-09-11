@@ -1,5 +1,7 @@
 package com.couponproject.beans;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  * Represents a Customer in the Coupon System
  * <p>This Customer can purchase Coupons</p>
@@ -8,6 +10,7 @@ package com.couponproject.beans;
  * @version 1.0
  *
  */
+@XmlRootElement
 public class Customer {
 	//
 	// Attributes
