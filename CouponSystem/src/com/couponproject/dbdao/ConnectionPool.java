@@ -16,7 +16,7 @@ public class ConnectionPool {
 	private static ConnectionPool connectionPool;
 	private ComboPooledDataSource cpds;
 
-	private ConnectionPool() throws IOException, SQLException, PropertyVetoException {
+	public ConnectionPool() throws IOException, SQLException, PropertyVetoException {
 		cpds = new ComboPooledDataSource();
 		cpds.setDriverClass("com.mysql.jdbc.Driver"); // loads the jdbc driver
 		// Path
@@ -38,7 +38,6 @@ public class ConnectionPool {
 			connectionPool = new ConnectionPool();
 		}
 		return connectionPool;
-
 	}
 
 	public Connection getConnection() throws SQLException {
