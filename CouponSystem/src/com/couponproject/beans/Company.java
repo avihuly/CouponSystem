@@ -1,5 +1,6 @@
 package com.couponproject.beans;
 
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -20,21 +21,22 @@ public class Company {
 	/**
 	 * Holds the ID of this Company
 	 */
-	private long id;
+	@XmlElement private long id;
 	/**
 	 * Holds this Company's name
 	 */
-	private String compName;
+	@XmlElement private String compName;
 	/**
 	 * Holds this Company's password for entering the Coupon System 
 	 */
-	private String password;
+	@XmlElement private String password;
 	/**
 	 * Hold this Company's e-mail
 	 */
-	private String email;
+	@XmlElement private String email;
 
 	// Constructors
+	public Company(){}; // jaxB needs this
 	/**
 	 * Construct a Company with a given iD, Name, Password and e-mail.
 	 * 
@@ -103,6 +105,14 @@ public class Company {
 	public String getEmail() {
 		return email;
 	}
+	
+	/**
+	 * sets this Company's id
+	 */
+	public void setId(long id) {
+		this.id = id;
+	}
+	
 
 	//toString
 	@Override

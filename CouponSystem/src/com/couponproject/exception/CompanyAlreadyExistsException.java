@@ -1,7 +1,12 @@
 package com.couponproject.exception;
 
-public class CompanyAlreadyExistsException extends Exception {
+public class CompanyAlreadyExistsException extends RuntimeException {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public CompanyAlreadyExistsException() {
 
 	}

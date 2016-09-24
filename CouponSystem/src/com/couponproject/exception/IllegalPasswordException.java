@@ -1,8 +1,12 @@
 package com.couponproject.exception;
 
-import com.couponproject.dbdao.CustomerDBDAO;
 
-public class IllegalPasswordException extends DBErrorException {
+public class IllegalPasswordException extends RuntimeException {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	public IllegalPasswordException() {
 		super();

@@ -1,6 +1,11 @@
 package com.couponproject.exception;
 
-public class AdminFacadeException extends FacadeException{
+public class AdminFacadeException extends RuntimeException{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	public AdminFacadeException() {
 		super();

@@ -1,6 +1,6 @@
 package com.couponproject.exception;
 
-public class EmailAlreadyExistsException extends DBErrorException {
+public class EmailAlreadyExistsException extends RuntimeException {
 
 	public EmailAlreadyExistsException() {
 

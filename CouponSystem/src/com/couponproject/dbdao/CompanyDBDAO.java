@@ -46,7 +46,25 @@ public class CompanyDBDAO implements CompanyDAO{
 				createStmt.setString(2, company.getPassword());
 				createStmt.setString(3, company.getEmail());
 				// Execute
-				createStmt.executeUpdate(); 
+				createStmt.executeUpdate();
+				
+				// Get and Set company's Id that was generated in the DB
+				PreparedStatement getIdSts = myCon.prepareStatement(
+						"select " + CompanyTableColumnNames.ID + 
+						" from company where " + 
+						CompanyTableColumnNames.COMP_NAME + " = ? and " +
+						CompanyTableColumnNames.EMAIL + " = ? ");
+				
+				// Value 
+				getIdSts.setString(1, company.getCompName());
+				getIdSts.setString(2, company.getEmail());
+				//Execute
+				ResultSet myRs = getIdSts.executeQuery();
+				// set coupon ID from DB
+				myRs.next();
+				// set company id
+				company.setId(myRs.getLong("ID"));
+					
 			} catch (PropertyVetoException | SQLException | IOException e) {
 				throw new CouponSystemException(Constants.CouponSystemExceptionMassage + e.getMessage(), e);
 			}
