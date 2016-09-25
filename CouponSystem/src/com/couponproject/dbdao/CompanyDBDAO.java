@@ -82,7 +82,7 @@ public class CompanyDBDAO implements CompanyDAO{
 			try (Connection myCon = ConnectionPool.getInstance().getConnection()) {
 				// Delete prepared statement
 				PreparedStatement removeStmt = myCon.prepareStatement(
-						"delete from company where" 
+						"delete from company where " 
 						+ CompanyTableColumnNames.ID + "= ? and " 
 						+ CompanyTableColumnNames.COMP_NAME + "= ? and "
 						+ CompanyTableColumnNames.PASSWORD + "= ?");
@@ -115,12 +115,16 @@ public class CompanyDBDAO implements CompanyDAO{
 				PreparedStatement updateStmt = myCon.prepareStatement(
 						"update company set " 
 						+ CompanyTableColumnNames.EMAIL + "= ?, "
-						+ CompanyTableColumnNames.PASSWORD + "= ? "
-						+ "where " + CompanyTableColumnNames.COMP_NAME + "= ?");
+						+ CompanyTableColumnNames.PASSWORD + "= ?, "
+						+ CompanyTableColumnNames.COMP_NAME + " = ?  where "
+						+ CompanyTableColumnNames.ID + " = ?");
+						
 				// Values
-				updateStmt.setString(1, company.getEmail());	
+				updateStmt.setString(1, company.getEmail());
 				updateStmt.setString(2, company.getPassword());
 				updateStmt.setString(3, company.getCompName());				
+				updateStmt.setLong(4, company.getId());
+
 				// Execute
 				updateStmt.executeUpdate();
 			} catch (PropertyVetoException | SQLException | IOException e) {

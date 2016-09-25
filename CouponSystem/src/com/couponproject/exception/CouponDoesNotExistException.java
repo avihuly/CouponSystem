@@ -1,6 +1,6 @@
 package com.couponproject.exception;
 
-public class CouponDoesNotExistException extends DBErrorException {
+public class CouponDoesNotExistException extends RuntimeException {
 
 	public CouponDoesNotExistException() {
 
