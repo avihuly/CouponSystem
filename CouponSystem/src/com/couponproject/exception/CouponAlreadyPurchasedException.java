@@ -1,6 +1,6 @@
 package com.couponproject.exception;
 
-public class CouponAlreadyPurchasedException extends Exception {
+public class CouponAlreadyPurchasedException extends RuntimeException {
 
 	public CouponAlreadyPurchasedException() {
 

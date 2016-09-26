@@ -1,6 +1,6 @@
 package com.couponproject.exception;
 
-public class OutOfStockException extends Exception {
+public class OutOfStockException extends RuntimeException {
 
 	public OutOfStockException() {
 

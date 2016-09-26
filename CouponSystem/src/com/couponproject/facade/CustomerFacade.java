@@ -92,28 +92,31 @@ public class CustomerFacade {
 	 * @throws CouponAlreadyPurchasedException
 	 * @throws OutOfStockException
 	 * @throws OutOfDateException
+	 * @throws CustomerFacadeException 
 	 * @throws CouponSystemException
 	 */
-	public void purchaseCoupon(long id)
-			throws CouponAlreadyPurchasedException, OutOfStockException, OutOfDateException, CouponSystemException {
-		Coupon coupon = CouponSystem.getInstance().getCouponDBDAO().getCoupon(id);
-		// 
-		if (LocalDate.now().isAfter(coupon.getEndDate())) {
-			throw new OutOfDateException("Coupon is out of date");
-		} else if (coupon.getAmount() == 0) {
-			throw new OutOfStockException("Coupon is out of stock");
-		} else if (Util.isPurchased(coupon, customer)) {
-			throw new CouponAlreadyPurchasedException("Coupon already purchased");
-		} else {
-			try {
+	public Coupon purchaseCoupon(long id)
+			throws CouponAlreadyPurchasedException, OutOfStockException, OutOfDateException, CustomerFacadeException {
+		try {
+			Coupon coupon = CouponSystem.getInstance().getCouponDBDAO().getCoupon(id);
+			// 
+			if (LocalDate.now().isAfter(coupon.getEndDate())) {
+				throw new OutOfDateException("Coupon is out of date");
+			} else if (coupon.getAmount() == 0) {
+				throw new OutOfStockException("Coupon is out of stock");
+			} else if (Util.isPurchased(coupon, customer)) {
+				throw new CouponAlreadyPurchasedException("Coupon already purchased");
+			} else {	
 				// Invoking the addCouponToCustomer method in CustomerDBDAO
 				CouponSystem.getInstance().getCustomerDBDAO().addCouponToCustomer(customer.getId(), coupon.getId());
 				// Invoking the removeOneFromAmount method in CustomerDBDAO
 				CouponSystem.getInstance().getCustomerDBDAO().removeOneFromAmount(coupon);
-			} catch (CouponSystemException e) {
-				throw new CustomerFacadeException("CustomerFacadeException - "
-						+ "purchaseCoupon() Error: " + e.getMessage(), e);
+				// return bout coupon
+				return coupon;
 			}
+		} catch (CouponSystemException | NullPointerException e) {
+			throw new CustomerFacadeException("CustomerFacadeException - "
+						+ "purchaseCoupon() Error: " + e.getMessage(), e);
 		}
 	}
 

@@ -1,6 +1,6 @@
 package com.couponproject.exception;
 
-public class CustomerFacadeException extends FacadeException{
+public class CustomerFacadeException extends RuntimeException{
 
 	public CustomerFacadeException() {
 		super();

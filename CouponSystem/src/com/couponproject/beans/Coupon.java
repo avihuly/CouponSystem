@@ -2,6 +2,7 @@ package com.couponproject.beans;
 
 import java.time.LocalDate;
 
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.couponproject.constants.CouponType;
@@ -23,41 +24,42 @@ public class Coupon {
 	/**
 	 * Holds the ID of this Coupon
 	 */
-	private long id;
+	@XmlElement private long id;
 	/**
 	 * Holds a short description of the Coupon
 	 */
-	private String title;
+	@XmlElement private String title;
 	/**
 	 * Holds the date from which this Coupon is valid
 	 */
-	private LocalDate startDate;
+	@XmlElement private LocalDate startDate;
 	/**
 	 * Holds the date in which this Coupon expires
 	 */
-	private LocalDate endDate;
+	@XmlElement private LocalDate endDate;
 	/**
 	 * Hold the number of Coupons, whit a specific title available for purchase by Customers
 	 */
-	private int amount;
+	@XmlElement private int amount;
 	/**
 	 * Hold the category for which this Coupon belongs to out of a specific list
 	 */
-	private CouponType type;
+	@XmlElement private CouponType type;
 	/**
 	 * Holds an elaborated description of this Coupon
 	 */
-	private String message;
+	@XmlElement private String message;
 	/**
 	 * Holds the price of this Coupon
 	 */
-	private double price;
+	@XmlElement private double price;
 	/**
 	 * Holds a String which directs to a location of the Coupon's image
 	 */
-	private String image;
+	@XmlElement private String image;
 
 	// Constructors
+	public Coupon(){}; // jaxB needs this
 	/**
 	 *
 	 * Constructs a Coupon with given ID, Title, StartDate, EndDate, Amount, Type,

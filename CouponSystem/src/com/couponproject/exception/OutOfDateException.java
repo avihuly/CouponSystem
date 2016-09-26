@@ -1,6 +1,6 @@
 package com.couponproject.exception;
 
-public class OutOfDateException extends Exception {
+public class OutOfDateException extends RuntimeException {
 
 	public OutOfDateException() {
 
