@@ -1,5 +1,6 @@
 package com.couponproject.beans;
 
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -20,17 +21,19 @@ public class Customer {
 	/**
 	 * Holds the ID of this Customer
 	 */
-	private long id;
+	@XmlElement private long id;
 	/**
 	 * Holds the Name of this Customer 
 	 */
-	private String custName;
+	@XmlElement private String custName;
 	/**
 	 * Holds the Password of this Customer 
 	 */
-	private String password;
+	@XmlElement private String password;
 	
 	//Constructors
+	public Customer (){} // JaxB needs this
+	
 	/**
 	 * Constructs a Customer with a given ID, Name and Password
 	 * 

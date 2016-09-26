@@ -1,6 +1,6 @@
 package com.couponproject.exception;
 
-public class CustomerDoesNotExistException extends Exception {
+public class CustomerDoesNotExistException extends RuntimeException {
 
 	public CustomerDoesNotExistException() {
 

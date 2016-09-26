@@ -45,6 +45,23 @@ public class CustomerDBDAO implements CustomerDAO {
 				createStmt.setString(2, customer.getPassword());
 				// Execute
 				createStmt.executeUpdate();
+				
+				// Get and Set customer's Id that was generated in the DB
+				PreparedStatement getIdSts = myCon.prepareStatement(
+						"select " + CustomerTableColumnNames.ID + 
+						" from customer where " + 
+						CustomerTableColumnNames.CUST_NAME + " = ? and " +
+						CustomerTableColumnNames.PASSWORD + " = ? ");
+				// Values
+				getIdSts.setString(1, customer.getCustName());
+				getIdSts.setString(2, customer.getPassword());
+				//Execute
+				ResultSet myRs = getIdSts.executeQuery();
+				// set coupon ID from DB
+				myRs.next();
+				// set company id
+				customer.setId(myRs.getLong("ID"));
+				
 			} catch (PropertyVetoException | SQLException | IOException e) {
 				throw new CouponSystemException(Constants.CouponSystemExceptionMassage + e.getMessage(), e);
 			}
