@@ -211,13 +211,15 @@ public class CompanyFacade {
 			// Invoking the getCoupons method in CompanyDBDAO
 			Collection<Coupon> coupons = CouponSystem.getInstance().getCompanyDBDAO().getCoupons(company.getId());
 			// Iterating coupons collection and removing coupons that above the specified price
+			Collection<Coupon> couponsByPrice = new HashSet<>(); 
 			for (Coupon coupon : coupons) {
-				if (coupon.getPrice() > price){
-					coupons.remove(coupon);
+				if (coupon.getPrice() < price){
+					// coupons.remove(coupon);
+					couponsByPrice.add(coupon);
 				}
 			}
 			//return couponsByPrice collection
-			return coupons;
+			return couponsByPrice;
 		} catch (CouponSystemException e) {
 			throw new CompanyFacadeException("CompanyFacadeException - " 
 					+ "getCouponsByPrice() Error: " + e.getMessage(), e);

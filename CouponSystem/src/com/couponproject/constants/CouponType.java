@@ -15,4 +15,3 @@ public enum CouponType {
 	CAMPING, 
 	TRAVELLING;
 }
-

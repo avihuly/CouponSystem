@@ -8,6 +8,7 @@ import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import com.couponproject.constants.CouponType;
+import com.couponproject.constants.CouponTypeAdapter;
 
 /**
  * Represents a Coupon in the Coupon System
@@ -35,25 +36,23 @@ public class Coupon {
 	 * Holds the date from which this Coupon is valid
 	 */
 	@XmlElement
-//	@XmlJavaTypeAdapter(LocalDateAdapter.class) 
-	@XmlTransient
+	@XmlJavaTypeAdapter(LocalDateAdapter.class) 
 	private LocalDate startDate;
 	/**
 	 * Holds the date in which this Coupon expires
 	 */
 	@XmlElement
-//	@XmlJavaTypeAdapter(LocalDateAdapter.class)
-	@XmlTransient
+	@XmlJavaTypeAdapter(LocalDateAdapter.class)
 	private LocalDate endDate;
 	/**
 	 * Hold the number of Coupons, whit a specific title available for purchase by Customers
 	 */
-	@XmlElement private int amount;
+	@XmlTransient private int amount;
 	/**
 	 * Hold the category for which this Coupon belongs to out of a specific list
 	 */
-	@XmlElement 
-	@XmlTransient
+	@XmlElement
+	@XmlJavaTypeAdapter(CouponTypeAdapter.class)
 	private CouponType type;
 	/**
 	 * Holds an elaborated description of this Coupon
