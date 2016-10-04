@@ -260,14 +260,15 @@ public class CompanyFacade {
 		try {
 			// Invoking the getCoupons method in CompanyDBDAO
 			Collection<Coupon> coupons = CouponSystem.getInstance().getCompanyDBDAO().getCoupons(company.getId());
-			// Iterating coupons collection and removing coupons that start before specified date
+			Collection<Coupon> couponsByEndDate = new HashSet<>();
+			// Iterating coupons collection and adding coupons that start before specified date to new collction
 			for (Coupon coupon : coupons) {
-				if (coupon.getEndDate().isAfter(date)){
-					coupons.remove(coupon);
+				if (coupon.getEndDate().isBefore(date)){
+					couponsByEndDate.add(coupon);
 				}
 			}
 			//return couponsByEndDate collection
-			return coupons;
+			return couponsByEndDate;
 		} catch (CouponSystemException e) {
 			throw new CompanyFacadeException("CompanyFacadeException - " 
 					+ "getCouponsByEndDate() Error: " + e.getMessage(), e);

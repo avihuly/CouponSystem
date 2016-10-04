@@ -167,7 +167,7 @@ public class Util {
 		try {
 			for (Coupon dbCoupon : CouponSystem.getInstance().getCouponDBDAO().getAllCoupons()) {
 				if (coupon.getTitle().equals(dbCoupon.getTitle())){
-					return coupon.getId() != dbCoupon.getId();
+					return !(coupon.getId() == dbCoupon.getId());
 				}
 			}
 			return false;
