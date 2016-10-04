@@ -1,6 +1,6 @@
 package com.couponproject.exception;
 
-public class CouponTitleAlreadyExistException extends DBErrorException {
+public class CouponTitleAlreadyExistException extends RuntimeException {
 
 	public CouponTitleAlreadyExistException() {
 

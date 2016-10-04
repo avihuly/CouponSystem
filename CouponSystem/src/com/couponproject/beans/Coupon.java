@@ -4,6 +4,8 @@ import java.time.LocalDate;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import com.couponproject.constants.CouponType;
 
@@ -32,11 +34,17 @@ public class Coupon {
 	/**
 	 * Holds the date from which this Coupon is valid
 	 */
-	@XmlElement private LocalDate startDate;
+	@XmlElement
+//	@XmlJavaTypeAdapter(LocalDateAdapter.class) 
+	@XmlTransient
+	private LocalDate startDate;
 	/**
 	 * Holds the date in which this Coupon expires
 	 */
-	@XmlElement private LocalDate endDate;
+	@XmlElement
+//	@XmlJavaTypeAdapter(LocalDateAdapter.class)
+	@XmlTransient
+	private LocalDate endDate;
 	/**
 	 * Hold the number of Coupons, whit a specific title available for purchase by Customers
 	 */
@@ -44,7 +52,9 @@ public class Coupon {
 	/**
 	 * Hold the category for which this Coupon belongs to out of a specific list
 	 */
-	@XmlElement private CouponType type;
+	@XmlElement 
+	@XmlTransient
+	private CouponType type;
 	/**
 	 * Holds an elaborated description of this Coupon
 	 */
@@ -150,7 +160,7 @@ public class Coupon {
 	/**
 	 * Returns this Coupon's StartDate
 	 * @return This Coupon's StartDate
-	 */
+	 */ 
 	public LocalDate getStartDate() {
 		return startDate;
 	}
@@ -166,7 +176,7 @@ public class Coupon {
 	/**
 	 * Returns this Coupon's EndDate
 	 * @return This Coupon's EndDate
-	 */
+	 */ 
 	public LocalDate getEndDate() {
 		return endDate;
 	}
