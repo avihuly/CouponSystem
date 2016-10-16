@@ -25,7 +25,7 @@ public class Company {
 	/**
 	 * Holds this Company's name
 	 */
-	@XmlElement private String compName;
+	@XmlElement(name = "name") private String compName;
 	/**
 	 * Holds this Company's password for entering the Coupon System 
 	 */

@@ -25,7 +25,7 @@ public class Customer {
 	/**
 	 * Holds the Name of this Customer 
 	 */
-	@XmlElement private String custName;
+	@XmlElement(name = "name") private String custName;
 	/**
 	 * Holds the Password of this Customer 
 	 */
