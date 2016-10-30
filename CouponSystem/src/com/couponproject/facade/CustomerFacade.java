@@ -138,6 +138,17 @@ public class CustomerFacade {
 		}
 	}
 
+	public Collection<Coupon> getAllCoupons()  {
+		try {
+			// Invoking (and return the result of) the getCoupons method in CustomerDBDAO
+			return CouponSystem.getInstance().getCouponDBDAO().getAllCoupons();
+		} catch (CouponSystemException e){  
+			throw new CustomerFacadeException("CustomerFacadeException - "
+					+ "getAllCoupons() Error: " + e.getMessage(), e);
+		}
+	}
+	
+	
 	// ----------------------------
 	// getAllPurchasedCouponsByType
 	// ----------------------------
