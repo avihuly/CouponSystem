@@ -1,6 +1,7 @@
 package com.couponproject.facade;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 
@@ -237,13 +238,14 @@ public class CompanyFacade {
 			// Invoking the getCoupons method in CompanyDBDAO
 			Collection<Coupon> coupons = CouponSystem.getInstance().getCompanyDBDAO().getCoupons(company.getId());
 			// Iterating coupons collection and removing coupons that start before specified date
+			Collection<Coupon> couponsbyStartDate = new ArrayList<Coupon>();
 			for (Coupon coupon : coupons) {
 				if (coupon.getStartDate().isBefore(date)){
-					coupons.remove(coupon);
+					couponsbyStartDate.add(coupon);
 				}
 			}
 			//return couponsByStartDate collection
-			return coupons;
+			return couponsbyStartDate;
 		} catch (CouponSystemException e) {
 			throw new CompanyFacadeException("CompanyFacadeException - " 
 					+ "getCouponsByStartDate() Error: " + e.getMessage(), e);
