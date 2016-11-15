@@ -4,11 +4,14 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Random;
+import java.util.UUID;
 
 import com.couponproject.beans.*;
 import com.couponproject.constants.CouponType;
 import com.couponproject.exception.*;
 import com.couponproject.system.CouponSystem;
+import com.couponproject.util.ImageRetter;
 
 /**
  * This Class represents the Company client of the Coupon System. 
@@ -57,6 +60,7 @@ public class CompanyFacade {
 	 * @throws CompanyFacadeException
 	 */
 	public static CompanyFacade login(String name, String password) throws CompanyFacadeException {
+		
 		try {
 			// Invoking the login method in CustomerDBDAO
 			// if true - return new CustomerFacade instance with a specific Company
@@ -78,7 +82,12 @@ public class CompanyFacade {
 	 * @throws CouponTitleAlreadyExistException
 	 */
 	public void createCoupon(Coupon coupon) throws CompanyFacadeException, CouponTitleAlreadyExistException{
-
+		// NOTE: need to write the base64 image sting to file.
+		//		 Currently base64 is saved to DB 
+		// Create image file for coupon
+		//String imagePath = ImageRetter.saveImageBase64(UUID.randomUUID().toString().toString(), coupon.getImage());
+		// Set image path instead of base64 String
+		//coupon.setImage(imagePath);
 		try {
 			// adding the coupon to the coupon table in the DB
 			CouponSystem.getInstance().getCouponDBDAO().createCoupon(coupon);

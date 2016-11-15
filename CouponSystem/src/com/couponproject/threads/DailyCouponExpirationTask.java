@@ -42,16 +42,16 @@ public class DailyCouponExpirationTask extends Thread {
 						// delete the coupon from coupon table
 						CouponSystem.getInstance().getCouponDBDAO().removeCoupon(coupon);
 						// write to log
-						FileWriter fstream = new FileWriter("logs/DailyCouponExpirationTaskLOG.txt",true);
-						BufferedWriter out = new BufferedWriter(fstream);
-						out.write(LocalDate.now() +" DELETE: " + coupon.toString()+"\n");
-						out.close();
+//						FileWriter fstream = new FileWriter("logs/DailyCouponExpirationTaskLOG.txt",true);
+//						BufferedWriter out = new BufferedWriter(fstream);
+//						out.write(LocalDate.now() +" DELETE: " + coupon.toString()+"\n");
+//						out.close();
 					}
 				}
 				
 				// Sleep for 24 Hours
 				Thread.sleep(1000 * 60 * 60 * 24);
-			} catch (CouponSystemException | InterruptedException | CouponDoesNotExistException | IOException e) {
+			} catch (CouponSystemException | InterruptedException | CouponDoesNotExistException e) {
 				e.printStackTrace();
 				try (FileWriter fstream = new FileWriter("logs/DailyCouponExpirationTaskLOG.txt",true);){
 					BufferedWriter out = new BufferedWriter(fstream);
