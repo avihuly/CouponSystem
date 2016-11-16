@@ -26,7 +26,6 @@ public class CouponDBDAO implements CouponDAO{
 	// Takes Coupon as argument and adds it to the coupon table in the DB
 	@Override
 	public void createCoupon(Coupon coupon) throws CouponSystemException, CouponTitleAlreadyExistException {
-		System.out.println(coupon);
 		if (Util.isCoupon(coupon)) {
 			throw new CouponTitleAlreadyExistException(Constants.CouponTitleAlreadyMassage);
 		} else {
