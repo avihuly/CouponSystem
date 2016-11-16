@@ -126,10 +126,9 @@ public class Util {
 	 */
 	public static boolean isCompany(Company company) {
 		try {
-			Company dbCompany = CouponSystem.getInstance().getCompanyDBDAO().getCompany(company.getCompName(), company.getPassword());
-
+			Company dbCompany = CouponSystem.getInstance().getCompanyDBDAO().getCompany(company.getCompName(), company.getPassword());					
 			if (company.getCompName().equals(dbCompany.getCompName())) {
-				return true;
+				return !(company.getId() == dbCompany.getId());
 			} else {
 				return (company.getId() == dbCompany.getId());
 			}

@@ -75,7 +75,7 @@ public class CompanyDBDAO implements CompanyDAO{
 	// A method that gets an instance of an existing company and removes it from the company table in the db
 	@Override
 	public void removeCompany(Company company) throws CouponSystemException, CompanyDoesNotExistException {
-		if (!Util.isCompany(company)){
+		if (Util.isCompany(company)){
 			throw new CompanyDoesNotExistException("Company does not exist in DB");
 		} else {
 			// getting a connection to DB from  pool
