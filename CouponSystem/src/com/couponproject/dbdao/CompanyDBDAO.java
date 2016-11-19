@@ -27,7 +27,7 @@ public class CompanyDBDAO implements CompanyDAO{
 			CompanyAlreadyExistsException, EmailAlreadyExistsException {
 		if (!Util.passwordvalidation(company.getPassword())) {
 			throw new IllegalPasswordException(Constants.PasswordErrorMassage);
-		} else if (Util.isCompany(company)) {
+		} else if (Util.isCompanyNameExist(company)) {
 			throw new CompanyAlreadyExistsException(Constants.UserNameErrorMassage);
 		} else if (Util.isEmailExist(company)) {
 			throw new EmailAlreadyExistsException(Constants.EmailAlreadyExistsMassage);

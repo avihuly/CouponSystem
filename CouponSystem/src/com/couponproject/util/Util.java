@@ -120,6 +120,26 @@ public class Util {
 	}
 
 	/**
+	 * Returns true if Company name exist in the database, otherwise returns false
+	 * @param customer Company instance
+	 * @return true if Company name exist in the database, otherwise returns false 
+	 */
+	public static boolean isCompanyNameExist(Company company) {
+		boolean result = false;
+		try {
+			for (Company dbCompany : CouponSystem.getInstance().getCompanyDBDAO().getAllCompanies()) {
+				if ((company.getCompName().equals(dbCompany.getCompName()))
+						&& (company.getId() != dbCompany.getId())) {
+					result = true;
+				}
+			}
+			return result;
+		} catch (CouponSystemException e) {
+			return false;
+		}
+	}
+	
+	/**
 	 * Returns true if company name or id already exist in the database, otherwise returns false 
 	 * @param company Company instance
 	 * @return true if Company name or id already exist in the database, otherwise returns false
